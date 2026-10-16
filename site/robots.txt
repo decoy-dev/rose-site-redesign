@@ -1,0 +1,3 @@
+# Preview of a homepage proposal, not the live site (rosepracticesolutions.com).
+User-agent: *
+Disallow: /

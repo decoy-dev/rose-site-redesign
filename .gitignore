@@ -1,0 +1,10 @@
+# macOS
+.DS_Store
+
+# tool dependencies (bun install inside tools/)
+tools/node_modules/
+__pycache__/
+
+# kept on the working machine only: session notes, and a mirror of the live site's code
+context/
+source/

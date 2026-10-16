@@ -1,0 +1,8 @@
+{
+  "name": "rose-redesign-tools",
+  "type": "module",
+  "private": true,
+  "dependencies": {
+    "puppeteer-core": "^25.14.0"
+  }
+}

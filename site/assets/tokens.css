@@ -1,0 +1,115 @@
+:root {
+  /* palette */
+  --cream: #FBF8F2;
+  --sage-mist: #E6EADF;
+  --field: #E4E8DE;
+  --sage: #A3B097;
+  --label-sage: #56654E;
+  --forest: #3F4B39;
+  --ink: #262A23;
+  --deep-rose: #7E2E3F;
+  --rose-on-forest: #E7B8B8;
+
+  /* color by role */
+  --surface-page: var(--cream);
+  --surface-panel: var(--sage-mist);
+  --surface-alt: var(--field);
+  --surface-strong: var(--forest);
+  --text-body: var(--ink);
+  --text-muted: var(--label-sage);
+  --text-on-strong: var(--cream);
+  --accent-italic: var(--deep-rose);
+  --accent-italic-on-strong: var(--rose-on-forest);
+  --action-primary-bg: var(--forest);
+  --action-primary-text: var(--cream);
+  --fill-quiet: var(--sage);
+  --border-quiet: rgba(163, 176, 151, .5);   /* decorative hairlines only */
+  --border-strong: var(--forest);
+  --border-input: var(--label-sage);          /* UI outlines; sage is 2.15:1, too light */
+  --text-error: var(--deep-rose);             /* only in .field-error / [aria-invalid="true"] */
+  --border-error: var(--deep-rose);           /* only in .field-error / [aria-invalid="true"] */
+  --focus-ring: var(--label-sage);            /* light surfaces */
+  --focus-ring-on-strong: var(--cream);       /* on forest; label sage there is 1.48:1 */
+
+  /* fonts */
+  --font-display: "Instrument Serif", serif;
+  --font-text: "Plus Jakarta Sans", sans-serif;
+
+  /* type scale, fluid 375px to 1440px */
+  --text-display-xl: clamp(56px, 4vw + 40px, 96px);
+  --text-display-l: clamp(40px, 3vw + 28px, 64px);
+  --text-display-m: clamp(32px, 2vw + 24px, 44px);
+  --text-h2: clamp(28px, 1.5vw + 20px, 36px);
+  --text-h3: clamp(20px, 1vw + 16px, 24px);
+  --text-body-l: clamp(18px, .5vw + 16px, 20px);
+  --text-body-m: 16px;
+  --text-body-s: 14px;
+  --text-label: 13px;
+  --text-caption: 12px;
+  --leading-display: 1.05;
+  --leading-heading: 1.2;
+  --leading-body: 1.6;
+  --tracking-label: .02em;
+  --tracking-caps: .06em;
+
+  /* spacing, 4px base */
+  --space-1: 4px; --space-2: 8px; --space-3: 12px; --space-4: 16px;
+  --space-5: 20px; --space-6: 24px; --space-8: 32px; --space-10: 40px;
+  --space-12: 48px; --space-16: 64px; --space-24: 96px;
+
+  /* radius */
+  --radius-panel: 28px;
+  --radius-card: 16px;
+  --radius-input: 12px;
+  --radius-pill: 999px;
+
+  /* borders */
+  --border-w: 1px;
+  --border-w-strong: 2px;
+
+  /* elevation, tinted toward forest/ink */
+  --shadow-1: 0 1px 2px rgba(38, 42, 35, .06);
+  --shadow-2: 0 4px 16px rgba(63, 75, 57, .08);
+  --shadow-3: 0 12px 40px rgba(63, 75, 57, .12);
+
+  /* layout */
+  --margin-outer: 48px;
+  --gutter: 24px;
+  --maxw-content: 1200px;
+  --maxw-prose: 640px;
+
+  /* motion */
+  --dur-fast: 150ms;
+  --dur-med: 250ms;
+  --dur-slow: 400ms;
+  --ease-standard: cubic-bezier(.2, .6, .2, 1);
+  --ease-out: ease-out;
+  --ease-exit: cubic-bezier(.3, 0, 1, 1);   /* anything leaving */
+  --stagger-ring: 75ms;                     /* between the bloom's rings, in and out */
+  --rest-bloom: 600ms;                      /* the bloom held complete before it exits */
+  --hold-lower-third: 4s;                   /* a lower third on screen */
+
+  /* motif and mark */
+  --motif-ground-scale: 4;            /* bloom units to surface units for a D2 ground crop */
+  --motif-ground-max-coverage: 40%;   /* human-reviewed: a ground never covers more than this */
+  --motif-hairline-opacity: .4;
+  --motif-hairline-opacity-on-strong: .3;
+  --tile-radius: 20%;                 /* the mark's tile corner, as a share of the tile */
+}
+
+@media (max-width: 768px) {
+  :root { --margin-outer: 20px; --gutter: 16px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: .01ms !important;
+    transition-duration: .01ms !important;
+  }
+  /* The one exception: an element that only fades may keep a short crossfade.
+     Opacity only, never movement or scale (human-reviewed). */
+  .motion-fade, .motion-fade * {
+    animation-duration: var(--dur-med) !important;
+    transition-duration: var(--dur-med) !important;
+  }
+}
