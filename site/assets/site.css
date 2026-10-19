@@ -1464,55 +1464,222 @@ h1 em, h2 em, h3 em, .tagline em, .signed-change em { color: var(--accent-italic
 .run-text { display: grid; justify-items: start; gap: var(--space-3); }
 .run-show { display: grid; justify-items: end; }
 .run-show .screen { --screen-pad: var(--space-5); max-width: 400px; gap: var(--space-3); }
-/* The homepage's third row, "Beyond the core plan": the add-ons as one set. An animated line ("We can also take on
-   [phrase].") names one item at a time; site.js ("The add-ons cycle") slides the next phrase up into place while the slot
-   eases to its width, and swaps the descriptor box under it to the same item (a calm fade and lift). Patient follow-up
-   sits in a forest pill (cream on forest, 8.7:1) and holds twice as long. Under the box, previous and next buttons and
-   one dot per item jump to an item and keep it there until the row leaves the screen.
-   All six descriptors are in the page. With JavaScript they share one grid cell, so the box always has the tallest one's
-   height and nothing moves when they change, and only the current one is visible; without it they stack as a list and
-   the controls stay hidden. The markup's own state is patient follow-up, so under reduced motion, with animations paused
-   or without GSAP the line rests there and the controls swap instantly. The moving line is aria-hidden; the .sr-only
-   sentence before it says the same thing once. One cycle per page.
-   Markup: article.run-row.run-row--beyond[data-cycle][data-current=follow] > .run-title (h3)
-   + .cycle (p.sr-only + p.cycle-line[aria-hidden] (span.cycle-lead + span.cycle-tail > span.cycle-slot > span.cycle-phrase
-   [data-cycle-item] ×6, each ending on its full stop, the first .is-current with span.cycle-pill))
-   + .addons (.addon-box[aria-live=off] > article.addon[data-cycle-item] ×6, the first .is-active (.addon-text (.addon-head
-   (h4.addon-title + span.chip) + p + a.btn.btn--secondary.btn--small) + .addon-show > .screen[role=img], a Sample)
-   + .addon-bar (.addon-controls (button.addon-step[data-cycle-step=-1] + .addon-dots > button.addon-dot[data-cycle-go] ×6
-   + button.addon-step[data-cycle-step=1]) + a.btn.btn--secondary.btn--small)) */
-.run-row--beyond { grid-template-areas: "title cycle cycle" "title addons addons"; row-gap: var(--space-8); }
-.run-row--beyond > .run-title { grid-area: title; }
-.cycle { grid-area: cycle; display: grid; justify-items: start; gap: var(--space-4); min-width: 0; }
-.addons { grid-area: addons; display: grid; gap: var(--space-4); min-width: 0; }
+/* ---------- Beyond the core plan: the add-ons deck (homepage How we help) ---------- */
+/* The add-ons as a deck of cards the visitor browses by hand. The heading, its line and six named buttons sit on the
+   left; the deck on the right: the chosen card in front (sage mist, shadow level 3), the next two behind it, each a
+   little smaller and shifted right and down, so their right edges show. Their bodies are out of focus (blur 1.5px and
+   3px; .75px and 1.5px on phones), never the card in front, and each shows a rail on its exposed edge, unblurred,
+   naming it: a real button that brings it forward. Previous and Next wrap around; "1 of 6" counts. Solid surfaces only,
+   no glass, and nothing advances on its own.
+   site.js ("the add-ons deck") sets data-slot on every card: 0 in front, 1 and 2 behind, back (out of sight behind
+   them) and prev (the one before, gone 24px to the left). The slots carry the motion: a card moves between them in
+   400ms, a card leaving fades in 150ms, and the one coming forward comes into focus in the last 150ms. The first time
+   the deck comes on screen the two rear cards fan out 12px and settle back (.is-nudging), once. Under reduced motion
+   or with animations paused every change is instant.
+   Each card's sample is a cream sheet with its Sample chip in the header. Follow-up's is a signed sample that loops
+   while its card is in front (site.js "signed samples", data-loop="follow"); the others replay one small action 600ms
+   after they are chosen (.is-playing, below). Every sample's markup is its finished state.
+   Tablet (768 to 1024): the named buttons wrap in a row above the deck. Phones (under 768): no named buttons; the rear
+   cards show under the card in front, the next one's name on its edge, and a sideways swipe on the deck chooses the
+   next or previous card. A card's copy sits beside its sample only where the card is 640px wide or more (a container
+   query), otherwise above it. Without JavaScript the six cards are a plain list and the buttons, rails and counter
+   stay hidden.
+   Markup: .beyond[data-deck] > .beyond-head (h3.beyond-title + p + .deck-picks[role=group] > button.deck-pick
+   [data-deck-go] ×6, the current one aria-current) + .deck-stage (.deck[data-anim=none] > article.deck-card[data-slot] ×6
+   (.deck-body (.deck-copy (.deck-head (h4.deck-title + span.chip) + p + a.btn) + .deck-sheet[role=img]) + button.deck-rail
+   [data-deck-go]) + .deck-bar (.deck-nav (button.deck-step + p.deck-count + button.deck-step) + a.btn) + p.sr-only
+   [aria-live=polite]) */
+.beyond { display: grid; grid-template-columns: 280px minmax(0, 1fr); align-items: start; gap: var(--space-8) var(--space-16); margin-top: var(--space-24); padding-top: var(--space-16); border-top: var(--border-w) solid var(--border-quiet); }
+.beyond-head { display: grid; justify-items: start; gap: var(--space-4); }
+.beyond-title { font-family: var(--font-display); font-size: var(--text-display-m); font-weight: 400; line-height: 1.1; text-wrap: balance; }
+.beyond-head > p { font-size: var(--text-body-l); color: var(--text-muted); text-wrap: pretty; }
 
-.cycle-line { width: 100%; font-family: var(--font-display); font-size: var(--text-h2); font-weight: 400; line-height: 1.45; color: var(--text-body); }
-.cycle-tail { white-space: nowrap; }
-.cycle-phrase:not(.is-current) { display: none; }
-.cycle-pill { display: inline-block; padding-inline: .32em; border-radius: var(--radius-pill); background: var(--surface-strong); color: var(--text-on-strong); }
-.cycle-phrase .chip { font-family: var(--font-text); vertical-align: .3em; }
-/* while it cycles (site.js adds .is-cycling): every phrase is stacked in the slot, whose width and height site.js sets
-   from the phrases, so the row never moves. .is-stacked puts the phrase on its own line when the line can't hold the
-   lead and the widest phrase together. */
-.is-cycling .cycle-slot { position: relative; display: inline-block; vertical-align: bottom; overflow: hidden; }
-.is-cycling .cycle-phrase { position: absolute; top: 0; left: 0; display: block; width: max-content; max-width: var(--cycle-max, none); white-space: normal; }
-.is-cycling .cycle-phrase:not(.is-current) { visibility: hidden; }
-.cycle-line.is-stacked .cycle-tail { display: block; }
+/* the named buttons: a hairline list, an open ring before each name, filled forest for the card in front */
+.deck-picks { display: none; }
+.js .deck-picks { display: grid; width: 100%; margin-top: var(--space-4); border-top: var(--border-w) solid var(--border-quiet); }
+.deck-pick { display: grid; grid-template-columns: 8px minmax(0, 1fr); align-items: center; justify-items: start; gap: var(--space-1) var(--space-3); min-height: 48px; padding: var(--space-2) var(--space-3); border: 0; border-bottom: var(--border-w) solid var(--border-quiet); background: transparent; color: var(--text-muted); font: inherit; font-size: var(--text-body-m); font-weight: 500; line-height: 1.35; text-align: left; cursor: pointer; transition: color var(--dur-fast) var(--ease-standard), background-color var(--dur-fast) var(--ease-standard); }
+.deck-pick::before { content: ""; width: 8px; height: 8px; border: var(--border-w) solid var(--border-input); border-radius: var(--radius-pill); }
+.deck-pick .chip { grid-column: 2; }
+.deck-pick:hover { color: var(--text-body); }
+.deck-pick[aria-current="true"] { color: var(--text-body); font-weight: 600; }
+.deck-pick[aria-current="true"]::before { border-color: var(--forest); background: var(--forest); }
+.deck-pick:focus-visible { outline: 2px solid var(--focus-ring); outline-offset: -2px; border-radius: var(--radius-input); }
 
-/* the descriptor box: a sage mist panel, the item's name, chip, line and link, and its sample */
-.addon-box { display: grid; gap: var(--space-4); }
-.addon { display: grid; grid-template-columns: minmax(0, 1.05fr) minmax(0, 1.15fr); align-items: start; align-content: start; gap: var(--space-6) var(--space-10); min-width: 0; padding: var(--space-6); border-radius: var(--radius-card); background: var(--surface-panel); }
-.js .addon-box { gap: 0; }
-.js .addon-box > .addon { grid-area: 1 / 1; }
-.js .addon:not(.is-active):not(.is-leaving) { visibility: hidden; }
-.addon.is-leaving { pointer-events: none; }
-.addon-text { display: grid; justify-items: start; align-content: start; gap: var(--space-3); }
-.addon-head { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-2) var(--space-3); }
-.addon-title { font-family: var(--font-display); font-size: var(--text-h2); font-weight: 400; line-height: 1.15; color: var(--text-body); }
-.addon .chip { background: var(--surface-page); }
-.addon .run-show .screen { border-color: var(--border-input); box-shadow: var(--shadow-3); }
+/* the cards: a plain list without JavaScript */
+.deck { display: grid; gap: var(--space-6); }
+.deck-card { position: relative; container-type: inline-size; border-radius: var(--radius-card); background: var(--surface-panel); }
+.deck-body { display: grid; grid-template-columns: minmax(0, 1fr); align-content: start; gap: var(--space-6); height: 100%; padding: var(--space-6); }
+@container (min-width: 640px) {
+  .deck-body { grid-template-columns: minmax(0, 1fr) 340px; gap: var(--space-8); }
+}
+.deck-copy { display: grid; justify-items: start; align-content: start; gap: var(--space-3); }
+.deck-head { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-2) var(--space-3); }
+.deck-title { font-family: var(--font-display); font-size: var(--text-h2); font-weight: 400; line-height: 1.15; }
+.deck-copy > p { text-wrap: pretty; }
+.deck-card .deck-head .chip { background: var(--surface-page); }
 
-/* the small samples in the box and on the add-ons page: lighter than the core services' samples */
+/* the stack, with JavaScript: every card in one grid cell (the deck takes the tallest one's height), placed by its slot */
+.js .deck-stage { --peek: 48px; --near-y: 12px; --far-y: 24px; --near-blur: 1.5px; --far-blur: 3px; --fan-x: 12px; --fan-y: 0px; }
+.js .deck { gap: 0; padding: 0 calc(var(--peek) * 2) var(--far-y) 0; touch-action: pan-y; }
+.js .deck > .deck-card { grid-area: 1 / 1; transform-origin: 100% 50%; transition: transform var(--dur-slow) var(--ease-standard), opacity var(--dur-fast) var(--ease-standard), visibility 0s, box-shadow var(--dur-slow) var(--ease-standard); }
+.js .deck-card[data-slot="0"] { z-index: 3; box-shadow: var(--shadow-3); }
+.js .deck-card[data-slot="1"] { z-index: 2; box-shadow: var(--shadow-2); transform: translate(var(--peek), var(--near-y)) scale(.97) rotate(1deg); }
+.js .deck-card:is([data-slot="2"], [data-slot="back"]) { z-index: 1; box-shadow: var(--shadow-2); transform: translate(calc(var(--peek) * 2), var(--far-y)) scale(.94) rotate(2deg); }
+.js .deck-card:is([data-slot="back"], [data-slot="prev"]) { z-index: 0; opacity: 0; visibility: hidden; transition-delay: 0s, 0s, var(--dur-slow), 0s; }
+.js .deck-card[data-slot="prev"] { transform: translateX(-24px); transition-duration: var(--dur-fast); }
+.js .deck-body { transition: filter var(--dur-fast) var(--ease-standard); }
+.js .deck-card[data-slot="0"] .deck-body { transition-delay: var(--dur-med); }
+.js .deck-card[data-slot="1"] .deck-body { filter: blur(var(--near-blur)); }
+.js .deck-card:not([data-slot="0"], [data-slot="1"]) .deck-body { filter: blur(var(--far-blur)); }
+
+/* a rear card's rail: its exposed edge, a button naming it in a cream pill, never blurred */
+.deck-rail { display: none; }
+.js .deck-rail { position: absolute; top: 0; right: 0; bottom: 0; z-index: 1; display: grid; place-items: center; width: var(--peek); padding: 0; border: 0; border-radius: 0 var(--radius-card) var(--radius-card) 0; background: transparent; color: var(--forest); font: inherit; cursor: pointer; visibility: hidden; }
+.js .deck-card:is([data-slot="1"], [data-slot="2"]) .deck-rail { visibility: visible; }
+.deck-rail-name { max-height: calc(100% - var(--space-8)); overflow: hidden; padding: var(--space-3) var(--space-1); border-radius: var(--radius-pill); background: var(--surface-page); box-shadow: var(--shadow-1); font-size: var(--text-label); font-weight: 600; line-height: 1.4; white-space: nowrap; text-overflow: ellipsis; writing-mode: vertical-rl; transition: background-color var(--dur-fast) var(--ease-standard), color var(--dur-fast) var(--ease-standard); }
+.deck-rail:hover .deck-rail-name { background: var(--surface-strong); color: var(--text-on-strong); }
+.deck-rail:focus-visible { outline: none; }
+.deck-rail:focus-visible .deck-rail-name { outline: 2px solid var(--focus-ring); outline-offset: 2px; }
+
+/* Previous, the count and Next (shown only with JavaScript), and the project link, under the card in front */
+.deck-bar { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: var(--space-3) var(--space-6); margin-top: var(--space-6); }
+.js .deck-bar { margin-right: calc(var(--peek) * 2); }
+.deck-nav { display: none; }
+.js .deck-nav { display: flex; align-items: center; gap: var(--space-1); }
+.deck-count { min-width: 4.5em; font-size: var(--text-body-s); font-weight: 600; line-height: 1.4; color: var(--text-muted); text-align: center; font-variant-numeric: tabular-nums; }
+/* a 32px circle in a 44px target */
+.deck-step { position: relative; display: grid; place-items: center; width: 44px; height: 44px; padding: 0; border: 0; background: transparent; color: var(--forest); cursor: pointer; }
+.deck-step::before { content: ""; position: absolute; top: 6px; left: 6px; width: 32px; height: 32px; border: var(--border-w) solid var(--border-input); border-radius: var(--radius-pill); background: var(--surface-page); transition: background-color var(--dur-fast) var(--ease-standard), border-color var(--dur-fast) var(--ease-standard); }
+.deck-step:hover::before { border-color: var(--border-strong); background: var(--surface-panel); }
+.deck-step .arrow { position: relative; width: 14px; height: 8px; }
+.deck-step[data-deck-step="-1"] .arrow { transform: scaleX(-1); }
+.deck-step:focus-visible { outline: none; }
+.deck-step:focus-visible::before { outline: 2px solid var(--focus-ring); outline-offset: 2px; }
+
+/* the samples: a cream sheet, its title and Sample chip on top, its attribution on its own line at the foot */
+.deck-sheet { display: grid; align-content: start; gap: var(--space-3); width: 100%; max-width: 460px; min-width: 0; padding: var(--space-5); border: var(--border-w) solid var(--border-quiet); border-radius: var(--radius-card); background: var(--surface-page); color: var(--text-body); font-size: var(--text-body-s); line-height: 1.5; box-shadow: var(--shadow-1); }
+.deck-sheet-head { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: var(--space-2) var(--space-3); padding-bottom: var(--space-3); border-bottom: var(--border-w) solid var(--border-quiet); }
+.deck-sheet-title { font-size: var(--text-label); font-weight: 600; line-height: 1.4; }
+.deck-chips { display: flex; flex-wrap: wrap; gap: var(--space-2); }
+.deck-by, .deck-sign { padding-top: var(--space-3); border-top: var(--border-w) solid var(--border-quiet); font-size: var(--text-label); font-weight: 600; line-height: 1.4; color: var(--text-muted); }
+.deck-sign { display: flex; align-items: center; justify-content: space-between; gap: var(--space-3); padding-top: var(--space-2); color: var(--text-body); }
+.deck-sheet .signature { display: inline; margin-left: var(--space-1); font-size: 1.6em; line-height: 1; }
+.deck-sign .stamp { flex: none; width: 48px; height: 48px; margin-block: calc(-1 * var(--space-2)) calc(-1 * var(--space-1)); }
+
+/* patient follow-up: the lead, the call note, the concierge's text, and the booking in the practice's software */
+.deck-follow-who { font-size: var(--text-caption); line-height: 1.4; color: var(--text-muted); }
+.deck-follow-who b { margin-right: var(--space-1); font-size: var(--text-label); font-weight: 600; color: var(--text-body); }
+.deck-follow-call { display: flex; align-items: center; gap: var(--space-2); font-weight: 500; }
+.deck-follow-icon { display: grid; place-items: center; flex: none; width: 28px; height: 28px; border-radius: var(--radius-pill); background: var(--surface-panel); color: var(--forest); }
+.deck-follow-icon .icon { width: 16px; height: 16px; }
+.deck-follow-msg { padding: var(--space-3) var(--space-4); border-radius: var(--radius-input); background: var(--surface-panel); }
+.deck-follow-booked { position: relative; display: grid; padding: var(--space-3) var(--space-4) var(--space-3) var(--space-6); border: var(--border-w) solid var(--border-quiet); border-radius: var(--radius-input); }
+.deck-follow-booked::before { content: ""; position: absolute; top: var(--space-3); bottom: var(--space-3); left: var(--space-3); width: var(--border-w-strong); border-radius: var(--radius-pill); background: var(--forest); }
+.deck-follow-booked b { font-weight: 600; }
+.deck-follow-booked small { font-size: var(--text-caption); line-height: 1.4; color: var(--text-muted); }
+
+/* brand: the practice's name set in the display face, three labelled colours, and an appointment card in them */
+.deck-brand-mark { display: grid; padding-block: var(--space-2); font-family: var(--font-display); line-height: 1.1; }
+.deck-brand-mark span:first-child { font-size: var(--text-h2); }
+.deck-brand-mark span + span { font-size: var(--text-h3); color: var(--text-muted); }
+.deck-swatches { display: flex; flex-wrap: wrap; gap: var(--space-4); font-size: var(--text-caption); font-weight: 500; line-height: 1.4; color: var(--text-muted); }
+.deck-swatches li { display: grid; justify-items: start; gap: var(--space-1); }
+.deck-swatch { display: block; width: 48px; height: 28px; border: var(--border-w) solid var(--border-quiet); border-radius: var(--radius-input); }
+.deck-swatch--forest { background: var(--forest); }
+.deck-swatch--cream { background: var(--cream); }
+.deck-swatch--sage { background: var(--sage); }
+.deck-appt { display: grid; justify-self: start; padding: var(--space-3) var(--space-4); border-radius: var(--radius-input); background: var(--surface-strong); color: var(--text-on-strong); }
+.deck-appt small { font-size: var(--text-caption); line-height: 1.4; color: var(--sage-mist); }
+.deck-appt span { font-family: var(--font-display); font-size: var(--text-h3); line-height: 1.2; }
+
+/* video: three frames beside the first one's title card, and the clips under them, the first one selected */
+.deck-video-board { display: grid; grid-template-columns: minmax(0, 1fr) 104px; align-items: start; gap: var(--space-4); }
+.deck-frames { display: grid; gap: var(--space-2); }
+.deck-frames li { padding: var(--space-2) var(--space-3); border: var(--border-w) solid var(--border-quiet); border-radius: var(--radius-input); font-size: var(--text-label); font-weight: 500; line-height: 1.4; color: var(--text-muted); }
+.deck-frames li.is-current { border-color: var(--border-strong); color: var(--text-body); font-weight: 600; }
+.deck-video-title { display: grid; align-items: end; aspect-ratio: 9 / 16; padding: var(--space-3); border-radius: var(--radius-input); background: var(--surface-strong); color: var(--text-on-strong); font-family: var(--font-display); font-size: 17px; line-height: 1.15; }
+.deck-video-title span { display: block; }
+.deck-clips { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--space-1); }
+.deck-clips li { position: relative; padding: var(--space-2) var(--space-1); border-radius: var(--radius-input); background: var(--surface-panel); color: var(--forest); font-size: var(--text-caption); font-weight: 600; line-height: 1.4; text-align: center; }
+.deck-clips li.is-current::after { content: ""; position: absolute; inset: 0; border: var(--border-w-strong) solid var(--forest); border-radius: inherit; }
+
+/* a website without the ads: a real small home page, its button a picture of one */
+.deck-site-page { display: grid; justify-items: start; gap: var(--space-2); padding: var(--space-4); border: var(--border-w) solid var(--border-quiet); border-radius: var(--radius-input); }
+.deck-site-top { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: var(--space-1) var(--space-3); width: 100%; padding-bottom: var(--space-2); border-bottom: var(--border-w) solid var(--border-quiet); font-size: var(--text-caption); line-height: 1.4; color: var(--text-muted); }
+.deck-site-top b { font-family: var(--font-display); font-size: 17px; font-weight: 400; color: var(--text-body); }
+.deck-site-h { font-family: var(--font-display); font-size: 22px; line-height: 1.15; text-wrap: balance; }
+.deck-site-p { color: var(--text-muted); text-wrap: pretty; }
+.deck-site-btn { position: relative; margin-top: var(--space-1); padding: var(--space-1) var(--space-4); border-radius: var(--radius-pill); background: var(--surface-strong); color: var(--text-on-strong); font-size: var(--text-label); font-weight: 600; line-height: 1.6; }
+/* the button's emphasis ring: hidden at rest, it shows for a moment when the sample plays */
+.deck-site-btn::after { content: ""; position: absolute; inset: -5px; border: var(--border-w-strong) solid var(--forest); border-radius: inherit; opacity: 0; }
+
+/* coming soon: the questions a first conversation would cover, the first one ruled. Nothing ticked. */
+.deck-plan-title { font-family: var(--font-display); font-size: var(--text-h3); line-height: 1.2; }
+.deck-topics { display: grid; }
+.deck-topics li { position: relative; display: flex; align-items: center; gap: var(--space-2); padding-block: var(--space-2); border-bottom: var(--border-w) solid var(--border-quiet); }
+.deck-topics li.is-key::after { content: ""; position: absolute; right: 0; bottom: -1px; left: 0; height: var(--border-w-strong); border-radius: var(--radius-pill); background: var(--forest); transform-origin: 0 50%; }
+.deck-topics .icon { width: 18px; height: 18px; color: var(--text-muted); }
+.deck-topics-ask { color: var(--text-muted); font-weight: 500; }
+
+/* each sample's one action, 600ms after its card is chosen (site.js adds .is-playing). Each starts from a quiet state
+   and ends on the element's own style, so a sample that doesn't play is complete. */
+@keyframes deck-place { from { opacity: 0; translate: 0 6px; } }
+@keyframes deck-draw { from { clip-path: inset(0 100% 0 0); } to { clip-path: inset(0 0 0 0); } }
+@keyframes deck-rule { from { transform: scaleX(0); } }
+@keyframes deck-ring { 0%, 100% { opacity: 0; } 35%, 65% { opacity: 1; } }
+@keyframes deck-press { 0% { opacity: 0; scale: 1.7; } 60% { opacity: .9; scale: .93; } }
+@keyframes deck-fan { 50% { translate: calc(var(--fan-x) * var(--fan-n, 1)) calc(var(--fan-y) * var(--fan-n, 1)); } }
+@media (prefers-reduced-motion: no-preference) {
+  .js:not(.motion-paused) .deck-card.is-playing :is(.deck-swatch, .deck-appt, .deck-video-title span, .deck-site .deck-sign) { animation: deck-place var(--dur-slow) var(--ease-standard) backwards; }
+  .js:not(.motion-paused) .deck-card.is-playing .deck-swatches li:nth-child(2) .deck-swatch { animation-delay: var(--dur-fast); }
+  .js:not(.motion-paused) .deck-card.is-playing .deck-swatches li:nth-child(3) .deck-swatch { animation-delay: calc(var(--dur-fast) * 2); }
+  .js:not(.motion-paused) .deck-card.is-playing .deck-appt { animation-delay: calc(var(--dur-fast) * 2 + var(--dur-med)); }
+  .js:not(.motion-paused) .deck-card.is-playing .deck-clips li.is-current::after { animation: deck-draw var(--dur-slow) var(--ease-standard) backwards; }
+  .js:not(.motion-paused) .deck-card.is-playing .deck-video-title span { animation-duration: var(--dur-med); animation-delay: var(--dur-slow); }
+  .js:not(.motion-paused) .deck-card.is-playing .deck-site-btn::after { animation: deck-ring calc(var(--dur-med) * 3) var(--ease-standard); }
+  .js:not(.motion-paused) .deck-card.is-playing .deck-site .deck-sign { animation-delay: calc(var(--dur-med) * 3); }
+  .js:not(.motion-paused) .deck-card.is-playing .deck-site .stamp { animation: deck-press calc(var(--dur-med) * 1.8) var(--ease-standard) calc(var(--dur-med) * 3 + var(--dur-slow)) backwards; }
+  .js:not(.motion-paused) .deck-card.is-playing .deck-topics li.is-key::after { animation: deck-rule var(--dur-slow) var(--ease-standard) backwards; }
+  /* the nudge: the rear cards fan out and settle back, once */
+  .js:not(.motion-paused) .deck.is-nudging .deck-card:is([data-slot="1"], [data-slot="2"]) { animation: deck-fan var(--rest-bloom) var(--ease-standard) var(--dur-med); }
+  .js:not(.motion-paused) .deck.is-nudging .deck-card[data-slot="2"] { --fan-n: 2; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .js .deck > .deck-card, .js .deck-body { transition: none; }
+}
+.motion-paused .deck > .deck-card, .motion-paused .deck-body { transition: none; }
+
+@media (max-width: 1024px) {
+  .beyond { grid-template-columns: minmax(0, 1fr); margin-top: var(--space-16); }
+  .deck-stage { width: 100%; max-width: 776px; }
+  .js .deck-picks { display: flex; flex-wrap: wrap; gap: var(--space-2); margin-top: var(--space-2); border-top: 0; }
+  .deck-pick { display: flex; align-items: center; gap: var(--space-2); min-height: 44px; padding: var(--space-2) var(--space-4); border: var(--border-w) solid var(--border-input); border-radius: var(--radius-pill); font-size: var(--text-body-s); }
+  .deck-pick::before { display: none; }
+  .deck-picks .deck-pick[aria-current="true"] { border-color: var(--border-strong); background: var(--surface-strong); color: var(--text-on-strong); }
+  .deck-pick:focus-visible { outline-offset: 2px; border-radius: var(--radius-pill); }
+}
+
+@media (max-width: 767px) {
+  .beyond { gap: var(--space-5); margin-top: var(--space-12); padding-top: var(--space-8); }
+  .deck-stage { max-width: 560px; }
+  .js .deck-picks { display: none; }
+  .js .deck-stage { --peek: 46px; --far-y: var(--space-3); --near-blur: .75px; --far-blur: 1.5px; --fan-x: 0px; --fan-y: 8px; }
+  .js .deck { padding: 0 0 calc(var(--peek) + var(--far-y)); }
+  .js .deck > .deck-card { transform-origin: 50% 100%; }
+  .js .deck-card[data-slot="1"] { transform: translateY(var(--peek)) scale(.96); }
+  .js .deck-card:is([data-slot="2"], [data-slot="back"]) { transform: translateY(calc(var(--peek) + var(--far-y))) scale(.92); }
+  .js .deck-bar { gap: var(--space-3) var(--space-2); margin-right: 0; margin-top: var(--space-3); }
+  .js .deck-nav { gap: 0; }
+  .deck-count { min-width: 3.5em; }
+  .deck-sign .stamp { width: 40px; height: 40px; }
+  .js .deck-rail { top: auto; left: 0; width: auto; height: var(--peek); place-items: center start; padding-inline: var(--space-4); border-radius: 0 0 var(--radius-card) var(--radius-card); }
+  .js .deck-card[data-slot="2"] .deck-rail { display: none; }
+  .deck-rail-name { max-width: 100%; max-height: none; padding: var(--space-1) var(--space-3); writing-mode: horizontal-tb; }
+  .deck-body { gap: var(--space-5); padding: var(--space-4); }
+  .deck-sheet { padding: var(--space-4); }
+}
+
+/* the add-ons page's small samples: lighter than the core services' samples */
 .mini-brand { display: flex; align-items: center; gap: var(--space-5); }
 .mini-logo { display: grid; place-items: center; flex: none; width: 76px; height: 76px; padding: var(--space-2); border-radius: var(--radius-input); background: var(--surface-strong); color: var(--text-on-strong); font-family: var(--font-display); font-size: var(--text-body-s); line-height: 1.15; text-align: center; }
 .mini-swatches { display: flex; gap: var(--space-2); }
@@ -1525,76 +1692,35 @@ h1 em, h2 em, h3 em, .tagline em, .signed-change em { color: var(--accent-italic
 .mini-video .icon { width: 44px; height: 44px; color: var(--forest); }
 /* the play mark's one soft ring: invisible at rest, it pulses once when the video sample plays */
 .mini-video::after { content: ""; position: absolute; top: 50%; left: 50%; width: 44px; height: 44px; margin: -22px 0 0 -22px; border: var(--border-w) solid var(--forest); border-radius: var(--radius-pill); opacity: 0; pointer-events: none; }
-.mini-review { display: grid; gap: var(--space-1); padding: var(--space-3) var(--space-4); border: var(--border-w) solid var(--border-quiet); border-radius: var(--radius-input); }
-.mini-review-name { font-weight: 600; }
-.mini-review-text { color: var(--text-muted); }
-/* the consult in the day's schedule, the one that matters */
-.schedule-slot.mini-slot-key { background: var(--surface-strong); color: var(--text-on-strong); font-weight: 600; }
 
-/* previous and next, and one dot per item (aria-current on the current one); shown only with JavaScript */
-.addon-bar { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: var(--space-2) var(--space-6); }
-.addon-controls { display: none; align-items: center; }
-.js .addon-controls { display: flex; }
-/* a 32px circle in a 44px target */
-.addon-step { position: relative; display: grid; place-items: center; width: 44px; height: 44px; padding: 0; border: 0; background: transparent; color: var(--forest); cursor: pointer; }
-.addon-step::before { content: ""; position: absolute; top: 6px; left: 6px; width: 32px; height: 32px; border: var(--border-w) solid var(--border-input); border-radius: var(--radius-pill); background: var(--surface-page); transition: background-color var(--dur-fast) var(--ease-standard), border-color var(--dur-fast) var(--ease-standard); }
-.addon-step:hover::before { border-color: var(--border-strong); background: var(--surface-panel); }
-.addon-step .arrow { position: relative; width: 14px; height: 8px; }
-.addon-step[data-cycle-step="-1"] .arrow { transform: scaleX(-1); }
-.addon-dots { display: flex; }
-.addon-dot { display: grid; place-items: center; width: 28px; height: 44px; padding: 0; border: 0; background: transparent; cursor: pointer; }
-.addon-dot::before { content: ""; width: 10px; height: 10px; border: var(--border-w) solid var(--border-input); border-radius: var(--radius-pill); transition: width var(--dur-med) var(--ease-standard), background-color var(--dur-med) var(--ease-standard); }
-.addon-dot[aria-current="true"]::before { width: 20px; border-color: var(--border-strong); background: var(--surface-strong); }
-.addon-dot:hover::before { background: var(--surface-panel); }
-.addon-dot[aria-current="true"]:hover::before { background: var(--surface-strong); }
-.addon-dot:focus-visible { outline: 2px solid var(--focus-ring); outline-offset: -4px; border-radius: var(--radius-input); }
-.addon-step:focus-visible { outline: none; }
-.addon-step:focus-visible::before { outline: 2px solid var(--focus-ring); outline-offset: 2px; }
-
-/* Each sample plays once: in the homepage cycle when its item becomes current (site.js adds .is-playing to the .addon),
-   and on the add-ons page as a [data-play] sample comes into view (site.js adds .is-playing to it). Every keyframe starts
-   from a hidden or quiet state and ends on the element's own style, so a sample that doesn't play (reduced motion,
-   animations paused, no JavaScript) is simply complete. No loops. */
+/* Each sample on the add-ons page plays once, as it comes into view (site.js adds .is-playing to the [data-play]
+   sample). Every keyframe starts from a hidden or quiet state and ends on the element's own style, so a sample that
+   doesn't play (reduced motion, animations paused, no JavaScript) is simply complete. No loops. */
 @media (prefers-reduced-motion: no-preference) {
-  :is(.addon, [data-play]) { --play-at: .3s; --play-step: calc(var(--dur-med) + var(--stagger-ring)); }
-  .js:not(.motion-paused) :is(.addon, [data-play]).is-playing :is(.status-step .chip, .mini-logo, .mini-swatch, .screen-bar, .skeleton span, .mini-review-name, .mini-review-text, .schedule-row, .mini-video, .mini-video .icon, .mini-slot-key) { animation-duration: var(--dur-slow); animation-timing-function: var(--ease-standard); animation-fill-mode: backwards; animation-delay: var(--play-at); }
-  /* follow-up: New, Called, Consult booked light in turn */
-  .js:not(.motion-paused) :is(.addon, [data-play]).is-playing .status-step .chip { animation-name: play-light; }
-  .js:not(.motion-paused) :is(.addon, [data-play]).is-playing .status-step:nth-child(2) .chip { animation-delay: calc(var(--play-at) + var(--play-step)); }
-  .js:not(.motion-paused) :is(.addon, [data-play]).is-playing .status-step:nth-child(3) .chip { animation-delay: calc(var(--play-at) + var(--play-step) * 2); }
+  [data-play] { --play-at: .3s; --play-step: calc(var(--dur-med) + var(--stagger-ring)); }
+  .js:not(.motion-paused) [data-play].is-playing :is(.mini-logo, .mini-swatch, .screen-bar, .skeleton span, .mini-video, .mini-video .icon) { animation-duration: var(--dur-slow); animation-timing-function: var(--ease-standard); animation-fill-mode: backwards; animation-delay: var(--play-at); }
   /* brand: the tile settles, then the swatches pop in one after another */
-  .js:not(.motion-paused) :is(.addon, [data-play]).is-playing .mini-logo { animation-name: play-settle; }
-  .js:not(.motion-paused) :is(.addon, [data-play]).is-playing .mini-swatch { animation-name: play-pop; animation-timing-function: var(--ease-out); }
-  .js:not(.motion-paused) :is(.addon, [data-play]).is-playing .mini-swatch:nth-child(1) { animation-delay: calc(var(--play-at) + var(--play-step)); }
-  .js:not(.motion-paused) :is(.addon, [data-play]).is-playing .mini-swatch:nth-child(2) { animation-delay: calc(var(--play-at) + var(--play-step) * 1.5); }
-  .js:not(.motion-paused) :is(.addon, [data-play]).is-playing .mini-swatch:nth-child(3) { animation-delay: calc(var(--play-at) + var(--play-step) * 2); }
+  .js:not(.motion-paused) [data-play].is-playing .mini-logo { animation-name: play-settle; }
+  .js:not(.motion-paused) [data-play].is-playing .mini-swatch { animation-name: play-pop; animation-timing-function: var(--ease-out); }
+  .js:not(.motion-paused) [data-play].is-playing .mini-swatch:nth-child(1) { animation-delay: calc(var(--play-at) + var(--play-step)); }
+  .js:not(.motion-paused) [data-play].is-playing .mini-swatch:nth-child(2) { animation-delay: calc(var(--play-at) + var(--play-step) * 1.5); }
+  .js:not(.motion-paused) [data-play].is-playing .mini-swatch:nth-child(3) { animation-delay: calc(var(--play-at) + var(--play-step) * 2); }
   /* video: the frame fades in, the play mark grows from .9 and its ring pulses once */
-  .js:not(.motion-paused) :is(.addon, [data-play]).is-playing .mini-video { animation-name: play-fade; }
-  .js:not(.motion-paused) :is(.addon, [data-play]).is-playing .mini-video .icon { animation-name: play-grow; animation-delay: calc(var(--play-at) + var(--dur-med)); }
-  .js:not(.motion-paused) :is(.addon, [data-play]).is-playing .mini-video::after { animation-name: play-ring; animation-duration: var(--rest-bloom); animation-timing-function: var(--ease-out); animation-delay: calc(var(--play-at) + var(--dur-slow)); }
+  .js:not(.motion-paused) [data-play].is-playing .mini-video { animation-name: play-fade; }
+  .js:not(.motion-paused) [data-play].is-playing .mini-video .icon { animation-name: play-grow; animation-delay: calc(var(--play-at) + var(--dur-med)); }
+  .js:not(.motion-paused) [data-play].is-playing .mini-video::after { animation-name: play-ring; animation-duration: var(--rest-bloom); animation-timing-function: var(--ease-out); animation-delay: calc(var(--play-at) + var(--dur-slow)); }
   /* website: the browser bar, then the two lines draw in from the left */
-  .js:not(.motion-paused) :is(.addon, [data-play]).is-playing .screen-bar { animation-name: play-settle; }
-  .js:not(.motion-paused) :is(.addon, [data-play]).is-playing .skeleton span { animation-name: play-draw; }
-  .js:not(.motion-paused) :is(.addon, [data-play]).is-playing .skeleton span:nth-child(1) { animation-delay: calc(var(--play-at) + var(--play-step)); }
-  .js:not(.motion-paused) :is(.addon, [data-play]).is-playing .skeleton span:nth-child(2) { animation-delay: calc(var(--play-at) + var(--play-step) * 2); }
-  /* reputation: the name, then the review text draws in */
-  .js:not(.motion-paused) :is(.addon, [data-play]).is-playing .mini-review-name { animation-name: play-fade; }
-  .js:not(.motion-paused) :is(.addon, [data-play]).is-playing .mini-review-text { animation-name: play-draw; animation-duration: var(--rest-bloom); animation-delay: calc(var(--play-at) + var(--play-step)); }
-  /* consulting: the slots slide in in turn, and the consult settles last into forest */
-  .js:not(.motion-paused) :is(.addon, [data-play]).is-playing .schedule-row { animation-name: play-slide; }
-  .js:not(.motion-paused) :is(.addon, [data-play]).is-playing .schedule-row:nth-child(2) { animation-delay: calc(var(--play-at) + var(--play-step)); }
-  .js:not(.motion-paused) :is(.addon, [data-play]).is-playing .schedule-row:nth-child(3) { animation-delay: calc(var(--play-at) + var(--play-step) * 2); }
-  .js:not(.motion-paused) :is(.addon, [data-play]).is-playing .mini-slot-key { animation-name: play-key; animation-delay: calc(var(--play-at) + var(--play-step) * 3); }
+  .js:not(.motion-paused) [data-play].is-playing .screen-bar { animation-name: play-settle; }
+  .js:not(.motion-paused) [data-play].is-playing .skeleton span { animation-name: play-draw; }
+  .js:not(.motion-paused) [data-play].is-playing .skeleton span:nth-child(1) { animation-delay: calc(var(--play-at) + var(--play-step)); }
+  .js:not(.motion-paused) [data-play].is-playing .skeleton span:nth-child(2) { animation-delay: calc(var(--play-at) + var(--play-step) * 2); }
 }
-@keyframes play-light { from { border-color: var(--border-input); background-color: transparent; color: var(--text-muted); transform: scale(.94); } }
 @keyframes play-settle { from { opacity: 0; transform: translateY(6px); } }
 @keyframes play-pop { from { opacity: 0; transform: scale(.6); } }
 @keyframes play-fade { from { opacity: 0; } }
 @keyframes play-grow { from { opacity: 0; transform: scale(.9); } }
 @keyframes play-ring { from { opacity: .5; transform: scale(1); } to { opacity: 0; transform: scale(1.7); } }
 @keyframes play-draw { from { clip-path: inset(0 100% 0 0); } to { clip-path: inset(0 0 0 0); } }
-@keyframes play-slide { from { opacity: 0; transform: translateX(-8px); } }
-@keyframes play-key { from { background-color: var(--surface-panel); color: var(--text-muted); } }
 
 /* the add-ons page's coming-soon names: hairline rows, the name in serif and its chip, no line and no link.
    Markup: ul.soon-list > li > span.soon-name + span.chip; then p.soon-ask > a.btn.btn--secondary */
@@ -1606,16 +1732,12 @@ h1 em, h2 em, h3 em, .tagline em, .signed-change em { color: var(--accent-italic
 @media (max-width: 1024px) {
   .run-row { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
   .run-title { grid-column: 1 / -1; }
-  .run-row--beyond { grid-template-areas: "title title" "cycle cycle" "addons addons"; row-gap: var(--space-6); }
-  .addon { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: var(--space-6) var(--space-8); }
 }
 
 @media (max-width: 768px) {
   .run-row { grid-template-columns: minmax(0, 1fr); padding-block: var(--space-8); }
   .run-show { justify-items: stretch; }
   .run-show .screen { max-width: none; }
-  .run-row--beyond { grid-template-areas: "title" "cycle" "addons"; }
-  .addon { grid-template-columns: minmax(0, 1fr); padding: var(--space-5) var(--space-4); }
 }
 
 /* ----- Looping graphics: [data-loop="status|compare"] (CSS) and [data-loop="local-page|ads"] (GSAP) -----
@@ -1682,8 +1804,6 @@ h1 em, h2 em, h3 em, .tagline em, .signed-change em { color: var(--accent-italic
 .service-row-copy { display: grid; justify-items: start; gap: var(--space-5); max-width: 30rem; }
 .service-row-copy p { font-size: var(--text-body-l); color: var(--text-muted); text-wrap: pretty; }
 .service-row-visual { position: relative; display: grid; grid-template-columns: minmax(0, 1fr); place-items: center; min-height: 420px; padding: var(--space-12) var(--space-8); border-radius: var(--radius-panel); background: var(--surface-panel); }
-/* the add-ons cycle follows the rows, on its own hairline */
-.run-list--beyond { margin-top: var(--space-24); }
 
 /* ---------- signed samples (homepage: the two service rows) ---------- */
 /* Every change, signed: each sample replays its job in three beats, place (the work lands), mark (it is signed by role
@@ -1939,7 +2059,6 @@ h1 em, h2 em, h3 em, .tagline em, .signed-change em { color: var(--accent-italic
   .service-row, .service-row--flip, .after-yes { grid-template-columns: minmax(0, 1fr); }
   .service-row--flip .service-row-copy { order: 0; }
   .service-rows { gap: var(--space-16); }
-  .run-list--beyond { margin-top: var(--space-16); }
   .after-yes-visual { position: static; }
 }
 @media (max-width: 640px) {
@@ -2330,7 +2449,7 @@ button.founder-link { padding: 0; border: 0; background: none; font: inherit; cu
 
 /* ---------- link rows ---------- */
 /* The services sold one at a time, and who we work with: hairline rows in a field band, each row a link.
-   The homepage lists the services once, in How we help's third row (.beyond-list); the services page uses these rows.
+   The homepage lists the services once, in How we help's add-ons deck (.beyond); the services page uses these rows.
    Markup: ul.link-rows > li > a.link-row > span.link-row-title + span.link-row-line + span.link-row-ask > svg.arrow */
 .link-rows { display: grid; border-top: var(--border-w) solid var(--border-quiet); }
 .link-rows > li { border-bottom: var(--border-w) solid var(--border-quiet); }

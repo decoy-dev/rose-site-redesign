@@ -641,7 +641,7 @@
     }
   }
 
-  // ----- signed samples (homepage: [data-loop="local-page|ads"]; site.css "signed samples") -----
+  // ----- signed samples (homepage: [data-loop="local-page|ads|follow"]; site.css "signed samples") -----
   // Each sample replays its job in three beats: place (the work lands), mark (it is signed by role and the Rose stamp is
   // pressed on), rest (it holds, finished). The static markup is the finished state, and every timeline starts and ends
   // on it, so a repeat never jumps and a pause can always show it. A timeline is built the first time its sample reaches
@@ -649,7 +649,7 @@
   // to its finished state ('rest') when the visitor pauses animations. Under reduced motion nothing is built. Only
   // transform, opacity and colour change; the Sample chip never fades. Durations come from the motion tokens.
   // [data-place] panels settle 16px into place the first time they reach the screen (CSS does the motion).
-  const signedEls = document.querySelectorAll('[data-loop="local-page"], [data-loop="ads"]');
+  const signedEls = document.querySelectorAll('[data-loop="local-page"], [data-loop="ads"], [data-loop="follow"]');
   if (signedEls.length && window.gsap && 'IntersectionObserver' in window) {
     const gsap = window.gsap;
     const token = (name) => getComputedStyle(root).getPropertyValue(name).trim();
@@ -793,14 +793,38 @@
         hold(tl, 4.4);
         return tl;
       },
+      // patient follow-up (the add-ons deck's first card): the call is noted, the concierge's text goes out, the
+      // consultation is booked in the practice's software, and it is signed by Follow-up
+      follow: (el) => {
+        const call = el.querySelector('[data-part="call"] .deck-follow-icon');
+        const msg = el.querySelector('[data-part="msg"]');
+        const booked = el.querySelector('[data-part="booked"]');
+        const sign = el.querySelector('[data-part="sign"]');
+        const marks = signParts(sign);
+        const stamp = sign.querySelector('.stamp');
+        const tl = gsap.timeline({ paused: true, repeat: -1 });
+        tl.to([msg, booked, ...marks, stamp], { autoAlpha: 0, duration: MED * 0.6, ease: 'power2.in' }, REST)
+          .to(call, { backgroundColor: token('--forest'), color: token('--cream'), duration: MED, ease: 'power2.out' }, REST + 0.2)
+          .to(call, { backgroundColor: token('--sage-mist'), color: token('--forest'), duration: MED, ease: 'power2.out' }, REST * 2 + 0.45)
+          .fromTo(msg, { autoAlpha: 0, y: 8 }, { autoAlpha: 1, y: 0, duration: SLOW, ease: 'power2.out', immediateRender: false }, REST * 2 + 0.45)
+          .fromTo(booked, { autoAlpha: 0, y: 8 }, { autoAlpha: 1, y: 0, duration: SLOW, ease: 'power2.out', immediateRender: false }, REST * 2 + 1.85)
+          .fromTo(marks, { autoAlpha: 0, y: 8 }, { autoAlpha: 1, y: 0, duration: SLOW, ease: 'power3.out', immediateRender: false }, REST * 2 + 2.25)
+          .set(stamp, { y: 0 }, REST * 2 + 2.25);
+        press(tl, stamp, REST * 2 + 2.45);
+        hold(tl, REST * 2 + 2.9);
+        return tl;
+      },
     };
     const samples = Array.from(signedEls, (el) => ({ el, kind: el.dataset.loop, live: false, fresh: true, tl: null }));
     const sync = (s) => {
-      if (s.live && motionOK() && !s.tl) s.tl = BUILD[s.kind](s.el);
+      // a sample on an add-ons deck card that isn't in front (its body is inert) rests finished, like a paused one
+      const away = !!s.el.closest('[inert]');
+      const live = s.live && !away;
+      if (live && motionOK() && !s.tl) s.tl = BUILD[s.kind](s.el);
       if (!s.tl) return;
-      if (s.live && motionOK()) {
+      if (live && motionOK()) {
         if (s.fresh) { s.fresh = false; s.tl.restart(); } else s.tl.resume();
-      } else if (!document.hidden && !motionOK()) {
+      } else if (!document.hidden && (!motionOK() || away)) {
         s.tl.pause().seek('rest'); // paused by the visitor (or reduced motion switched on): show it finished, start over on play
         s.fresh = true;
       } else {
@@ -816,6 +840,8 @@
       });
     }, { threshold: 0.35 });
     samples.forEach((s) => watch.observe(s.el));
+    // the add-ons deck sends rose:sync to a sample when its card comes forward or goes back
+    samples.forEach((s) => s.el.addEventListener('rose:sync', () => sync(s)));
     document.addEventListener('visibilitychange', syncAll);
     root.addEventListener('rose:motion', syncAll);
     reduceMotion.addEventListener('change', syncAll);
@@ -1057,166 +1083,109 @@
     }
   }
 
-  // ----- the add-ons cycle (homepage, "Beyond the core plan") -----
-  // [data-cycle] names one add-on at a time in its line ("We can also take on [phrase]."): the phrase drifts up and
-  // fades, the next drifts up into place, and the slot eases to the new phrase's width (measured, so nothing else on the
-  // row moves). The descriptor box under it (.addon-box) swaps to the same item with a fade and a small lift; every
-  // descriptor sits in one grid cell, so the box keeps the tallest one's height. The item's sample then plays once
-  // (.is-playing; the steps are in site.css). Each phrase holds 2.4s, patient follow-up twice that. It cycles only with
-  // GSAP, only while the row is on screen, and pauses while the pointer or keyboard focus is inside the row. The
-  // previous and next buttons, the dots, and the Left and Right keys on any of them jump to an item; the cycle carries on
-  // 6s after the last jump, and the box is a polite live region until then (it is off while the line cycles on its
-  // own). Under reduced motion, with animations paused or without GSAP the line rests on patient follow-up, the markup's
-  // own state, the samples stay complete and the controls swap at once. One cycle per page.
-  const cycleRow = document.querySelector('[data-cycle]');
-  if (cycleRow && cycleRow.querySelector('.addon-box') && cycleRow.querySelector('.addon-controls')) {
-    const line = cycleRow.querySelector('.cycle-line');
-    const lead = line.querySelector('.cycle-lead');
-    const slot = line.querySelector('.cycle-slot');
-    const phrases = [...slot.querySelectorAll('.cycle-phrase')];
-    const keys = phrases.map((p) => p.dataset.cycleItem);
-    const box = cycleRow.querySelector('.addon-box');
-    const addons = keys.map((k) => box.querySelector(`.addon[data-cycle-item="${k}"]`));
-    const controls = cycleRow.querySelector('.addon-controls');
-    const dots = keys.map((k) => controls.querySelector(`.addon-dot[data-cycle-go="${k}"]`));
-    const HOLD = 2.4;
-    const RESUME = 6;
+  // ----- the add-ons deck (homepage, "Beyond the core plan"; site.css "Beyond the core plan") -----
+  // [data-deck] is a deck of six cards browsed by hand: the chosen card in front, the next two behind it. Choosing a
+  // card sets data-slot on every card (0 in front, 1 and 2 behind, back out of sight, prev the one before) and site.css
+  // moves them. The bodies of the cards not in front are inert; their rails (the named edges of the two behind) are
+  // buttons. The named buttons (aria-current on the chosen one; Left/Right, Up/Down, Home and End move along them), the
+  // rails, Previous and Next (both wrap) and a sideways swipe on the deck (48px or more, mostly sideways; vertical
+  // scrolling is left alone) all choose a card, and the choice is announced politely: its name and "2 of 6". Nothing
+  // advances on its own. 600ms after a card is chosen its sample replays its one action (.is-playing, site.css);
+  // follow-up's sample is a signed sample instead, which loops while its card is in front ("signed samples", told by
+  // rose:sync). The first time the deck is on screen with motion allowed, the rear cards fan out and settle (.is-nudging),
+  // once. Under reduced motion or with animations paused the cards swap instantly and the samples stay finished.
+  const deckRoot = document.querySelector('[data-deck]');
+  if (deckRoot) {
+    const stack = deckRoot.querySelector('.deck');
+    const cards = Array.from(stack.querySelectorAll('.deck-card'));
+    const picks = Array.from(deckRoot.querySelectorAll('.deck-pick'));
+    const count = deckRoot.querySelector('[data-deck-count]');
+    const say = deckRoot.querySelector('[data-deck-say]');
+    const titles = cards.map((card) => card.querySelector('.deck-title'));
+    const n = cards.length;
+    const HOLD_MS = 600;
     let index = 0;
-    let cycling = false;
-    let onScreen = !('IntersectionObserver' in window);
-    let hovered = false;
-    let focused = false;
-    // when the last jump from the controls happened (0: none since the line last moved on its own)
-    let jumpedAt = 0;
-    let timer = null;
-    let move = null;
-    const mark = () => {
-      cycleRow.dataset.current = keys[index];
-      dots.forEach((dot, i) => (i === index ? dot.setAttribute('aria-current', 'true') : dot.removeAttribute('aria-current')));
+    let playing = 0;
+    const slotOf = (i) => {
+      const d = (i - index + n) % n;
+      return d < 3 ? String(d) : d === n - 1 ? 'prev' : 'back';
     };
-    // the current item's sample plays once; the class comes off the others so the next visit plays it again
+    const render = () => {
+      cards.forEach((card, i) => {
+        card.dataset.slot = slotOf(i);
+        card.querySelector('.deck-body').toggleAttribute('inert', i !== index);
+        card.classList.remove('is-playing');
+      });
+      picks.forEach((pick, i) => (i === index ? pick.setAttribute('aria-current', 'true') : pick.removeAttribute('aria-current')));
+      count.textContent = `${index + 1} of ${n}`;
+      stack.querySelectorAll('[data-loop]').forEach((el) => el.dispatchEvent(new Event('rose:sync')));
+    };
+    // the chosen card's sample replays its one action after the shared 600ms hold
     const play = () => {
-      addons.forEach((addon) => addon.classList.remove('is-playing'));
-      if (!cycling || !onScreen) return;
-      void addons[index].offsetWidth;
-      addons[index].classList.add('is-playing');
+      clearTimeout(playing);
+      if (reduceMotion.matches || motionPaused()) return;
+      const card = cards[index];
+      playing = setTimeout(() => card.classList.add('is-playing'), HOLD_MS);
     };
-    // the slot holds the tallest phrase and the current one's width; the phrase gets its own line only when the lead
-    // and the widest phrase don't fit side by side
-    const measure = () => {
-      if (!cycling) return;
-      line.classList.remove('is-stacked');
-      const room = line.clientWidth;
-      cycleRow.style.setProperty('--cycle-max', `${Math.floor(room)}px`);
-      const widest = Math.max(...phrases.map((p) => p.offsetWidth));
-      const space = parseFloat(getComputedStyle(line).fontSize) * 0.3;
-      line.classList.toggle('is-stacked', lead.getBoundingClientRect().width + space + widest > room);
-      slot.style.height = `${Math.max(...phrases.map((p) => p.offsetHeight))}px`;
-      slot.style.width = `${phrases[index].offsetWidth}px`;
-    };
-    const show = (next) => {
-      next = (next + keys.length) % keys.length;
+    const select = (next) => {
+      next = (next + n) % n;
       if (next === index) return;
-      if (move) move.progress(1).kill();
-      move = null;
-      const from = index;
       index = next;
-      phrases[from].classList.remove('is-current');
-      phrases[index].classList.add('is-current');
-      addons[from].classList.remove('is-active');
-      addons[index].classList.add('is-active');
-      mark();
+      render();
+      say.textContent = `${titles[index].textContent.trim()}, ${index + 1} of ${n}`;
       play();
-      if (!cycling) return;
-      const leaving = addons[from];
-      leaving.classList.add('is-leaving');
-      move = gs.timeline({ onComplete: () => { leaving.classList.remove('is-leaving'); gs.set(addons, { clearProps: 'opacity,transform' }); } })
-        .to(phrases[from], { yPercent: -60, autoAlpha: 0, duration: 0.45, ease: 'power2.in' }, 0)
-        .to(slot, { width: phrases[index].offsetWidth, duration: 0.7, ease: 'power3.inOut' }, 0)
-        .fromTo(phrases[index], { yPercent: 60, autoAlpha: 0 }, { yPercent: 0, autoAlpha: 1, duration: 0.6, ease: 'power3.out' }, 0.2)
-        .to(leaving, { y: -8, opacity: 0, duration: 0.35, ease: 'power2.in' }, 0)
-        .fromTo(addons[index], { y: 12, opacity: 0 }, { y: 0, opacity: 1, duration: 0.55, ease: 'power2.out' }, 0.25);
     };
-    const schedule = () => {
-      if (timer) timer.kill();
-      timer = null;
-      box.setAttribute('aria-live', cycling && !jumpedAt ? 'off' : 'polite');
-      if (!cycling || !onScreen || hovered || focused) return;
-      const wait = jumpedAt ? Math.max(0.2, RESUME - (performance.now() - jumpedAt) / 1000) : keys[index] === 'follow' ? HOLD * 2 : HOLD;
-      timer = gs.delayedCall(wait, () => { jumpedAt = 0; show(index + 1); schedule(); });
-    };
-    const start = () => {
-      if (cycling) return;
-      cycling = true;
-      cycleRow.classList.add('is-cycling');
-      gs.set(phrases, { autoAlpha: 0 });
-      gs.set(phrases[index], { autoAlpha: 1 });
-      measure();
-      play();
-      schedule();
-    };
-    // back to the markup's own state: patient follow-up, still
-    const halt = () => {
-      if (timer) timer.kill();
-      if (move) move.progress(1).kill();
-      timer = null;
-      move = null;
-      cycling = false;
-      jumpedAt = 0;
-      show(0);
-      if (gs) gs.set([...phrases, ...addons], { clearProps: 'all' });
-      slot.removeAttribute('style');
-      cycleRow.style.removeProperty('--cycle-max');
-      line.classList.remove('is-stacked');
-      cycleRow.classList.remove('is-cycling');
-      schedule();
-    };
-    const sync = () => (gs && !reduceMotion.matches && !motionPaused() ? start() : halt());
-    root.addEventListener('rose:motion', sync);
-    reduceMotion.addEventListener('change', sync);
-    sync();
-    if (document.fonts) document.fonts.ready.then(measure);
-    let resizing = 0;
-    addEventListener('resize', () => {
-      cancelAnimationFrame(resizing);
-      resizing = requestAnimationFrame(measure);
+    render();
+
+    deckRoot.addEventListener('click', (e) => {
+      const go = e.target.closest('[data-deck-go]');
+      const step = e.target.closest('[data-deck-step]');
+      if (go) {
+        select(Number(go.dataset.deckGo));
+        // a rail leaves with its card's move to the front: focus follows to that card's title
+        if (go.matches('.deck-rail')) titles[index].focus({ preventScroll: true });
+      } else if (step) select(index + Number(step.dataset.deckStep));
     });
-    if (!onScreen) {
-      new IntersectionObserver(([entry]) => {
-        const arrived = entry.isIntersecting && !onScreen;
-        onScreen = entry.isIntersecting;
-        if (!onScreen) jumpedAt = 0;
-        if (arrived) play();
-        schedule();
-      }, { threshold: 0.2 }).observe(cycleRow);
-    }
-    // a jump from the controls; the cycle carries on RESUME seconds after the last one
-    const jump = (next) => {
-      jumpedAt = performance.now();
-      show(next);
-      schedule();
-    };
-    controls.addEventListener('click', (e) => {
-      const step = e.target.closest('[data-cycle-step]');
-      const dot = e.target.closest('[data-cycle-go]');
-      if (step) jump(index + Number(step.dataset.cycleStep));
-      else if (dot) jump(keys.indexOf(dot.dataset.cycleGo));
-    });
-    controls.addEventListener('keydown', (e) => {
-      if (e.key !== 'ArrowLeft' && e.key !== 'ArrowRight') return;
+    const KEYS = { ArrowRight: 1, ArrowDown: 1, ArrowLeft: -1, ArrowUp: -1 };
+    deckRoot.querySelector('.deck-picks').addEventListener('keydown', (e) => {
+      const at = picks.indexOf(e.target.closest('.deck-pick'));
+      if (at < 0) return;
+      let next;
+      if (e.key in KEYS) next = (at + KEYS[e.key] + n) % n;
+      else if (e.key === 'Home') next = 0;
+      else if (e.key === 'End') next = n - 1;
+      else return;
       e.preventDefault();
-      jump(index + (e.key === 'ArrowRight' ? 1 : -1));
-      if (e.target.closest('.addon-dot')) dots[index].focus();
+      select(next);
+      picks[next].focus();
     });
-    cycleRow.addEventListener('pointerenter', () => { hovered = true; schedule(); });
-    cycleRow.addEventListener('pointerleave', () => { hovered = false; schedule(); });
-    // keyboard focus pauses it while it stays in the row; a mouse click on a control doesn't
-    cycleRow.addEventListener('focusin', (e) => { focused = e.target.matches(':focus-visible'); schedule(); });
-    cycleRow.addEventListener('focusout', (e) => {
-      if (cycleRow.contains(e.relatedTarget)) return;
-      focused = false;
-      schedule();
+    // swipe: touch and pen only, decided on release; touch-action: pan-y (site.css) keeps vertical scrolling native
+    let touch = null;
+    stack.addEventListener('pointerdown', (e) => {
+      touch = e.pointerType === 'mouse' ? null : { id: e.pointerId, x: e.clientX, y: e.clientY };
     });
+    stack.addEventListener('pointercancel', () => { touch = null; });
+    stack.addEventListener('pointerup', (e) => {
+      if (!touch || e.pointerId !== touch.id) return;
+      const dx = e.clientX - touch.x;
+      const dy = e.clientY - touch.y;
+      touch = null;
+      if (Math.abs(dx) >= 48 && Math.abs(dx) > Math.abs(dy) * 1.5) select(index + (dx < 0 ? 1 : -1));
+    });
+    // a paused or reduced visitor gets the finished sample at once
+    const settle = () => { if (reduceMotion.matches || motionPaused()) { clearTimeout(playing); cards.forEach((card) => card.classList.remove('is-playing')); } };
+    root.addEventListener('rose:motion', settle);
+    reduceMotion.addEventListener('change', settle);
+    // the nudge: once, the first time the deck is on screen with motion allowed
+    if ('IntersectionObserver' in window) {
+      const nudge = new IntersectionObserver(([entry]) => {
+        if (!entry.isIntersecting || reduceMotion.matches || motionPaused() || document.hidden) return;
+        nudge.disconnect();
+        stack.classList.add('is-nudging');
+        stack.addEventListener('animationend', (e) => { if (e.target.matches('.deck-card')) stack.classList.remove('is-nudging'); });
+      }, { threshold: 0.35 });
+      nudge.observe(stack);
+    }
   }
 
   // ----- campaign tracking -----

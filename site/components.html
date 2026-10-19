@@ -400,7 +400,7 @@
         </div>
 
         <div class="ref-item ref-item--wide">
-          <p class="ref-name" id="demo-buttons">.btn, .btn--secondary, .btn--small, .chip and its variants. .btn--secondary (cream fill, 2px forest outline, forest label, the arrow; hover washes sage mist) replaces every standalone text link: "See…", "How it works", "Back to…", the cta-line's Get in touch. .btn--small where space is tight (cards, the cycle's descriptor box, the founders ring panel, .cta-line). On forest (.on-strong) it is transparent with a cream outline and label, and the wash is ink.</p>
+          <p class="ref-name" id="demo-buttons">.btn, .btn--secondary, .btn--small, .chip and its variants. .btn--secondary (cream fill, 2px forest outline, forest label, the arrow; hover washes sage mist) replaces every standalone text link: "See…", "How it works", "Back to…", the cta-line's Get in touch. .btn--small where space is tight (cards, the add-ons deck's cards, the founders ring panel, .cta-line). On forest (.on-strong) it is transparent with a cream outline and label, and the wash is ink.</p>
           <div class="ref-stage">
             <div class="actions">
               <a class="btn" href="/contact">Get in touch</a>
@@ -507,7 +507,7 @@
         </div>
 
         <div class="ref-item ref-item--wide">
-          <p class="ref-name" id="demo-run">.run-list and .run-row (a service, its line and a piece of the work). On the services and dental pages the row's number is the existing .step-num, first in .run-title; the homepage's How we help has no numbers (see .run-row--beyond below).</p>
+          <p class="ref-name" id="demo-run">.run-list and .run-row (a service, its line and a piece of the work). On the services and dental pages the row's number is the existing .step-num, first in .run-title; the homepage's How we help has no numbers and no run rows (see .beyond below).</p>
           <div class="run-list">
             <article class="run-row">
               <div class="run-title">
@@ -539,135 +539,146 @@
         </div>
 
         <div class="ref-item ref-item--wide">
-          <p class="ref-name" id="demo-beyond">.run-row.run-row--beyond[data-cycle] (the homepage's third How we help row, "Beyond the core plan"): the add-ons as one set. .cycle holds a p.sr-only sentence and an aria-hidden serif line, "We can also take on [phrase].", whose phrase cycles (site.js, GSAP): patient follow-up (in a forest pill, 4.8s), brand and logo work, video and content, a website without the ads, reputation management and dental consulting (each with a "Coming soon" chip), 2.4s each, sliding up while the slot eases to the new width. Under it, .addons: the .addon-box holds six article.addon descriptors in one grid cell, so it keeps the tallest one's height; the current one (.is-active) shows: a sage mist panel (card radius), h4.addon-title and its chip, one line (none for the coming-soon two), a text link, and a small Sample card that plays once each time its item comes up (.is-playing): the lead card's steps light in turn; the logo tile settles and the swatches pop in; the video frame fades in and its play mark grows with one ring pulse; the browser bar, then its lines draw in; the review name, then its text; the schedule slots slide in and the consult settles into forest. Then .addon-bar: .addon-controls (Previous add-on and Next add-on, a 32px circle in a 44px target; six .addon-dot buttons "Show ..." with aria-current; Left and Right keys move too) and "Ask about a project". A jump carries on cycling 6s after the last one; the box is aria-live polite until then and off while it cycles on its own. Pointer or keyboard focus in the row pauses it. Under reduced motion, with animations paused or without GSAP it rests on patient follow-up, the samples are complete and the controls swap at once; without JavaScript the six descriptors stack as a list. One cycle per page. Under the rows, the who-we-work-with statement.</p>
-          <div class="run-list">
-            <article class="run-row run-row--beyond" data-cycle data-current="follow">
-              <div class="run-title">
-                <h3>Beyond the core plan</h3>
+          <p class="ref-name" id="demo-beyond">.beyond[data-deck] (the homepage's "Beyond the core plan", under the How we help rows, on its own hairline): the add-ons as a deck of cards browsed by hand, patient follow-up first. Left: h3.beyond-title, its line, and .deck-picks, six named buttons (aria-current on the chosen one; Left/Right, Up/Down, Home and End move along them; a wrapping row of pills on tablets; none on phones). Right: .deck, six article.deck-card in one grid cell, each a sage mist card with h4.deck-title, its chip, a line, a link and a real sample on a cream sheet (.deck-sheet, the Sample chip in its header, the attribution on its own line at the foot). site.js ("the add-ons deck") sets data-slot on every card: 0 in front (shadow level 3), 1 and 2 behind it, smaller and offset right and down (on phones, down), their bodies blurred 1.5px and 3px (.75px and 1.5px on phones) and inert, back and prev out of sight. Each rear card shows .deck-rail on its exposed edge: an unblurred button naming it (on phones only the next card's, along its bottom edge). Under the deck, .deck-bar: Previous add-on and Next add-on (a 32px circle in a 44px target; both wrap), "1 of 6", and "Ask about a project". A swipe of 48px or more, mostly sideways, on a phone chooses the next or previous card; vertical scrolling is left alone. The choice is announced politely (the name and "2 of 6"). Nothing advances on its own. Moves take 400ms; the card coming forward comes into focus in its last 150ms. The first time the deck is on screen the rear cards fan out 12px and settle back, once. Follow-up's sample (a call note, the concierge's text, the booking in the practice's software, signed by Follow-up with a small stamp) is a signed sample (data-loop="follow") that loops while its card is in front; the others replay one action 600ms after they are chosen: brand, the swatches place and the appointment card settles; video, the selected clip's frame draws in and the title settles; website, the button's ring shows and the sign-off is stamped; the coming-soon two, the rule under the first topic draws. Under reduced motion or with animations paused the cards swap at once and the samples stay finished; without JavaScript the six cards are a plain list and the controls stay hidden.</p>
+          <div class="ref-stage">
+          <div class="beyond" data-deck>
+            <div class="beyond-head">
+              <h3 class="beyond-title" id="beyond-title">Beyond the core plan<span class="sr-only">: add-ons and projects, including patient follow-up</span></h3>
+              <p>Add follow-up, or ask us about a separate project.</p>
+              <div class="deck-picks" role="group" aria-label="Choose an add-on">
+                <button class="deck-pick" type="button" data-deck-go="0" aria-current="true">Patient follow-up</button>
+                <button class="deck-pick" type="button" data-deck-go="1">Brand and logo work</button>
+                <button class="deck-pick" type="button" data-deck-go="2">Video and content</button>
+                <button class="deck-pick" type="button" data-deck-go="3">Website without the ads</button>
+                <button class="deck-pick" type="button" data-deck-go="4">Reputation management <span class="chip">Coming soon</span></button>
+                <button class="deck-pick" type="button" data-deck-go="5">Dental consulting <span class="chip">Coming soon</span></button>
               </div>
-              <div class="cycle">
-                <p class="sr-only">We can also take on patient follow-up, brand and logo work, video and content, a website without the ads, and, coming soon, reputation management and dental consulting.</p>
-                <p class="cycle-line" aria-hidden="true"><span class="cycle-lead">We can also take on</span> <span class="cycle-tail"><span class="cycle-slot"><span class="cycle-phrase is-current" data-cycle-item="follow"><span class="cycle-pill">patient follow-up</span>.</span><span class="cycle-phrase" data-cycle-item="brand">brand and logo work.</span><span class="cycle-phrase" data-cycle-item="video">video and content.</span><span class="cycle-phrase" data-cycle-item="website">a website without the ads.</span><span class="cycle-phrase" data-cycle-item="reputation">reputation management. <span class="chip">Coming soon</span></span><span class="cycle-phrase" data-cycle-item="consulting">dental consulting. <span class="chip">Coming soon</span></span></span></span></p>
-              </div>
-              <div class="addons">
-                <div class="addon-box" aria-live="off">
-                  <article class="addon is-active" data-cycle-item="follow">
-                    <div class="addon-text">
-                      <div class="addon-head"><h4 class="addon-title">Patient follow-up</h4><span class="chip">Monthly add-on</span></div>
-                      <p>A patient concierge calls and texts your new and past leads, follows up cancellations and no-shows, and books into your patient management software. Any client can ask, and our sales team confirms the fit.</p>
-                      <a class="btn btn--secondary btn--small" href="/services/patient-follow-up">How patient follow-up works <svg class="arrow" viewBox="0 0 22 12" aria-hidden="true" focusable="false"><path d="M1 6h19M15 1l5 5-5 5"/></svg></a>
+            </div>
+            <div class="deck-stage">
+              <div class="deck" data-anim="none">
+                <article class="deck-card" data-slot="0" aria-labelledby="deck-follow">
+                  <div class="deck-body">
+                    <div class="deck-copy">
+                      <div class="deck-head"><h4 class="deck-title" id="deck-follow" tabindex="-1">Patient follow-up</h4><span class="chip">Monthly add-on</span></div>
+                      <p>A patient concierge calls and texts your leads, then books into your patient management software. Our sales team confirms the fit.</p>
+                      <a class="btn btn--secondary btn--small" href="/services/patient-follow-up">How follow-up works <svg class="arrow" viewBox="0 0 22 12" aria-hidden="true" focusable="false"><path d="M1 6h19M15 1l5 5-5 5"/></svg></a>
                     </div>
-                    <div class="run-show">
-                      <div class="screen" data-anim="none" role="img" aria-label="Sample: a follow-up lead card. [Name], clear aligner consult, called and consult booked.">
-                        <div class="lead-head">
-                          <p class="lead-title"><span class="lead-dot"></span>[Name], clear aligner consult</p>
-                        </div>
-                        <ol class="status">
-                          <li class="status-step is-done"><span class="chip">New</span></li>
-                          <li class="status-step is-done"><span class="chip">Called</span></li>
-                          <li class="status-step is-current"><span class="chip">Consult booked</span></li>
-                        </ol>
-                        <p class="keyword-line">Patient follow-up <span class="chip chip--sample">Sample</span></p>
-                      </div>
+                    <div class="deck-sheet deck-follow" data-loop="follow" role="img" aria-label="Sample: patient follow-up for [Name], an adult braces enquiry. Called and left a message, then a text: Hi [Name], this is the patient concierge for [Your practice]. You asked about adult braces. When would be a good time to call? Consultation booked, [Date] at [Time], in your practice's patient management software. Signed by Follow-up.">
+                      <div class="deck-sheet-head"><span class="deck-follow-who"><b>[Name]</b> Adult braces enquiry</span><span class="chip chip--sample">Sample</span></div>
+                      <p class="deck-follow-call" data-part="call"><span class="deck-follow-icon"><svg class="icon" viewBox="0 0 20 20" aria-hidden="true" focusable="false"><path d="M6.6 3.2 8.4 7 7 8.4a9.6 9.6 0 0 0 4.6 4.6L13 11.6l3.8 1.8v2.4a1.6 1.6 0 0 1-1.7 1.6A13.4 13.4 0 0 1 2.6 4.9 1.6 1.6 0 0 1 4.2 3.2Z"/></svg></span>Called. Left a message.</p>
+                      <p class="deck-follow-msg" data-part="msg">Hi [Name], this is the patient concierge for [Your practice]. You asked about adult braces. When would be a good time to call?</p>
+                      <p class="deck-follow-booked" data-part="booked"><b>Consultation booked</b><span>[Date] at [Time]</span><small>In your practice's patient management software</small></p>
+                      <p class="deck-sign" data-part="sign"><span class="deck-sign-who">Signed by <em class="signature">Follow-up</em></span><img class="stamp" src="/assets/img/stamp-signed.svg" alt="" width="48" height="48"></p>
                     </div>
-                  </article>
-                  <article class="addon" data-cycle-item="brand">
-                    <div class="addon-text">
-                      <div class="addon-head"><h4 class="addon-title">Brand and logo work</h4><span class="chip">Priced for your practice</span></div>
-                      <p>A logo and a brand kit made for your practice.</p>
-                      <a class="btn btn--secondary btn--small" href="/services/add-ons#brand">More on brand and logo work <svg class="arrow" viewBox="0 0 22 12" aria-hidden="true" focusable="false"><path d="M1 6h19M15 1l5 5-5 5"/></svg></a>
-                    </div>
-                    <div class="run-show">
-                      <div class="screen" data-anim="none" role="img" aria-label="Sample: a logo tile for [your practice] beside three colours from its brand kit.">
-                        <div class="mini-brand">
-                          <span class="mini-logo" aria-hidden="true">[Your practice]</span>
-                          <span class="mini-swatches" aria-hidden="true"><span class="mini-swatch mini-swatch--sage"></span><span class="mini-swatch mini-swatch--mist"></span><span class="mini-swatch mini-swatch--field"></span></span>
-                        </div>
-                        <p class="keyword-line">Brand kit <span class="chip chip--sample">Sample</span></p>
-                      </div>
-                    </div>
-                  </article>
-                  <article class="addon" data-cycle-item="video">
-                    <div class="addon-text">
-                      <div class="addon-head"><h4 class="addon-title">Video and content</h4><span class="chip">Priced for your practice</span></div>
-                      <p>Video cutdowns and written content for your site and social.</p>
-                      <a class="btn btn--secondary btn--small" href="/services/add-ons#video">More on video and content <svg class="arrow" viewBox="0 0 22 12" aria-hidden="true" focusable="false"><path d="M1 6h19M15 1l5 5-5 5"/></svg></a>
-                    </div>
-                    <div class="run-show">
-                      <div class="screen" data-anim="none" role="img" aria-label="Sample: a video frame for [your practice], Meet the team.">
-                        <div class="mini-video"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="10"/><path d="M10 8.5v7l5.5-3.5z"/></svg></div>
-                        <p class="keyword-line">[Your practice] · Meet the team <span class="chip chip--sample">Sample</span></p>
-                      </div>
-                    </div>
-                  </article>
-                  <article class="addon" data-cycle-item="website">
-                    <div class="addon-text">
-                      <div class="addon-head"><h4 class="addon-title">Website without the ads</h4><span class="chip">Priced for your practice</span></div>
-                      <p>A website built from your practice, with SEO, for practices running their own ads.</p>
-                      <a class="btn btn--secondary btn--small" href="/services/add-ons#website">More on a website without the ads <svg class="arrow" viewBox="0 0 22 12" aria-hidden="true" focusable="false"><path d="M1 6h19M15 1l5 5-5 5"/></svg></a>
-                    </div>
-                    <div class="run-show">
-                      <div class="screen" data-anim="none" role="img" aria-label="Sample: a browser window showing [yourpractice].com.">
-                        <div class="screen-bar"><span class="screen-url">[yourpractice].com</span></div>
-                        <div class="skeleton" aria-hidden="true"><span></span><span></span></div>
-                        <p class="keyword-line">Your website <span class="chip chip--sample">Sample</span></p>
-                      </div>
-                    </div>
-                  </article>
-                  <article class="addon" data-cycle-item="reputation">
-                    <div class="addon-text">
-                      <div class="addon-head"><h4 class="addon-title">Reputation management</h4><span class="chip">Coming soon</span></div>
-                      <a class="btn btn--secondary btn--small" href="/contact">Tell us you're interested <svg class="arrow" viewBox="0 0 22 12" aria-hidden="true" focusable="false"><path d="M1 6h19M15 1l5 5-5 5"/></svg></a>
-                    </div>
-                    <div class="run-show">
-                      <div class="screen" data-anim="none" role="img" aria-label="Sample: a patient review card, [Name] and [Review text].">
-                        <div class="mini-review">
-                          <p class="mini-review-name">[Name]</p>
-                          <p class="mini-review-text">[Review text]</p>
-                        </div>
-                        <p class="keyword-line">A patient review <span class="chip chip--sample">Sample</span></p>
-                      </div>
-                    </div>
-                  </article>
-                  <article class="addon" data-cycle-item="consulting">
-                    <div class="addon-text">
-                      <div class="addon-head"><h4 class="addon-title">Dental consulting</h4><span class="chip">Coming soon</span></div>
-                      <a class="btn btn--secondary btn--small" href="/contact">Tell us you're interested <svg class="arrow" viewBox="0 0 22 12" aria-hidden="true" focusable="false"><path d="M1 6h19M15 1l5 5-5 5"/></svg></a>
-                    </div>
-                    <div class="run-show">
-                      <div class="screen" data-anim="none" role="img" aria-label="Sample: a short day schedule with a new patient visit, a recall and a consult.">
-                        <div class="schedule">
-                          <div class="schedule-row"><span class="schedule-time">[Time]</span><span class="schedule-slot">New patient</span></div>
-                          <div class="schedule-row"><span class="schedule-time">[Time]</span><span class="schedule-slot">Recall</span></div>
-                          <div class="schedule-row"><span class="schedule-time">[Time]</span><span class="schedule-slot mini-slot-key">Consult</span></div>
-                        </div>
-                        <p class="keyword-line">A day's schedule <span class="chip chip--sample">Sample</span></p>
-                      </div>
-                    </div>
-                  </article>
-                </div>
-                <div class="addon-bar">
-                  <div class="addon-controls" role="group" aria-label="Choose an add-on">
-                    <button class="addon-step" type="button" data-cycle-step="-1" aria-label="Previous add-on"><svg class="arrow" viewBox="0 0 22 12" aria-hidden="true" focusable="false"><path d="M1 6h19M15 1l5 5-5 5"/></svg></button>
-                    <div class="addon-dots">
-                      <button class="addon-dot" type="button" data-cycle-go="follow" aria-label="Show patient follow-up" aria-current="true"></button>
-                      <button class="addon-dot" type="button" data-cycle-go="brand" aria-label="Show brand and logo work"></button>
-                      <button class="addon-dot" type="button" data-cycle-go="video" aria-label="Show video and content"></button>
-                      <button class="addon-dot" type="button" data-cycle-go="website" aria-label="Show a website without the ads"></button>
-                      <button class="addon-dot" type="button" data-cycle-go="reputation" aria-label="Show reputation management"></button>
-                      <button class="addon-dot" type="button" data-cycle-go="consulting" aria-label="Show dental consulting"></button>
-                    </div>
-                    <button class="addon-step" type="button" data-cycle-step="1" aria-label="Next add-on"><svg class="arrow" viewBox="0 0 22 12" aria-hidden="true" focusable="false"><path d="M1 6h19M15 1l5 5-5 5"/></svg></button>
                   </div>
-                  <a class="btn btn--secondary btn--small" href="/contact">Ask about a project <svg class="arrow" viewBox="0 0 22 12" aria-hidden="true" focusable="false"><path d="M1 6h19M15 1l5 5-5 5"/></svg></a>
-                </div>
+                  <button class="deck-rail" type="button" data-deck-go="0"><span class="sr-only">Show </span><span class="deck-rail-name">Patient follow-up</span></button>
+                </article>
+                <article class="deck-card" data-slot="1" aria-labelledby="deck-brand">
+                  <div class="deck-body">
+                    <div class="deck-copy">
+                      <div class="deck-head"><h4 class="deck-title" id="deck-brand" tabindex="-1">Brand and logo work</h4><span class="chip">Priced for your practice</span></div>
+                      <p>A logo and a brand kit made for your practice.</p>
+                      <a class="btn btn--secondary btn--small" href="/services/add-ons#brand">See brand work <svg class="arrow" viewBox="0 0 22 12" aria-hidden="true" focusable="false"><path d="M1 6h19M15 1l5 5-5 5"/></svg></a>
+                    </div>
+                    <div class="deck-sheet deck-brand" role="img" aria-label="Sample: a brand application study. [Your practice], orthodontics, in forest, cream and sage, and an appointment card: your next visit, [Date] at [Time]. Prepared for discussion.">
+                      <div class="deck-sheet-head"><span class="deck-sheet-title">Brand application study</span><span class="chip chip--sample">Sample</span></div>
+                      <p class="deck-brand-mark"><span>[Your practice]</span><span>Orthodontics</span></p>
+                      <ul class="deck-swatches"><li><span class="deck-swatch deck-swatch--forest"></span>Forest</li><li><span class="deck-swatch deck-swatch--cream"></span>Cream</li><li><span class="deck-swatch deck-swatch--sage"></span>Sage</li></ul>
+                      <p class="deck-appt"><small>Your next visit</small><span>[Date] at [Time]</span></p>
+                      <p class="deck-by">Prepared for discussion</p>
+                    </div>
+                  </div>
+                  <button class="deck-rail" type="button" data-deck-go="1"><span class="sr-only">Show </span><span class="deck-rail-name">Brand and logo work</span></button>
+                </article>
+                <article class="deck-card" data-slot="2" aria-labelledby="deck-video">
+                  <div class="deck-body">
+                    <div class="deck-copy">
+                      <div class="deck-head"><h4 class="deck-title" id="deck-video" tabindex="-1">Video and content</h4><span class="chip">Priced for your practice</span></div>
+                      <p>Video cutdowns and written content for your site and social.</p>
+                      <a class="btn btn--secondary btn--small" href="/services/add-ons#video">See video and content <svg class="arrow" viewBox="0 0 22 12" aria-hidden="true" focusable="false"><path d="M1 6h19M15 1l5 5-5 5"/></svg></a>
+                    </div>
+                    <div class="deck-sheet deck-video" role="img" aria-label="Sample: a title sequence study. Three frames, your first visit, your questions and what happens next; the first frame's title, what to expect at your first visit; and three clips, welcome, consultation and next steps. Prepared for discussion.">
+                      <div class="deck-sheet-head"><span class="deck-sheet-title">Title sequence study</span><span class="chip chip--sample">Sample</span></div>
+                      <div class="deck-video-board">
+                        <ol class="deck-frames"><li class="is-current">Your first visit</li><li>Your questions</li><li>What happens next</li></ol>
+                        <p class="deck-video-title"><span>What to expect at your first visit</span></p>
+                      </div>
+                      <ol class="deck-clips"><li class="is-current">Welcome</li><li>Consultation</li><li>Next steps</li></ol>
+                      <p class="deck-by">Prepared for discussion</p>
+                    </div>
+                  </div>
+                  <button class="deck-rail" type="button" data-deck-go="2"><span class="sr-only">Show </span><span class="deck-rail-name">Video and content</span></button>
+                </article>
+                <article class="deck-card" data-slot="back" aria-labelledby="deck-website">
+                  <div class="deck-body">
+                    <div class="deck-copy">
+                      <div class="deck-head"><h4 class="deck-title" id="deck-website" tabindex="-1">Website without the ads</h4><span class="chip">Priced for your practice</span></div>
+                      <p>A website built from your practice, with SEO, for practices running their own ads.</p>
+                      <a class="btn btn--secondary btn--small" href="/services/add-ons#website">See website projects <svg class="arrow" viewBox="0 0 22 12" aria-hidden="true" focusable="false"><path d="M1 6h19M15 1l5 5-5 5"/></svg></a>
+                    </div>
+                    <div class="deck-sheet deck-site" role="img" aria-label="Sample: a home page for [Your practice], with links to treatments, your visit and contact. A place to start with your orthodontic questions. Learn about treatment options and what to expect at your first visit. Request a consultation. Signed by Web and SEO.">
+                      <div class="deck-sheet-head"><span class="deck-sheet-title">Home page</span><span class="chip chip--sample">Sample</span></div>
+                      <div class="deck-site-page">
+                        <p class="deck-site-top"><b>[Your practice]</b><span>Treatments · Your visit · Contact</span></p>
+                        <p class="deck-site-h">A place to start with your orthodontic questions.</p>
+                        <p class="deck-site-p">Learn about treatment options and what to expect at your first visit.</p>
+                        <span class="deck-site-btn">Request a consultation</span>
+                      </div>
+                      <p class="deck-sign"><span class="deck-sign-who">Signed by <em class="signature">Web and SEO</em></span><img class="stamp" src="/assets/img/stamp-signed.svg" alt="" width="48" height="48"></p>
+                    </div>
+                  </div>
+                  <button class="deck-rail" type="button" data-deck-go="3"><span class="sr-only">Show </span><span class="deck-rail-name">Website without the ads</span></button>
+                </article>
+                <article class="deck-card" data-slot="back" aria-labelledby="deck-reputation">
+                  <div class="deck-body">
+                    <div class="deck-copy">
+                      <div class="deck-head"><h4 class="deck-title" id="deck-reputation" tabindex="-1">Reputation management</h4><span class="chip">Coming soon</span></div>
+                      <p>Tell us what you need help with.</p>
+                      <a class="btn btn--secondary btn--small" href="/contact">Register interest <svg class="arrow" viewBox="0 0 22 12" aria-hidden="true" focusable="false"><path d="M1 6h19M15 1l5 5-5 5"/></svg></a>
+                    </div>
+                    <div class="deck-sheet deck-plan" role="img" aria-label="Sample, illustrative only: discussion topics for reputation management. How do you request feedback? Who replies to reviews? What needs attention? For discussion with Sales.">
+                      <div class="deck-sheet-head"><span class="deck-sheet-title">Discussion topics</span><span class="deck-chips"><span class="chip chip--todo">Illustrative only</span><span class="chip chip--sample">Sample</span></span></div>
+                      <p class="deck-plan-title">Reputation management</p>
+                      <ul class="deck-topics"><li class="is-key"><svg class="icon" viewBox="0 0 20 20" aria-hidden="true" focusable="false"><rect x="3.5" y="3.5" width="13" height="13" rx="3"/></svg>How do you request feedback?</li><li><svg class="icon" viewBox="0 0 20 20" aria-hidden="true" focusable="false"><rect x="3.5" y="3.5" width="13" height="13" rx="3"/></svg>Who replies to reviews?</li><li><svg class="icon" viewBox="0 0 20 20" aria-hidden="true" focusable="false"><rect x="3.5" y="3.5" width="13" height="13" rx="3"/></svg>What needs attention?</li></ul>
+                      <p class="deck-by">For discussion with <em class="signature">Sales</em></p>
+                    </div>
+                  </div>
+                  <button class="deck-rail" type="button" data-deck-go="4"><span class="sr-only">Show </span><span class="deck-rail-name">Reputation management</span></button>
+                </article>
+                <article class="deck-card" data-slot="prev" aria-labelledby="deck-consulting">
+                  <div class="deck-body">
+                    <div class="deck-copy">
+                      <div class="deck-head"><h4 class="deck-title" id="deck-consulting" tabindex="-1">Dental consulting</h4><span class="chip">Coming soon</span></div>
+                      <p>Talk to us about your practice.</p>
+                      <a class="btn btn--secondary btn--small" href="/contact">Register interest <svg class="arrow" viewBox="0 0 22 12" aria-hidden="true" focusable="false"><path d="M1 6h19M15 1l5 5-5 5"/></svg></a>
+                    </div>
+                    <div class="deck-sheet deck-plan" role="img" aria-label="Sample, illustrative only: discussion topics for a practice conversation. New patient enquiries, scheduling and team handoffs. What would you like to improve? For discussion with Sales.">
+                      <div class="deck-sheet-head"><span class="deck-sheet-title">Discussion topics</span><span class="deck-chips"><span class="chip chip--todo">Illustrative only</span><span class="chip chip--sample">Sample</span></span></div>
+                      <p class="deck-plan-title">Practice conversation</p>
+                      <ul class="deck-topics"><li class="is-key"><svg class="icon" viewBox="0 0 20 20" aria-hidden="true" focusable="false"><rect x="3.5" y="3.5" width="13" height="13" rx="3"/></svg>New patient enquiries</li><li><svg class="icon" viewBox="0 0 20 20" aria-hidden="true" focusable="false"><rect x="3.5" y="3.5" width="13" height="13" rx="3"/></svg>Scheduling</li><li><svg class="icon" viewBox="0 0 20 20" aria-hidden="true" focusable="false"><rect x="3.5" y="3.5" width="13" height="13" rx="3"/></svg>Team handoffs</li></ul>
+                      <p class="deck-topics-ask">What would you like to improve?</p>
+                      <p class="deck-by">For discussion with <em class="signature">Sales</em></p>
+                    </div>
+                  </div>
+                  <button class="deck-rail" type="button" data-deck-go="5"><span class="sr-only">Show </span><span class="deck-rail-name">Dental consulting</span></button>
+                </article>
               </div>
-            </article>
+              <div class="deck-bar">
+                <div class="deck-nav">
+                  <button class="deck-step" type="button" data-deck-step="-1" aria-label="Previous add-on"><svg class="arrow" viewBox="0 0 22 12" aria-hidden="true" focusable="false"><path d="M1 6h19M15 1l5 5-5 5"/></svg></button>
+                  <p class="deck-count" data-deck-count>1 of 6</p>
+                  <button class="deck-step" type="button" data-deck-step="1" aria-label="Next add-on"><svg class="arrow" viewBox="0 0 22 12" aria-hidden="true" focusable="false"><path d="M1 6h19M15 1l5 5-5 5"/></svg></button>
+                </div>
+                <a class="btn btn--secondary btn--small" href="/contact">Ask about a project <svg class="arrow" viewBox="0 0 22 12" aria-hidden="true" focusable="false"><path d="M1 6h19M15 1l5 5-5 5"/></svg></a>
+              </div>
+              <p class="sr-only" aria-live="polite" data-deck-say></p>
+            </div>
+          </div>
           </div>
         </div>
 
         <div class="ref-item ref-item--wide">
-          <p class="ref-name" id="demo-mini">Small samples for the add-ons (the homepage's .addon-box and /services/add-ons): plain .screen cards with data-anim="none", role="img", an aria-label starting "Sample:", and a .keyword-line with the Sample chip. Brand: .mini-brand (span.mini-logo, a forest tile with "[Your practice]", and three .mini-swatch in sage, sage mist and field; never rose). Video: .mini-video, a field frame with a 1.5px play mark. Website: .screen-bar with [yourpractice].com and a two-bar .skeleton. Reputation: .mini-review ([Name], [Review text]; no stars, no numbers). Consulting: a .schedule of three [Time] rows, the consult (.mini-slot-key) in forest. Then the add-ons page's ul.soon-list (names and a "Coming soon" chip, no lines, no links) and p.soon-ask.</p>
+          <p class="ref-name" id="demo-mini">Small samples for /services/add-ons: plain .screen cards with data-anim="none", role="img", an aria-label starting "Sample:", and a .keyword-line with the Sample chip; on the page each also carries data-play and plays its steps once as it comes into view. Brand: .mini-brand (span.mini-logo, a forest tile with "[Your practice]", and three .mini-swatch in sage, sage mist and field; never rose). Video: .mini-video, a field frame with a 1.5px play mark. Website: .screen-bar with [yourpractice].com and a two-bar .skeleton. Then the add-ons page's ul.soon-list (names and a "Coming soon" chip, no lines, no links) and p.soon-ask. The homepage's add-ons deck has its own samples (see .beyond above).</p>
           <div class="ref-stage">
             <div class="cards">
               <div class="screen" data-anim="none" role="img" aria-label="Sample: a logo tile for [your practice] beside three colours from its brand kit.">
@@ -685,21 +696,6 @@
                 <div class="screen-bar"><span class="screen-url">[yourpractice].com</span></div>
                 <div class="skeleton" aria-hidden="true"><span></span><span></span></div>
                 <p class="keyword-line">Your website <span class="chip chip--sample">Sample</span></p>
-              </div>
-              <div class="screen" data-anim="none" role="img" aria-label="Sample: a patient review card, [Name] and [Review text].">
-                <div class="mini-review">
-                  <p class="mini-review-name">[Name]</p>
-                  <p class="mini-review-text">[Review text]</p>
-                </div>
-                <p class="keyword-line">A patient review <span class="chip chip--sample">Sample</span></p>
-              </div>
-              <div class="screen" data-anim="none" role="img" aria-label="Sample: a short day schedule with a new patient visit, a recall and a consult.">
-                <div class="schedule">
-                  <div class="schedule-row"><span class="schedule-time">[Time]</span><span class="schedule-slot">New patient</span></div>
-                  <div class="schedule-row"><span class="schedule-time">[Time]</span><span class="schedule-slot">Recall</span></div>
-                  <div class="schedule-row"><span class="schedule-time">[Time]</span><span class="schedule-slot mini-slot-key">Consult</span></div>
-                </div>
-                <p class="keyword-line">A day's schedule <span class="chip chip--sample">Sample</span></p>
               </div>
             </div>
             <ul class="soon-list">
