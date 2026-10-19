@@ -641,7 +641,7 @@
     }
   }
 
-  // ----- signed samples (homepage: [data-loop="local-page|ledger|report"]; site.css "signed samples") -----
+  // ----- signed samples (homepage: [data-loop="local-page|ads"]; site.css "signed samples") -----
   // Each sample replays its job in three beats: place (the work lands), mark (it is signed by role and the Rose stamp is
   // pressed on), rest (it holds, finished). The static markup is the finished state, and every timeline starts and ends
   // on it, so a repeat never jumps and a pause can always show it. A timeline is built the first time its sample reaches
@@ -649,7 +649,7 @@
   // to its finished state ('rest') when the visitor pauses animations. Under reduced motion nothing is built. Only
   // transform, opacity and colour change; the Sample chip never fades. Durations come from the motion tokens.
   // [data-place] panels settle 16px into place the first time they reach the screen (CSS does the motion).
-  const signedEls = document.querySelectorAll('[data-loop="local-page"], [data-loop="ledger"], [data-loop="report"]');
+  const signedEls = document.querySelectorAll('[data-loop="local-page"], [data-loop="ads"]');
   if (signedEls.length && window.gsap && 'IntersectionObserver' in window) {
     const gsap = window.gsap;
     const token = (name) => getComputedStyle(root).getPropertyValue(name).trim();
@@ -729,27 +729,51 @@
         hold(tl, placed + SLOW * 2 + MED * 2.8);
         return tl;
       },
-      // a consult arrives, the band traces it down the ledger to its source, the source lights, signed
-      ledger: (el) => {
-        const arrival = el.querySelector('[data-part="arrival"]');
-        const hl = el.querySelector('[data-part="hl"]');
-        const key = el.querySelector('li.is-key b');
+      // the consult is traced back to the ad that brought it: the record clears and a new consult is placed, the wire
+      // draws from the record up to its ad, the ad is outlined, signed, the panel stamp pressed. Each cycle traces the
+      // other ad: the first to Meta, the second back to Google, which is the finished state ('rest') and the markup.
+      ads: (el) => {
+        const consult = el.querySelector('[data-part="consult"]');
+        const record = consult.querySelectorAll('.ads-consult-head, .ads-consult-who, .ads-consult-source');
         const sign = el.querySelector('[data-part="sign"]');
         const marks = signParts(sign);
-        const stamp = sign.querySelector('.stamp');
-        const row = key.closest('li').offsetHeight;
-        const forest = token('--forest');
+        const stamp = el.closest('.service-row-visual').querySelector('.panel-stamp');
+        const ad = (src) => el.querySelector('[data-ad="' + src + '"]');
+        const texts = (src) => el.querySelectorAll('[data-src="' + src + '"]');
+        const own = (wire) => Array.from(wire.children).reverse();
+        // a path's segments in drawing order, from the record end: the record's stub and rise, the pass beside the
+        // Meta ad (Google's, on phones), then the ad's own run and drop
+        const path = (src) => [
+          ...own(el.querySelector('[data-wire="land"]')),
+          ...(src === 'google' ? Array.from(el.querySelectorAll('.ads-wire--pass i')) : []),
+          ...own(el.querySelector('.ads-wire[data-wire="' + src + '"]:not(.ads-wire--pass)')),
+        ];
+        const shown = (seg) => seg.getClientRects().length > 0;
         const tl = gsap.timeline({ paused: true, repeat: -1 });
-        tl.to([arrival, hl, ...marks, stamp], { autoAlpha: 0, duration: SLOW, ease: 'power2.in' }, 0)
-          .to(key, { backgroundColor: clear(forest), color: token('--ink'), duration: MED }, 0.1)
-          .set(hl, { y: -row }, 0.4)
-          .fromTo(arrival, { autoAlpha: 0, y: -14 }, { autoAlpha: 1, y: 0, duration: REST, ease: 'power3.out', immediateRender: false }, 0.8)
-          .to(hl, { autoAlpha: 1, duration: MED }, 1.5)
-          .to(hl, { y: 0, duration: SLOW, ease: 'power3.out' }, 1.75)
-          .to(key, { backgroundColor: forest, color: token('--cream'), duration: MED }, 2.1)
-          .fromTo(marks, { autoAlpha: 0, y: 8 }, { autoAlpha: 1, y: 0, duration: SLOW, ease: 'power3.out', immediateRender: false }, 2.5);
-        press(tl, stamp, 2.75);
-        hold(tl, 3.2);
+        const cycle = (from, to, at) => {
+          tl.to([...record, ...marks], { autoAlpha: 0, y: 8, duration: SLOW, ease: 'power2.in' }, at)
+            .to(stamp, { autoAlpha: 0, duration: SLOW, ease: 'power2.in' }, at)
+            .fromTo(path(from), { '--d': 1 }, { '--d': 0, duration: MED, ease: 'power2.in', immediateRender: false }, at)
+            .fromTo(ad(from), { '--src': 1 }, { '--src': 0, duration: MED, immediateRender: false }, at)
+            .set(texts(from), { autoAlpha: 0 }, at + SLOW)
+            .set(texts(to), { autoAlpha: 1 }, at + SLOW)
+            .fromTo(record, { autoAlpha: 0, y: 14 }, { autoAlpha: 1, y: 0, duration: REST, ease: 'power3.out', stagger: 0.08, immediateRender: false }, at + 0.6);
+          // the wire draws over SLOW, split across the segments this layout shows (hidden ones are set at once)
+          const trace = at + 1.4;
+          const segs = path(to);
+          const step = SLOW / Math.max(1, segs.filter(shown).length);
+          let k = 0;
+          segs.forEach((seg) => {
+            const on = shown(seg);
+            tl.fromTo(seg, { '--d': 0 }, { '--d': 1, duration: on ? step : 0, ease: 'none', immediateRender: false }, on ? trace + step * k++ : trace);
+          });
+          tl.fromTo(ad(to), { '--src': 0 }, { '--src': 1, duration: MED, immediateRender: false }, trace + SLOW - 0.05)
+            .fromTo(marks, { autoAlpha: 0, y: 8 }, { autoAlpha: 1, y: 0, duration: SLOW, ease: 'power3.out', immediateRender: false }, trace + SLOW + MED);
+          press(tl, stamp, trace + SLOW + MED + 0.35);
+          return trace + SLOW + MED + 0.35 + MED * 1.8;
+        };
+        const first = cycle('google', 'meta', REST);
+        hold(tl, cycle('meta', 'google', first + HOLD + REST));
         return tl;
       },
       // the monthly report: a band walks to each signed change and the stamp is pressed on it

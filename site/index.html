@@ -355,25 +355,49 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
             <p>Search and social campaigns with call and conversion tracking, optimized weekly, and each consult traced back to the ad that brought it.</p>
             <a class="btn btn--secondary" href="/services/paid-ads">See ads management <svg class="arrow" viewBox="0 0 22 12" aria-hidden="true" focusable="false"><path d="M1 6h19M15 1l5 5-5 5"/></svg></a>
           </div>
-          <div class="service-row-visual" data-place>
-            <div class="vignette" data-loop="ledger" data-anim="none" role="img" aria-label="Sample: consults booked by source, Maps, Search ads, Meta ads and Website, each [n]. A new consult is traced to Search ads, signed by Paid media.">
-              <div class="screen screen--raised ledger">
-                <div class="screen-head"><span class="screen-title">Consults booked, by source</span></div>
-                <div class="ledger-new" data-part="arrival"><span class="lead-dot"></span><span><b>New consult</b> traced to Search ads</span><span class="ledger-time">[Time]</span></div>
-                <div class="ledger-body">
-                  <span class="ledger-hl" data-part="hl"></span>
-                  <ol class="ledger-rows">
-                    <li><span>Maps</span><span class="leader"></span><b>[n]</b></li>
-                    <li class="is-key"><span>Search ads</span><span class="leader"></span><b>[n]</b></li>
-                    <li><span>Meta ads</span><span class="leader"></span><b>[n]</b></li>
-                    <li><span>Website</span><span class="leader"></span><b>[n]</b></li>
-                  </ol>
+          <div class="service-row-visual service-row-visual--ads" data-place>
+            <div class="vignette ads" data-loop="ads" data-anim="none" role="img" aria-label="Sample: a Google search ad and a Meta feed ad for adult braces from [Your practice]. A consult booked by [Name] for adult braces is traced back to the Google search ad and its campaign, signed by Paid media.">
+              <div class="ads-top"><span class="ads-caption">Illustrative ads and booking</span><span class="chip chip--sample">Sample</span></div>
+              <div class="ads-slot">
+                <p class="ads-label">Google Search</p>
+                <div class="ads-ad ads-google is-source" data-ad="google">
+                  <p class="ads-query"><svg class="icon" viewBox="0 0 20 20" focusable="false"><circle cx="9" cy="9" r="5.5"/><path d="m13.2 13.2 3.8 3.8"/></svg>orthodontist for adults</p>
+                  <div class="ads-site">
+                    <span class="ads-mark"><svg class="icon" viewBox="0 0 20 20" focusable="false"><circle cx="10" cy="10" r="7"/><path d="M3 10h14M10 3c-3.5 4-3.5 10 0 14M10 3c3.5 4 3.5 10 0 14"/></svg></span>
+                    <span class="ads-who"><span class="ads-name">[Your practice]</span><span class="ads-sponsored">Sponsored</span></span>
+                    <span class="ads-call"><svg class="icon" viewBox="0 0 24 24" focusable="false"><path d="M6.5 4h3l1.5 4-2 1.5a11 11 0 0 0 5.5 5.5l1.5-2 4 1.5v3a2 2 0 0 1-2 2A15.5 15.5 0 0 1 4.5 6a2 2 0 0 1 2-2z"/></svg>Call</span>
+                  </div>
+                  <p class="ads-google-title">Adult braces | Request a consult</p>
+                  <p class="ads-google-text">Braces as an adult? See what treatment involves, then ask our team about a consultation.</p>
+                  <ul class="ads-sitelinks"><li>Your first visit</li><li>Braces or clear aligners</li></ul>
                 </div>
-                <div class="signoff" data-part="sign">
+                <span class="ads-wire" data-wire="google"><i></i><i></i></span>
+              </div>
+              <div class="ads-slot">
+                <p class="ads-label">Meta</p>
+                <div class="ads-ad ads-meta" data-ad="meta">
+                  <div class="ads-site">
+                    <span class="ads-mark"></span>
+                    <span class="ads-who"><span class="ads-name">[Your practice]</span><span class="ads-sponsored">Sponsored</span></span>
+                  </div>
+                  <p class="ads-meta-text">Considering braces as an adult? Start with a conversation about your options.</p>
+                  <p class="ads-meta-art">Your questions about adult braces, answered.</p>
+                  <div class="ads-meta-foot"><span class="ads-meta-headline">Adult braces</span><span class="ads-meta-button">Learn more</span></div>
+                </div>
+                <span class="ads-wire" data-wire="meta"><i></i><i></i></span>
+                <span class="ads-wire ads-wire--pass" data-wire="google"><i></i></span>
+              </div>
+              <div class="ads-consult" data-part="consult">
+                <span class="ads-wire ads-wire--land" data-wire="land"><i></i><i></i></span>
+                <p class="ads-consult-head"><span class="lead-dot"></span>Consult booked<span class="ads-consult-time">[Time]</span></p>
+                <p class="ads-consult-who"><span class="ads-consult-name">[Name]</span>Adult braces</p>
+                <dl class="ads-consult-source">
+                  <dt>Source</dt><dd><span data-src="google">Google Search ad</span><span data-src="meta">Meta feed ad</span></dd>
+                  <dt>Campaign</dt><dd><span data-src="google">Search: Adult braces</span><span data-src="meta">Meta: Adult braces</span></dd>
+                </dl>
+                <div class="signoff ads-signoff" data-part="sign">
                   <svg class="signoff-disc founder-art" viewBox="-1 -1 2 2" focusable="false"><circle r="1"/><path d="M0.2621 -0.8819A0.92 0.92 0 1 0 0.2621 0.8819A0.8832 0.8832 0 1 1 0.2621 -0.8819Z"/></svg>
                   <span class="signoff-who">Signed by <em class="signature">Paid media</em></span>
-                  <span class="chip chip--sample">Sample</span>
-                  <img class="stamp" src="/assets/img/stamp-signed.svg" alt="" width="52" height="52">
                 </div>
               </div>
             </div>

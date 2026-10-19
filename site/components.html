@@ -113,7 +113,7 @@
             <li><a class="inline-link" href="#demo-signature">signature</a>: writes in from left to right. Runs on <code>.signature</code>.</li>
             <li><a class="inline-link" href="#demo-hooks">rise, stagger, count, draw, status</a>: the five hooks a page builder adds by hand.</li>
             <li><a class="inline-link" href="#demo-loops">loops</a>: a slow CSS loop on a sample graphic, only while it is on screen: the status chips step from new to called to consult booked. Runs on <code>[data-loop="status"]</code>. Its first frame is the finished graphic; under reduced motion it does not run.</li>
-            <li><a class="inline-link" href="#demo-vignettes">signed samples</a>: GSAP loops of about 8 to 10s in three beats (place, mark, rest): the search types itself and this month's page lands, signed by Web and SEO (<code>[data-loop="local-page"]</code>); a consult is traced down the source ledger, signed by Paid media (<code>[data-loop="ledger"]</code>); a band walks to each signed change in the monthly report and its stamp is pressed on (<code>[data-loop="report"]</code>, see <a class="inline-link" href="#demo-after-yes">after you say yes</a>). Only on screen with the tab visible; paused animations jump each one to its finished, signed state; never under reduced motion. Their panels (<code>[data-place]</code>) settle 16px into place once, at full opacity.</li>
+            <li><a class="inline-link" href="#demo-vignettes">signed samples</a>: GSAP loops of about 8 to 10s in three beats (place, mark, rest): the query is typed into a Google search field with the caret riding after the text, search is pressed and one organic result loads; a "New this month" note outside the Google page points to it, signed by Web and SEO, and the panel stamp is pressed on (<code>[data-loop="local-page"]</code>); a booked consult is traced back to the Google or the Meta ad that brought it, the other ad each cycle, signed by Paid media, and the panel stamp is pressed on (<code>[data-loop="ads"]</code>). Only on screen with the tab visible; paused animations jump each one to its finished, signed state; never under reduced motion. Their panels (<code>[data-place]</code>) settle 16px into place once, at full opacity.</li>
             <li><a class="inline-link" href="#demo-compare">the comparison</a>: many leads arrive and most fade to a ring; fewer arrive and each is booked. Loops while on screen. Runs on <code>.compare[data-loop="compare"]</code>.</li>
             <li><a class="inline-link" href="#demo-ring">founders ring</a>: on About the five discs arrive once, in ring order, <code>--stagger-ring</code> apart, then the line at the centre. Runs on <code>.founders-ring[data-ring]</code>; under reduced motion or without JavaScript the ring is simply there. The homepage ring talks instead (<code>[data-ring-talk]</code>, see <a class="inline-link" href="#demo-forest-band">the forest band</a>): its centre crossfades, opacity only, to the founder you point at, focus or tap. Its one-off introduction, when the band is about 40% in view: the discs swing out of the centre along arcs in ring order, each crescent cutting in from the outer edge as it lands, the fact rises into view, then the sage highlight goes once round the ring and settles on the fact (about 2.75s, never loops; on phones each disc rises into its place in the row). Pointing, focusing, tapping or Pause animations end it at once; under reduced motion, with animations paused or without JavaScript the ring is simply there.</li>
             <li><a class="inline-link" href="#demo-faq">accordion</a>: the answer opens and closes by height and opacity, and the plus turns with it.</li>
@@ -711,7 +711,7 @@
         </div>
 
         <div class="ref-item ref-item--wide">
-          <p class="ref-name" id="demo-loops">[data-loop="status"] on a .run-show .screen (with data-anim="none", so the one-shot behaviours leave it alone): a slow CSS loop, the chips stepping new, called, consult booked. Paused off screen, still under reduced motion. The homepage's signed samples (local-page, ledger, report) are GSAP loops, shown below.</p>
+          <p class="ref-name" id="demo-loops">[data-loop="status"] on a .run-show .screen (with data-anim="none", so the one-shot behaviours leave it alone): a slow CSS loop, the chips stepping new, called, consult booked. Paused off screen, still under reduced motion. The homepage's signed samples (local-page, ads) are GSAP loops, shown below.</p>
           <div class="ref-stage">
           <div class="cards">
             <div class="screen" data-loop="status" data-anim="none" role="img" aria-label="Sample lead card: [Name], clear aligner consult. Status: consult booked.">
@@ -756,7 +756,7 @@
         </div>
 
         <div class="ref-item ref-item--wide">
-          <p class="ref-name" id="demo-vignettes">.service-row-visual &gt; .vignette[data-loop][data-anim="none"][role="img"] (the homepage's core service rows, .service-row and .service-row--flip). local-page (.service-row-visual--search &gt; .vignette--search): an illustrative excerpt of a Google results page in the palette (.screen.gsr: the address bar on desktop only, "Google" in plain type, the search field, All, Maps and Images, one organic result), and outside it a cream note (.gsr-note: "New this month", its line, signed by Web and SEO) joined to the result's title by a forest connector (.gsr-link). Its loop: the note lifts off, the query is selected, cleared and typed into its one text node with the caret right after the typed text, search is pressed, the page loads with no result, the result places, the note and connector return, signed, and the panel stamp is pressed on. Under 640px the address bar goes and the page stacks as on a phone. ledger: a "New consult" card arrives, a band traces it down the source ledger to Search ads, the source lights, signed by Paid media. Each loop is about 8 to 10s, runs only on screen with the tab visible, starts and ends on the finished, signed state, jumps there when animations are paused and never runs under reduced motion.</p>
+          <p class="ref-name" id="demo-vignettes">.service-row-visual &gt; .vignette[data-loop][data-anim="none"][role="img"] (the homepage's core service rows, .service-row and .service-row--flip). local-page (.service-row-visual--search &gt; .vignette--search): an illustrative excerpt of a Google results page in the palette (.screen.gsr: the address bar on desktop only, "Google" in plain type, the search field, All, Maps and Images, one organic result), and outside it a cream note (.gsr-note: "New this month", its line, signed by Web and SEO) joined to the result's title by a forest connector (.gsr-link). Its loop: the note lifts off, the query is selected, cleared and typed into its one text node with the caret right after the typed text, search is pressed, the page loads with no result, the result places, the note and connector return, signed, and the panel stamp is pressed on. Under 640px the address bar goes and the page stacks as on a phone. ads (.service-row-visual--ads &gt; .vignette.ads): a caption and the Sample chip on top; a Google search ad (the search above it, Sponsored, [Your practice] and a Call button, the headline, the description, two sitelinks) and a Meta feed post ([Your practice], Sponsored, the post text, a flat forest creative with cream serif text, Adult braces and Learn more), each labelled outside its UI; under them the consult record (.ads-consult: Consult booked, [Time], [Name], the enquiry, the source ad and campaign, signed by Paid media), joined to the ad it came from by a forest wire (.ads-wire) and that ad outlined in forest. Its loop: the record clears, the next consult is placed, the wire draws from the record up to its ad, the ad is outlined, it is signed and the panel stamp is pressed on; each cycle traces the other ad (Meta, then back to Google, the finished state). In panels under 520px wide the ads stack (the Meta post becomes a compact card with a small creative) and the wire runs down a lane on the left. The panel stamp sits bottom left. Each loop is about 8 to 10s, runs only on screen with the tab visible, starts and ends on the finished, signed state, jumps there when animations are paused and never runs under reduced motion.</p>
           <div class="cards">
             <div class="service-row-visual service-row-visual--search">
               <div class="vignette vignette--search" data-loop="local-page" data-anim="none" role="img" aria-label="Sample, an illustrative search result: a Google search for braces for adults near me shows one result, [Your practice], Adult braces in [your city]. A note outside the page says it is new this month, a page answering adult patients' questions, signed by Web and SEO.">
@@ -786,28 +786,53 @@
               </div>
               <img class="stamp panel-stamp" src="/assets/img/stamp-signed.svg" alt="" width="112" height="112">
             </div>
-            <div class="service-row-visual">
-              <div class="vignette" data-loop="ledger" data-anim="none" role="img" aria-label="Sample: consults booked by source, Maps, Search ads, Meta ads and Website, each [n]. A new consult is traced to Search ads, signed by Paid media.">
-                <div class="screen screen--raised ledger">
-                  <div class="screen-head"><span class="screen-title">Consults booked, by source</span></div>
-                  <div class="ledger-new" data-part="arrival"><span class="lead-dot"></span><span><b>New consult</b> traced to Search ads</span><span class="ledger-time">[Time]</span></div>
-                  <div class="ledger-body">
-                    <span class="ledger-hl" data-part="hl"></span>
-                    <ol class="ledger-rows">
-                      <li><span>Maps</span><span class="leader"></span><b>[n]</b></li>
-                      <li class="is-key"><span>Search ads</span><span class="leader"></span><b>[n]</b></li>
-                      <li><span>Meta ads</span><span class="leader"></span><b>[n]</b></li>
-                      <li><span>Website</span><span class="leader"></span><b>[n]</b></li>
-                    </ol>
+            <div class="service-row-visual service-row-visual--ads">
+              <div class="vignette ads" data-loop="ads" data-anim="none" role="img" aria-label="Sample: a Google search ad and a Meta feed ad for adult braces from [Your practice]. A consult booked by [Name] for adult braces is traced back to the Google search ad and its campaign, signed by Paid media.">
+                <div class="ads-top"><span class="ads-caption">Illustrative ads and booking</span><span class="chip chip--sample">Sample</span></div>
+                <div class="ads-slot">
+                  <p class="ads-label">Google Search</p>
+                  <div class="ads-ad ads-google is-source" data-ad="google">
+                    <p class="ads-query"><svg class="icon" viewBox="0 0 20 20" focusable="false"><circle cx="9" cy="9" r="5.5"/><path d="m13.2 13.2 3.8 3.8"/></svg>orthodontist for adults</p>
+                    <div class="ads-site">
+                      <span class="ads-mark"><svg class="icon" viewBox="0 0 20 20" focusable="false"><circle cx="10" cy="10" r="7"/><path d="M3 10h14M10 3c-3.5 4-3.5 10 0 14M10 3c3.5 4 3.5 10 0 14"/></svg></span>
+                      <span class="ads-who"><span class="ads-name">[Your practice]</span><span class="ads-sponsored">Sponsored</span></span>
+                      <span class="ads-call"><svg class="icon" viewBox="0 0 24 24" focusable="false"><path d="M6.5 4h3l1.5 4-2 1.5a11 11 0 0 0 5.5 5.5l1.5-2 4 1.5v3a2 2 0 0 1-2 2A15.5 15.5 0 0 1 4.5 6a2 2 0 0 1 2-2z"/></svg>Call</span>
+                    </div>
+                    <p class="ads-google-title">Adult braces | Request a consult</p>
+                    <p class="ads-google-text">Braces as an adult? See what treatment involves, then ask our team about a consultation.</p>
+                    <ul class="ads-sitelinks"><li>Your first visit</li><li>Braces or clear aligners</li></ul>
                   </div>
-                  <div class="signoff" data-part="sign">
+                  <span class="ads-wire" data-wire="google"><i></i><i></i></span>
+                </div>
+                <div class="ads-slot">
+                  <p class="ads-label">Meta</p>
+                  <div class="ads-ad ads-meta" data-ad="meta">
+                    <div class="ads-site">
+                      <span class="ads-mark"></span>
+                      <span class="ads-who"><span class="ads-name">[Your practice]</span><span class="ads-sponsored">Sponsored</span></span>
+                    </div>
+                    <p class="ads-meta-text">Considering braces as an adult? Start with a conversation about your options.</p>
+                    <p class="ads-meta-art">Your questions about adult braces, answered.</p>
+                    <div class="ads-meta-foot"><span class="ads-meta-headline">Adult braces</span><span class="ads-meta-button">Learn more</span></div>
+                  </div>
+                  <span class="ads-wire" data-wire="meta"><i></i><i></i></span>
+                  <span class="ads-wire ads-wire--pass" data-wire="google"><i></i></span>
+                </div>
+                <div class="ads-consult" data-part="consult">
+                  <span class="ads-wire ads-wire--land" data-wire="land"><i></i><i></i></span>
+                  <p class="ads-consult-head"><span class="lead-dot"></span>Consult booked<span class="ads-consult-time">[Time]</span></p>
+                  <p class="ads-consult-who"><span class="ads-consult-name">[Name]</span>Adult braces</p>
+                  <dl class="ads-consult-source">
+                    <dt>Source</dt><dd><span data-src="google">Google Search ad</span><span data-src="meta">Meta feed ad</span></dd>
+                    <dt>Campaign</dt><dd><span data-src="google">Search: Adult braces</span><span data-src="meta">Meta: Adult braces</span></dd>
+                  </dl>
+                  <div class="signoff ads-signoff" data-part="sign">
                     <svg class="signoff-disc founder-art" viewBox="-1 -1 2 2" focusable="false"><circle r="1"/><path d="M0.2621 -0.8819A0.92 0.92 0 1 0 0.2621 0.8819A0.8832 0.8832 0 1 1 0.2621 -0.8819Z"/></svg>
                     <span class="signoff-who">Signed by <em class="signature">Paid media</em></span>
-                    <span class="chip chip--sample">Sample</span>
-                    <img class="stamp" src="/assets/img/stamp-signed.svg" alt="" width="52" height="52">
                   </div>
                 </div>
               </div>
+              <img class="stamp panel-stamp" src="/assets/img/stamp-signed.svg" alt="" width="112" height="112">
             </div>
           </div>
         </div>
