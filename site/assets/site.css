@@ -2032,41 +2032,150 @@ h1 em, h2 em, h3 em, .tagline em, .signed-change em { color: var(--accent-italic
   }
 }
 
-/* What happens after you say yes: four steps beside the signed monthly report (sticky beside the steps from 1025px).
-   Markup: .after-yes > ol.yes-steps > li.yes-step (span.step-num + .yes-step-text (h3.h3 + p)) ×4
-   + .after-yes-visual[data-place] > .vignette[data-loop=report] > .screen.month-report (.screen-head + .report-stats
-   + .report-feed (span.report-hl + ul.report-changes > li[data-item] (svg.signoff-disc + .report-change + img.stamp))) */
-.after-yes { display: grid; grid-template-columns: minmax(0, 6fr) minmax(0, 5fr); align-items: start; gap: var(--space-12) var(--space-16); }
-.yes-steps { display: grid; }
-.yes-step { display: grid; grid-template-columns: 72px minmax(0, 1fr); gap: var(--space-4); padding-block: var(--space-6); border-top: var(--border-w) solid var(--border-quiet); }
-.yes-step:last-child { border-bottom: var(--border-w) solid var(--border-quiet); }
-.yes-step-text { display: grid; gap: var(--space-1); }
-.yes-step p { color: var(--text-muted); }
-.after-yes-visual { position: sticky; top: calc(var(--header-h) + var(--space-8)); display: grid; grid-template-columns: minmax(0, 1fr); place-items: center; }
-.month-report .stat--key .stat-label { color: var(--forest); font-weight: 600; }
-.report-feed { position: relative; }
-.report-changes { position: relative; display: grid; }
-.report-changes > li { position: relative; display: grid; grid-template-columns: 40px minmax(0, 1fr); gap: var(--space-4); padding: var(--space-4) 52px var(--space-4) var(--space-2); border-top: var(--border-w) solid var(--border-quiet); }
-.report-changes .signoff-disc.founder-art { width: 40px; height: 40px; }
-.report-change { display: grid; justify-items: start; gap: var(--space-2); }
-/* the signer, by role, in ink 600 (the signed change item, guideline section 6) */
-.report-who { font-weight: 600; line-height: 1.3; }
-.report-changes .stamp { position: absolute; right: -6px; top: var(--space-3); width: 48px; height: 48px; }
-/* the band that walks from one signed change to the next (placed by site.js; hidden at rest) */
-.report-hl { position: absolute; left: 0; right: 0; top: 0; height: 0; border-radius: var(--radius-input); background: var(--surface-panel); opacity: 0; }
+/* ---------- the practice folder (homepage "What happens after you say yes") ---------- */
+/* The four stages after a practice says yes, each with the piece of work it hands over, filed in one folder: Sales'
+   practice notes, the adult braces page (signed by Web and SEO), the launch checklist (signed by Paid media) and the
+   monthly report's work and next steps (two signed rows). Illustrative work: a Sample chip on every sheet, brackets
+   for the practice.
+   Markup (static, no JavaScript): .folder[data-folder] (a field panel) > details.folder-stage[name] ×4, the first open,
+   each summary.folder-summary (span.folder-num + .folder-head (h3.folder-title + span.folder-line)) + .folder-panel
+   > article.folder-doc (.folder-doc-head (practice + Sample chip) + .folder-doc-body + the sign-off + img.folder-stamp).
+   site.js ("the practice folder") then adds .is-folder and rebuilds it as .folder-rail[role=tablist] of
+   button.folder-tab (number, title and line on desktop, number and short title from data-short below 1025px, and a
+   span.folder-progress) beside .folder-sheet, which holds every .folder-panel[role=tabpanel] in one grid cell: the
+   sheet keeps the tallest stage's height, so changing stage never moves the page. Below 1025px each panel opens with
+   its stage's title and line (.folder-panel-head, moved there from the summary; read-only on desktop).
+   Motion (site.js): while the folder is on screen it moves from stage to stage on its own, 1 to 4 and round again;
+   each sheet plays its one beat (the focus underlined; the page placed; the checklist ticked; each signed row lit,
+   then the stamp pressed) and rests, and the active stage's progress line fills until the next. A click, tap or key
+   on a stage stops that for the visit. Paused animations: the current stage, finished. Reduced motion: stage 1,
+   finished, stages change at once. Static state (no JavaScript, reduced motion, paused): every sheet finished. */
+.folder { display: grid; grid-template-columns: minmax(0, 1fr); padding: var(--space-8); border-radius: var(--radius-panel); background: var(--surface-alt); }
+/* a stage, as a disclosure (no JavaScript) */
+.folder-stage + .folder-stage { border-top: var(--border-w) solid var(--border-quiet); }
+.folder-summary { position: relative; display: grid; grid-template-columns: 36px minmax(0, 1fr); gap: var(--space-4); padding: var(--space-5) var(--space-10) var(--space-5) 0; cursor: pointer; list-style: none; }
+.folder-summary::-webkit-details-marker { display: none; }
+.folder-summary::after { content: ""; position: absolute; right: var(--space-2); top: 30px; width: 8px; height: 8px; border-right: 1.5px solid var(--forest); border-bottom: 1.5px solid var(--forest); rotate: 45deg; transition: rotate var(--dur-fast) var(--ease-standard); }
+.folder-stage[open] > .folder-summary::after { rotate: 225deg; top: 34px; }
+.folder-panel { display: grid; grid-template-columns: minmax(0, 1fr); padding: 0 0 var(--space-6) 52px; }
+/* the stage number: an outlined disc, filled forest on the open stage (cream on forest 8.7:1) */
+.folder-num { display: grid; place-items: center; width: 36px; height: 36px; border: var(--border-w) solid var(--border-input); border-radius: 50%; font-family: var(--font-display); font-size: 18px; line-height: 1; color: var(--forest); transition: background-color var(--dur-fast) var(--ease-standard), color var(--dur-fast) var(--ease-standard); }
+.folder-stage[open] .folder-num, .folder-tab[aria-selected="true"] .folder-num { border-color: var(--forest); background: var(--forest); color: var(--cream); }
+.folder-head { display: grid; gap: var(--space-1); }
+/* titles ink, lines label sage: 11.75:1 and 5.02:1 on field, 13.78:1 and 5.88:1 on cream */
+.folder-title, .folder-tab-title { font-size: var(--text-body-m); font-weight: 600; line-height: 1.35; }
+.folder-line, .folder-tab-line { font-size: var(--text-body-s); line-height: 1.5; color: var(--text-muted); text-wrap: pretty; }
+
+/* the folder, built by site.js: the stage rail beside the sheet */
+.folder.is-folder { grid-template-columns: 320px minmax(0, 1fr); align-items: stretch; gap: var(--space-8); }
+.folder-rail { display: grid; align-content: start; gap: var(--space-1); }
+.folder-tab { position: relative; display: grid; grid-template-columns: 36px minmax(0, 1fr); align-items: start; gap: var(--space-4); min-height: 44px; padding: var(--space-4); border: 0; border-radius: var(--radius-card); background: transparent; color: var(--text-body); font: inherit; text-align: left; cursor: pointer; transition: background-color var(--dur-fast) var(--ease-standard), box-shadow var(--dur-fast) var(--ease-standard); }
+.folder-tab:hover { background: var(--surface-panel); }
+.folder-tab[aria-selected="true"] { background: var(--surface-page); box-shadow: var(--shadow-2); }
+.folder-tab-text { display: grid; gap: var(--space-1); }
+.folder-tab-short { display: none; font-size: var(--text-body-s); font-weight: 600; line-height: 1.35; }
+/* the time to the next stage: a forest line along the active stage's foot, filled by site.js while the folder moves on its own */
+.folder-progress { position: absolute; left: var(--space-4); right: var(--space-4); bottom: 0; height: 2px; border-radius: var(--radius-pill); background: var(--forest); transform: scaleX(0); transform-origin: left center; visibility: hidden; }
+.folder-sheet { display: grid; grid-template-columns: minmax(0, 1fr); min-height: 430px; }
+.folder-sheet > .folder-panel { grid-area: 1 / 1; padding: 0; }
+.folder-sheet > .folder-panel:not(.is-current, .is-leaving) { visibility: hidden; }
+/* while the stage changes, the outgoing sheet sits on top as its work fades, then drops away (site.js) */
+.folder-sheet > .folder-panel.is-leaving { z-index: 1; }
+.folder-panel-head { display: grid; gap: var(--space-1); }
+.is-folder .folder-panel-head { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+
+/* the sheet: one piece of work on cream paper, its foot kept clear for the stamp */
+.folder-doc { position: relative; display: grid; grid-template-rows: auto 1fr auto; gap: var(--space-5); padding: var(--space-6); border-radius: var(--radius-card); background: var(--surface-page); box-shadow: var(--shadow-2); font-size: var(--text-body-s); line-height: 1.5; }
+.folder-doc-head { display: flex; align-items: flex-start; justify-content: space-between; gap: var(--space-4); padding-bottom: var(--space-4); border-bottom: var(--border-w) solid var(--border-quiet); }
+.folder-doc-name { display: grid; gap: var(--space-1); }
+.folder-doc-practice { font-size: var(--text-label); font-weight: 600; line-height: 1.4; color: var(--text-muted); }
+.folder-doc-title { font-family: var(--font-display); font-size: var(--text-h2); line-height: 1.1; }
+.folder-doc-body { display: grid; align-content: start; gap: var(--space-4); }
+/* the sign-off: what was done, then "Signed by" and the role in deep rose (.signature, 8.43:1) */
+.folder-sign { display: grid; gap: var(--space-1); padding-top: var(--space-4); border-top: var(--border-w) solid var(--border-quiet); font-size: var(--text-label); font-weight: 600; line-height: 1.4; }
+/* the signature line keeps clear of the stamp */
+.folder-sign > p:last-child { padding-right: 72px; }
+.folder-sign .signed-change, .folder-sign-note { font-size: var(--text-body-s); font-weight: 400; }
+.folder-sign .signature { display: inline; margin-left: var(--space-1); font-size: 1.6em; line-height: 1; }
+.folder-stamp { position: absolute; right: var(--space-4); bottom: var(--space-4); width: 48px; height: 48px; }
+.folder-stamp--large { right: var(--space-3); bottom: var(--space-3); width: 64px; height: 64px; }
+
+/* 1. practice notes: what Sales asks, and the focus it leads to, underlined */
+.folder-notes > div { display: grid; grid-template-columns: 120px minmax(0, 1fr); gap: var(--space-4); padding-block: var(--space-3); }
+.folder-notes > div + div, .folder-checks li + li { border-top: var(--border-w) solid var(--border-quiet); }
+.folder-notes dt { font-size: var(--text-label); font-weight: 600; line-height: 1.6; color: var(--text-muted); }
+.folder-notes dd { font-size: var(--text-body-m); line-height: 1.4; }
+.folder-notes .is-key dd { font-weight: 600; color: var(--forest); }
+.folder-focus { position: relative; display: inline-block; padding-bottom: 3px; }
+.folder-underline { position: absolute; left: 0; right: 0; bottom: 0; height: 2px; border-radius: var(--radius-pill); background: var(--forest); transform-origin: left center; }
+/* 2. the adult braces page, as a small page in its window */
+.folder-page { overflow: hidden; border: var(--border-w) solid var(--border-quiet); border-radius: var(--radius-input); background: var(--surface-page); box-shadow: var(--shadow-1); }
+.folder-page-bar { display: flex; gap: var(--space-2); padding: var(--space-3) var(--space-4); background: var(--surface-panel); }
+.folder-page-bar i { width: 8px; height: 8px; border-radius: 50%; background: var(--fill-quiet); }
+.folder-page-body { display: grid; justify-items: start; gap: var(--space-3); padding: var(--space-5); }
+.folder-page-title { font-family: var(--font-display); font-size: var(--text-h2); line-height: 1.1; color: var(--forest); }
+.folder-page-button { padding: var(--space-2) var(--space-4); border-radius: var(--radius-pill); background: var(--forest); color: var(--cream); font-size: var(--text-label); font-weight: 600; }
+/* 3. the launch checklist: three rows, each ticked */
+.folder-checks li { display: grid; grid-template-columns: 20px minmax(0, 1fr); align-items: center; gap: var(--space-3); padding-block: var(--space-3); font-size: var(--text-body-m); line-height: 1.4; }
+.folder-checks .icon { color: var(--forest); }
+/* 4. the monthly report's work and next steps: two signed rows, then what comes next */
+.folder-work li { display: grid; grid-template-columns: 32px minmax(0, 1fr); align-items: start; gap: var(--space-3); padding: var(--space-3); border-radius: var(--radius-input); }
+.folder-work li + li { margin-top: var(--space-1); }
+.folder-disc.founder-art { position: static; width: 32px; height: 32px; transform: rotate(-90deg); }
+.folder-who { display: block; font-size: var(--text-label); font-weight: 600; line-height: 1.4; }
+.folder-work .signed-change { font-size: var(--text-body-m); line-height: 1.4; }
+.folder-next { border: var(--border-w) solid var(--border-quiet); }
+.folder-next .icon { justify-self: center; margin-top: 6px; color: var(--forest); }
+.folder-disclosure { padding: var(--space-4) 88px 0 0; border-top: var(--border-w) solid var(--border-quiet); font-size: var(--text-caption); line-height: 1.4; color: var(--text-muted); }
+
+/* under 1025px: a row of four steps (two by two on phones) over the sheet; each sheet opens with its stage's title */
+@media (max-width: 1024px) {
+  .folder.is-folder { grid-template-columns: minmax(0, 1fr); gap: var(--space-4); }
+  .folder-rail { grid-template-columns: repeat(4, minmax(0, 1fr)); gap: var(--space-2); }
+  .folder-tab { grid-template-columns: 28px minmax(0, 1fr); align-items: center; gap: var(--space-2); padding: var(--space-2) var(--space-3); }
+  .folder-tab .folder-num { width: 28px; height: 28px; font-size: 15px; }
+  .folder-tab-text { display: none; }
+  .folder-tab-short { display: block; }
+  .folder-progress { left: var(--space-3); right: var(--space-3); }
+  .folder-sheet { min-height: 0; }
+  .folder-sheet > .folder-panel { grid-template-rows: auto minmax(0, 1fr); gap: var(--space-3); }
+  .is-folder .folder-panel-head { position: static; width: auto; height: auto; overflow: visible; clip-path: none; white-space: normal; padding-inline: var(--space-1); }
+}
+@media (max-width: 640px) {
+  .folder { padding: var(--space-3); border-radius: var(--radius-card); }
+  .folder.is-folder { gap: var(--space-3); }
+  .folder-rail { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .folder-panel { padding-left: 0; }
+  .folder-summary { gap: var(--space-3); padding-block: var(--space-4); }
+  .folder-tab { padding-inline: var(--space-2); }
+  .folder-doc { gap: var(--space-3); padding: var(--space-4); }
+  .folder-doc-head { padding-bottom: var(--space-3); }
+  .folder-doc-title { font-size: 24px; }
+  .folder-notes > div { grid-template-columns: minmax(0, 1fr); gap: 0; padding-block: var(--space-2); }
+  .folder-notes dd, .folder-checks li, .folder-work .signed-change { font-size: var(--text-body-s); }
+  .folder-checks li { padding-block: var(--space-2); }
+  .folder-page-body { gap: var(--space-2); padding: var(--space-3) var(--space-4) var(--space-4); }
+  .folder-page-title { font-size: 22px; }
+  .folder-page-bar { display: none; }
+  .folder-work li { padding: var(--space-1) var(--space-2); }
+  .folder-work li + li { margin-top: 0; }
+  .folder-stamp { right: var(--space-3); bottom: var(--space-3); }
+  .folder-sign > p { padding-right: 64px; }
+  .folder-stamp--large { width: 56px; height: 56px; }
+  .folder-disclosure { padding: var(--space-2) 72px 0 0; }
+  .folder + .cta-line { margin-top: var(--space-8); }
+}
 
 @media (max-width: 1024px) {
-  .service-row, .service-row--flip, .after-yes { grid-template-columns: minmax(0, 1fr); }
+  .service-row, .service-row--flip { grid-template-columns: minmax(0, 1fr); }
   .service-row--flip .service-row-copy { order: 0; }
   .service-rows { gap: var(--space-16); }
-  .after-yes-visual { position: static; }
+
 }
 @media (max-width: 640px) {
   .service-row-visual { min-height: 0; padding: var(--space-6) var(--space-4); border-radius: var(--radius-card); }
   .vignette .screen { --screen-pad: var(--space-5); }
   .signoff .stamp { right: -8px; width: 44px; height: 44px; margin-top: -20px; }
-  .yes-step { grid-template-columns: 52px minmax(0, 1fr); }
-  .month-report .report-stats { gap: var(--space-2); }
 }
 
 /* Placing: a sample panel settles 16px into place the first time it reaches the screen, always at full opacity, so

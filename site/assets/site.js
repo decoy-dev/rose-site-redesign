@@ -776,23 +776,6 @@
         hold(tl, cycle('meta', 'google', first + HOLD + REST));
         return tl;
       },
-      // the monthly report: a band walks to each signed change and the stamp is pressed on it
-      report: (el) => {
-        const items = el.querySelectorAll('[data-item]');
-        const stamps = el.querySelectorAll('.report-changes .stamp');
-        const hl = el.querySelector('[data-part="hl"]');
-        const box = (li) => ({ y: li.offsetTop, height: li.offsetHeight });
-        const tl = gsap.timeline({ paused: true, repeat: -1 });
-        tl.to(stamps, { autoAlpha: 0, duration: SLOW, ease: 'power2.in' }, 0)
-          .set(hl, box(items[0]), 0.3)
-          .to(hl, { autoAlpha: 1, duration: SLOW }, 0.5);
-        press(tl, stamps[0], 0.95);
-        tl.to(hl, { ...box(items[1]), duration: REST, ease: 'power3.out' }, 2.6);
-        press(tl, stamps[1], 3.1);
-        tl.to(hl, { autoAlpha: 0, duration: REST }, 3.8);
-        hold(tl, 4.4);
-        return tl;
-      },
       // patient follow-up (the add-ons deck's first card): the call is noted, the concierge's text goes out, the
       // consultation is booked in the practice's software, and it is signed by Follow-up
       follow: (el) => {
@@ -861,6 +844,279 @@
       el.classList.add('is-placing');
       placer.observe(el);
     });
+  }
+
+  // ----- the practice folder (homepage "What happens after you say yes", [data-folder]; site.css "the practice folder") -----
+  // The markup is four native disclosures (details[name], the first open), so without this script every stage opens in
+  // place. This rebuilds them as a folder: a tablist of stages (button.folder-tab: number, title and line, a short
+  // title from data-short for narrow screens, and the progress line) beside one sheet holding every stage's panel in a
+  // single grid cell (so the sheet keeps the tallest one's height and nothing moves when the stage changes). The
+  // stage's title and line move from its summary to the top of its panel (shown below 1025px, kept for screen readers
+  // above). Tabs: click or tap, Left/Right/Up/Down, Home and End; the selected tab is the one tab stop.
+  // Motion, only with GSAP, while at least 35% of the folder is on screen and the tab is visible: the folder moves
+  // from stage to stage on its own, 1 to 4 and round again. The incoming sheet's work fades in (150ms out, 250ms in;
+  // the sheet's head and Sample chip stay put) and plays its one beat: the focus is underlined (Sales' notes), the
+  // page is placed (Web and SEO), the checklist is ticked row by row (Paid media), each signed row of the report is
+  // lit in turn; then the sign-off returns and the stamp is pressed (the same press as the signed samples). It rests
+  // (--hold-lower-third) while the active stage's progress line fills, then the next stage. The first stage, on first
+  // view, holds finished for --rest-bloom before its beat replays. Off screen or in a hidden tab it holds where it is.
+  // A click, tap or key on a stage (or keyboard focus arriving on one) stops the moving on for the rest of the visit:
+  // the chosen stage plays its beat once and rests. Paused animations stop on the current stage, finished; a later
+  // play starts that stage again. Under reduced motion nothing is built: stage 1, finished, and stages change at once.
+  // The static markup is every stage's finished state, so stopping only ever clears what the timeline set.
+  const folder = document.querySelector('[data-folder]');
+  if (folder && folder.querySelector('details.folder-stage')) {
+    const gsap = window.gsap;
+    const stages = [...folder.querySelectorAll(':scope > details.folder-stage')];
+    const rail = document.createElement('div');
+    rail.className = 'folder-rail';
+    rail.setAttribute('role', 'tablist');
+    rail.setAttribute('aria-label', 'Stages after you say yes');
+    const sheet = document.createElement('div');
+    sheet.className = 'folder-sheet';
+    const span = (cls, text) => { const s = document.createElement('span'); s.className = cls; if (text) s.textContent = text; return s; };
+    const tabs = [];
+    const bars = [];
+    const panels = stages.map((stage, i) => {
+      const summary = stage.querySelector('summary');
+      const panel = stage.querySelector('.folder-panel');
+      const title = summary.querySelector('.folder-title');
+      const line = summary.querySelector('.folder-line');
+      const id = 'folder-stage-' + (i + 1);
+      const tab = document.createElement('button');
+      tab.type = 'button';
+      tab.className = 'folder-tab';
+      tab.id = id + '-tab';
+      tab.setAttribute('role', 'tab');
+      tab.setAttribute('aria-controls', id);
+      const text = span('folder-tab-text');
+      text.append(span('folder-tab-title', title.textContent), span('folder-tab-line', line.textContent));
+      const bar = span('folder-progress');
+      bar.setAttribute('aria-hidden', 'true');
+      tab.append(summary.querySelector('.folder-num'), text, span('folder-tab-short', stage.dataset.short || title.textContent), bar);
+      const head = document.createElement('div');
+      head.className = 'folder-panel-head';
+      head.append(title, line);
+      panel.prepend(head);
+      panel.id = id;
+      panel.setAttribute('role', 'tabpanel');
+      panel.setAttribute('aria-labelledby', tab.id);
+      panel.tabIndex = 0;
+      tabs.push(tab);
+      bars.push(bar);
+      rail.append(tab);
+      sheet.append(panel);
+      return panel;
+    });
+    stages.forEach((stage) => stage.remove());
+    folder.append(rail, sheet);
+    folder.classList.add('is-folder');
+
+    let index = 0;
+    const mark = () => {
+      tabs.forEach((tab, i) => {
+        tab.setAttribute('aria-selected', String(i === index));
+        tab.tabIndex = i === index ? 0 : -1;
+      });
+      panels.forEach((panel, i) => panel.classList.toggle('is-current', i === index));
+    };
+    mark();
+
+    const token = (name) => getComputedStyle(root).getPropertyValue(name).trim();
+    const FAST = seconds('--dur-fast', 0.15);
+    const MED = seconds('--dur-med', 0.25);
+    const SLOW = seconds('--dur-slow', 0.4);
+    const REST = seconds('--rest-bloom', 0.6);
+    const HOLD = seconds('--hold-lower-third', 4);
+    const clear = (hex) => { const n = parseInt(hex.replace('#', ''), 16); return 'rgba(' + (n >> 16) + ', ' + ((n >> 8) & 255) + ', ' + (n & 255) + ', 0)'; };
+    const motionOK = () => Boolean(gsap) && !reduceMotion.matches && !motionPaused() && !document.hidden;
+    // the stamp, pressed on: the signed samples' press (down fast and a touch past, then settled; its tilt lives in CSS)
+    const press = (tl, stamp, at) => {
+      tl.fromTo(stamp, { autoAlpha: 0, scale: 1.7, rotation: -24 }, { autoAlpha: 0.9, scale: 0.93, rotation: 0, duration: MED, ease: 'power2.in', immediateRender: false }, at)
+        .to(stamp, { scale: 1, duration: MED * 0.8, ease: 'power2.out' }, at + MED);
+      return at + MED * 1.8;
+    };
+    // each stage's beat: what it hides before the beat (from, set at once or faded out over FAST) and the beat itself,
+    // which ends on the static markup's finished state and returns its end time
+    const BEATS = panels.map((panel) => {
+      const q = (sel) => [...panel.querySelectorAll(sel)];
+      const sign = q('.folder-sign');
+      const stamp = panel.querySelector('.folder-stamp');
+      const signIn = (tl, at) => { if (sign.length) tl.fromTo(sign, { autoAlpha: 0, y: 8 }, { autoAlpha: 1, y: 0, duration: MED, ease: 'power2.out', immediateRender: false }, at); return at + MED; };
+      const kind = panel.querySelector('.folder-doc').dataset.stage;
+      if (kind === 'notes') {
+        const line = panel.querySelector('[data-part="focus"]');
+        return {
+          from: [[line, { scaleX: 0 }], [sign, { autoAlpha: 0 }]],
+          play: (tl, at) => { tl.fromTo(line, { scaleX: 0 }, { scaleX: 1, duration: MED, ease: 'power2.out', immediateRender: false }, at); return signIn(tl, at + MED + FAST); },
+        };
+      }
+      if (kind === 'page') {
+        const page = panel.querySelector('[data-part="page"]');
+        return {
+          from: [[page, { autoAlpha: 0, y: 8 }], [sign, { autoAlpha: 0 }], [stamp, { autoAlpha: 0 }]],
+          play: (tl, at) => {
+            tl.fromTo(page, { autoAlpha: 0, y: 8 }, { autoAlpha: 1, y: 0, duration: SLOW, ease: 'power2.out', immediateRender: false }, at);
+            return press(tl, stamp, signIn(tl, at + SLOW + FAST));
+          },
+        };
+      }
+      if (kind === 'launch') {
+        const ticks = q('[data-part="check"] path');
+        const rows = q('[data-part="check"] > span:not(.sr-only)');
+        const lengths = ticks.map((t) => t.getTotalLength());
+        return {
+          from: [[ticks, { strokeDasharray: (i) => lengths[i], strokeDashoffset: (i) => lengths[i] }], [rows, { color: token('--text-muted') }], [sign, { autoAlpha: 0 }], [stamp, { autoAlpha: 0 }]],
+          play: (tl, at) => {
+            ticks.forEach((tick, i) => {
+              const t = at + i * (MED + FAST);
+              tl.fromTo(tick, { strokeDasharray: lengths[i], strokeDashoffset: lengths[i] }, { strokeDashoffset: 0, duration: MED, ease: 'power2.out', immediateRender: false }, t)
+                .fromTo(rows[i], { color: token('--text-muted') }, { color: token('--text-body'), duration: MED, ease: 'power2.out', immediateRender: false }, t);
+            });
+            return press(tl, stamp, signIn(tl, at + ticks.length * (MED + FAST)));
+          },
+        };
+      }
+      // the report: each signed row lit in turn (sage mist, forest on sage mist 7.55:1), then the stamp
+      const rowEls = q('[data-part="row"]');
+      const lit = token('--surface-panel');
+      return {
+        from: [[stamp, { autoAlpha: 0 }]],
+        play: (tl, at) => {
+          tl.fromTo(rowEls[0], { backgroundColor: clear(lit) }, { backgroundColor: lit, duration: SLOW, ease: 'power2.out', immediateRender: false }, at)
+            .to(rowEls[0], { backgroundColor: clear(lit), duration: SLOW, ease: 'power2.out' }, at + SLOW + REST)
+            .fromTo(rowEls[1], { backgroundColor: clear(lit) }, { backgroundColor: lit, duration: SLOW, ease: 'power2.out', immediateRender: false }, at + SLOW + REST)
+            .to(rowEls[1], { backgroundColor: clear(lit), duration: SLOW, ease: 'power2.out' }, at + 2 * SLOW + 2 * REST);
+          return press(tl, stamp, at + 2 * SLOW + 2 * REST);
+        },
+      };
+    });
+    // what fades when the stage changes: the outgoing sheet's work, and the incoming one's (its sign-off and stamp wait
+    // for the beat); the sheet itself, its practice line and its Sample chip stay put
+    const OUTGOING = '.folder-panel-head, .folder-doc-title, .folder-doc-body, .folder-sign, .folder-disclosure, .folder-stamp';
+    const INCOMING = '.folder-panel-head, .folder-doc-title, .folder-doc-body, .folder-disclosure';
+    const moves = (panel, sel) => [...panel.querySelectorAll(sel)];
+    const moved = panels.map((panel) => moves(panel, OUTGOING + ', [data-part]'));
+
+    let auto = true;
+    let live = false;
+    let fresh = true;
+    let run = null;
+    let swap = null;
+    // back to the markup: every sheet finished, no progress showing
+    const settle = () => {
+      if (run) run.kill();
+      if (swap) swap.kill();
+      run = null;
+      swap = null;
+      if (!gsap) return;
+      panels.forEach((panel) => panel.classList.remove('is-leaving'));
+      gsap.set([...panels, ...moved.flat(), ...bars, ...panels.flatMap((p) => moves(p, '[data-part="check"] path, [data-part="check"] > span'))], { clearProps: 'all' });
+    };
+    // one visit to the current stage: (on first view, hold it finished, then fade out what the beat brings back) the
+    // beat; then, while it moves on its own, the rest with the progress line filling, and the next stage
+    const visit = (first) => {
+      const beat = BEATS[index];
+      const tl = gsap.timeline({ paused: true });
+      let at = 0;
+      if (first) {
+        at = REST;
+        beat.from.forEach(([targets, vars]) => tl.to(targets, { ...vars, duration: FAST, ease: 'power2.in' }, at));
+        at += FAST;
+      } else {
+        at = FAST + MED;
+      }
+      const end = beat.play(tl, at) + (auto ? HOLD : 0);
+      if (auto) {
+        tl.fromTo(bars[index], { autoAlpha: 1, scaleX: 0 }, { scaleX: 1, duration: end, ease: 'none', immediateRender: false }, 0)
+          .call(() => go(index + 1, false), null, end);
+      }
+      run = tl;
+      tl.play();
+    };
+    // change stage: the outgoing sheet's work fades over FAST, the incoming one's (in its pre-beat state) over MED;
+    // without motion, at once
+    const go = (next, chosen) => {
+      next = (next + panels.length) % panels.length;
+      const from = index;
+      if (chosen) auto = false;
+      if (!motionOK()) {
+        settle();
+        index = next;
+        mark();
+        return;
+      }
+      if (run) run.kill();
+      if (swap) swap.progress(1).kill();
+      run = null;
+      gsap.set(bars, { clearProps: 'all' });
+      if (next !== from) {
+        index = next;
+        mark();
+        const leaving = panels[from];
+        const coming = panels[next];
+        // the outgoing sheet stays on top while its work fades, then drops away to the incoming one
+        leaving.classList.add('is-leaving');
+        gsap.set(moved[next], { clearProps: 'all' });
+        BEATS[next].from.forEach(([targets, vars]) => gsap.set(targets, vars));
+        const left = () => { leaving.classList.remove('is-leaving'); gsap.set(moved[from], { clearProps: 'all' }); };
+        swap = gsap.timeline({ onComplete: () => { swap = null; } })
+          .to(moves(leaving, OUTGOING), { autoAlpha: 0, duration: FAST, ease: 'power2.in' }, 0)
+          .fromTo(moves(coming, INCOMING), { autoAlpha: 0, y: 8 }, { autoAlpha: 1, y: 0, duration: MED, ease: 'power2.out' }, FAST)
+          .call(left, null, FAST);
+        visit(false);
+      } else {
+        settle(); // the stage already showing, chosen: it stays, finished
+      }
+    };
+    const sync = () => {
+      if (live && motionOK()) {
+        if (fresh) {
+          fresh = false;
+          if (auto) { settle(); visit(true); }
+        } else if (run) run.resume();
+        if (swap) swap.resume();
+      } else if (!document.hidden && !motionOK()) {
+        settle(); // paused by the visitor (or reduced motion switched on): this stage, finished; play starts it again
+        fresh = true;
+      } else {
+        if (run) run.pause(); // off screen or tab hidden: hold where it is
+        if (swap) swap.pause();
+      }
+    };
+
+    // the visitor takes over: any click, tap or key on a stage (or keyboard focus arriving on one)
+    const takeOver = () => {
+      if (!auto) return;
+      auto = false;
+      if (run) { settle(); fresh = false; }
+    };
+    rail.addEventListener('pointerdown', (e) => { if (e.target.closest('.folder-tab')) takeOver(); });
+    rail.addEventListener('focusin', (e) => { if (e.target.matches(':focus-visible')) takeOver(); });
+    rail.addEventListener('click', (e) => {
+      const tab = e.target.closest('.folder-tab');
+      if (!tab) return;
+      takeOver();
+      go(tabs.indexOf(tab), true);
+    });
+    rail.addEventListener('keydown', (e) => {
+      const keys = { ArrowRight: index + 1, ArrowDown: index + 1, ArrowLeft: index - 1, ArrowUp: index - 1, Home: 0, End: panels.length - 1 };
+      takeOver();
+      if (!(e.key in keys)) return;
+      e.preventDefault();
+      go(keys[e.key], true);
+      tabs[index].focus();
+    });
+
+    if (gsap && 'IntersectionObserver' in window) {
+      new IntersectionObserver(([entry]) => {
+        live = entry.isIntersecting;
+        sync();
+      }, { threshold: 0.35 }).observe(folder);
+      document.addEventListener('visibilitychange', sync);
+      root.addEventListener('rose:motion', sync);
+      reduceMotion.addEventListener('change', sync);
+    }
   }
 
   // ----- the talking ring (homepage why-us band, [data-ring-talk]; site.css "the talking ring") -----

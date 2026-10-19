@@ -551,43 +551,94 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     </div>
   </section>
 
-  <!-- 4. What happens after you say yes: four of the onboarding steps (worded as in /services#after-yes and /pricing) beside
-       the signed monthly report (.month-report, a signed sample: a band walks to each signed change and the stamp is pressed
-       on it). The full list, with the agreement and the terms, is on /services#after-yes. -->
+  <!-- 4. What happens after you say yes: the practice folder (site.css and site.js "the practice folder"). Four stages,
+       each one of the onboarding steps (worded as in /services#after-yes and /pricing), and in each the piece of work
+       that stage hands over: Sales' practice notes, the adult braces page Web and SEO built, Paid media's launch
+       checklist, and the first monthly report's work and next steps. In the markup each stage is a native disclosure
+       (details[name] > summary + .folder-panel), the first one open, so without JavaScript every stage opens in place.
+       site.js turns them into a stage rail (desktop) or a four-step selector (phones) beside one sheet that holds the
+       chosen stage's work, and moves through the stages on its own while the folder is on screen. Illustrative work,
+       not a client portal: brackets stand in for the practice, no dates, no results. The full list, with the
+       agreement and the terms, is on /services#after-yes. -->
   <section class="section" id="after-yes" aria-labelledby="after-yes-title">
     <div class="wrap">
       <div class="head-row reveal">
         <h2 class="display-l" id="after-yes-title">What happens after you say <em>yes</em><span class="sr-only"> to Rose Practice Solutions</span>.</h2>
         <p>The same steps for every practice on the Core Marketing Plan, with the same people at each one.</p>
       </div>
-      <div class="after-yes">
-        <ol class="yes-steps" data-anim="stagger">
-          <li class="yes-step"><span class="step-num" aria-hidden="true">01</span><div class="yes-step-text"><h3 class="h3">A first conversation.</h3><p>About your practice, your patients and what you've already tried.</p></div></li>
-          <li class="yes-step"><span class="step-num" aria-hidden="true">02</span><div class="yes-step-text"><h3 class="h3">Your website, built from your practice.</h3><p>Not a template. We also set up local SEO and keep your Google Business Profile current.</p></div></li>
-          <li class="yes-step"><span class="step-num" aria-hidden="true">03</span><div class="yes-step-text"><h3 class="h3">Your ads go live.</h3><p>Google and Meta ads, run from ad accounts in your name.</p></div></li>
-          <li class="yes-step"><span class="step-num" aria-hidden="true">04</span><div class="yes-step-text"><h3 class="h3">Your first monthly report.</h3><p>What we did, what it brought in, and what we're changing next.</p></div></li>
-        </ol>
-        <div class="after-yes-visual" data-place>
-          <div class="vignette" data-loop="report" data-anim="none" role="img" aria-label="Sample: the [Month] report for [your practice name], with [n] new leads, [n] reached and [n] consults booked, and two signed changes, one by Paid media and one by Web and SEO.">
-            <div class="screen screen--raised month-report">
-              <div class="screen-head"><span class="screen-title">[Month] report, [your practice name]</span><span class="chip chip--sample">Sample</span></div>
-              <div class="report-stats">
-                <div class="stat"><span class="stat-num">[n]</span><span class="stat-label">New leads</span></div>
-                <div class="stat"><span class="stat-num">[n]</span><span class="stat-label">Reached</span></div>
-                <div class="stat stat--key"><span class="stat-num">[n]</span><span class="stat-label">Consults booked</span></div>
+      <div class="folder" data-folder data-anim="none" data-place>
+        <details class="folder-stage" name="after-yes-stage" data-short="Conversation" open>
+          <summary class="folder-summary"><span class="folder-num" aria-hidden="true">01</span><span class="folder-head"><h3 class="folder-title">A first conversation.</h3><span class="folder-line">About your practice, your patients and what you've already tried.</span></span></summary>
+          <div class="folder-panel">
+            <article class="folder-doc" data-stage="notes" aria-label="Sample: practice notes, prepared by Sales">
+              <div class="folder-doc-head"><div class="folder-doc-name"><span class="folder-doc-practice">[Your practice]</span><p class="folder-doc-title">Practice notes</p></div><span class="chip chip--sample">Sample</span></div>
+              <div class="folder-doc-body">
+                <dl class="folder-notes">
+                  <div><dt>We ask</dt><dd>Which patients are you hoping to reach?</dd></div>
+                  <div><dt>We ask</dt><dd>What have you already tried?</dd></div>
+                  <div class="is-key"><dt>Example focus</dt><dd><span class="folder-focus">Adult braces enquiries<span class="folder-underline" data-part="focus" aria-hidden="true"></span></span></dd></div>
+                </dl>
               </div>
-              <div class="report-feed">
-                <span class="report-hl" data-part="hl"></span>
-                <ul class="report-changes">
-                  <li class="signed-change" data-item><svg class="signoff-disc founder-art" viewBox="-1 -1 2 2" focusable="false"><circle r="1"/><path d="M0.2621 -0.8819A0.92 0.92 0 1 0 0.2621 0.8819A0.8832 0.8832 0 1 1 0.2621 -0.8819Z"/></svg><div class="report-change"><span class="report-who">Paid media</span><p class="signed-change">Moved budget from Meta to the <em>braces</em> search campaign.</p><span class="chip">Google Ads</span></div><img class="stamp" src="/assets/img/stamp-signed.svg" alt="" width="52" height="52"></li>
-                  <li class="signed-change" data-item><svg class="signoff-disc founder-art" viewBox="-1 -1 2 2" focusable="false"><circle r="1"/><path d="M0.2621 -0.8819A0.92 0.92 0 1 0 0.2621 0.8819A0.8832 0.8832 0 1 1 0.2621 -0.8819Z"/></svg><div class="report-change"><span class="report-who">Web and SEO</span><p class="signed-change">Put your holiday hours on your <em>Google Business Profile</em>.</p><span class="chip">Local SEO</span></div><img class="stamp" src="/assets/img/stamp-signed.svg" alt="" width="52" height="52"></li>
+              <div class="folder-sign" data-part="sign"><p>Prepared by <em class="signature">Sales</em></p></div>
+            </article>
+          </div>
+        </details>
+        <details class="folder-stage" name="after-yes-stage" data-short="Website">
+          <summary class="folder-summary"><span class="folder-num" aria-hidden="true">02</span><span class="folder-head"><h3 class="folder-title">Your website, built from your practice.</h3><span class="folder-line">Not a template. We also set up local SEO and keep your Google Business Profile current.</span></span></summary>
+          <div class="folder-panel">
+            <article class="folder-doc" data-stage="page" aria-label="Sample: the adult braces page, signed by Web and SEO">
+              <div class="folder-doc-head"><div class="folder-doc-name"><span class="folder-doc-practice">[Your practice]</span><p class="folder-doc-title">Adult braces page</p></div><span class="chip chip--sample">Sample</span></div>
+              <div class="folder-doc-body">
+                <div class="folder-page" data-part="page">
+                  <div class="folder-page-bar" aria-hidden="true"><i></i><i></i><i></i></div>
+                  <div class="folder-page-body">
+                    <p class="folder-page-title">Adult braces in [your city]</p>
+                    <p>What to expect at your first visit, treatment questions, and how to request a consultation.</p>
+                    <span class="folder-page-button">Request a consultation</span>
+                  </div>
+                </div>
+              </div>
+              <div class="folder-sign" data-part="sign"><p class="signed-change">Built the page around adult patients' <em>questions</em>.</p><p>Signed by <em class="signature">Web and SEO</em></p></div>
+              <img class="stamp folder-stamp" src="/assets/img/stamp-signed.svg" alt="" width="48" height="48">
+            </article>
+          </div>
+        </details>
+        <details class="folder-stage" name="after-yes-stage" data-short="Ads go live">
+          <summary class="folder-summary"><span class="folder-num" aria-hidden="true">03</span><span class="folder-head"><h3 class="folder-title">Your ads go live.</h3><span class="folder-line">Google and Meta ads, run from ad accounts in your name.</span></span></summary>
+          <div class="folder-panel">
+            <article class="folder-doc" data-stage="launch" aria-label="Sample: the launch checklist, signed by Paid media">
+              <div class="folder-doc-head"><div class="folder-doc-name"><span class="folder-doc-practice">[Your practice]</span><p class="folder-doc-title">Launch checklist</p></div><span class="chip chip--sample">Sample</span></div>
+              <div class="folder-doc-body">
+                <ul class="folder-checks">
+                  <li data-part="check"><svg class="icon" viewBox="0 0 20 20" aria-hidden="true" focusable="false"><rect x="2.75" y="2.75" width="14.5" height="14.5" rx="4"/><path d="m6.5 10.2 2.4 2.4 4.6-5"/></svg><span>Google ad linked to the adult braces page</span><span class="sr-only">, done</span></li>
+                  <li data-part="check"><svg class="icon" viewBox="0 0 20 20" aria-hidden="true" focusable="false"><rect x="2.75" y="2.75" width="14.5" height="14.5" rx="4"/><path d="m6.5 10.2 2.4 2.4 4.6-5"/></svg><span>Meta ad linked to the adult braces page</span><span class="sr-only">, done</span></li>
+                  <li data-part="check"><svg class="icon" viewBox="0 0 20 20" aria-hidden="true" focusable="false"><rect x="2.75" y="2.75" width="14.5" height="14.5" rx="4"/><path d="m6.5 10.2 2.4 2.4 4.6-5"/></svg><span>Call and conversion tracking set up</span><span class="sr-only">, done</span></li>
                 </ul>
               </div>
-            </div>
+              <div class="folder-sign" data-part="sign"><p class="folder-sign-note">Ad accounts in your practice's name.</p><p>Signed by <em class="signature">Paid media</em></p></div>
+              <img class="stamp folder-stamp" src="/assets/img/stamp-signed.svg" alt="" width="48" height="48">
+            </article>
           </div>
-        </div>
+        </details>
+        <details class="folder-stage" name="after-yes-stage" data-short="Report">
+          <summary class="folder-summary"><span class="folder-num" aria-hidden="true">04</span><span class="folder-head"><h3 class="folder-title">Your first monthly report.</h3><span class="folder-line">What we did, what it brought in, and what we're changing next.</span></span></summary>
+          <div class="folder-panel">
+            <article class="folder-doc" data-stage="report" aria-label="Sample: the monthly report's work and next steps, signed by Web and SEO and by Paid media">
+              <div class="folder-doc-head"><div class="folder-doc-name"><span class="folder-doc-practice">[Your practice]</span><p class="folder-doc-title">Work and next steps</p></div><span class="chip chip--sample">Sample</span></div>
+              <div class="folder-doc-body">
+                <ul class="folder-work">
+                  <li class="signed-change" data-part="row"><svg class="folder-disc founder-art" viewBox="-1 -1 2 2" aria-hidden="true" focusable="false"><circle r="1"/><path d="M0.2621 -0.8819A0.92 0.92 0 1 0 0.2621 0.8819A0.8832 0.8832 0 1 1 0.2621 -0.8819Z"/></svg><div><span class="folder-who">Web and SEO</span><p class="signed-change">Published the <em>adult braces</em> page.</p></div></li>
+                  <li class="signed-change" data-part="row"><svg class="folder-disc founder-art" viewBox="-1 -1 2 2" aria-hidden="true" focusable="false"><circle r="1"/><path d="M0.2621 -0.8819A0.92 0.92 0 1 0 0.2621 0.8819A0.8832 0.8832 0 1 1 0.2621 -0.8819Z"/></svg><div><span class="folder-who">Paid media</span><p class="signed-change">Matched the ads to the <em>adult braces</em> page.</p></div></li>
+                  <li class="folder-next"><svg class="icon" viewBox="0 0 20 20" aria-hidden="true" focusable="false"><circle cx="10" cy="10" r="8.25"/><path d="M6 10h7.5M10.5 7l3 3-3 3"/></svg><div><span class="folder-who">Next</span><p>Review enquiries and booked consults with your team.</p></div></li>
+                </ul>
+              </div>
+              <p class="folder-disclosure">Work excerpt only. Sample results are not shown.</p>
+              <img class="stamp folder-stamp folder-stamp--large" src="/assets/img/stamp-signed.svg" alt="" width="64" height="64">
+            </article>
+          </div>
+        </details>
       </div>
-      <p class="cta-line">Every step, from the agreement to the first report. <a class="btn btn--secondary btn--small" href="/services#after-yes">See every step <svg class="arrow" viewBox="0 0 22 12" aria-hidden="true" focusable="false"><path d="M1 6h19M15 1l5 5-5 5"/></svg></a></p>
+      <p class="cta-line"><a class="btn btn--secondary btn--small" href="/services#after-yes">See every step <svg class="arrow" viewBox="0 0 22 12" aria-hidden="true" focusable="false"><path d="M1 6h19M15 1l5 5-5 5"/></svg></a></p>
     </div>
   </section>
 
