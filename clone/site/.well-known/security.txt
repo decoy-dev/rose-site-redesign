@@ -1,0 +1,5 @@
+Contact: mailto:hello@rosepracticesolutions.com
+Expires: 2027-10-12T00:00:00.000Z
+Preferred-Languages: en
+Canonical: https://rosepracticesolutions.com/.well-known/security.txt
+Policy: https://rosepracticesolutions.com/privacy

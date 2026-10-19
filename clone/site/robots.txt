@@ -1,0 +1,23 @@
+User-agent: *
+Allow: /
+Disallow: /api/
+Disallow: /components
+
+# AI search and retrieval agents: allowed. They cite pages and send visitors.
+User-agent: OAI-SearchBot
+User-agent: ChatGPT-User
+User-agent: Claude-SearchBot
+User-agent: Claude-User
+User-agent: PerplexityBot
+Allow: /
+Disallow: /api/
+Disallow: /components
+
+# Model-training crawlers: blocked. A policy choice, with no effect on Google or Bing rankings.
+User-agent: GPTBot
+User-agent: ClaudeBot
+User-agent: CCBot
+User-agent: Google-Extended
+Disallow: /
+
+Sitemap: https://rosepracticesolutions.com/sitemap.xml
