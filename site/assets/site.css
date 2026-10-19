@@ -1955,31 +1955,42 @@ h1 em, h2 em, h3 em, .tagline em, .signed-change em { color: var(--accent-italic
 .ads-call { display: inline-flex; align-items: center; gap: var(--space-1); margin-left: auto; padding: var(--space-1) var(--space-3); border: var(--border-w) solid var(--border-input); border-radius: var(--radius-pill); color: var(--forest); font-size: var(--text-caption); font-weight: 600; line-height: 1.4; }
 .ads-call .icon { width: 14px; height: 14px; }
 .ads-google-title { font-size: var(--text-body-m); font-weight: 500; line-height: 1.35; color: var(--forest); }
+/* Google's and Meta's own "See more" clamps: two lines of copy on every ad */
 .ads-google-text { color: var(--text-muted); }
+.ads-google-text, .ads-meta-text { display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 2; overflow: hidden; }
 /* the search it answers, and its sitelinks (desktop only: phones show the ad alone) */
 .ads-query { display: flex; align-items: center; gap: var(--space-2); margin-bottom: var(--space-1); padding: var(--space-2) var(--space-3); border: var(--border-w) solid var(--border-input); border-radius: var(--radius-pill); font-weight: 500; }
 .ads-query .icon { width: 16px; height: 16px; color: var(--text-muted); }
-.ads-sitelinks { display: grid; margin-top: var(--space-1); }
-.ads-sitelinks li { padding-block: var(--space-2); border-top: var(--border-w) solid var(--border-quiet); font-weight: 500; color: var(--forest); }
+.ads-sitelinks { display: flex; flex-wrap: wrap; gap: var(--space-1) var(--space-4); }
+.ads-sitelinks li { font-weight: 500; color: var(--forest); }
 .ads-meta { grid-template-rows: auto auto minmax(0, 1fr) auto; align-content: stretch; }
-.ads-meta-art { display: grid; align-content: end; align-self: stretch; min-height: 140px; margin-inline: calc(-1 * var(--space-4)); padding: var(--space-4); background: var(--surface-strong); color: var(--text-on-strong); font-family: var(--font-display); font-size: var(--text-h3); line-height: 1.1; text-wrap: balance; }
+.ads-meta-art { display: grid; align-content: end; align-self: stretch; min-height: 96px; margin-inline: calc(-1 * var(--space-4)); padding: var(--space-4); background: var(--surface-strong); color: var(--text-on-strong); font-family: var(--font-display); font-size: var(--text-h3); line-height: 1.1; text-wrap: balance; }
 .ads-meta-foot { display: flex; align-items: center; justify-content: space-between; gap: var(--space-2); margin: calc(-1 * var(--space-3)) calc(-1 * var(--space-4)) calc(-1 * var(--space-4)); padding: var(--space-3) var(--space-4); border-radius: 0 0 var(--radius-card) var(--radius-card); background: var(--surface-panel); }
 .ads-meta-headline { font-weight: 600; }
 .ads-meta-button { flex: none; padding: var(--space-1) var(--space-3); border-radius: var(--radius-input); background: var(--surface-page); font-size: var(--text-caption); font-weight: 600; line-height: 1.6; }
 /* the consult record: booked, who and for what, and where it came from */
-.ads-consult { position: relative; grid-column: 1 / -1; justify-self: end; display: grid; gap: var(--space-3); width: calc(100% - 128px); margin-top: var(--ads-band); padding: var(--space-4) var(--space-5); border: var(--border-w) solid var(--border-quiet); border-radius: var(--radius-card); background: var(--surface-page); box-shadow: var(--shadow-2); font-size: var(--text-body-s); line-height: 1.5; }
+.ads-consult { position: relative; grid-column: 1 / -1; justify-self: end; display: grid; gap: var(--space-2); width: calc(100% - 128px); margin-top: var(--ads-band); padding: var(--space-3) var(--space-5) var(--space-4); border: var(--border-w) solid var(--border-quiet); border-radius: var(--radius-card); background: var(--surface-page); box-shadow: var(--shadow-2); font-size: var(--text-body-s); line-height: 1.5; }
 .ads-consult-head { display: flex; align-items: center; gap: var(--space-2); font-weight: 600; }
 .ads-consult-head .lead-dot { flex: none; }
 .ads-consult-time { margin-left: auto; font-size: var(--text-label); color: var(--text-muted); font-variant-numeric: tabular-nums; }
 .ads-consult-who { display: flex; flex-wrap: wrap; align-items: baseline; gap: 0 var(--space-3); color: var(--text-muted); }
 .ads-consult-name { font-family: var(--font-display); font-size: var(--text-h3); line-height: 1.2; color: var(--text-body); }
 /* label sage on sage mist, 5.1:1 */
-.ads-consult-source { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: var(--space-1) var(--space-4); padding: var(--space-3) var(--space-4); border-radius: var(--radius-input); background: var(--surface-panel); }
+.ads-consult-source { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 0 var(--space-4); padding: var(--space-2) var(--space-4); border-radius: var(--radius-input); background: var(--surface-panel); }
 .ads-consult-source dt { font-size: var(--text-label); font-weight: 600; line-height: 1.6; color: var(--text-muted); }
 .ads-consult-source dd { display: grid; font-weight: 600; }
 .ads-consult-source dd > span { grid-area: 1 / 1; }
 .ads-consult-source [data-src="meta"] { visibility: hidden; opacity: 0; }
-.ads-signoff { padding-right: 0; }
+.ads-signoff { padding-top: var(--space-3); padding-right: 0; }
+/* on a wide panel the record's first line carries all three facts: booked, who and what for, and when */
+@container ads-panel (min-width: 520px) {
+  .ads-ad { gap: var(--space-2); }
+  .ads-consult { grid-template-columns: auto minmax(0, 1fr); column-gap: var(--space-4); }
+  .ads-consult-head, .ads-consult-who { grid-row: 1; align-self: center; }
+  .ads-consult-who { grid-column: 2; padding-right: 56px; }
+  .ads-consult-time { position: absolute; top: var(--space-4); right: var(--space-5); }
+  .ads-consult-source, .ads-signoff { grid-column: 1 / -1; }
+}
 /* the wire: 2px forest segments under each ad, meeting above the record's centre. The record's centre sits 72px past
    the Google slot's right edge (it starts 128px in), which is 56px into the Meta slot. */
 .ads-wire { position: absolute; top: 100%; left: 0; right: 0; height: calc(var(--ads-band) / 2 + var(--space-2)); pointer-events: none; }
@@ -1992,10 +2003,9 @@ h1 em, h2 em, h3 em, .tagline em, .signed-change em { color: var(--accent-italic
 .ads-wire--land { top: auto; bottom: 100%; height: calc(var(--ads-band) / 2 + var(--space-2) + 2px); }
 .ads-wire--land i:nth-child(2), .ads-wire--pass { display: none; }
 /* Narrow panels (phones, and 1025-1150px): the two ads stacked and compact (no platform labels: each reads as its
-   platform; the Meta post as a card with its creative a small square beside the post text, Google's and Meta's own
-   "See more" clamps on the copy), then the record. The wire runs in a 20px lane down the left: out of the record's
-   head, up past the Meta ad, into the head of the ad it came from. The record's sign-off sits right (no disc), clear
-   of the stamp on the bottom-left. */
+   platform; the Meta post as a card with its creative a small square beside the post text), then the record. The
+   wire runs in a 20px lane down the left: out of the record's head, up past the Meta ad, into the head of the ad it
+   came from. The record's sign-off sits right (no disc), clear of the stamp on the bottom-left. */
 @container ads-panel (max-width: 519px) {
   .ads { --ads-hook: 26px; grid-template-columns: minmax(0, 1fr); gap: var(--space-2); padding-left: var(--space-5); }
   .ads-slot { gap: 0; }
@@ -2003,7 +2013,6 @@ h1 em, h2 em, h3 em, .tagline em, .signed-change em { color: var(--accent-italic
   .ads-ad { gap: var(--space-2); padding: var(--space-3); }
   .ads-mark { width: 28px; height: 28px; }
   .ads-query, .ads-sitelinks { display: none; }
-  .ads-google-text, .ads-meta-text { display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 2; overflow: hidden; }
   .ads-meta { grid-template-columns: 96px minmax(0, 1fr); grid-template-rows: auto auto 1fr; align-content: start; gap: var(--space-1) var(--space-3); }
   .ads-meta .ads-site { grid-column: 2; }
   .ads-meta .ads-mark { display: none; }
