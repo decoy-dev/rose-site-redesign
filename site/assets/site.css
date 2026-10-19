@@ -2240,6 +2240,9 @@ button.founder-link { padding: 0; border: 0; background: none; font: inherit; cu
 .faq { max-width: 840px; margin-inline: auto; border-top: var(--border-w) solid var(--border-quiet); }
 /* a questions section reads as one centred column: its head lines up with the accordion */
 .wrap:has(> .faq) > :is(.section-head, .head-row) { max-width: 840px; margin-inline: auto; }
+/* The homepage ends on its questions (field), so the band runs on under the footer's 28px top corners; otherwise the
+   corners would show the cream page behind them. */
+main > #questions:last-child { margin-bottom: calc(-1 * var(--radius-panel)); padding-bottom: calc(var(--section-gap) + var(--radius-panel)); }
 .faq-item { border-bottom: var(--border-w) solid var(--border-quiet); }
 
 .faq-q {

@@ -619,10 +619,52 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   </section>
   </div>
 
-  <!-- 6. Questions to ask any orthodontic marketing agency: the page's one question section, an accordion on native
-       details; the questions stay real headings. The FAQPage node in the head's JSON-LD @graph carries the same eight
-       questions and answers as plain text, word for word: change one, change both. No price question: pricing stays off
-       the homepage. -->
+  <!-- 6. Closing: a left-set forest panel, flat, with the tagline and the email capture again (the hero's form and behaviour,
+       site.js "email capture"). No motif: the header mark is this screen's one bloom. -->
+  <section class="closing">
+    <div class="wrap">
+      <div class="closing-panel on-strong reveal">
+        <div class="closing-copy">
+          <h2 class="display-xl"><em>Tended,</em> not templated.<span class="sr-only"> Get in touch with Rose Practice Solutions about your practice.</span></h2>
+          <p>See what we'd build for your practice.</p>
+          <!-- The same capture as the hero's: it posts form=hero, so the API treats it as an email-only lead, then offers the
+               full form. Without JavaScript the API sends the visitor back to the hero's notes (/?sent=1#hero-sent or
+               /?sent=0#hero-not-sent). -->
+          <form class="hero-capture" id="closing-form" action="/api/book-a-call" method="post" novalidate data-capture="closing" data-done="closing-done">
+            <input type="hidden" name="form" value="hero">
+            <label class="hero-capture-label" for="closing-email">Your email</label>
+            <div class="hero-capture-row">
+              <input class="input" id="closing-email" name="email" type="email" autocomplete="email" inputmode="email" required placeholder="name@practice.com" aria-describedby="err-closing-email closing-email-help">
+              <button class="btn btn--on-strong" type="submit">Get in touch <svg class="arrow" viewBox="0 0 22 12" aria-hidden="true" focusable="false"><path d="M1 6h19M15 1l5 5-5 5"/></svg></button>
+            </div>
+            <p class="field-error" id="err-closing-email" role="alert" hidden></p>
+            <p class="hero-capture-help" id="closing-email-help">One of our founders replies within one business day. We only use your email to reply about your practice. <a href="/privacy">Privacy</a></p>
+            <p class="hero-capture-status" id="closing-status" aria-live="polite"></p>
+            <div class="hp" aria-hidden="true"><label for="closing-fax">Fax</label><input id="closing-fax" name="fax" type="text" tabindex="-1" autocomplete="off"></div>
+            <input type="hidden" name="utm_source" data-track>
+            <input type="hidden" name="utm_medium" data-track>
+            <input type="hidden" name="utm_campaign" data-track>
+            <input type="hidden" name="utm_term" data-track>
+            <input type="hidden" name="utm_content" data-track>
+            <input type="hidden" name="gclid" data-track>
+            <input type="hidden" name="fbclid" data-track>
+            <input type="hidden" name="landing_page" data-track>
+          </form>
+          <div class="signed-note hero-done" id="closing-done" role="status" tabindex="-1" hidden>
+            <p class="hero-done-title">Thank you. Your email is with the team.</p>
+            <p>One of our founders replies within one business day.</p>
+            <a class="btn btn--secondary btn--small" href="/contact#book" data-capture-more>Tell us more about your practice <svg class="arrow" viewBox="0 0 22 12" aria-hidden="true" focusable="false"><path d="M1 6h19M15 1l5 5-5 5"/></svg></a>
+            <div class="hero-done-by"><em class="signature">The team</em><span>Rose Practice Solutions</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 7. Questions to ask any orthodontic marketing agency: the page's one question section, an accordion on native
+       details; the questions stay real headings. It comes after the closing ask, for anyone still deciding. The FAQPage
+       node in the head's JSON-LD @graph carries the same eight questions and answers as plain text, word for word: change
+       one, change both. No price question: pricing stays off the homepage. -->
   <section class="section section--alt" id="questions" aria-labelledby="questions-title">
     <div class="wrap">
       <div class="head-row">
@@ -664,48 +706,6 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </details>
       </div>
       <p class="cta-line">Something we haven't answered? <a class="btn btn--secondary btn--small" href="/contact">Get in touch <svg class="arrow" viewBox="0 0 22 12" aria-hidden="true" focusable="false"><path d="M1 6h19M15 1l5 5-5 5"/></svg></a></p>
-    </div>
-  </section>
-
-  <!-- Closing: a left-set forest panel, flat, with the tagline and the email capture again (the hero's form and behaviour,
-       site.js "email capture"). No motif: the header mark is this screen's one bloom. -->
-  <section class="closing">
-    <div class="wrap">
-      <div class="closing-panel on-strong reveal">
-        <div class="closing-copy">
-          <h2 class="display-xl"><em>Tended,</em> not templated.<span class="sr-only"> Get in touch with Rose Practice Solutions about your practice.</span></h2>
-          <p>See what we'd build for your practice.</p>
-          <!-- The same capture as the hero's: it posts form=hero, so the API treats it as an email-only lead, then offers the
-               full form. Without JavaScript the API sends the visitor back to the hero's notes (/?sent=1#hero-sent or
-               /?sent=0#hero-not-sent). -->
-          <form class="hero-capture" id="closing-form" action="/api/book-a-call" method="post" novalidate data-capture="closing" data-done="closing-done">
-            <input type="hidden" name="form" value="hero">
-            <label class="hero-capture-label" for="closing-email">Your email</label>
-            <div class="hero-capture-row">
-              <input class="input" id="closing-email" name="email" type="email" autocomplete="email" inputmode="email" required placeholder="name@practice.com" aria-describedby="err-closing-email closing-email-help">
-              <button class="btn btn--on-strong" type="submit">Get in touch <svg class="arrow" viewBox="0 0 22 12" aria-hidden="true" focusable="false"><path d="M1 6h19M15 1l5 5-5 5"/></svg></button>
-            </div>
-            <p class="field-error" id="err-closing-email" role="alert" hidden></p>
-            <p class="hero-capture-help" id="closing-email-help">One of our founders replies within one business day. We only use your email to reply about your practice. <a href="/privacy">Privacy</a></p>
-            <p class="hero-capture-status" id="closing-status" aria-live="polite"></p>
-            <div class="hp" aria-hidden="true"><label for="closing-fax">Fax</label><input id="closing-fax" name="fax" type="text" tabindex="-1" autocomplete="off"></div>
-            <input type="hidden" name="utm_source" data-track>
-            <input type="hidden" name="utm_medium" data-track>
-            <input type="hidden" name="utm_campaign" data-track>
-            <input type="hidden" name="utm_term" data-track>
-            <input type="hidden" name="utm_content" data-track>
-            <input type="hidden" name="gclid" data-track>
-            <input type="hidden" name="fbclid" data-track>
-            <input type="hidden" name="landing_page" data-track>
-          </form>
-          <div class="signed-note hero-done" id="closing-done" role="status" tabindex="-1" hidden>
-            <p class="hero-done-title">Thank you. Your email is with the team.</p>
-            <p>One of our founders replies within one business day.</p>
-            <a class="btn btn--secondary btn--small" href="/contact#book" data-capture-more>Tell us more about your practice <svg class="arrow" viewBox="0 0 22 12" aria-hidden="true" focusable="false"><path d="M1 6h19M15 1l5 5-5 5"/></svg></a>
-            <div class="hero-done-by"><em class="signature">The team</em><span>Rose Practice Solutions</span></div>
-          </div>
-        </div>
-      </div>
     </div>
   </section>
 
