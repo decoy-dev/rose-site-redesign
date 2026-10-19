@@ -300,8 +300,9 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   </section>
 
   <!-- 3. How we help: who we work with opens the intro (each kind of practice links to its page), then the Core Marketing
-       Plan as two alternating rows (.service-row), each beside its signed sample (.vignette[data-loop], site.js "signed
-       samples": the work lands, it is signed by role and the stamp is pressed on, it rests). Then the add-ons and projects
+       Plan as two alternating rows (.service-row), each beside its signed sample (.vignette[data-sample], site.js "signed
+       samples": once, as it reaches the screen, the work lands, it is signed by role and the stamp is pressed on, and it
+       stays). Then the add-ons and projects
        in "Beyond the core plan" (the home of patient follow-up). No step numbers. -->
   <section class="section" id="what" aria-labelledby="help-title">
     <div class="wrap">
@@ -319,7 +320,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
             <a class="btn btn--secondary" href="/services/websites-and-seo">See websites and SEO <svg class="arrow" viewBox="0 0 22 12" aria-hidden="true" focusable="false"><path d="M1 6h19M15 1l5 5-5 5"/></svg></a>
           </div>
           <div class="service-row-visual service-row-visual--search" data-place>
-            <div class="vignette vignette--search" data-loop="local-page" data-anim="none" role="img" aria-label="Sample, an illustrative search result: a Google search for braces for adults near me shows one result, [Your practice], Adult braces in [your city]. A note outside the page says it is new this month, a page answering adult patients' questions, signed by Web and SEO.">
+            <div class="vignette vignette--search" data-sample="local-page" data-anim="none" role="img" aria-label="Sample, an illustrative search result: a Google search for braces for adults near me shows one result, [Your practice], Adult braces in [your city]. A note outside the page says it is new this month, a page answering adult patients' questions, signed by Web and SEO.">
               <div class="gsr-top"><span class="gsr-caption">Illustrative search result</span><span class="chip chip--sample">Sample</span></div>
               <div class="screen gsr">
                 <div class="screen-bar"><span class="bar-dots"><i></i><i></i><i></i></span><span class="screen-url">google.com/search</span></div>
@@ -328,6 +329,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                   <div class="gsr-field"><span class="gsr-q"><span data-type>braces for adults near me</span><span class="gsr-caret"></span></span><span class="gsr-go" data-part="go"><svg class="icon" viewBox="0 0 20 20" focusable="false"><circle cx="9" cy="9" r="5.5"/><path d="m13.2 13.2 3.8 3.8"/></svg></span></div>
                   <div class="gsr-tabs"><span class="is-on">All</span><span>Maps</span><span>Images</span><span class="gsr-load" data-part="load"></span></div>
                   <div class="gsr-result" data-part="result">
+                    <span class="gsr-skeleton" data-part="skeleton" aria-hidden="true"><span class="gsr-skel-site"><span></span><span></span></span><span class="gsr-skel-line gsr-skel-line--title"></span><span class="gsr-skel-line"></span><span class="gsr-skel-line gsr-skel-line--short"></span></span>
                     <div class="gsr-site"><span class="gsr-fav"><svg class="icon" viewBox="0 0 20 20" focusable="false"><circle cx="10" cy="10" r="7"/><ellipse cx="10" cy="10" rx="3" ry="7"/><path d="M3 10h14"/></svg></span><span class="gsr-site-text"><span class="gsr-name">[Your practice]</span><span class="gsr-crumb">Practice website</span></span></div>
                     <span class="gsr-title">Adult braces in [your city]</span>
                     <span class="gsr-snippet">Explore braces for adults, what to expect at your first visit, and how to request a consultation.</span>
@@ -356,7 +358,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
             <a class="btn btn--secondary" href="/services/paid-ads">See ads management <svg class="arrow" viewBox="0 0 22 12" aria-hidden="true" focusable="false"><path d="M1 6h19M15 1l5 5-5 5"/></svg></a>
           </div>
           <div class="service-row-visual service-row-visual--ads" data-place>
-            <div class="vignette ads" data-loop="ads" data-anim="none" role="img" aria-label="Sample: a Google search ad and a Meta feed ad for adult braces from [Your practice]. A consult booked by [Name] for adult braces, at [Time], is traced back to the Google search ad that brought it, signed by Paid media.">
+            <div class="vignette ads" data-sample="ads" data-anim="none" role="img" aria-label="Sample: a Google search ad and a Meta feed ad for adult braces from [Your practice]. A consult booked by [Name] for adult braces, at [Time], is traced back to the Google search ad that brought it, signed by Paid media.">
               <div class="ads-top"><span class="ads-caption">Illustrative ads and booking</span><span class="chip chip--sample">Sample</span></div>
               <div class="ads-ad ads-google">
                 <div class="ads-site">
@@ -393,8 +395,8 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
       <!-- Beyond the core plan: the add-ons as a deck of cards, browsed by hand (site.css and site.js "Beyond the core plan").
            Six cards in the present order, patient follow-up first. Each card is a name, a chip, a line, a link and a real
-           sample on a cream sheet; follow-up's sample is a signed sample that loops while its card is in front (site.js
-           "signed samples", data-loop="follow"), the others replay one small action when chosen. With JavaScript the cards
+           sample on a cream sheet; follow-up's sample is a signed sample that plays once, the first time its card is in front on screen
+           (site.js "signed samples", data-sample="follow"), the others play one small action the first time they are chosen. With JavaScript the cards
            stack: the chosen one in front, the next two behind it, offset, with their bodies out of focus and an unblurred
            rail naming each (click a rail to bring it forward). The named buttons on the left (desktop and tablet), Previous
            and Next, the rails and a swipe on phones all choose a card; nothing advances on its own. Without JavaScript the
@@ -421,7 +423,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                   <p>A patient concierge calls and texts your leads, then books into your patient management software. Our sales team confirms the fit.</p>
                   <a class="btn btn--secondary btn--small" href="/services/patient-follow-up">How follow-up works <svg class="arrow" viewBox="0 0 22 12" aria-hidden="true" focusable="false"><path d="M1 6h19M15 1l5 5-5 5"/></svg></a>
                 </div>
-                <div class="deck-sheet deck-follow" data-loop="follow" role="img" aria-label="Sample: patient follow-up for [Name], an adult braces enquiry. Called and left a message, then a text: Hi [Name], this is the patient concierge for [Your practice]. You asked about adult braces. When would be a good time to call? Consultation booked, [Date] at [Time], in your practice's patient management software. Signed by Follow-up.">
+                <div class="deck-sheet deck-follow" data-sample="follow" role="img" aria-label="Sample: patient follow-up for [Name], an adult braces enquiry. Called and left a message, then a text: Hi [Name], this is the patient concierge for [Your practice]. You asked about adult braces. When would be a good time to call? Consultation booked, [Date] at [Time], in your practice's patient management software. Signed by Follow-up.">
                   <div class="deck-sheet-head"><span class="deck-follow-who"><b>[Name]</b> Adult braces enquiry</span><span class="chip chip--sample">Sample</span></div>
                   <p class="deck-follow-call" data-part="call"><span class="deck-follow-icon"><svg class="icon" viewBox="0 0 20 20" aria-hidden="true" focusable="false"><path d="M6.6 3.2 8.4 7 7 8.4a9.6 9.6 0 0 0 4.6 4.6L13 11.6l3.8 1.8v2.4a1.6 1.6 0 0 1-1.7 1.6A13.4 13.4 0 0 1 2.6 4.9 1.6 1.6 0 0 1 4.2 3.2Z"/></svg></span>Called. Left a message.</p>
                   <p class="deck-follow-msg" data-part="msg">Hi [Name], this is the patient concierge for [Your practice]. You asked about adult braces. When would be a good time to call?</p>

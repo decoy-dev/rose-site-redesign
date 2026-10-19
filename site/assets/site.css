@@ -1476,9 +1476,9 @@ h1 em, h2 em, h3 em, .tagline em, .signed-change em { color: var(--accent-italic
    400ms, a card leaving fades in 150ms, and the one coming forward comes into focus in the last 150ms. The first time
    the deck comes on screen the two rear cards fan out 12px and settle back (.is-nudging), once. Under reduced motion
    or with animations paused every change is instant.
-   Each card's sample is a cream sheet with its Sample chip in the header. Follow-up's is a signed sample that loops
-   while its card is in front (site.js "signed samples", data-loop="follow"); the others replay one small action 600ms
-   after they are chosen (.is-playing, below). Every sample's markup is its finished state.
+   Each card's sample is a cream sheet with its Sample chip in the header. Follow-up's is a signed sample that plays
+   once, the first time its card is in front on screen (site.js "signed samples", data-sample="follow"); the others play
+   one small action the first time they are chosen (.is-playing, below). Every sample's markup is its finished state.
    Tablet (768 to 1024): the named buttons wrap in a row above the deck. Phones (under 768): no named buttons; the rear
    cards show under the card in front, the next one's name on its edge, and a sideways swipe on the deck chooses the
    next or previous card. A card's copy sits beside its sample only where the card is 640px wide or more (a container
@@ -1954,12 +1954,12 @@ h1 em, h2 em, h3 em, .tagline em, .signed-change em { color: var(--accent-italic
   .run-show .screen { max-width: none; }
 }
 
-/* ----- Looping graphics: [data-loop="status|compare"] (CSS) and [data-loop="local-page|ads"] (GSAP) -----
+/* ----- Looping graphics: [data-loop="status|compare"] (CSS) -----
    status and compare are slow CSS loops on a sample graphic. site.js adds .is-looping once it watches the graphic and
    .is-live while it is on screen; off screen the loop pauses. The first frame of every loop is the finished graphic, so
    a paused, still or script-less graphic is complete. Under prefers-reduced-motion none of it runs. Put data-anim="none"
-   on the same element so the one-shot behaviours in site.js leave it alone. The homepage's signed samples
-   (local-page, ads) are GSAP timelines in site.js ("signed samples"); see "signed samples" below. */
+   on the same element so the one-shot behaviours in site.js leave it alone. The homepage's signed samples don't loop:
+   they play once ([data-sample], GSAP in site.js "signed samples"); see "signed samples" below. */
 /* status chips: the loop opens on the finished row, then steps New, Called, Consult booked */
 @keyframes loop-status-new {
   0%, 30% { border-color: transparent; background-color: var(--surface-panel); color: var(--forest); }
@@ -2010,7 +2010,7 @@ h1 em, h2 em, h3 em, .tagline em, .signed-change em { color: var(--accent-italic
 /* ---------- the core services as alternating rows (homepage How we help) ---------- */
 /* Copy on one side, the signed sample on a sage mist panel on the other; the second row flips. One column under 1024px.
    Markup: .service-rows > article.service-row(.service-row--flip) > .service-row-copy (h3.display-m + p + a.btn.btn--secondary)
-   + .service-row-visual[data-place] > .vignette[data-loop][data-anim=none][role=img] */
+   + .service-row-visual[data-place] > .vignette[data-sample][data-anim=none][role=img] */
 .service-rows { display: grid; gap: var(--space-24); }
 .service-row { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); align-items: center; gap: var(--space-12) var(--space-16); }
 .service-row--flip { grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); }
@@ -2020,11 +2020,12 @@ h1 em, h2 em, h3 em, .tagline em, .signed-change em { color: var(--accent-italic
 .service-row-visual { position: relative; display: grid; grid-template-columns: minmax(0, 1fr); place-items: center; min-height: 420px; padding: var(--space-12) var(--space-8); border-radius: var(--radius-panel); background: var(--surface-panel); }
 
 /* ---------- signed samples (homepage: the two service rows) ---------- */
-/* Every change, signed: each sample replays its job in three beats, place (the work lands), mark (it is signed by role
-   and the Rose stamp is pressed on), rest (it holds, finished). The static markup is the finished, signed state.
-   site.js ("signed samples") builds each timeline the first time it reaches the screen, plays it only while on screen
-   and the tab is visible, and jumps it to the finished state when animations are paused; under reduced motion nothing
-   is built. Only transform, opacity and colour change. The Sample chip never fades.
+/* Every change, signed: each sample plays its job once, as it reaches the screen, in three beats: place (the work
+   lands), mark (it is signed by role and the Rose stamp is pressed on), rest (it stays, finished, until the page is
+   reloaded). The static markup is the finished, signed state. site.js ("signed samples") builds each timeline once the
+   type has loaded, for samples still below the fold, which puts them in their start state; it plays only while on screen
+   and the tab is visible, and pausing animations finishes it for good; under reduced motion nothing is built. Only
+   transform, opacity, colour and clip-path change. The Sample chip never fades.
    The sign-off: div.signoff > svg.signoff-disc.founder-art (the founders ring's disc, small) + span.signoff-who
    ("Signed by" + em.signature with the role) + span.chip.chip--sample + img.stamp (assets/img/stamp-signed.svg: the bloom
    in a deep rose double ring, mark artwork). Signed by role only: no names, no initials. */
@@ -2051,16 +2052,17 @@ h1 em, h2 em, h3 em, .tagline em, .signed-change em { color: var(--accent-italic
 }
 
 /* Websites and SEO: an excerpt of a Google results page in the palette (illustrative, not a screenshot), one organic
-   result, and outside the page a cream note pointing to it: new this month, signed by Web and SEO. The search runs
-   again: the query is selected, cleared and typed into its one text node with the caret right after it, search is
-   pressed, the page loads with no results, the result places, the note and its connector return, signed, and the panel
-   stamp is pressed on (site.js "signed samples", local-page). Static, it is the finished search: full query, the result,
-   the note, the signature, the stamp; no caret. When the panel is 430px or narrower inside (phones; a container query
-   on the panel) the address bar goes and the page stacks the way Google does on a phone. The panel's bottom-right
-   corner is kept clear for the panel stamp.
-   Markup: .service-row-visual--search > .vignette--search[data-loop=local-page] > .gsr-top (caption + Sample chip)
+   result, and outside the page a cream note pointing to it: new this month, signed by Web and SEO. Once, as it reaches
+   the screen: the search box starts empty and the result waits as a skeleton (.gsr-skeleton), the query is typed into
+   its one text node with the caret right after it, search is pressed, the page loads, the skeleton gives way to the
+   result, the note lands and its connector reaches the title, signed, and the panel stamp is pressed on (site.js
+   "signed samples", local-page). Static, it is the finished search: full query, the result, the note, the signature,
+   the stamp; no caret, no skeleton. When the panel is 430px or narrower inside (phones; a container query on the panel)
+   the address bar goes and the page stacks the way Google does on a phone. The panel's bottom-right corner is kept
+   clear for the panel stamp.
+   Markup: .service-row-visual--search > .vignette--search[data-sample=local-page] > .gsr-top (caption + Sample chip)
    + .screen.gsr (.screen-bar + .gsr-page: .gsr-mark + .gsr-field (.gsr-q > span[data-type] + .gsr-caret; .gsr-go)
-   + .gsr-tabs (.gsr-load) + .gsr-result (.gsr-site + .gsr-title + .gsr-snippet + .gsr-link))
+   + .gsr-tabs (.gsr-load) + .gsr-result (.gsr-skeleton + .gsr-site + .gsr-title + .gsr-snippet + .gsr-link))
    + .gsr-note (title + line + .signoff) ; then img.panel-stamp */
 .service-row-visual.service-row-visual--search { container-type: inline-size; container-name: seo-sample; padding: var(--space-4) var(--space-8) var(--space-8); }
 .vignette--search {
@@ -2091,6 +2093,15 @@ h1 em, h2 em, h3 em, .tagline em, .signed-change em { color: var(--accent-italic
 /* the page loading: a forest line runs along the tabs' rule, then goes (set by site.js; never shown at rest) */
 .gsr-tabs .gsr-load { position: absolute; left: 0; right: 0; bottom: -1px; height: 2px; padding: 0; background: var(--forest); transform-origin: left center; opacity: 0; }
 .gsr-result { position: relative; grid-column: 2; display: grid; justify-items: start; gap: var(--space-1); margin-top: var(--space-1); }
+/* the results before the search is sent: a sage mist skeleton of the result (the site row, the title, two lines of the
+   snippet) over the same place, shown only while the sample waits for its search (site.js); at rest it is hidden */
+.gsr-skeleton { position: absolute; inset: 0; display: grid; align-content: start; justify-items: start; gap: var(--space-2); visibility: hidden; opacity: 0; pointer-events: none; }
+.gsr-skel-site { display: flex; align-items: center; gap: var(--space-3); width: 100%; margin-bottom: var(--space-1); }
+.gsr-skel-site > span:first-child { flex: none; width: 28px; height: 28px; border-radius: 50%; background: var(--surface-panel); }
+.gsr-skel-site > span:last-child { width: 36%; height: 10px; border-radius: var(--radius-pill); background: var(--surface-panel); }
+.gsr-skel-line { display: block; width: 92%; height: 8px; border-radius: var(--radius-pill); background: var(--surface-panel); }
+.gsr-skel-line--title { width: 60%; height: 14px; margin-bottom: var(--space-1); }
+.gsr-skel-line--short { width: 66%; }
 .gsr-site { display: flex; align-items: center; gap: var(--space-3); margin-bottom: var(--space-1); }
 .gsr-fav { display: grid; place-items: center; flex: none; width: 28px; height: 28px; border-radius: 50%; background: var(--forest); color: var(--cream); }
 .gsr-fav .icon { width: 16px; height: 16px; }
@@ -2131,13 +2142,13 @@ h1 em, h2 em, h3 em, .tagline em, .signed-change em { color: var(--accent-italic
    the booked consult (Consult booked, [Name], the enquiry, [Time]), and its sign-off, Paid media. The ad the consult
    came from carries a forest Source tag on its edge, joined to the consult line by one straight forest line. Each card
    is cream on the panel with one soft shadow and no outline. Illustration only: the buttons do nothing.
-   Markup: .service-row-visual--ads > .vignette.ads[data-loop=ads] > .ads-top (caption + Sample chip)
+   Markup: .service-row-visual--ads > .vignette.ads[data-sample=ads] > .ads-top (caption + Sample chip)
    + .ads-ad.ads-google + .ads-ad.ads-meta (each ending in span.ads-source[data-src] > .ads-tag + .ads-link)
    + p.ads-consult[data-part=consult] + .signoff[data-part=sign]; then img.panel-stamp.
-   Static and paused: traced to the Google ad (its .ads-source shown, the Meta one hidden). The loop clears the consult
-   and its trace, places the next consult, draws the line out of it to the other ad and tags that ad, signs it and
-   presses the panel stamp: the Meta ad first, then back to Google (site.js "signed samples"). The bottom-left corner
-   stays clear for the panel stamp: the consult line is inset 80px each side and the sign-off sits at its right end. */
+   Static and paused: traced to the Google ad (its .ads-source shown, the Meta one hidden). Once, as it reaches the
+   screen: the two ads land, the consult is placed under them, the line draws out of it to the Google ad and tags it
+   Source, it is signed and the panel stamp is pressed on (site.js "signed samples"). The bottom-left corner stays clear
+   for the panel stamp: the consult line is inset 80px each side and the sign-off sits at its right end. */
 /* the panel is the container (the ads stack whenever its inner width is under 520px: phones, and 1025-1150px) */
 .service-row-visual.service-row-visual--ads { container: ads-panel / inline-size; padding: var(--space-8); }
 /* its clear corner is the bottom left wherever the panel sits (the flipped row, and its reference on components.html) */

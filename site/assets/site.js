@@ -646,25 +646,28 @@
     }
   }
 
-  // ----- signed samples (homepage: [data-loop="local-page|ads|follow"]; site.css "signed samples") -----
-  // Each sample replays its job in three beats: place (the work lands), mark (it is signed by role and the Rose stamp is
-  // pressed on), rest (it holds, finished). The static markup is the finished state, and every timeline starts and ends
-  // on it, so a repeat never jumps and a pause can always show it. A timeline is built the first time its sample reaches
-  // the screen (so measurements use the loaded fonts), runs only while it is on screen and the tab is visible, and jumps
-  // to its finished state ('rest') when the visitor pauses animations. Under reduced motion nothing is built. Only
-  // transform, opacity and colour change; the Sample chip never fades. Durations come from the motion tokens.
-  // [data-place] panels settle 16px into place the first time they reach the screen (CSS does the motion).
-  const signedEls = document.querySelectorAll('[data-loop="local-page"], [data-loop="ads"], [data-loop="follow"]');
+  // ----- signed samples (homepage How we help: [data-sample="local-page|ads|follow"]; site.css "signed samples") -----
+  // Each sample plays its job once, as it reaches the screen, in three beats: place (the work lands), mark (it is signed
+  // by role and the Rose stamp is pressed on), rest (it stays, finished, until the page is reloaded). The static markup is
+  // the finished state. Once the type has loaded, every sample still below the fold has its timeline built, which puts it
+  // in its start state (the search field empty and its results a skeleton; the ads and the consult not yet placed; the
+  // concierge's text and the booking not yet sent); a sample already on screen or scrolled past at load simply stays
+  // finished, so nothing flashes. A timeline runs only while its sample is on screen (35%) and the tab is visible, and
+  // holds where it is otherwise. Pausing animations, or turning on reduced motion, finishes every sample for good; under
+  // reduced motion nothing is built. Only transform, opacity, colour and clip-path change; the Sample chip never fades.
+  // Durations come from the motion tokens. [data-place] panels settle 16px into place the first time they reach the
+  // screen (CSS does the motion).
+  const signedEls = document.querySelectorAll('[data-sample]');
   if (signedEls.length && window.gsap && 'IntersectionObserver' in window) {
     const gsap = window.gsap;
     const token = (name) => getComputedStyle(root).getPropertyValue(name).trim();
     const sec = (name, fallback) => { const raw = token(name); const n = parseFloat(raw); return Number.isFinite(n) ? (raw.endsWith('ms') ? n / 1000 : n) : fallback; };
+    const FAST = sec('--dur-fast', 0.15);
     const MED = sec('--dur-med', 0.25);
     const SLOW = sec('--dur-slow', 0.4);
     const REST = sec('--rest-bloom', 0.6);
-    const HOLD = sec('--hold-lower-third', 4);
     const clear = (hex) => { const n = parseInt(hex.replace('#', ''), 16); return 'rgba(' + (n >> 16) + ', ' + ((n >> 8) & 255) + ', ' + (n & 255) + ', 0)'; };
-    const motionOK = () => !reduceMotion.matches && !motionPaused() && !document.hidden;
+    const allowed = () => !reduceMotion.matches && !motionPaused();
     // the sign-off's mark fades and returns; its Sample chip stays put
     const signParts = (sign) => Array.from(sign.children).filter((n) => !n.matches('.chip--sample, .stamp'));
     // the stamp, pressed on: down fast and a touch past, then settled. Its resting tilt lives in CSS.
@@ -672,14 +675,14 @@
       tl.fromTo(stamp, { autoAlpha: 0, scale: 1.7, rotation: -24 }, { autoAlpha: 0.9, scale: 0.93, rotation: 0, duration: MED, ease: 'power2.in', immediateRender: false }, at)
         .to(stamp, { scale: 1, duration: MED * 0.8, ease: 'power2.out' }, at + MED);
     };
-    const hold = (tl, at) => tl.addLabel('rest', at).to({}, { duration: HOLD }, 'rest');
+    // a start state, set the moment the timeline is built (before it plays)
+    const start = (tl, targets, vars) => tl.set(targets, { ...vars, immediateRender: true }, 0);
     const BUILD = {
-      // Websites and SEO: the search runs again. After the finished hold the note, its connector, its signature and the
-      // panel stamp lift off; the query is selected and cleared, then typed into its one text node (no per-letter spans),
-      // so the caret rides right after the typed text, at a typist's uneven pace with a breath after "adults". A beat to
-      // read it, search is pressed, the result clears while the page loads, the result places, the note returns and its
-      // connector draws up to the title, it is signed and the panel stamp is pressed on. Every change is a tween or a
-      // set (no callbacks), so a seek to 'rest' always lands on the full query with no caret.
+      // Websites and SEO: the search box starts empty and the results wait as a skeleton. The query is typed into its
+      // one text node (no per-letter spans), so the caret rides right after the typed text, at a typist's uneven pace
+      // with a breath after "adults". A beat to read it, search is pressed, a forest line runs along the tabs while the
+      // page loads, the skeleton gives way to the result, the note lands and its connector rises from it and reaches
+      // across to the title, slowing as it arrives; it is signed and the panel stamp is pressed on.
       'local-page': (el) => {
         const field = el.querySelector('[data-type]');
         const text = field.firstChild;
@@ -689,87 +692,75 @@
         const caret = el.querySelector('.gsr-caret');
         const go = el.querySelector('[data-part="go"]');
         const load = el.querySelector('[data-part="load"]');
-        const result = el.querySelector('[data-part="result"]');
+        const skeleton = el.querySelector('[data-part="skeleton"]');
+        const found = el.querySelectorAll('.gsr-site, .gsr-title, .gsr-snippet');
         const link = el.querySelector('[data-part="link"]');
         const note = el.querySelector('[data-part="note"]');
         const marks = signParts(el.querySelector('[data-part="sign"]'));
         const stamp = el.closest('.service-row-visual').querySelector('.panel-stamp');
-        const FAST = sec('--dur-fast', 0.15);
-        const fill = token('--fill-quiet');
         const mist = token('--sage-mist');
-        // the connector draws in two phases: up from the note (its left strip only), then out along the top to the
-        // title, slowing as it arrives, so the arm reads as reaching for the result rather than snapping to it
+        // the connector draws in two phases: up from the note (its left strip only), then out along the top to the title
         const armW = link.offsetWidth;
         const armH = link.offsetHeight;
         const hidden = 'inset(' + (armH + 8) + 'px ' + (armW - 14) + 'px -8px -8px)';
         const risen = 'inset(-8px ' + (armW - 14) + 'px -8px -8px)';
         const drawn = 'inset(-8px -8px -8px -8px)';
-        const tl = gsap.timeline({ paused: true, repeat: -1 });
-        tl.to([note, link, stamp], { autoAlpha: 0, duration: FAST, ease: 'power2.in' }, REST)
-          .set(marks, { autoAlpha: 0 }, REST + FAST)
-          // select the query, then clear it; the caret waits at the start
-          .set(field, { backgroundColor: fill }, REST + 0.3)
-          .set(field, { backgroundColor: clear(fill) }, REST + 0.3 + FAST)
-          .set(typed, { value: '' }, REST + 0.3 + FAST)
-          .set(caret, { autoAlpha: 1 }, REST + 0.3 + FAST);
+        const tl = gsap.timeline({ paused: true });
+        start(tl, typed, { value: '' });
+        start(tl, [caret, skeleton], { autoAlpha: 1 });
+        start(tl, [...found, note, link, ...marks, stamp], { autoAlpha: 0 });
         // type: 70/90/60/110ms a letter in turn, 60ms a space, 180ms more after "adults"
         const pace = [0.07, 0.09, 0.06, 0.11];
-        let t = REST + 0.3 + FAST + 0.35;
+        let t = REST;
         let n = 0;
         for (let i = 1; i <= query.length; i++) {
           tl.set(typed, { value: query.slice(0, i) }, t);
           t += query[i - 1] === ' ' ? 0.06 : pace[n++ % pace.length];
           if (query.slice(0, i).endsWith('adults')) t += 0.18;
         }
-        // read it, press search; the result clears, the page loads, the result places
+        // read it, press search; the page loads, the skeleton gives way to the result
         const sent = t + MED;
         tl.set(caret, { autoAlpha: 0 }, sent)
           .fromTo(go, { scale: 1, backgroundColor: clear(mist) }, { scale: 0.88, backgroundColor: mist, duration: FAST / 2, ease: 'power2.in', immediateRender: false }, sent)
           .to(go, { scale: 1, backgroundColor: clear(mist), duration: FAST / 2, ease: 'power2.out' }, sent + FAST / 2)
-          .to(result, { autoAlpha: 0, duration: FAST, ease: 'power2.in' }, sent + FAST)
           .fromTo(load, { autoAlpha: 1, scaleX: 0 }, { scaleX: 1, duration: SLOW, ease: 'power2.out', immediateRender: false }, sent + FAST)
-          .to(load, { autoAlpha: 0, duration: FAST }, sent + FAST + SLOW);
-        const placed = sent + FAST * 2 + MED;
-        tl.fromTo(result, { autoAlpha: 0, y: 10 }, { autoAlpha: 1, y: 0, duration: SLOW, ease: 'power2.out', immediateRender: false }, placed)
-          // the note returns, then its connector rises from it and reaches across to the title; then it is signed
-          .fromTo(note, { autoAlpha: 0, y: 8 }, { autoAlpha: 1, y: 0, duration: MED, ease: 'power2.out', immediateRender: false }, placed + SLOW);
-        const reach = placed + SLOW + MED * 0.6;
+          .to(load, { autoAlpha: 0, duration: FAST }, sent + FAST + SLOW)
+          .to(skeleton, { autoAlpha: 0, duration: FAST, ease: 'power2.in' }, sent + FAST + SLOW);
+        const placed = sent + FAST * 2 + SLOW;
+        tl.fromTo(found, { autoAlpha: 0, y: 10 }, { autoAlpha: 1, y: 0, duration: SLOW, ease: 'power2.out', stagger: 0.06, immediateRender: false }, placed)
+          .fromTo(note, { autoAlpha: 0, y: 8 }, { autoAlpha: 1, y: 0, duration: MED, ease: 'power2.out', immediateRender: false }, placed + SLOW + 0.12);
+        const reach = placed + SLOW + 0.12 + MED * 0.6;
         const reached = reach + 0.55 + 0.8;
         tl.fromTo(link, { autoAlpha: 1, clipPath: hidden }, { autoAlpha: 1, clipPath: risen, duration: 0.55, ease: 'sine.inOut', immediateRender: false }, reach)
           .to(link, { clipPath: drawn, duration: 0.8, ease: 'power3.out' }, reach + 0.55)
           .fromTo(marks, { autoAlpha: 0, y: 6 }, { autoAlpha: 1, y: 0, duration: MED, ease: 'power2.out', immediateRender: false }, reached - 0.1);
         press(tl, stamp, reached + MED * 0.6);
-        hold(tl, reached + MED * 0.6 + 0.5);
         return tl;
       },
-      // the consult is traced back to the ad that brought it: the consult and its trace lift off, the next consult is
-      // placed, its line draws out of it to the ad it came from and that ad is tagged Source, it is signed and the
-      // panel stamp pressed. Each cycle traces the other ad: the first to Meta, the second back to Google, which is the
-      // finished state ('rest') and the markup.
+      // Google and Meta ads: the two ads land, a booked consult lands under them, its line draws out of it to the ad it
+      // came from (the Google ad) and that ad is tagged Source; it is signed and the panel stamp is pressed on.
       ads: (el) => {
+        const ads = el.querySelectorAll('.ads-ad');
         const consult = el.querySelector('[data-part="consult"]');
         const marks = signParts(el.querySelector('[data-part="sign"]'));
         const stamp = el.closest('.service-row-visual').querySelector('.panel-stamp');
-        const source = (src) => el.querySelector('.ads-source[data-src="' + src + '"]');
+        const source = el.querySelector('.ads-source[data-src="google"]');
+        const line = source.querySelector('.ads-link');
+        const tag = source.querySelector('.ads-tag');
         const PLACE = SLOW + 0.1;
-        const tl = gsap.timeline({ paused: true, repeat: -1 });
-        const cycle = (from, to, at) => {
-          const trace = at + MED + 0.35 + PLACE + 0.2;
-          const line = source(to).querySelector('.ads-link');
-          const tag = source(to).querySelector('.ads-tag');
-          tl.to([consult, source(from), ...marks, stamp], { autoAlpha: 0, duration: MED, ease: 'power2.in' }, at)
-            .fromTo(consult, { autoAlpha: 0, y: 12 }, { autoAlpha: 1, y: 0, duration: PLACE, ease: 'power3.out', immediateRender: false }, at + MED + 0.35)
-            // the trace: the line grows out of the consult to the ad's edge, then the ad's tag lands on it
-            .set(tag, { autoAlpha: 0 }, trace)
-            .set(source(to), { autoAlpha: 1 }, trace)
-            .fromTo(line, { scaleY: 0 }, { scaleY: 1, duration: SLOW, ease: 'power2.inOut', immediateRender: false }, trace)
-            .fromTo(tag, { autoAlpha: 0, scale: 0.8 }, { autoAlpha: 1, scale: 1, duration: MED, ease: 'power2.out', immediateRender: false }, trace + SLOW - 0.05)
-            .fromTo(marks, { autoAlpha: 0, y: 8 }, { autoAlpha: 1, y: 0, duration: SLOW, ease: 'power3.out', immediateRender: false }, trace + SLOW + MED + 0.2);
-          press(tl, stamp, trace + SLOW + MED + 0.55);
-          return trace + SLOW + MED + 0.55 + MED * 1.8;
-        };
-        const first = cycle('google', 'meta', REST);
-        hold(tl, cycle('meta', 'google', first + HOLD + REST));
+        const tl = gsap.timeline({ paused: true });
+        start(tl, [...ads, consult, source, tag, ...marks, stamp], { autoAlpha: 0 });
+        start(tl, line, { scaleY: 0 });
+        const at = REST / 2;
+        tl.fromTo(ads, { autoAlpha: 0, y: 16 }, { autoAlpha: 1, y: 0, duration: PLACE, ease: 'power3.out', stagger: 0.15, immediateRender: false }, at)
+          .fromTo(consult, { autoAlpha: 0, y: 12 }, { autoAlpha: 1, y: 0, duration: PLACE, ease: 'power3.out', immediateRender: false }, at + 0.9);
+        // the trace: the line grows out of the consult to the ad's edge, then the ad's tag lands on it
+        const trace = at + 0.9 + PLACE + 0.3;
+        tl.set(source, { autoAlpha: 1 }, trace)
+          .fromTo(line, { scaleY: 0 }, { scaleY: 1, duration: SLOW, ease: 'power2.inOut', immediateRender: false }, trace)
+          .fromTo(tag, { autoAlpha: 0, scale: 0.8 }, { autoAlpha: 1, scale: 1, duration: MED, ease: 'power2.out', immediateRender: false }, trace + SLOW - 0.05)
+          .fromTo(marks, { autoAlpha: 0, y: 8 }, { autoAlpha: 1, y: 0, duration: SLOW, ease: 'power3.out', immediateRender: false }, trace + SLOW + MED + 0.2);
+        press(tl, stamp, trace + SLOW + MED + 0.55);
         return tl;
       },
       // patient follow-up (the add-ons deck's first card): the call is noted, the concierge's text goes out, the
@@ -781,36 +772,40 @@
         const sign = el.querySelector('[data-part="sign"]');
         const marks = signParts(sign);
         const stamp = sign.querySelector('.stamp');
-        const tl = gsap.timeline({ paused: true, repeat: -1 });
-        tl.to([msg, booked, ...marks, stamp], { autoAlpha: 0, duration: MED * 0.6, ease: 'power2.in' }, REST)
-          .to(call, { backgroundColor: token('--forest'), color: token('--cream'), duration: MED, ease: 'power2.out' }, REST + 0.2)
-          .to(call, { backgroundColor: token('--sage-mist'), color: token('--forest'), duration: MED, ease: 'power2.out' }, REST * 2 + 0.45)
-          .fromTo(msg, { autoAlpha: 0, y: 8 }, { autoAlpha: 1, y: 0, duration: SLOW, ease: 'power2.out', immediateRender: false }, REST * 2 + 0.45)
-          .fromTo(booked, { autoAlpha: 0, y: 8 }, { autoAlpha: 1, y: 0, duration: SLOW, ease: 'power2.out', immediateRender: false }, REST * 2 + 1.85)
-          .fromTo(marks, { autoAlpha: 0, y: 8 }, { autoAlpha: 1, y: 0, duration: SLOW, ease: 'power3.out', immediateRender: false }, REST * 2 + 2.25)
-          .set(stamp, { y: 0 }, REST * 2 + 2.25);
-        press(tl, stamp, REST * 2 + 2.45);
-        hold(tl, REST * 2 + 2.9);
+        const at = REST / 2;
+        const tl = gsap.timeline({ paused: true });
+        start(tl, [msg, booked, ...marks, stamp], { autoAlpha: 0 });
+        tl.to(call, { backgroundColor: token('--forest'), color: token('--cream'), duration: MED, ease: 'power2.out' }, at)
+          .to(call, { backgroundColor: token('--sage-mist'), color: token('--forest'), duration: MED, ease: 'power2.out' }, at + 0.85)
+          .fromTo(msg, { autoAlpha: 0, y: 8 }, { autoAlpha: 1, y: 0, duration: SLOW, ease: 'power2.out', immediateRender: false }, at + 0.85)
+          .fromTo(booked, { autoAlpha: 0, y: 8 }, { autoAlpha: 1, y: 0, duration: SLOW, ease: 'power2.out', immediateRender: false }, at + 2.25)
+          .fromTo(marks, { autoAlpha: 0, y: 8 }, { autoAlpha: 1, y: 0, duration: SLOW, ease: 'power3.out', immediateRender: false }, at + 2.65)
+          .set(stamp, { y: 0 }, at + 2.65);
+        press(tl, stamp, at + 2.85);
         return tl;
       },
     };
-    const samples = Array.from(signedEls, (el) => ({ el, kind: el.dataset.loop, live: false, fresh: true, tl: null }));
+    const samples = Array.from(signedEls, (el) => ({ el, kind: el.dataset.sample, live: false, done: false, tl: null }));
+    // finished for good: the timeline (if any) jumps to its end and the sample never plays again on this page load
+    const finish = (s) => { s.done = true; if (s.tl) s.tl.pause().progress(1); };
     const sync = (s) => {
-      // a sample on an add-ons deck card that isn't in front (its body is inert) rests finished, like a paused one
-      const away = !!s.el.closest('[inert]');
-      const live = s.live && !away;
-      if (live && motionOK() && !s.tl) s.tl = BUILD[s.kind](s.el);
-      if (!s.tl) return;
-      if (live && motionOK()) {
-        if (s.fresh) { s.fresh = false; s.tl.restart(); } else s.tl.resume();
-      } else if (!document.hidden && (!motionOK() || away)) {
-        s.tl.pause().seek('rest'); // paused by the visitor (or reduced motion switched on): show it finished, start over on play
-        s.fresh = true;
-      } else {
-        s.tl.pause(); // off screen or tab hidden: hold where it is
-      }
+      if (s.done || !s.tl) return;
+      if (!allowed()) { finish(s); return; } // paused by the visitor, or reduced motion turned on
+      // on an add-ons deck card that isn't in front (its body is inert): a sample that has started finishes; one that
+      // hasn't waits in its start state for its card to come forward
+      if (s.el.closest('[inert]')) { if (s.tl.progress() > 0) finish(s); return; }
+      if (s.live && !document.hidden) s.tl.play(); else s.tl.pause(); // off screen or tab hidden: hold where it is
     };
     const syncAll = () => samples.forEach(sync);
+    // armed once the type has loaded, so the timelines measure the real layout
+    const arm = () => {
+      samples.forEach((s) => {
+        if (!allowed() || s.el.getBoundingClientRect().top < innerHeight) { s.done = true; return; }
+        s.tl = BUILD[s.kind](s.el);
+        s.tl.eventCallback('onComplete', () => { s.done = true; });
+      });
+      syncAll();
+    };
     const watch = new IntersectionObserver((entries) => {
       entries.forEach((entry) => {
         const s = samples.find((x) => x.el === entry.target);
@@ -824,6 +819,7 @@
     document.addEventListener('visibilitychange', syncAll);
     root.addEventListener('rose:motion', syncAll);
     reduceMotion.addEventListener('change', syncAll);
+    (document.fonts ? document.fonts.ready : Promise.resolve()).then(arm);
   }
   const places = reduceMotion.matches || !('IntersectionObserver' in window) ? [] : Array.from(document.querySelectorAll('[data-place]'));
   if (places.length) {
@@ -1480,10 +1476,11 @@
   // buttons. The named buttons (aria-current on the chosen one; Left/Right, Up/Down, Home and End move along them), the
   // rails, Previous and Next (both wrap) and a sideways swipe on the deck (48px or more, mostly sideways; vertical
   // scrolling is left alone) all choose a card, and the choice is announced politely: its name and "2 of 6". Nothing
-  // advances on its own. 600ms after a card is chosen its sample replays its one action (.is-playing, site.css);
-  // follow-up's sample is a signed sample instead, which loops while its card is in front ("signed samples", told by
-  // rose:sync). The first time the deck is on screen with motion allowed, the rear cards fan out and settle (.is-nudging),
-  // once. Under reduced motion or with animations paused the cards swap instantly and the samples stay finished.
+  // advances on its own. The first time a card is chosen its sample plays its one action as the card comes forward
+  // (.is-playing, site.css), then stays finished until the page is reloaded; follow-up's sample is a signed sample
+  // instead, which plays once the first time its card is in front on screen ("signed samples", told by rose:sync). The
+  // first time the deck is on screen with motion allowed, the rear cards fan out and settle (.is-nudging), once. Under
+  // reduced motion or with animations paused the cards swap instantly and the samples stay finished.
   const deckRoot = document.querySelector('[data-deck]');
   if (deckRoot) {
     const stack = deckRoot.querySelector('.deck');
@@ -1493,9 +1490,7 @@
     const say = deckRoot.querySelector('[data-deck-say]');
     const titles = cards.map((card) => card.querySelector('.deck-title'));
     const n = cards.length;
-    const HOLD_MS = 600;
     let index = 0;
-    let playing = 0;
     const slotOf = (i) => {
       const d = (i - index + n) % n;
       return d < 3 ? String(d) : d === n - 1 ? 'prev' : 'back';
@@ -1508,14 +1503,14 @@
       });
       picks.forEach((pick, i) => (i === index ? pick.setAttribute('aria-current', 'true') : pick.removeAttribute('aria-current')));
       count.textContent = `${index + 1} of ${n}`;
-      stack.querySelectorAll('[data-loop]').forEach((el) => el.dispatchEvent(new Event('rose:sync')));
+      stack.querySelectorAll('[data-sample]').forEach((el) => el.dispatchEvent(new Event('rose:sync')));
     };
-    // the chosen card's sample replays its one action after the shared 600ms hold
+    // each card's sample plays once, the first time its card is chosen (follow-up, first in front, is a signed sample)
+    const played = new Set([0]);
     const play = () => {
-      clearTimeout(playing);
-      if (reduceMotion.matches || motionPaused()) return;
-      const card = cards[index];
-      playing = setTimeout(() => card.classList.add('is-playing'), HOLD_MS);
+      if (reduceMotion.matches || motionPaused() || played.has(index)) return;
+      played.add(index);
+      cards[index].classList.add('is-playing');
     };
     const select = (next) => {
       next = (next + n) % n;
@@ -1563,7 +1558,7 @@
       if (Math.abs(dx) >= 48 && Math.abs(dx) > Math.abs(dy) * 1.5) select(index + (dx < 0 ? 1 : -1));
     });
     // a paused or reduced visitor gets the finished sample at once
-    const settle = () => { if (reduceMotion.matches || motionPaused()) { clearTimeout(playing); cards.forEach((card) => card.classList.remove('is-playing')); } };
+    const settle = () => { if (reduceMotion.matches || motionPaused()) cards.forEach((card) => card.classList.remove('is-playing')); };
     root.addEventListener('rose:motion', settle);
     reduceMotion.addEventListener('change', settle);
     // the nudge: once, the first time the deck is on screen with motion allowed
