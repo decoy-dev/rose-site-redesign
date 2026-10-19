@@ -14,17 +14,17 @@ If a file below has changed in your source since this date, check it against the
 
 ## How to use this file
 
-There are fifteen changes, from three rounds of Chris's feedback. Change 12, the footer, is on every page. The rest are on the homepage (`index.html`, `assets/site.css`, `assets/site.js`) and its entries on `/components`.
+There are sixteen changes, from four rounds of Chris's feedback. Change 12, the footer, is on every page. The rest are on the homepage (`index.html`, `assets/site.css`, `assets/site.js`) and its entries on `/components`.
 
 You can apply them in either of two ways:
 - **All at once:** apply `changes.patch`, next to this file, from your site's root with `git apply changes.patch`. Its paths start with `site/`, so use `git apply -p2` if your files sit at the repository root.
 - **One at a time:** follow the changes below in order. Each one gives what changed and why, how it behaves on desktop and on phones, the files and line numbers it touches, the exact diff, and how to check it.
 
-Some later changes rework earlier ones; for example, changes 10 and 13 rework the ads sample from change 6. If you apply them one at a time, apply every one, in order.
+Some later changes rework earlier ones; for example, changes 10, 13 and 16 rework the ads sample from change 6. If you apply them one at a time, apply every one, in order.
 
 Line numbers in each diff refer to the files as they are after the changes above it. Every removed line is quoted exactly from the live site as of 2026-10-19 or from an earlier change here. If your source has moved on since then, match on the quoted text rather than the line numbers.
 
-To see it running: run `bun tools/serve.mjs clone/site` from the project folder and open http://127.0.0.1:4173/. Analytics only load on the production domain; the chat widget does load locally.
+To see it running, open https://decoy-dev.github.io/rose-site-redesign/, a preview built from these files. It is marked noindex, it leaves out the chat widget, and its forms send nothing. To run it locally, run `bun tools/serve.mjs clone/site` from the project folder and open http://127.0.0.1:4173/. Analytics only load on the production domain; the chat widget does load locally.
 
 ## Decisions behind these changes
 
@@ -36,9 +36,9 @@ To see it running: run `bun tools/serve.mjs clone/site` from the project folder 
 - **Desktop and phone are designed separately**, not scaled.
   - The phone page is 9,271px tall at 390 (10,000px before).
   - The desktop page is 8,097px at 1440 (7,748px before). The extra is mostly the taller footer.
-- **Samples loop, as they did before:** finished state, the job replays, it is signed and the stamp is pressed, it rests, it repeats.
+- **Samples play once:** each one animates in the first time it reaches the screen (place, mark with the stamp, rest) and then stays finished until the page is reloaded.
   - They run only on screen.
-  - They stop on their finished state when someone presses Pause animations.
+  - Pressing Pause animations finishes them.
   - They don't run at all under reduced motion.
 - **Your design checker reports exactly what it reports on the live site:** 3 blocks for the hero letter's shadows, and 2 warnings on /services/patient-follow-up. No new findings.
 
@@ -61,6 +61,7 @@ To see it running: run `bun tools/serve.mjs clone/site` from the project folder 
 | 13 | 5 | [Google and Meta ads: rebuilt for clarity and breathing room](#13-google-and-meta-ads-rebuilt-for-clarity-and-breathing-room) | `assets/site.css`, `assets/site.js`, `components.html`, `index.html` |
 | 14 | 5 | [Beyond the core plan: richer brand, video and website samples](#14-beyond-the-core-plan-richer-brand-video-and-website-samples) | `assets/site.css`, `components.html`, `index.html` |
 | 15 | 5 | [What happens after you say yes: more room in the four scenes](#15-what-happens-after-you-say-yes-more-room-in-the-four-scenes) | `assets/site.css`, `components.html` |
+| 16 | 6 | [How we help: every sample plays once, and the search results wait as a skeleton](#16-how-we-help-every-sample-plays-once-and-the-search-results-wait-as-a-skeleton) | `assets/site.css`, `assets/site.js`, `components.html`, `index.html` |
 
 ## Round 3
 
@@ -7881,6 +7882,624 @@ index 472bd60..7adca06 100644
 
 </details>
 
+## Round 6
+
+### 16. How we help: every sample plays once, and the search results wait as a skeleton
+
+**What and why.** Chris:
+- "The search result here is present even before the person submits. It should probably just be a skeleton until then."
+- "I don't think any of these animations should loop. They should animate in when the user reaches that section, and then persist until refresh. This applies for all sections under 'how we help'."
+
+**Now**
+- **Websites and SEO:** the search box starts empty, and the result area shows a sage mist skeleton of a result (`.gsr-skeleton`: the site row, the title, two snippet lines). Then:
+  1. The query is typed.
+  2. Search is pressed and the page loads.
+  3. The skeleton gives way to the result.
+  4. The note lands and its arm reaches the title.
+  5. It's signed and the panel stamp is pressed.
+- **Google and Meta ads:**
+  1. The two ads land and the booked consult lands under them.
+  2. Its line draws to the Google ad, which is tagged Source.
+  3. It's signed and the stamp is pressed.
+  It no longer alternates to the Meta ad.
+- **Beyond the core plan:**
+  - Patient follow-up's sample plays once, the first time its card is in front on screen.
+  - Every other card's sample plays its action the first time the card is chosen, as the card comes forward, rather than after a 600ms hold.
+  - Each card's sample stays finished after that.
+- Everything then stays finished until the page is reloaded; scrolling away and back doesn't replay it.
+
+**How (site.js "signed samples")**
+- The three samples are now `[data-sample="local-page|ads|follow"]`, renamed from `data-loop`, because they no longer loop. Your CSS loops on other pages keep `[data-loop]`.
+- Once the type has loaded, each sample still below the fold has its timeline built. That puts it in its start state: empty search and skeleton, ads not yet placed, message not yet sent.
+- A sample already on screen or scrolled past at load stays finished, so nothing flashes.
+- Each timeline plays once (no repeat), only while on screen with the tab visible.
+- Pausing animations finishes every sample for good, and under reduced motion nothing is built.
+- In the deck, `play()` only plays a card the first time it is chosen.
+
+**Unchanged:** the static markup is still the finished state, so no-JS and reduced motion are unchanged. The skeleton is hidden at rest.
+
+**Check:** reload at the top and scroll down slowly at 1440 and 390.
+- The SEO sample types into an empty box over a skeleton, then shows the result.
+- The ads and follow-up samples animate in once.
+- Scroll back up and down again: nothing replays.
+
+**Files and lines** (after this change):
+
+- `site/assets/site.css`: lines 1476–1484, 1954–1965, 2010–2016, 2020–2031, 2052–2068, 2093–2107, 2142–2154
+- `site/assets/site.js`: lines 646–673, 675–688, 692–766, 772–811, 819–825, 1476–1486, 1490–1496, 1503–1516, 1558–1564
+- `site/components.html`: lines 113–119, 539–545, 563–569, 816–825, 828–834, 848–854
+- `site/index.html`: lines 300–308, 320–326, 329–335, 358–364, 395–402, 423–429
+
+<details>
+<summary>Exact diff for change 16</summary>
+
+```diff
+diff --git a/site/assets/site.css b/site/assets/site.css
+index 1264880..b1e48cd 100644
+--- a/site/assets/site.css
++++ b/site/assets/site.css
+@@ -1476,9 +1476,9 @@ h1 em, h2 em, h3 em, .tagline em, .signed-change em { color: var(--accent-italic
+    400ms, a card leaving fades in 150ms, and the one coming forward comes into focus in the last 150ms. The first time
+    the deck comes on screen the two rear cards fan out 12px and settle back (.is-nudging), once. Under reduced motion
+    or with animations paused every change is instant.
+-   Each card's sample is a cream sheet with its Sample chip in the header. Follow-up's is a signed sample that loops
+-   while its card is in front (site.js "signed samples", data-loop="follow"); the others replay one small action 600ms
+-   after they are chosen (.is-playing, below). Every sample's markup is its finished state.
++   Each card's sample is a cream sheet with its Sample chip in the header. Follow-up's is a signed sample that plays
++   once, the first time its card is in front on screen (site.js "signed samples", data-sample="follow"); the others play
++   one small action the first time they are chosen (.is-playing, below). Every sample's markup is its finished state.
+    Tablet (768 to 1024): the named buttons wrap in a row above the deck. Phones (under 768): no named buttons; the rear
+    cards show under the card in front, the next one's name on its edge, and a sideways swipe on the deck chooses the
+    next or previous card. A card's copy sits beside its sample only where the card is 640px wide or more (a container
+@@ -1954,12 +1954,12 @@ h1 em, h2 em, h3 em, .tagline em, .signed-change em { color: var(--accent-italic
+   .run-show .screen { max-width: none; }
+ }
+ 
+-/* ----- Looping graphics: [data-loop="status|compare"] (CSS) and [data-loop="local-page|ads"] (GSAP) -----
++/* ----- Looping graphics: [data-loop="status|compare"] (CSS) -----
+    status and compare are slow CSS loops on a sample graphic. site.js adds .is-looping once it watches the graphic and
+    .is-live while it is on screen; off screen the loop pauses. The first frame of every loop is the finished graphic, so
+    a paused, still or script-less graphic is complete. Under prefers-reduced-motion none of it runs. Put data-anim="none"
+-   on the same element so the one-shot behaviours in site.js leave it alone. The homepage's signed samples
+-   (local-page, ads) are GSAP timelines in site.js ("signed samples"); see "signed samples" below. */
++   on the same element so the one-shot behaviours in site.js leave it alone. The homepage's signed samples don't loop:
++   they play once ([data-sample], GSAP in site.js "signed samples"); see "signed samples" below. */
+ /* status chips: the loop opens on the finished row, then steps New, Called, Consult booked */
+ @keyframes loop-status-new {
+   0%, 30% { border-color: transparent; background-color: var(--surface-panel); color: var(--forest); }
+@@ -2010,7 +2010,7 @@ h1 em, h2 em, h3 em, .tagline em, .signed-change em { color: var(--accent-italic
+ /* ---------- the core services as alternating rows (homepage How we help) ---------- */
+ /* Copy on one side, the signed sample on a sage mist panel on the other; the second row flips. One column under 1024px.
+    Markup: .service-rows > article.service-row(.service-row--flip) > .service-row-copy (h3.display-m + p + a.btn.btn--secondary)
+-   + .service-row-visual[data-place] > .vignette[data-loop][data-anim=none][role=img] */
++   + .service-row-visual[data-place] > .vignette[data-sample][data-anim=none][role=img] */
+ .service-rows { display: grid; gap: var(--space-24); }
+ .service-row { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); align-items: center; gap: var(--space-12) var(--space-16); }
+ .service-row--flip { grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); }
+@@ -2020,11 +2020,12 @@ h1 em, h2 em, h3 em, .tagline em, .signed-change em { color: var(--accent-italic
+ .service-row-visual { position: relative; display: grid; grid-template-columns: minmax(0, 1fr); place-items: center; min-height: 420px; padding: var(--space-12) var(--space-8); border-radius: var(--radius-panel); background: var(--surface-panel); }
+ 
+ /* ---------- signed samples (homepage: the two service rows) ---------- */
+-/* Every change, signed: each sample replays its job in three beats, place (the work lands), mark (it is signed by role
+-   and the Rose stamp is pressed on), rest (it holds, finished). The static markup is the finished, signed state.
+-   site.js ("signed samples") builds each timeline the first time it reaches the screen, plays it only while on screen
+-   and the tab is visible, and jumps it to the finished state when animations are paused; under reduced motion nothing
+-   is built. Only transform, opacity and colour change. The Sample chip never fades.
++/* Every change, signed: each sample plays its job once, as it reaches the screen, in three beats: place (the work
++   lands), mark (it is signed by role and the Rose stamp is pressed on), rest (it stays, finished, until the page is
++   reloaded). The static markup is the finished, signed state. site.js ("signed samples") builds each timeline once the
++   type has loaded, for samples still below the fold, which puts them in their start state; it plays only while on screen
++   and the tab is visible, and pausing animations finishes it for good; under reduced motion nothing is built. Only
++   transform, opacity, colour and clip-path change. The Sample chip never fades.
+    The sign-off: div.signoff > svg.signoff-disc.founder-art (the founders ring's disc, small) + span.signoff-who
+    ("Signed by" + em.signature with the role) + span.chip.chip--sample + img.stamp (assets/img/stamp-signed.svg: the bloom
+    in a deep rose double ring, mark artwork). Signed by role only: no names, no initials. */
+@@ -2051,16 +2052,17 @@ h1 em, h2 em, h3 em, .tagline em, .signed-change em { color: var(--accent-italic
+ }
+ 
+ /* Websites and SEO: an excerpt of a Google results page in the palette (illustrative, not a screenshot), one organic
+-   result, and outside the page a cream note pointing to it: new this month, signed by Web and SEO. The search runs
+-   again: the query is selected, cleared and typed into its one text node with the caret right after it, search is
+-   pressed, the page loads with no results, the result places, the note and its connector return, signed, and the panel
+-   stamp is pressed on (site.js "signed samples", local-page). Static, it is the finished search: full query, the result,
+-   the note, the signature, the stamp; no caret. When the panel is 430px or narrower inside (phones; a container query
+-   on the panel) the address bar goes and the page stacks the way Google does on a phone. The panel's bottom-right
+-   corner is kept clear for the panel stamp.
+-   Markup: .service-row-visual--search > .vignette--search[data-loop=local-page] > .gsr-top (caption + Sample chip)
++   result, and outside the page a cream note pointing to it: new this month, signed by Web and SEO. Once, as it reaches
++   the screen: the search box starts empty and the result waits as a skeleton (.gsr-skeleton), the query is typed into
++   its one text node with the caret right after it, search is pressed, the page loads, the skeleton gives way to the
++   result, the note lands and its connector reaches the title, signed, and the panel stamp is pressed on (site.js
++   "signed samples", local-page). Static, it is the finished search: full query, the result, the note, the signature,
++   the stamp; no caret, no skeleton. When the panel is 430px or narrower inside (phones; a container query on the panel)
++   the address bar goes and the page stacks the way Google does on a phone. The panel's bottom-right corner is kept
++   clear for the panel stamp.
++   Markup: .service-row-visual--search > .vignette--search[data-sample=local-page] > .gsr-top (caption + Sample chip)
+    + .screen.gsr (.screen-bar + .gsr-page: .gsr-mark + .gsr-field (.gsr-q > span[data-type] + .gsr-caret; .gsr-go)
+-   + .gsr-tabs (.gsr-load) + .gsr-result (.gsr-site + .gsr-title + .gsr-snippet + .gsr-link))
++   + .gsr-tabs (.gsr-load) + .gsr-result (.gsr-skeleton + .gsr-site + .gsr-title + .gsr-snippet + .gsr-link))
+    + .gsr-note (title + line + .signoff) ; then img.panel-stamp */
+ .service-row-visual.service-row-visual--search { container-type: inline-size; container-name: seo-sample; padding: var(--space-4) var(--space-8) var(--space-8); }
+ .vignette--search {
+@@ -2091,6 +2093,15 @@ h1 em, h2 em, h3 em, .tagline em, .signed-change em { color: var(--accent-italic
+ /* the page loading: a forest line runs along the tabs' rule, then goes (set by site.js; never shown at rest) */
+ .gsr-tabs .gsr-load { position: absolute; left: 0; right: 0; bottom: -1px; height: 2px; padding: 0; background: var(--forest); transform-origin: left center; opacity: 0; }
+ .gsr-result { position: relative; grid-column: 2; display: grid; justify-items: start; gap: var(--space-1); margin-top: var(--space-1); }
++/* the results before the search is sent: a sage mist skeleton of the result (the site row, the title, two lines of the
++   snippet) over the same place, shown only while the sample waits for its search (site.js); at rest it is hidden */
++.gsr-skeleton { position: absolute; inset: 0; display: grid; align-content: start; justify-items: start; gap: var(--space-2); visibility: hidden; opacity: 0; pointer-events: none; }
++.gsr-skel-site { display: flex; align-items: center; gap: var(--space-3); width: 100%; margin-bottom: var(--space-1); }
++.gsr-skel-site > span:first-child { flex: none; width: 28px; height: 28px; border-radius: 50%; background: var(--surface-panel); }
++.gsr-skel-site > span:last-child { width: 36%; height: 10px; border-radius: var(--radius-pill); background: var(--surface-panel); }
++.gsr-skel-line { display: block; width: 92%; height: 8px; border-radius: var(--radius-pill); background: var(--surface-panel); }
++.gsr-skel-line--title { width: 60%; height: 14px; margin-bottom: var(--space-1); }
++.gsr-skel-line--short { width: 66%; }
+ .gsr-site { display: flex; align-items: center; gap: var(--space-3); margin-bottom: var(--space-1); }
+ .gsr-fav { display: grid; place-items: center; flex: none; width: 28px; height: 28px; border-radius: 50%; background: var(--forest); color: var(--cream); }
+ .gsr-fav .icon { width: 16px; height: 16px; }
+@@ -2131,13 +2142,13 @@ h1 em, h2 em, h3 em, .tagline em, .signed-change em { color: var(--accent-italic
+    the booked consult (Consult booked, [Name], the enquiry, [Time]), and its sign-off, Paid media. The ad the consult
+    came from carries a forest Source tag on its edge, joined to the consult line by one straight forest line. Each card
+    is cream on the panel with one soft shadow and no outline. Illustration only: the buttons do nothing.
+-   Markup: .service-row-visual--ads > .vignette.ads[data-loop=ads] > .ads-top (caption + Sample chip)
++   Markup: .service-row-visual--ads > .vignette.ads[data-sample=ads] > .ads-top (caption + Sample chip)
+    + .ads-ad.ads-google + .ads-ad.ads-meta (each ending in span.ads-source[data-src] > .ads-tag + .ads-link)
+    + p.ads-consult[data-part=consult] + .signoff[data-part=sign]; then img.panel-stamp.
+-   Static and paused: traced to the Google ad (its .ads-source shown, the Meta one hidden). The loop clears the consult
+-   and its trace, places the next consult, draws the line out of it to the other ad and tags that ad, signs it and
+-   presses the panel stamp: the Meta ad first, then back to Google (site.js "signed samples"). The bottom-left corner
+-   stays clear for the panel stamp: the consult line is inset 80px each side and the sign-off sits at its right end. */
++   Static and paused: traced to the Google ad (its .ads-source shown, the Meta one hidden). Once, as it reaches the
++   screen: the two ads land, the consult is placed under them, the line draws out of it to the Google ad and tags it
++   Source, it is signed and the panel stamp is pressed on (site.js "signed samples"). The bottom-left corner stays clear
++   for the panel stamp: the consult line is inset 80px each side and the sign-off sits at its right end. */
+ /* the panel is the container (the ads stack whenever its inner width is under 520px: phones, and 1025-1150px) */
+ .service-row-visual.service-row-visual--ads { container: ads-panel / inline-size; padding: var(--space-8); }
+ /* its clear corner is the bottom left wherever the panel sits (the flipped row, and its reference on components.html) */
+diff --git a/site/assets/site.js b/site/assets/site.js
+index 32b205d..ea691c6 100644
+--- a/site/assets/site.js
++++ b/site/assets/site.js
+@@ -646,25 +646,28 @@
+     }
+   }
+ 
+-  // ----- signed samples (homepage: [data-loop="local-page|ads|follow"]; site.css "signed samples") -----
+-  // Each sample replays its job in three beats: place (the work lands), mark (it is signed by role and the Rose stamp is
+-  // pressed on), rest (it holds, finished). The static markup is the finished state, and every timeline starts and ends
+-  // on it, so a repeat never jumps and a pause can always show it. A timeline is built the first time its sample reaches
+-  // the screen (so measurements use the loaded fonts), runs only while it is on screen and the tab is visible, and jumps
+-  // to its finished state ('rest') when the visitor pauses animations. Under reduced motion nothing is built. Only
+-  // transform, opacity and colour change; the Sample chip never fades. Durations come from the motion tokens.
+-  // [data-place] panels settle 16px into place the first time they reach the screen (CSS does the motion).
+-  const signedEls = document.querySelectorAll('[data-loop="local-page"], [data-loop="ads"], [data-loop="follow"]');
++  // ----- signed samples (homepage How we help: [data-sample="local-page|ads|follow"]; site.css "signed samples") -----
++  // Each sample plays its job once, as it reaches the screen, in three beats: place (the work lands), mark (it is signed
++  // by role and the Rose stamp is pressed on), rest (it stays, finished, until the page is reloaded). The static markup is
++  // the finished state. Once the type has loaded, every sample still below the fold has its timeline built, which puts it
++  // in its start state (the search field empty and its results a skeleton; the ads and the consult not yet placed; the
++  // concierge's text and the booking not yet sent); a sample already on screen or scrolled past at load simply stays
++  // finished, so nothing flashes. A timeline runs only while its sample is on screen (35%) and the tab is visible, and
++  // holds where it is otherwise. Pausing animations, or turning on reduced motion, finishes every sample for good; under
++  // reduced motion nothing is built. Only transform, opacity, colour and clip-path change; the Sample chip never fades.
++  // Durations come from the motion tokens. [data-place] panels settle 16px into place the first time they reach the
++  // screen (CSS does the motion).
++  const signedEls = document.querySelectorAll('[data-sample]');
+   if (signedEls.length && window.gsap && 'IntersectionObserver' in window) {
+     const gsap = window.gsap;
+     const token = (name) => getComputedStyle(root).getPropertyValue(name).trim();
+     const sec = (name, fallback) => { const raw = token(name); const n = parseFloat(raw); return Number.isFinite(n) ? (raw.endsWith('ms') ? n / 1000 : n) : fallback; };
++    const FAST = sec('--dur-fast', 0.15);
+     const MED = sec('--dur-med', 0.25);
+     const SLOW = sec('--dur-slow', 0.4);
+     const REST = sec('--rest-bloom', 0.6);
+-    const HOLD = sec('--hold-lower-third', 4);
+     const clear = (hex) => { const n = parseInt(hex.replace('#', ''), 16); return 'rgba(' + (n >> 16) + ', ' + ((n >> 8) & 255) + ', ' + (n & 255) + ', 0)'; };
+-    const motionOK = () => !reduceMotion.matches && !motionPaused() && !document.hidden;
++    const allowed = () => !reduceMotion.matches && !motionPaused();
+     // the sign-off's mark fades and returns; its Sample chip stays put
+     const signParts = (sign) => Array.from(sign.children).filter((n) => !n.matches('.chip--sample, .stamp'));
+     // the stamp, pressed on: down fast and a touch past, then settled. Its resting tilt lives in CSS.
+@@ -672,14 +675,14 @@
+       tl.fromTo(stamp, { autoAlpha: 0, scale: 1.7, rotation: -24 }, { autoAlpha: 0.9, scale: 0.93, rotation: 0, duration: MED, ease: 'power2.in', immediateRender: false }, at)
+         .to(stamp, { scale: 1, duration: MED * 0.8, ease: 'power2.out' }, at + MED);
+     };
+-    const hold = (tl, at) => tl.addLabel('rest', at).to({}, { duration: HOLD }, 'rest');
++    // a start state, set the moment the timeline is built (before it plays)
++    const start = (tl, targets, vars) => tl.set(targets, { ...vars, immediateRender: true }, 0);
+     const BUILD = {
+-      // Websites and SEO: the search runs again. After the finished hold the note, its connector, its signature and the
+-      // panel stamp lift off; the query is selected and cleared, then typed into its one text node (no per-letter spans),
+-      // so the caret rides right after the typed text, at a typist's uneven pace with a breath after "adults". A beat to
+-      // read it, search is pressed, the result clears while the page loads, the result places, the note returns and its
+-      // connector draws up to the title, it is signed and the panel stamp is pressed on. Every change is a tween or a
+-      // set (no callbacks), so a seek to 'rest' always lands on the full query with no caret.
++      // Websites and SEO: the search box starts empty and the results wait as a skeleton. The query is typed into its
++      // one text node (no per-letter spans), so the caret rides right after the typed text, at a typist's uneven pace
++      // with a breath after "adults". A beat to read it, search is pressed, a forest line runs along the tabs while the
++      // page loads, the skeleton gives way to the result, the note lands and its connector rises from it and reaches
++      // across to the title, slowing as it arrives; it is signed and the panel stamp is pressed on.
+       'local-page': (el) => {
+         const field = el.querySelector('[data-type]');
+         const text = field.firstChild;
+@@ -689,87 +692,75 @@
+         const caret = el.querySelector('.gsr-caret');
+         const go = el.querySelector('[data-part="go"]');
+         const load = el.querySelector('[data-part="load"]');
+-        const result = el.querySelector('[data-part="result"]');
++        const skeleton = el.querySelector('[data-part="skeleton"]');
++        const found = el.querySelectorAll('.gsr-site, .gsr-title, .gsr-snippet');
+         const link = el.querySelector('[data-part="link"]');
+         const note = el.querySelector('[data-part="note"]');
+         const marks = signParts(el.querySelector('[data-part="sign"]'));
+         const stamp = el.closest('.service-row-visual').querySelector('.panel-stamp');
+-        const FAST = sec('--dur-fast', 0.15);
+-        const fill = token('--fill-quiet');
+         const mist = token('--sage-mist');
+-        // the connector draws in two phases: up from the note (its left strip only), then out along the top to the
+-        // title, slowing as it arrives, so the arm reads as reaching for the result rather than snapping to it
++        // the connector draws in two phases: up from the note (its left strip only), then out along the top to the title
+         const armW = link.offsetWidth;
+         const armH = link.offsetHeight;
+         const hidden = 'inset(' + (armH + 8) + 'px ' + (armW - 14) + 'px -8px -8px)';
+         const risen = 'inset(-8px ' + (armW - 14) + 'px -8px -8px)';
+         const drawn = 'inset(-8px -8px -8px -8px)';
+-        const tl = gsap.timeline({ paused: true, repeat: -1 });
+-        tl.to([note, link, stamp], { autoAlpha: 0, duration: FAST, ease: 'power2.in' }, REST)
+-          .set(marks, { autoAlpha: 0 }, REST + FAST)
+-          // select the query, then clear it; the caret waits at the start
+-          .set(field, { backgroundColor: fill }, REST + 0.3)
+-          .set(field, { backgroundColor: clear(fill) }, REST + 0.3 + FAST)
+-          .set(typed, { value: '' }, REST + 0.3 + FAST)
+-          .set(caret, { autoAlpha: 1 }, REST + 0.3 + FAST);
++        const tl = gsap.timeline({ paused: true });
++        start(tl, typed, { value: '' });
++        start(tl, [caret, skeleton], { autoAlpha: 1 });
++        start(tl, [...found, note, link, ...marks, stamp], { autoAlpha: 0 });
+         // type: 70/90/60/110ms a letter in turn, 60ms a space, 180ms more after "adults"
+         const pace = [0.07, 0.09, 0.06, 0.11];
+-        let t = REST + 0.3 + FAST + 0.35;
++        let t = REST;
+         let n = 0;
+         for (let i = 1; i <= query.length; i++) {
+           tl.set(typed, { value: query.slice(0, i) }, t);
+           t += query[i - 1] === ' ' ? 0.06 : pace[n++ % pace.length];
+           if (query.slice(0, i).endsWith('adults')) t += 0.18;
+         }
+-        // read it, press search; the result clears, the page loads, the result places
++        // read it, press search; the page loads, the skeleton gives way to the result
+         const sent = t + MED;
+         tl.set(caret, { autoAlpha: 0 }, sent)
+           .fromTo(go, { scale: 1, backgroundColor: clear(mist) }, { scale: 0.88, backgroundColor: mist, duration: FAST / 2, ease: 'power2.in', immediateRender: false }, sent)
+           .to(go, { scale: 1, backgroundColor: clear(mist), duration: FAST / 2, ease: 'power2.out' }, sent + FAST / 2)
+-          .to(result, { autoAlpha: 0, duration: FAST, ease: 'power2.in' }, sent + FAST)
+           .fromTo(load, { autoAlpha: 1, scaleX: 0 }, { scaleX: 1, duration: SLOW, ease: 'power2.out', immediateRender: false }, sent + FAST)
+-          .to(load, { autoAlpha: 0, duration: FAST }, sent + FAST + SLOW);
+-        const placed = sent + FAST * 2 + MED;
+-        tl.fromTo(result, { autoAlpha: 0, y: 10 }, { autoAlpha: 1, y: 0, duration: SLOW, ease: 'power2.out', immediateRender: false }, placed)
+-          // the note returns, then its connector rises from it and reaches across to the title; then it is signed
+-          .fromTo(note, { autoAlpha: 0, y: 8 }, { autoAlpha: 1, y: 0, duration: MED, ease: 'power2.out', immediateRender: false }, placed + SLOW);
+-        const reach = placed + SLOW + MED * 0.6;
++          .to(load, { autoAlpha: 0, duration: FAST }, sent + FAST + SLOW)
++          .to(skeleton, { autoAlpha: 0, duration: FAST, ease: 'power2.in' }, sent + FAST + SLOW);
++        const placed = sent + FAST * 2 + SLOW;
++        tl.fromTo(found, { autoAlpha: 0, y: 10 }, { autoAlpha: 1, y: 0, duration: SLOW, ease: 'power2.out', stagger: 0.06, immediateRender: false }, placed)
++          .fromTo(note, { autoAlpha: 0, y: 8 }, { autoAlpha: 1, y: 0, duration: MED, ease: 'power2.out', immediateRender: false }, placed + SLOW + 0.12);
++        const reach = placed + SLOW + 0.12 + MED * 0.6;
+         const reached = reach + 0.55 + 0.8;
+         tl.fromTo(link, { autoAlpha: 1, clipPath: hidden }, { autoAlpha: 1, clipPath: risen, duration: 0.55, ease: 'sine.inOut', immediateRender: false }, reach)
+           .to(link, { clipPath: drawn, duration: 0.8, ease: 'power3.out' }, reach + 0.55)
+           .fromTo(marks, { autoAlpha: 0, y: 6 }, { autoAlpha: 1, y: 0, duration: MED, ease: 'power2.out', immediateRender: false }, reached - 0.1);
+         press(tl, stamp, reached + MED * 0.6);
+-        hold(tl, reached + MED * 0.6 + 0.5);
+         return tl;
+       },
+-      // the consult is traced back to the ad that brought it: the consult and its trace lift off, the next consult is
+-      // placed, its line draws out of it to the ad it came from and that ad is tagged Source, it is signed and the
+-      // panel stamp pressed. Each cycle traces the other ad: the first to Meta, the second back to Google, which is the
+-      // finished state ('rest') and the markup.
++      // Google and Meta ads: the two ads land, a booked consult lands under them, its line draws out of it to the ad it
++      // came from (the Google ad) and that ad is tagged Source; it is signed and the panel stamp is pressed on.
+       ads: (el) => {
++        const ads = el.querySelectorAll('.ads-ad');
+         const consult = el.querySelector('[data-part="consult"]');
+         const marks = signParts(el.querySelector('[data-part="sign"]'));
+         const stamp = el.closest('.service-row-visual').querySelector('.panel-stamp');
+-        const source = (src) => el.querySelector('.ads-source[data-src="' + src + '"]');
++        const source = el.querySelector('.ads-source[data-src="google"]');
++        const line = source.querySelector('.ads-link');
++        const tag = source.querySelector('.ads-tag');
+         const PLACE = SLOW + 0.1;
+-        const tl = gsap.timeline({ paused: true, repeat: -1 });
+-        const cycle = (from, to, at) => {
+-          const trace = at + MED + 0.35 + PLACE + 0.2;
+-          const line = source(to).querySelector('.ads-link');
+-          const tag = source(to).querySelector('.ads-tag');
+-          tl.to([consult, source(from), ...marks, stamp], { autoAlpha: 0, duration: MED, ease: 'power2.in' }, at)
+-            .fromTo(consult, { autoAlpha: 0, y: 12 }, { autoAlpha: 1, y: 0, duration: PLACE, ease: 'power3.out', immediateRender: false }, at + MED + 0.35)
+-            // the trace: the line grows out of the consult to the ad's edge, then the ad's tag lands on it
+-            .set(tag, { autoAlpha: 0 }, trace)
+-            .set(source(to), { autoAlpha: 1 }, trace)
+-            .fromTo(line, { scaleY: 0 }, { scaleY: 1, duration: SLOW, ease: 'power2.inOut', immediateRender: false }, trace)
+-            .fromTo(tag, { autoAlpha: 0, scale: 0.8 }, { autoAlpha: 1, scale: 1, duration: MED, ease: 'power2.out', immediateRender: false }, trace + SLOW - 0.05)
+-            .fromTo(marks, { autoAlpha: 0, y: 8 }, { autoAlpha: 1, y: 0, duration: SLOW, ease: 'power3.out', immediateRender: false }, trace + SLOW + MED + 0.2);
+-          press(tl, stamp, trace + SLOW + MED + 0.55);
+-          return trace + SLOW + MED + 0.55 + MED * 1.8;
+-        };
+-        const first = cycle('google', 'meta', REST);
+-        hold(tl, cycle('meta', 'google', first + HOLD + REST));
++        const tl = gsap.timeline({ paused: true });
++        start(tl, [...ads, consult, source, tag, ...marks, stamp], { autoAlpha: 0 });
++        start(tl, line, { scaleY: 0 });
++        const at = REST / 2;
++        tl.fromTo(ads, { autoAlpha: 0, y: 16 }, { autoAlpha: 1, y: 0, duration: PLACE, ease: 'power3.out', stagger: 0.15, immediateRender: false }, at)
++          .fromTo(consult, { autoAlpha: 0, y: 12 }, { autoAlpha: 1, y: 0, duration: PLACE, ease: 'power3.out', immediateRender: false }, at + 0.9);
++        // the trace: the line grows out of the consult to the ad's edge, then the ad's tag lands on it
++        const trace = at + 0.9 + PLACE + 0.3;
++        tl.set(source, { autoAlpha: 1 }, trace)
++          .fromTo(line, { scaleY: 0 }, { scaleY: 1, duration: SLOW, ease: 'power2.inOut', immediateRender: false }, trace)
++          .fromTo(tag, { autoAlpha: 0, scale: 0.8 }, { autoAlpha: 1, scale: 1, duration: MED, ease: 'power2.out', immediateRender: false }, trace + SLOW - 0.05)
++          .fromTo(marks, { autoAlpha: 0, y: 8 }, { autoAlpha: 1, y: 0, duration: SLOW, ease: 'power3.out', immediateRender: false }, trace + SLOW + MED + 0.2);
++        press(tl, stamp, trace + SLOW + MED + 0.55);
+         return tl;
+       },
+       // patient follow-up (the add-ons deck's first card): the call is noted, the concierge's text goes out, the
+@@ -781,36 +772,40 @@
+         const sign = el.querySelector('[data-part="sign"]');
+         const marks = signParts(sign);
+         const stamp = sign.querySelector('.stamp');
+-        const tl = gsap.timeline({ paused: true, repeat: -1 });
+-        tl.to([msg, booked, ...marks, stamp], { autoAlpha: 0, duration: MED * 0.6, ease: 'power2.in' }, REST)
+-          .to(call, { backgroundColor: token('--forest'), color: token('--cream'), duration: MED, ease: 'power2.out' }, REST + 0.2)
+-          .to(call, { backgroundColor: token('--sage-mist'), color: token('--forest'), duration: MED, ease: 'power2.out' }, REST * 2 + 0.45)
+-          .fromTo(msg, { autoAlpha: 0, y: 8 }, { autoAlpha: 1, y: 0, duration: SLOW, ease: 'power2.out', immediateRender: false }, REST * 2 + 0.45)
+-          .fromTo(booked, { autoAlpha: 0, y: 8 }, { autoAlpha: 1, y: 0, duration: SLOW, ease: 'power2.out', immediateRender: false }, REST * 2 + 1.85)
+-          .fromTo(marks, { autoAlpha: 0, y: 8 }, { autoAlpha: 1, y: 0, duration: SLOW, ease: 'power3.out', immediateRender: false }, REST * 2 + 2.25)
+-          .set(stamp, { y: 0 }, REST * 2 + 2.25);
+-        press(tl, stamp, REST * 2 + 2.45);
+-        hold(tl, REST * 2 + 2.9);
++        const at = REST / 2;
++        const tl = gsap.timeline({ paused: true });
++        start(tl, [msg, booked, ...marks, stamp], { autoAlpha: 0 });
++        tl.to(call, { backgroundColor: token('--forest'), color: token('--cream'), duration: MED, ease: 'power2.out' }, at)
++          .to(call, { backgroundColor: token('--sage-mist'), color: token('--forest'), duration: MED, ease: 'power2.out' }, at + 0.85)
++          .fromTo(msg, { autoAlpha: 0, y: 8 }, { autoAlpha: 1, y: 0, duration: SLOW, ease: 'power2.out', immediateRender: false }, at + 0.85)
++          .fromTo(booked, { autoAlpha: 0, y: 8 }, { autoAlpha: 1, y: 0, duration: SLOW, ease: 'power2.out', immediateRender: false }, at + 2.25)
++          .fromTo(marks, { autoAlpha: 0, y: 8 }, { autoAlpha: 1, y: 0, duration: SLOW, ease: 'power3.out', immediateRender: false }, at + 2.65)
++          .set(stamp, { y: 0 }, at + 2.65);
++        press(tl, stamp, at + 2.85);
+         return tl;
+       },
+     };
+-    const samples = Array.from(signedEls, (el) => ({ el, kind: el.dataset.loop, live: false, fresh: true, tl: null }));
++    const samples = Array.from(signedEls, (el) => ({ el, kind: el.dataset.sample, live: false, done: false, tl: null }));
++    // finished for good: the timeline (if any) jumps to its end and the sample never plays again on this page load
++    const finish = (s) => { s.done = true; if (s.tl) s.tl.pause().progress(1); };
+     const sync = (s) => {
+-      // a sample on an add-ons deck card that isn't in front (its body is inert) rests finished, like a paused one
+-      const away = !!s.el.closest('[inert]');
+-      const live = s.live && !away;
+-      if (live && motionOK() && !s.tl) s.tl = BUILD[s.kind](s.el);
+-      if (!s.tl) return;
+-      if (live && motionOK()) {
+-        if (s.fresh) { s.fresh = false; s.tl.restart(); } else s.tl.resume();
+-      } else if (!document.hidden && (!motionOK() || away)) {
+-        s.tl.pause().seek('rest'); // paused by the visitor (or reduced motion switched on): show it finished, start over on play
+-        s.fresh = true;
+-      } else {
+-        s.tl.pause(); // off screen or tab hidden: hold where it is
+-      }
++      if (s.done || !s.tl) return;
++      if (!allowed()) { finish(s); return; } // paused by the visitor, or reduced motion turned on
++      // on an add-ons deck card that isn't in front (its body is inert): a sample that has started finishes; one that
++      // hasn't waits in its start state for its card to come forward
++      if (s.el.closest('[inert]')) { if (s.tl.progress() > 0) finish(s); return; }
++      if (s.live && !document.hidden) s.tl.play(); else s.tl.pause(); // off screen or tab hidden: hold where it is
+     };
+     const syncAll = () => samples.forEach(sync);
++    // armed once the type has loaded, so the timelines measure the real layout
++    const arm = () => {
++      samples.forEach((s) => {
++        if (!allowed() || s.el.getBoundingClientRect().top < innerHeight) { s.done = true; return; }
++        s.tl = BUILD[s.kind](s.el);
++        s.tl.eventCallback('onComplete', () => { s.done = true; });
++      });
++      syncAll();
++    };
+     const watch = new IntersectionObserver((entries) => {
+       entries.forEach((entry) => {
+         const s = samples.find((x) => x.el === entry.target);
+@@ -824,6 +819,7 @@
+     document.addEventListener('visibilitychange', syncAll);
+     root.addEventListener('rose:motion', syncAll);
+     reduceMotion.addEventListener('change', syncAll);
++    (document.fonts ? document.fonts.ready : Promise.resolve()).then(arm);
+   }
+   const places = reduceMotion.matches || !('IntersectionObserver' in window) ? [] : Array.from(document.querySelectorAll('[data-place]'));
+   if (places.length) {
+@@ -1480,10 +1476,11 @@
+   // buttons. The named buttons (aria-current on the chosen one; Left/Right, Up/Down, Home and End move along them), the
+   // rails, Previous and Next (both wrap) and a sideways swipe on the deck (48px or more, mostly sideways; vertical
+   // scrolling is left alone) all choose a card, and the choice is announced politely: its name and "2 of 6". Nothing
+-  // advances on its own. 600ms after a card is chosen its sample replays its one action (.is-playing, site.css);
+-  // follow-up's sample is a signed sample instead, which loops while its card is in front ("signed samples", told by
+-  // rose:sync). The first time the deck is on screen with motion allowed, the rear cards fan out and settle (.is-nudging),
+-  // once. Under reduced motion or with animations paused the cards swap instantly and the samples stay finished.
++  // advances on its own. The first time a card is chosen its sample plays its one action as the card comes forward
++  // (.is-playing, site.css), then stays finished until the page is reloaded; follow-up's sample is a signed sample
++  // instead, which plays once the first time its card is in front on screen ("signed samples", told by rose:sync). The
++  // first time the deck is on screen with motion allowed, the rear cards fan out and settle (.is-nudging), once. Under
++  // reduced motion or with animations paused the cards swap instantly and the samples stay finished.
+   const deckRoot = document.querySelector('[data-deck]');
+   if (deckRoot) {
+     const stack = deckRoot.querySelector('.deck');
+@@ -1493,9 +1490,7 @@
+     const say = deckRoot.querySelector('[data-deck-say]');
+     const titles = cards.map((card) => card.querySelector('.deck-title'));
+     const n = cards.length;
+-    const HOLD_MS = 600;
+     let index = 0;
+-    let playing = 0;
+     const slotOf = (i) => {
+       const d = (i - index + n) % n;
+       return d < 3 ? String(d) : d === n - 1 ? 'prev' : 'back';
+@@ -1508,14 +1503,14 @@
+       });
+       picks.forEach((pick, i) => (i === index ? pick.setAttribute('aria-current', 'true') : pick.removeAttribute('aria-current')));
+       count.textContent = `${index + 1} of ${n}`;
+-      stack.querySelectorAll('[data-loop]').forEach((el) => el.dispatchEvent(new Event('rose:sync')));
++      stack.querySelectorAll('[data-sample]').forEach((el) => el.dispatchEvent(new Event('rose:sync')));
+     };
+-    // the chosen card's sample replays its one action after the shared 600ms hold
++    // each card's sample plays once, the first time its card is chosen (follow-up, first in front, is a signed sample)
++    const played = new Set([0]);
+     const play = () => {
+-      clearTimeout(playing);
+-      if (reduceMotion.matches || motionPaused()) return;
+-      const card = cards[index];
+-      playing = setTimeout(() => card.classList.add('is-playing'), HOLD_MS);
++      if (reduceMotion.matches || motionPaused() || played.has(index)) return;
++      played.add(index);
++      cards[index].classList.add('is-playing');
+     };
+     const select = (next) => {
+       next = (next + n) % n;
+@@ -1563,7 +1558,7 @@
+       if (Math.abs(dx) >= 48 && Math.abs(dx) > Math.abs(dy) * 1.5) select(index + (dx < 0 ? 1 : -1));
+     });
+     // a paused or reduced visitor gets the finished sample at once
+-    const settle = () => { if (reduceMotion.matches || motionPaused()) { clearTimeout(playing); cards.forEach((card) => card.classList.remove('is-playing')); } };
++    const settle = () => { if (reduceMotion.matches || motionPaused()) cards.forEach((card) => card.classList.remove('is-playing')); };
+     root.addEventListener('rose:motion', settle);
+     reduceMotion.addEventListener('change', settle);
+     // the nudge: once, the first time the deck is on screen with motion allowed
+diff --git a/site/components.html b/site/components.html
+index 7adca06..1d18e21 100644
+--- a/site/components.html
++++ b/site/components.html
+@@ -113,7 +113,7 @@
+             <li><a class="inline-link" href="#demo-signature">signature</a>: writes in from left to right. Runs on <code>.signature</code>.</li>
+             <li><a class="inline-link" href="#demo-hooks">rise, stagger, count, draw, status</a>: the five hooks a page builder adds by hand.</li>
+             <li><a class="inline-link" href="#demo-loops">loops</a>: a slow CSS loop on a sample graphic, only while it is on screen: the status chips step from new to called to consult booked. Runs on <code>[data-loop="status"]</code>. Its first frame is the finished graphic; under reduced motion it does not run.</li>
+-            <li><a class="inline-link" href="#demo-vignettes">signed samples</a>: GSAP loops of about 8 to 10s in three beats (place, mark, rest): the query is typed into a Google search field with the caret riding after the text, search is pressed and one organic result loads; a "New this month" note outside the Google page points to it, signed by Web and SEO, and the panel stamp is pressed on (<code>[data-loop="local-page"]</code>); a booked consult is traced back to the Google or the Meta ad that brought it, the other ad each cycle, signed by Paid media, and the panel stamp is pressed on (<code>[data-loop="ads"]</code>). Only on screen with the tab visible; paused animations jump each one to its finished, signed state; never under reduced motion. Their panels (<code>[data-place]</code>) settle 16px into place once, at full opacity.</li>
++            <li><a class="inline-link" href="#demo-vignettes">signed samples</a>: GSAP sequences in three beats (place, mark, rest) that play once, as the sample reaches the screen, and then stay finished until the page is reloaded: the query is typed into an empty Google search field with the caret riding after the text while the results wait as a skeleton, search is pressed and one organic result loads; a "New this month" note outside the Google page points to it, signed by Web and SEO, and the panel stamp is pressed on (<code>[data-sample="local-page"]</code>); the two ads land, a booked consult lands under them and is traced back to the Google ad that brought it, signed by Paid media, and the panel stamp is pressed on (<code>[data-sample="ads"]</code>). Only on screen with the tab visible; paused animations jump each one to its finished, signed state; never under reduced motion. Their panels (<code>[data-place]</code>) settle 16px into place once, at full opacity.</li>
+             <li><a class="inline-link" href="#demo-compare">the comparison</a>: many leads arrive and most fade to a ring; fewer arrive and each is booked. Loops while on screen. Runs on <code>.compare[data-loop="compare"]</code>.</li>
+             <li><a class="inline-link" href="#demo-ring">founders ring</a>: on About the five discs arrive once, in ring order, <code>--stagger-ring</code> apart, then the line at the centre. Runs on <code>.founders-ring[data-ring]</code>; under reduced motion or without JavaScript the ring is simply there. The homepage ring talks instead (<code>[data-ring-talk]</code>, see <a class="inline-link" href="#demo-forest-band">the forest band</a>): its centre crossfades, opacity only, to the founder you point at, focus or tap. Its one-off introduction, when the band is about 40% in view: the discs swing out of the centre along arcs in ring order, each crescent cutting in from the outer edge as it lands, the fact rises into view, then the sage highlight goes once round the ring and settles on the fact (about 2.75s, never loops; on phones each disc rises into its place in the row). Pointing, focusing, tapping or Pause animations end it at once; under reduced motion, with animations paused or without JavaScript the ring is simply there.</li>
+             <li><a class="inline-link" href="#demo-faq">accordion</a>: the answer opens and closes by height and opacity, and the plus turns with it.</li>
+@@ -539,7 +539,7 @@
+         </div>
+ 
+         <div class="ref-item ref-item--wide">
+-          <p class="ref-name" id="demo-beyond">.beyond[data-deck] (the homepage's "Beyond the core plan", under the How we help rows, on its own hairline): the add-ons as a deck of cards browsed by hand, patient follow-up first. Left: h3.beyond-title, its line, and .deck-picks, six named buttons (aria-current on the chosen one; Left/Right, Up/Down, Home and End move along them; a wrapping row of pills on tablets; none on phones). Right: .deck, six article.deck-card in one grid cell, each a sage mist card with h4.deck-title, its chip, a line, a link and a real sample on a cream sheet (.deck-sheet, the Sample chip in its header, the attribution on its own line at the foot). The brand, video and website cards (.deck-body--wide, .deck-sheet--wide) give their samples a 432px column beside the copy; each of those samples is composed by its own width (a container query) and recomposed for phones rather than scaled down. site.js ("the add-ons deck") sets data-slot on every card: 0 in front (shadow level 3), 1 and 2 behind it, smaller and offset right and down (on phones, down), their bodies blurred 1.5px and 3px (.75px and 1.5px on phones) and inert, back and prev out of sight. Each rear card shows .deck-rail on its exposed edge: an unblurred button naming it (on phones only the next card's, along its bottom edge). Under the deck, .deck-bar: Previous add-on and Next add-on (a 32px circle in a 44px target; both wrap), "1 of 6", and "Ask about a project". A swipe of 48px or more, mostly sideways, on a phone chooses the next or previous card; vertical scrolling is left alone. The choice is announced politely (the name and "2 of 6"). Nothing advances on its own. Moves take 400ms; the card coming forward comes into focus in its last 150ms. The first time the deck is on screen the rear cards fan out 12px and settle back, once. Follow-up's sample (a call note, the concierge's text, the booking in the practice's software, signed by Follow-up with a small stamp) is a signed sample (data-loop="follow") that loops while its card is in front; the others replay one action 600ms after they are chosen: brand, a brand identity board (two lockups, the colors, the type, the brand in use) is set piece by piece; video, the playhead scrubs along the edit's timeline as the captions appear, then the vertical cut splits off the preview and the article places; website, the practice home page scrolls down through the browser and back, the hero button's ring shows and the sign-off is stamped; the coming-soon two, the rule under the first topic draws. Under reduced motion or with animations paused the cards swap at once and the samples stay finished; without JavaScript the six cards are a plain list and the controls stay hidden.</p>
++          <p class="ref-name" id="demo-beyond">.beyond[data-deck] (the homepage's "Beyond the core plan", under the How we help rows, on its own hairline): the add-ons as a deck of cards browsed by hand, patient follow-up first. Left: h3.beyond-title, its line, and .deck-picks, six named buttons (aria-current on the chosen one; Left/Right, Up/Down, Home and End move along them; a wrapping row of pills on tablets; none on phones). Right: .deck, six article.deck-card in one grid cell, each a sage mist card with h4.deck-title, its chip, a line, a link and a real sample on a cream sheet (.deck-sheet, the Sample chip in its header, the attribution on its own line at the foot). The brand, video and website cards (.deck-body--wide, .deck-sheet--wide) give their samples a 432px column beside the copy; each of those samples is composed by its own width (a container query) and recomposed for phones rather than scaled down. site.js ("the add-ons deck") sets data-slot on every card: 0 in front (shadow level 3), 1 and 2 behind it, smaller and offset right and down (on phones, down), their bodies blurred 1.5px and 3px (.75px and 1.5px on phones) and inert, back and prev out of sight. Each rear card shows .deck-rail on its exposed edge: an unblurred button naming it (on phones only the next card's, along its bottom edge). Under the deck, .deck-bar: Previous add-on and Next add-on (a 32px circle in a 44px target; both wrap), "1 of 6", and "Ask about a project". A swipe of 48px or more, mostly sideways, on a phone chooses the next or previous card; vertical scrolling is left alone. The choice is announced politely (the name and "2 of 6"). Nothing advances on its own. Moves take 400ms; the card coming forward comes into focus in its last 150ms. The first time the deck is on screen the rear cards fan out 12px and settle back, once. Follow-up's sample (a call note, the concierge's text, the booking in the practice's software, signed by Follow-up with a small stamp) is a signed sample (data-sample="follow") that plays once, the first time its card is in front on screen; the others play one action the first time they are chosen: brand, a brand identity board (two lockups, the colors, the type, the brand in use) is set piece by piece; video, the playhead scrubs along the edit's timeline as the captions appear, then the vertical cut splits off the preview and the article places; website, the practice home page scrolls down through the browser and back, the hero button's ring shows and the sign-off is stamped; the coming-soon two, the rule under the first topic draws. Under reduced motion or with animations paused the cards swap at once and the samples stay finished; without JavaScript the six cards are a plain list and the controls stay hidden.</p>
+           <div class="ref-stage">
+           <div class="beyond" data-deck>
+             <div class="beyond-head">
+@@ -563,7 +563,7 @@
+                       <p>A patient concierge calls and texts your leads, then books into your patient management software. Our sales team confirms the fit.</p>
+                       <a class="btn btn--secondary btn--small" href="/services/patient-follow-up">How follow-up works <svg class="arrow" viewBox="0 0 22 12" aria-hidden="true" focusable="false"><path d="M1 6h19M15 1l5 5-5 5"/></svg></a>
+                     </div>
+-                    <div class="deck-sheet deck-follow" data-loop="follow" role="img" aria-label="Sample: patient follow-up for [Name], an adult braces enquiry. Called and left a message, then a text: Hi [Name], this is the patient concierge for [Your practice]. You asked about adult braces. When would be a good time to call? Consultation booked, [Date] at [Time], in your practice's patient management software. Signed by Follow-up.">
++                    <div class="deck-sheet deck-follow" data-sample="follow" role="img" aria-label="Sample: patient follow-up for [Name], an adult braces enquiry. Called and left a message, then a text: Hi [Name], this is the patient concierge for [Your practice]. You asked about adult braces. When would be a good time to call? Consultation booked, [Date] at [Time], in your practice's patient management software. Signed by Follow-up.">
+                       <div class="deck-sheet-head"><span class="deck-follow-who"><b>[Name]</b> Adult braces enquiry</span><span class="chip chip--sample">Sample</span></div>
+                       <p class="deck-follow-call" data-part="call"><span class="deck-follow-icon"><svg class="icon" viewBox="0 0 20 20" aria-hidden="true" focusable="false"><path d="M6.6 3.2 8.4 7 7 8.4a9.6 9.6 0 0 0 4.6 4.6L13 11.6l3.8 1.8v2.4a1.6 1.6 0 0 1-1.7 1.6A13.4 13.4 0 0 1 2.6 4.9 1.6 1.6 0 0 1 4.2 3.2Z"/></svg></span>Called. Left a message.</p>
+                       <p class="deck-follow-msg" data-part="msg">Hi [Name], this is the patient concierge for [Your practice]. You asked about adult braces. When would be a good time to call?</p>
+@@ -816,10 +816,10 @@
+         </div>
+ 
+         <div class="ref-item ref-item--wide">
+-          <p class="ref-name" id="demo-vignettes">.service-row-visual &gt; .vignette[data-loop][data-anim="none"][role="img"] (the homepage's core service rows, .service-row and .service-row--flip). local-page (.service-row-visual--search &gt; .vignette--search): an illustrative excerpt of a Google results page in the palette (.screen.gsr: the address bar on desktop only, "Google" in plain type, the search field, All, Maps and Images, one organic result), and outside it a cream note (.gsr-note: "New this month", its line, signed by Web and SEO) joined to the result's title by a forest connector (.gsr-link). Its loop: the note lifts off, the query is selected, cleared and typed into its one text node with the caret right after the typed text, search is pressed, the page loads with no result, the result places, the note and connector return, signed, and the panel stamp is pressed on. Under 640px the address bar goes and the page stacks as on a phone. ads (.service-row-visual--ads &gt; .vignette.ads): a caption and the Sample chip on top; side by side, a Google search ad ([Your practice] over "Google · Sponsored", a Call button, the headline, the description, two sitelinks) and a Meta feed post ([Your practice] over "Meta · Sponsored", the post text, a flat forest creative with cream serif text, Adult braces and Learn more), each naming its platform in its own Sponsored line; under them the consult on one slim line (.ads-consult: Consult booked, [Name], the enquiry, [Time]) and its sign-off, Paid media. The ad the consult came from carries a forest Source tag on its edge (.ads-source &gt; .ads-tag), joined to the consult by one straight forest line (.ads-link). Its loop: the consult and its trace lift off, the next consult is placed, the line grows out of it to the ad it came from and that ad is tagged, it is signed and the panel stamp is pressed on; each cycle traces the other ad (Meta, then back to Google, the finished state). In panels under 520px wide the ads stack (one line of Google copy and no sitelinks; the Meta post a compact card with its creative a square beside its headline) with the consult between them, so the line runs straight up to the Google ad or down to the Meta ad; under 420px the consult takes two lines. The panel stamp sits bottom left, clear of the consult and the sign-off. Each loop is about 8 to 10s, runs only on screen with the tab visible, starts and ends on the finished, signed state, jumps there when animations are paused and never runs under reduced motion.</p>
++          <p class="ref-name" id="demo-vignettes">.service-row-visual &gt; .vignette[data-sample][data-anim="none"][role="img"] (the homepage's core service rows, .service-row and .service-row--flip). local-page (.service-row-visual--search &gt; .vignette--search): an illustrative excerpt of a Google results page in the palette (.screen.gsr: the address bar on desktop only, "Google" in plain type, the search field, All, Maps and Images, one organic result), and outside it a cream note (.gsr-note: "New this month", its line, signed by Web and SEO) joined to the result's title by a forest connector (.gsr-link). As it reaches the screen: the field is empty and the result is a skeleton (.gsr-skeleton), the query is typed into its one text node with the caret right after the typed text, search is pressed, the page loads, the skeleton gives way to the result, the note lands and its connector reaches the title, signed, and the panel stamp is pressed on. Under 640px the address bar goes and the page stacks as on a phone. ads (.service-row-visual--ads &gt; .vignette.ads): a caption and the Sample chip on top; side by side, a Google search ad ([Your practice] over "Google · Sponsored", a Call button, the headline, the description, two sitelinks) and a Meta feed post ([Your practice] over "Meta · Sponsored", the post text, a flat forest creative with cream serif text, Adult braces and Learn more), each naming its platform in its own Sponsored line; under them the consult on one slim line (.ads-consult: Consult booked, [Name], the enquiry, [Time]) and its sign-off, Paid media. The ad the consult came from carries a forest Source tag on its edge (.ads-source &gt; .ads-tag), joined to the consult by one straight forest line (.ads-link). As it reaches the screen: the two ads land, the consult is placed, the line grows out of it to the ad it came from and that ad is tagged Source, it is signed and the panel stamp is pressed on. In panels under 520px wide the ads stack (one line of Google copy and no sitelinks; the Meta post a compact card with its creative a square beside its headline) with the consult between them, so the line runs straight up to the Google ad or down to the Meta ad; under 420px the consult takes two lines. The panel stamp sits bottom left, clear of the consult and the sign-off. Each plays once, about 5 to 8s, only on screen with the tab visible, ends on the finished, signed state (the markup) and stays there until the page is reloaded; pausing animations finishes it for good, and under reduced motion it never runs.</p>
+           <div class="cards">
+             <div class="service-row-visual service-row-visual--search">
+-              <div class="vignette vignette--search" data-loop="local-page" data-anim="none" role="img" aria-label="Sample, an illustrative search result: a Google search for braces for adults near me shows one result, [Your practice], Adult braces in [your city]. A note outside the page says it is new this month, a page answering adult patients' questions, signed by Web and SEO.">
++              <div class="vignette vignette--search" data-sample="local-page" data-anim="none" role="img" aria-label="Sample, an illustrative search result: a Google search for braces for adults near me shows one result, [Your practice], Adult braces in [your city]. A note outside the page says it is new this month, a page answering adult patients' questions, signed by Web and SEO.">
+                 <div class="gsr-top"><span class="gsr-caption">Illustrative search result</span><span class="chip chip--sample">Sample</span></div>
+                 <div class="screen gsr">
+                   <div class="screen-bar"><span class="bar-dots"><i></i><i></i><i></i></span><span class="screen-url">google.com/search</span></div>
+@@ -828,6 +828,7 @@
+                     <div class="gsr-field"><span class="gsr-q"><span data-type>braces for adults near me</span><span class="gsr-caret"></span></span><span class="gsr-go" data-part="go"><svg class="icon" viewBox="0 0 20 20" focusable="false"><circle cx="9" cy="9" r="5.5"/><path d="m13.2 13.2 3.8 3.8"/></svg></span></div>
+                     <div class="gsr-tabs"><span class="is-on">All</span><span>Maps</span><span>Images</span><span class="gsr-load" data-part="load"></span></div>
+                     <div class="gsr-result" data-part="result">
++                      <span class="gsr-skeleton" data-part="skeleton" aria-hidden="true"><span class="gsr-skel-site"><span></span><span></span></span><span class="gsr-skel-line gsr-skel-line--title"></span><span class="gsr-skel-line"></span><span class="gsr-skel-line gsr-skel-line--short"></span></span>
+                       <div class="gsr-site"><span class="gsr-fav"><svg class="icon" viewBox="0 0 20 20" focusable="false"><circle cx="10" cy="10" r="7"/><ellipse cx="10" cy="10" rx="3" ry="7"/><path d="M3 10h14"/></svg></span><span class="gsr-site-text"><span class="gsr-name">[Your practice]</span><span class="gsr-crumb">Practice website</span></span></div>
+                       <span class="gsr-title">Adult braces in [your city]</span>
+                       <span class="gsr-snippet">Explore braces for adults, what to expect at your first visit, and how to request a consultation.</span>
+@@ -847,7 +848,7 @@
+               <img class="stamp panel-stamp" src="/assets/img/stamp-signed.svg" alt="" width="112" height="112">
+             </div>
+             <div class="service-row-visual service-row-visual--ads">
+-              <div class="vignette ads" data-loop="ads" data-anim="none" role="img" aria-label="Sample: a Google search ad and a Meta feed ad for adult braces from [Your practice]. A consult booked by [Name] for adult braces, at [Time], is traced back to the Google search ad that brought it, signed by Paid media.">
++              <div class="vignette ads" data-sample="ads" data-anim="none" role="img" aria-label="Sample: a Google search ad and a Meta feed ad for adult braces from [Your practice]. A consult booked by [Name] for adult braces, at [Time], is traced back to the Google search ad that brought it, signed by Paid media.">
+                 <div class="ads-top"><span class="ads-caption">Illustrative ads and booking</span><span class="chip chip--sample">Sample</span></div>
+                 <div class="ads-ad ads-google">
+                   <div class="ads-site">
+diff --git a/site/index.html b/site/index.html
+index 72b1143..1ce1eaf 100644
+--- a/site/index.html
++++ b/site/index.html
+@@ -300,8 +300,9 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+   </section>
+ 
+   <!-- 3. How we help: who we work with opens the intro (each kind of practice links to its page), then the Core Marketing
+-       Plan as two alternating rows (.service-row), each beside its signed sample (.vignette[data-loop], site.js "signed
+-       samples": the work lands, it is signed by role and the stamp is pressed on, it rests). Then the add-ons and projects
++       Plan as two alternating rows (.service-row), each beside its signed sample (.vignette[data-sample], site.js "signed
++       samples": once, as it reaches the screen, the work lands, it is signed by role and the stamp is pressed on, and it
++       stays). Then the add-ons and projects
+        in "Beyond the core plan" (the home of patient follow-up). No step numbers. -->
+   <section class="section" id="what" aria-labelledby="help-title">
+     <div class="wrap">
+@@ -319,7 +320,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+             <a class="btn btn--secondary" href="/services/websites-and-seo">See websites and SEO <svg class="arrow" viewBox="0 0 22 12" aria-hidden="true" focusable="false"><path d="M1 6h19M15 1l5 5-5 5"/></svg></a>
+           </div>
+           <div class="service-row-visual service-row-visual--search" data-place>
+-            <div class="vignette vignette--search" data-loop="local-page" data-anim="none" role="img" aria-label="Sample, an illustrative search result: a Google search for braces for adults near me shows one result, [Your practice], Adult braces in [your city]. A note outside the page says it is new this month, a page answering adult patients' questions, signed by Web and SEO.">
++            <div class="vignette vignette--search" data-sample="local-page" data-anim="none" role="img" aria-label="Sample, an illustrative search result: a Google search for braces for adults near me shows one result, [Your practice], Adult braces in [your city]. A note outside the page says it is new this month, a page answering adult patients' questions, signed by Web and SEO.">
+               <div class="gsr-top"><span class="gsr-caption">Illustrative search result</span><span class="chip chip--sample">Sample</span></div>
+               <div class="screen gsr">
+                 <div class="screen-bar"><span class="bar-dots"><i></i><i></i><i></i></span><span class="screen-url">google.com/search</span></div>
+@@ -328,6 +329,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+                   <div class="gsr-field"><span class="gsr-q"><span data-type>braces for adults near me</span><span class="gsr-caret"></span></span><span class="gsr-go" data-part="go"><svg class="icon" viewBox="0 0 20 20" focusable="false"><circle cx="9" cy="9" r="5.5"/><path d="m13.2 13.2 3.8 3.8"/></svg></span></div>
+                   <div class="gsr-tabs"><span class="is-on">All</span><span>Maps</span><span>Images</span><span class="gsr-load" data-part="load"></span></div>
+                   <div class="gsr-result" data-part="result">
++                    <span class="gsr-skeleton" data-part="skeleton" aria-hidden="true"><span class="gsr-skel-site"><span></span><span></span></span><span class="gsr-skel-line gsr-skel-line--title"></span><span class="gsr-skel-line"></span><span class="gsr-skel-line gsr-skel-line--short"></span></span>
+                     <div class="gsr-site"><span class="gsr-fav"><svg class="icon" viewBox="0 0 20 20" focusable="false"><circle cx="10" cy="10" r="7"/><ellipse cx="10" cy="10" rx="3" ry="7"/><path d="M3 10h14"/></svg></span><span class="gsr-site-text"><span class="gsr-name">[Your practice]</span><span class="gsr-crumb">Practice website</span></span></div>
+                     <span class="gsr-title">Adult braces in [your city]</span>
+                     <span class="gsr-snippet">Explore braces for adults, what to expect at your first visit, and how to request a consultation.</span>
+@@ -356,7 +358,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+             <a class="btn btn--secondary" href="/services/paid-ads">See ads management <svg class="arrow" viewBox="0 0 22 12" aria-hidden="true" focusable="false"><path d="M1 6h19M15 1l5 5-5 5"/></svg></a>
+           </div>
+           <div class="service-row-visual service-row-visual--ads" data-place>
+-            <div class="vignette ads" data-loop="ads" data-anim="none" role="img" aria-label="Sample: a Google search ad and a Meta feed ad for adult braces from [Your practice]. A consult booked by [Name] for adult braces, at [Time], is traced back to the Google search ad that brought it, signed by Paid media.">
++            <div class="vignette ads" data-sample="ads" data-anim="none" role="img" aria-label="Sample: a Google search ad and a Meta feed ad for adult braces from [Your practice]. A consult booked by [Name] for adult braces, at [Time], is traced back to the Google search ad that brought it, signed by Paid media.">
+               <div class="ads-top"><span class="ads-caption">Illustrative ads and booking</span><span class="chip chip--sample">Sample</span></div>
+               <div class="ads-ad ads-google">
+                 <div class="ads-site">
+@@ -393,8 +395,8 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+ 
+       <!-- Beyond the core plan: the add-ons as a deck of cards, browsed by hand (site.css and site.js "Beyond the core plan").
+            Six cards in the present order, patient follow-up first. Each card is a name, a chip, a line, a link and a real
+-           sample on a cream sheet; follow-up's sample is a signed sample that loops while its card is in front (site.js
+-           "signed samples", data-loop="follow"), the others replay one small action when chosen. With JavaScript the cards
++           sample on a cream sheet; follow-up's sample is a signed sample that plays once, the first time its card is in front on screen
++           (site.js "signed samples", data-sample="follow"), the others play one small action the first time they are chosen. With JavaScript the cards
+            stack: the chosen one in front, the next two behind it, offset, with their bodies out of focus and an unblurred
+            rail naming each (click a rail to bring it forward). The named buttons on the left (desktop and tablet), Previous
+            and Next, the rails and a swipe on phones all choose a card; nothing advances on its own. Without JavaScript the
+@@ -421,7 +423,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+                   <p>A patient concierge calls and texts your leads, then books into your patient management software. Our sales team confirms the fit.</p>
+                   <a class="btn btn--secondary btn--small" href="/services/patient-follow-up">How follow-up works <svg class="arrow" viewBox="0 0 22 12" aria-hidden="true" focusable="false"><path d="M1 6h19M15 1l5 5-5 5"/></svg></a>
+                 </div>
+-                <div class="deck-sheet deck-follow" data-loop="follow" role="img" aria-label="Sample: patient follow-up for [Name], an adult braces enquiry. Called and left a message, then a text: Hi [Name], this is the patient concierge for [Your practice]. You asked about adult braces. When would be a good time to call? Consultation booked, [Date] at [Time], in your practice's patient management software. Signed by Follow-up.">
++                <div class="deck-sheet deck-follow" data-sample="follow" role="img" aria-label="Sample: patient follow-up for [Name], an adult braces enquiry. Called and left a message, then a text: Hi [Name], this is the patient concierge for [Your practice]. You asked about adult braces. When would be a good time to call? Consultation booked, [Date] at [Time], in your practice's patient management software. Signed by Follow-up.">
+                   <div class="deck-sheet-head"><span class="deck-follow-who"><b>[Name]</b> Adult braces enquiry</span><span class="chip chip--sample">Sample</span></div>
+                   <p class="deck-follow-call" data-part="call"><span class="deck-follow-icon"><svg class="icon" viewBox="0 0 20 20" aria-hidden="true" focusable="false"><path d="M6.6 3.2 8.4 7 7 8.4a9.6 9.6 0 0 0 4.6 4.6L13 11.6l3.8 1.8v2.4a1.6 1.6 0 0 1-1.7 1.6A13.4 13.4 0 0 1 2.6 4.9 1.6 1.6 0 0 1 4.2 3.2Z"/></svg></span>Called. Left a message.</p>
+                   <p class="deck-follow-msg" data-part="msg">Hi [Name], this is the patient concierge for [Your practice]. You asked about adult braces. When would be a good time to call?</p>
+```
+
+</details>
+
 ## Not changed
 
 - **The team band** ("A small team that knows its clients…" and the ring of five founders).
@@ -7893,7 +8512,7 @@ index 472bd60..7adca06 100644
 - **At 360px the 80px panel stamp just touches the corner of the SEO note.** There's no text under it.
 - **The chat widget's bubble sits over the right edge of some samples on phones.** That's the LeadConnector widget, which was already on the page.
 - **The deck on phones:** the card behind peeks out under the front one, and when it's the tallest card the top of its content shows, blurred, in that strip. Clipping the rear cards would change how the deck behaves, so it's left as it is.
-- **The website card's sign-off appears about 5 seconds into its beat,** after the page has scrolled.
+- **The website card's sign-off appears about 5 seconds into its beat,** after the page has scrolled, the first time the card is chosen.
 - **The practice folder on narrower desktops:** from 1025 to 1279px it shows the compact two-surface scenes beside the rail. The full scenes need a 768px canvas.
 - **The folder's height on phones:** 1,087px at 390 and 1,147px at 360.
 - **The practice folder repeats the stamp-press helper** (`press()`) from "signed samples". It has the same values, because the original lives inside that block's scope. If you'd like one copy, move `press` and `hold` above both sections.
@@ -7905,7 +8524,7 @@ index 472bd60..7adca06 100644
 - **All 17 pages load locally** with no failed requests and no script errors, with motion on and with reduced motion.
 - **Behaviour at 1440 and 390:**
   - the SEO query types with the caret moving along with it, and the callout's arm takes 1.35s to reach the result;
-  - the ads Source tag alternates between Meta and Google;
+  - the samples under How we help play once and don't replay when you scroll back;
   - the deck's names, rails, Previous and Next, keys and swipe all work;
   - the folder advances on its own and holds when paused or clicked;
   - every footer link resolves;
