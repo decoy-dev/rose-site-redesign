@@ -552,14 +552,16 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   </section>
 
   <!-- 4. What happens after you say yes: the practice folder (site.css and site.js "the practice folder"). Four stages,
-       each one of the onboarding steps (worded as in /services#after-yes and /pricing), and in each the piece of work
-       that stage hands over: Sales' practice notes, the adult braces page Web and SEO built, Paid media's launch
-       checklist, and the first monthly report's work and next steps. In the markup each stage is a native disclosure
-       (details[name] > summary + .folder-panel), the first one open, so without JavaScript every stage opens in place.
-       site.js turns them into a stage rail (desktop) or a four-step selector (phones) beside one sheet that holds the
-       chosen stage's work, and moves through the stages on its own while the folder is on screen. Illustrative work,
-       not a client portal: brackets stand in for the practice, no dates, no results. The full list, with the
-       agreement and the terms, is on /services#after-yes. -->
+       each one of the onboarding steps (worded as in /services#after-yes and /pricing), and in each a composed scene of
+       the work that stage hands over, two or three product surfaces layered with depth: the first call with Sales (the
+       call, its invite and Sales' notes), the site and profile Web and SEO set up (the page in a browser and on a phone,
+       the Google Business Profile), the ads account Paid media switches on (the campaigns, the ads, the accounts in your
+       name) and the first monthly report (the email it arrives in, and the report). In the markup each stage is a
+       native disclosure (details[name] > summary + .folder-panel), the first one open, so without JavaScript every
+       stage opens in place. site.js turns them into a stage rail (desktop) or a four-step selector (phones) beside one
+       sheet that holds the chosen stage's scene, and moves through the stages on its own while the folder is on screen.
+       Illustrative work, not a client portal: brackets stand in for the practice, the dates and the numbers. The full
+       list, with the agreement and the terms, is on /services#after-yes. -->
   <section class="section" id="after-yes" aria-labelledby="after-yes-title">
     <div class="wrap">
       <div class="head-row reveal">
@@ -570,71 +572,199 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         <details class="folder-stage" name="after-yes-stage" data-short="Conversation" open>
           <summary class="folder-summary"><span class="folder-num" aria-hidden="true">01</span><span class="folder-head"><h3 class="folder-title">A first conversation.</h3><span class="folder-line">About your practice, your patients and what you've already tried.</span></span></summary>
           <div class="folder-panel">
-            <article class="folder-doc" data-stage="notes" aria-label="Sample: practice notes, prepared by Sales">
-              <div class="folder-doc-head"><div class="folder-doc-name"><span class="folder-doc-practice">[Your practice]</span><p class="folder-doc-title">Practice notes</p></div><span class="chip chip--sample">Sample</span></div>
-              <div class="folder-doc-body">
-                <dl class="folder-notes">
-                  <div><dt>We ask</dt><dd>Which patients are you hoping to reach?</dd></div>
-                  <div><dt>We ask</dt><dd>What have you already tried?</dd></div>
-                  <div class="is-key"><dt>Example focus</dt><dd><span class="folder-focus">Adult braces enquiries<span class="folder-underline" data-part="focus" aria-hidden="true"></span></span></dd></div>
-                </dl>
+            <figure class="folder-scene folder-scene--call" data-stage="call" role="img" aria-label="Sample: the first conversation. A video call between Sales and [Your practice] with live captions; behind it the invitation, First conversation, [Date], [Time], video call; in front, Sales' call notes with each topic ticked as it is covered: your practice, your patients, and what you've already tried. Prepared by Sales.">
+              <div class="folder-scene-top"><span class="folder-scene-caption">Illustrative first call</span><span class="chip chip--sample">Sample</span></div>
+              <div class="folder-canvas">
+                <div class="folder-surface folder-invite" data-part="invite">
+                  <p class="folder-invite-head"><svg class="icon" viewBox="0 0 20 20" focusable="false"><rect x="3" y="4.25" width="14" height="12.75" rx="2.5"/><path d="M3 8.25h14M7 2.75v3M13 2.75v3"/></svg>Invitation<span class="chip">Accepted</span></p>
+                  <p class="folder-invite-title">First conversation</p>
+                  <p class="folder-invite-meta"><svg class="icon" viewBox="0 0 20 20" focusable="false"><rect x="2.75" y="5.25" width="10.5" height="9.5" rx="2.5"/><path d="m13.25 9 4-2.5v7l-4-2.5"/></svg>[Date] · [Time] · Video call</p>
+                </div>
+                <div class="folder-surface folder-call" data-part="call">
+                  <div class="folder-call-bar"><span class="bar-dots"><i></i><i></i><i></i></span><span class="folder-call-name">First conversation</span><span class="folder-call-time"><span class="lead-dot"></span><span data-part="clock">24:18</span></span></div>
+                  <div class="folder-call-tiles">
+                    <div class="folder-tile folder-tile--sales on-strong">
+                      <span class="folder-tile-face"><span class="folder-ring" data-part="ring"></span><svg class="folder-tile-disc founder-art" viewBox="-1 -1 2 2" focusable="false"><circle r="1"/><path d="M0.2621 -0.8819A0.92 0.92 0 1 0 0.2621 0.8819A0.8832 0.8832 0 1 1 0.2621 -0.8819Z"/></svg></span>
+                      <span class="folder-tile-name"><svg class="icon" viewBox="0 0 20 20" focusable="false"><rect x="7.25" y="2.75" width="5.5" height="9" rx="2.75"/><path d="M4.75 9.5a5.25 5.25 0 0 0 10.5 0M10 14.75v2.5"/></svg>Sales</span>
+                    </div>
+                    <div class="folder-tile">
+                      <span class="folder-tile-face folder-tile-face--practice"><svg class="icon" viewBox="0 0 20 20" focusable="false"><path d="M3.75 17V6.75L10 3.25l6.25 3.5V17M2.75 17h14.5M8 17v-3.75h4V17M10 6.75v3.5M8.25 8.5h3.5"/></svg></span>
+                      <span class="folder-tile-name"><svg class="icon" viewBox="0 0 20 20" focusable="false"><rect x="7.25" y="2.75" width="5.5" height="9" rx="2.75"/><path d="M4.75 9.5a5.25 5.25 0 0 0 10.5 0M10 14.75v2.5"/></svg>[Your practice]</span>
+                    </div>
+                  </div>
+                  <p class="folder-caption"><svg class="icon" viewBox="0 0 20 20" focusable="false"><rect x="2.75" y="4.25" width="14.5" height="11.5" rx="2.5"/><path d="M8.75 8.6a2 2 0 1 0 0 2.8M14.25 8.6a2 2 0 1 0 0 2.8"/></svg><span class="folder-caption-who">Sales</span><span class="folder-caption-lines"><span data-part="cap">First, tell me about the practice and your team.</span><span data-part="cap">Which patients would you like to see more of?</span><span data-part="cap">And what have you already tried? Ads, an agency, anything.</span></span></p>
+                  <div class="folder-call-controls">
+                    <span class="folder-control"><svg class="icon" viewBox="0 0 20 20" focusable="false"><rect x="7.25" y="2.75" width="5.5" height="9" rx="2.75"/><path d="M4.75 9.5a5.25 5.25 0 0 0 10.5 0M10 14.75v2.5"/></svg></span>
+                    <span class="folder-control"><svg class="icon" viewBox="0 0 20 20" focusable="false"><rect x="2.75" y="5.25" width="10.5" height="9.5" rx="2.5"/><path d="m13.25 9 4-2.5v7l-4-2.5"/></svg></span>
+                    <span class="folder-control is-on"><svg class="icon" viewBox="0 0 20 20" focusable="false"><rect x="2.75" y="4.25" width="14.5" height="11.5" rx="2.5"/><path d="M8.75 8.6a2 2 0 1 0 0 2.8M14.25 8.6a2 2 0 1 0 0 2.8"/></svg></span>
+                    <span class="folder-control"><svg class="icon" viewBox="0 0 20 20" focusable="false"><rect x="2.75" y="3.75" width="14.5" height="10" rx="2"/><path d="M7 17h6M10 13.75V17"/></svg></span>
+                    <span class="folder-control-leave">Leave</span>
+                  </div>
+                </div>
+                <div class="folder-surface folder-surface--front folder-notes" data-part="notes">
+                  <p class="folder-notes-head"><svg class="icon" viewBox="0 0 20 20" focusable="false"><path d="M5.75 2.75h6l3.5 3.5v11h-9.5z"/><path d="M11.75 2.75v3.5h3.5M8.25 10.25h4.5M8.25 13.25h4.5"/></svg>Call notes<span class="folder-notes-meta">First conversation</span></p>
+                  <ul class="folder-topics">
+                    <li data-part="topic"><svg class="icon" viewBox="0 0 20 20" focusable="false"><rect x="2.75" y="2.75" width="14.5" height="14.5" rx="4"/><path d="m6.5 10.2 2.4 2.4 4.6-5"/></svg><span><span class="folder-topic-name">Your practice</span><span class="folder-topic-line">Locations, your team, how patients book</span></span></li>
+                    <li data-part="topic"><svg class="icon" viewBox="0 0 20 20" focusable="false"><rect x="2.75" y="2.75" width="14.5" height="14.5" rx="4"/><path d="m6.5 10.2 2.4 2.4 4.6-5"/></svg><span><span class="folder-topic-name">Your patients</span><span class="folder-topic-line">Who you'd like to see more of</span></span></li>
+                    <li data-part="topic"><svg class="icon" viewBox="0 0 20 20" focusable="false"><rect x="2.75" y="2.75" width="14.5" height="14.5" rx="4"/><path d="m6.5 10.2 2.4 2.4 4.6-5"/></svg><span><span class="folder-topic-name">What you've already tried</span><span class="folder-topic-line">Ads, agencies, what worked and what didn't</span></span></li>
+                  </ul>
+                  <div class="signoff" data-part="sign"><svg class="signoff-disc founder-art" viewBox="-1 -1 2 2" focusable="false"><circle r="1"/><path d="M0.2621 -0.8819A0.92 0.92 0 1 0 0.2621 0.8819A0.8832 0.8832 0 1 1 0.2621 -0.8819Z"/></svg><span class="signoff-who">Prepared by <em class="signature">Sales</em></span></div>
+                </div>
               </div>
-              <div class="folder-sign" data-part="sign"><p>Prepared by <em class="signature">Sales</em></p></div>
-            </article>
+            </figure>
           </div>
         </details>
         <details class="folder-stage" name="after-yes-stage" data-short="Website">
           <summary class="folder-summary"><span class="folder-num" aria-hidden="true">02</span><span class="folder-head"><h3 class="folder-title">Your website, built from your practice.</h3><span class="folder-line">Not a template. We also set up local SEO and keep your Google Business Profile current.</span></span></summary>
           <div class="folder-panel">
-            <article class="folder-doc" data-stage="page" aria-label="Sample: the adult braces page, signed by Web and SEO">
-              <div class="folder-doc-head"><div class="folder-doc-name"><span class="folder-doc-practice">[Your practice]</span><p class="folder-doc-title">Adult braces page</p></div><span class="chip chip--sample">Sample</span></div>
-              <div class="folder-doc-body">
-                <div class="folder-page" data-part="page">
-                  <div class="folder-page-bar" aria-hidden="true"><i></i><i></i><i></i></div>
-                  <div class="folder-page-body">
-                    <p class="folder-page-title">Adult braces in [your city]</p>
-                    <p>What to expect at your first visit, treatment questions, and how to request a consultation.</p>
-                    <span class="folder-page-button">Request a consultation</span>
+            <figure class="folder-scene folder-scene--site" data-stage="site" role="img" aria-label="Sample: your website, built from your practice. The adult braces page for [Your practice] in a browser: Adult braces in [your city], Request a consultation, and what to expect at your first visit; the same page on a phone; and the practice's Google Business Profile, open, with Directions, Call and Website, its hours just updated. Signed by Web and SEO.">
+              <div class="folder-scene-top"><span class="folder-scene-caption">Illustrative page and profile</span><span class="chip chip--sample">Sample</span></div>
+              <div class="folder-canvas">
+                <div class="folder-surface folder-browser" data-part="browser">
+                  <div class="folder-browser-bar"><span class="bar-dots"><i></i><i></i><i></i></span><span class="folder-browser-url"><svg class="icon" viewBox="0 0 20 20" focusable="false"><rect x="4.75" y="9" width="10.5" height="8" rx="2"/><path d="M7 9V6.75a3 3 0 0 1 6 0V9"/></svg>[yourpractice].com/adult-braces</span></div>
+                  <div class="folder-browser-view">
+                    <div class="folder-site-nav"><span class="folder-site-brand">[Your practice]</span><span class="folder-site-links"><span>Treatments</span><span>Your first visit</span><span>About</span></span><span class="folder-site-book">Book a consult</span></div>
+                    <div class="folder-site" data-part="scroll">
+                      <div class="folder-site-hero">
+                        <p class="folder-site-title">Adult braces in [your city]</p>
+                        <p class="folder-site-line">Braces and clear aligners for adults, planned around your work and your week.</p>
+                        <p class="folder-site-actions"><span class="folder-site-button">Request a consultation</span><span class="folder-site-call"><svg class="icon" viewBox="0 0 24 24" focusable="false"><path d="M6.5 4h3l1.5 4-2 1.5a11 11 0 0 0 5.5 5.5l1.5-2 4 1.5v3a2 2 0 0 1-2 2A15.5 15.5 0 0 1 4.5 6a2 2 0 0 1 2-2z"/></svg>Call us</span></p>
+                      </div>
+                      <div class="folder-site-part">
+                        <p class="folder-site-h">What to expect at your first visit</p>
+                        <ol class="folder-site-steps"><li><span>1</span>A look at your teeth and bite</li><li><span>2</span>Braces or clear aligners, explained</li><li><span>3</span>Your plan, timing and cost</li></ol>
+                      </div>
+                      <div class="folder-site-part">
+                        <p class="folder-site-h">Questions adults ask</p>
+                        <ul class="folder-site-faq"><li>Will people notice my braces?</li><li>How long does treatment take?</li></ul>
+                      </div>
+                    </div>
                   </div>
                 </div>
+                <div class="folder-phone" data-part="phone">
+                  <div class="folder-phone-screen">
+                    <span class="folder-phone-notch"></span>
+                    <div class="folder-site-nav"><span class="folder-site-brand">[Your practice]</span><svg class="icon" viewBox="0 0 20 20" focusable="false"><path d="M3.5 6h13M3.5 10h13M3.5 14h13"/></svg></div>
+                    <div class="folder-site-hero">
+                      <p class="folder-site-title">Adult braces in [your city]</p>
+                      <p class="folder-site-line">Planned around your work and your week.</p>
+                    </div>
+                    <div class="folder-site-part">
+                      <p class="folder-site-h">Your first visit</p>
+                      <ol class="folder-site-steps"><li><span>1</span>A look at your teeth and bite</li><li><span>2</span>Braces or aligners, explained</li><li><span>3</span>Your plan, timing and cost</li></ol>
+                    </div>
+                    <p class="folder-phone-bar"><span class="folder-site-button">Book a consult</span><span class="folder-phone-call"><svg class="icon" viewBox="0 0 24 24" focusable="false"><path d="M6.5 4h3l1.5 4-2 1.5a11 11 0 0 0 5.5 5.5l1.5-2 4 1.5v3a2 2 0 0 1-2 2A15.5 15.5 0 0 1 4.5 6a2 2 0 0 1 2-2z"/></svg></span></p>
+                  </div>
+                </div>
+                <div class="folder-surface folder-surface--front folder-profile" data-part="profile">
+                  <svg class="folder-map" viewBox="0 0 264 76" preserveAspectRatio="xMidYMid slice" focusable="false"><rect width="264" height="76"/><path class="folder-map-road folder-map-road--minor" d="M-4 16 L270 28 M34 -4 L48 80 M190 -4 L176 80"/><path class="folder-map-road" d="M-4 54 C60 44 130 62 270 42 M98 -4 L116 80"/><path class="folder-map-pin" d="M146 40c-7-9-10-14-10-18a10 10 0 0 1 20 0c0 4-3 9-10 18z"/><circle class="folder-map-dot" cx="146" cy="22" r="3.5"/></svg>
+                  <div class="folder-profile-body">
+                    <p class="folder-profile-name">[Your practice]</p>
+                    <p class="folder-profile-kind">Orthodontist in [your city]</p>
+                    <p class="folder-profile-open"><span>Open</span> · Closes [Time]</p>
+                    <ul class="folder-profile-actions">
+                      <li><span><svg class="icon" viewBox="0 0 20 20" focusable="false"><path d="M10 2.75 17.25 10 10 17.25 2.75 10z"/><path d="M8 11.75v-2.5h4M10.75 7.75l1.5 1.5-1.5 1.5"/></svg></span>Directions</li>
+                      <li><span><svg class="icon" viewBox="0 0 24 24" focusable="false"><path d="M6.5 4h3l1.5 4-2 1.5a11 11 0 0 0 5.5 5.5l1.5-2 4 1.5v3a2 2 0 0 1-2 2A15.5 15.5 0 0 1 4.5 6a2 2 0 0 1 2-2z"/></svg></span>Call</li>
+                      <li><span><svg class="icon" viewBox="0 0 20 20" focusable="false"><circle cx="10" cy="10" r="7"/><path d="M3 10h14M10 3c-3.5 4-3.5 10 0 14M10 3c3.5 4 3.5 10 0 14"/></svg></span>Website</li>
+                    </ul>
+                    <p class="folder-update" data-part="update"><svg class="icon" viewBox="0 0 20 20" focusable="false"><path d="m5.75 10.25 2.75 2.75 5.75-6"/></svg><span class="folder-update-text"><span data-part="update-todo">Updating hours</span><span>Hours updated</span></span></p>
+                    <div class="signoff" data-part="sign"><svg class="signoff-disc founder-art" viewBox="-1 -1 2 2" focusable="false"><circle r="1"/><path d="M0.2621 -0.8819A0.92 0.92 0 1 0 0.2621 0.8819A0.8832 0.8832 0 1 1 0.2621 -0.8819Z"/></svg><span class="signoff-who">Signed by <em class="signature">Web and SEO</em></span></div>
+                  </div>
+                  <img class="stamp folder-stamp folder-stamp--top" src="/assets/img/stamp-signed.svg" alt="" width="64" height="64">
+                </div>
               </div>
-              <div class="folder-sign" data-part="sign"><p class="signed-change">Built the page around adult patients' <em>questions</em>.</p><p>Signed by <em class="signature">Web and SEO</em></p></div>
-              <img class="stamp folder-stamp" src="/assets/img/stamp-signed.svg" alt="" width="48" height="48">
-            </article>
+            </figure>
           </div>
         </details>
         <details class="folder-stage" name="after-yes-stage" data-short="Ads go live">
           <summary class="folder-summary"><span class="folder-num" aria-hidden="true">03</span><span class="folder-head"><h3 class="folder-title">Your ads go live.</h3><span class="folder-line">Google and Meta ads, run from ad accounts in your name.</span></span></summary>
           <div class="folder-panel">
-            <article class="folder-doc" data-stage="launch" aria-label="Sample: the launch checklist, signed by Paid media">
-              <div class="folder-doc-head"><div class="folder-doc-name"><span class="folder-doc-practice">[Your practice]</span><p class="folder-doc-title">Launch checklist</p></div><span class="chip chip--sample">Sample</span></div>
-              <div class="folder-doc-body">
-                <ul class="folder-checks">
-                  <li data-part="check"><svg class="icon" viewBox="0 0 20 20" aria-hidden="true" focusable="false"><rect x="2.75" y="2.75" width="14.5" height="14.5" rx="4"/><path d="m6.5 10.2 2.4 2.4 4.6-5"/></svg><span>Google ad linked to the adult braces page</span><span class="sr-only">, done</span></li>
-                  <li data-part="check"><svg class="icon" viewBox="0 0 20 20" aria-hidden="true" focusable="false"><rect x="2.75" y="2.75" width="14.5" height="14.5" rx="4"/><path d="m6.5 10.2 2.4 2.4 4.6-5"/></svg><span>Meta ad linked to the adult braces page</span><span class="sr-only">, done</span></li>
-                  <li data-part="check"><svg class="icon" viewBox="0 0 20 20" aria-hidden="true" focusable="false"><rect x="2.75" y="2.75" width="14.5" height="14.5" rx="4"/><path d="m6.5 10.2 2.4 2.4 4.6-5"/></svg><span>Call and conversion tracking set up</span><span class="sr-only">, done</span></li>
-                </ul>
+            <figure class="folder-scene folder-scene--ads" data-stage="ads" role="img" aria-label="Sample: your ads go live. The ads account for [Your practice], in your practice's name: two campaigns, Adult braces on Search and Adult braces on Meta, each switched on and moved from draft to in review to live; call and conversion tracking set up; beside it, the search ad and the feed ad. Signed by Paid media.">
+              <div class="folder-scene-top"><span class="folder-scene-caption">Illustrative ads account</span><span class="chip chip--sample">Sample</span></div>
+              <div class="folder-canvas">
+                <div class="folder-surface folder-ads" data-part="manager">
+                  <div class="folder-ads-head"><p class="folder-ads-title">Campaigns</p><span class="folder-ads-account"><svg class="icon" viewBox="0 0 20 20" focusable="false"><path d="M3.75 17V6.75L10 3.25l6.25 3.5V17M2.75 17h14.5M8 17v-3.75h4V17M10 6.75v3.5M8.25 8.5h3.5"/></svg>[Your practice]</span></div>
+                  <div class="folder-ads-cols"><span>On</span><span>Campaign</span><span>Status</span><span>Budget</span></div>
+                  <ul class="folder-ads-rows">
+                    <li data-part="campaign">
+                      <span class="folder-switch" data-part="switch"><span></span></span>
+                      <span class="folder-ads-name">Adult braces · Search<span>Search ads, to the adult braces page</span></span>
+                      <span class="folder-status" data-part="status"><span class="folder-status-dot"></span><span class="folder-status-text"><span data-state="draft">Draft</span><span data-state="review">In review</span><span data-state="live">Live</span></span></span>
+                      <span class="folder-ads-budget">[Budget]/day</span>
+                    </li>
+                    <li data-part="campaign">
+                      <span class="folder-switch" data-part="switch"><span></span></span>
+                      <span class="folder-ads-name">Adult braces · Meta<span>Feed ads, to the adult braces page</span></span>
+                      <span class="folder-status" data-part="status"><span class="folder-status-dot"></span><span class="folder-status-text"><span data-state="draft">Draft</span><span data-state="review">In review</span><span data-state="live">Live</span></span></span>
+                      <span class="folder-ads-budget">[Budget]/day</span>
+                    </li>
+                  </ul>
+                  <ul class="folder-track">
+                    <li data-part="track"><svg class="icon" viewBox="0 0 24 24" focusable="false"><path d="M6.5 4h3l1.5 4-2 1.5a11 11 0 0 0 5.5 5.5l1.5-2 4 1.5v3a2 2 0 0 1-2 2A15.5 15.5 0 0 1 4.5 6a2 2 0 0 1 2-2z"/></svg>Call tracking<span class="folder-track-state"><svg class="icon" viewBox="0 0 20 20" focusable="false"><path d="m5.75 10.25 2.75 2.75 5.75-6"/></svg>Set up</span></li>
+                    <li data-part="track"><svg class="icon" viewBox="0 0 20 20" focusable="false"><circle cx="10" cy="10" r="7.25"/><circle cx="10" cy="10" r="3.25"/></svg>Conversion tracking<span class="folder-track-state"><svg class="icon" viewBox="0 0 20 20" focusable="false"><path d="m5.75 10.25 2.75 2.75 5.75-6"/></svg>Set up</span></li>
+                  </ul>
+                  <div class="signoff" data-part="sign"><svg class="signoff-disc founder-art" viewBox="-1 -1 2 2" focusable="false"><circle r="1"/><path d="M0.2621 -0.8819A0.92 0.92 0 1 0 0.2621 0.8819A0.8832 0.8832 0 1 1 0.2621 -0.8819Z"/></svg><span class="signoff-who">Signed by <em class="signature">Paid media</em></span></div>
+                  <img class="stamp folder-stamp" src="/assets/img/stamp-signed.svg" alt="" width="64" height="64">
+                </div>
+                <div class="folder-surface folder-surface--front folder-owner" data-part="owner">
+                  <span class="folder-owner-key"><svg class="icon" viewBox="0 0 20 20" focusable="false"><circle cx="6.75" cy="13.25" r="3.5"/><path d="m9.25 10.75 7-7M14 6l2 2M12 8l1.5 1.5"/></svg></span>
+                  <span class="folder-owner-text">Ad accounts in your practice's name<span>Owner: [Your practice]</span></span>
+                </div>
+                <div class="folder-surface folder-preview folder-preview--search" data-part="preview">
+                  <p class="folder-preview-who"><span>Sponsored</span>[Your practice]</p>
+                  <p class="folder-preview-title">Adult braces | Request a consult</p>
+                  <p class="folder-preview-text">Braces as an adult? See what treatment involves, then ask our team about a consultation.</p>
+                </div>
+                <div class="folder-surface folder-surface--front folder-preview folder-preview--feed" data-part="preview">
+                  <p class="folder-preview-who"><span class="folder-preview-mark"></span><span class="folder-preview-name">[Your practice]<span>Sponsored</span></span></p>
+                  <p class="folder-preview-art">Your questions about adult braces, answered.</p>
+                  <p class="folder-preview-foot"><span>Adult braces</span><span class="folder-preview-button">Learn more</span></p>
+                </div>
               </div>
-              <div class="folder-sign" data-part="sign"><p class="folder-sign-note">Ad accounts in your practice's name.</p><p>Signed by <em class="signature">Paid media</em></p></div>
-              <img class="stamp folder-stamp" src="/assets/img/stamp-signed.svg" alt="" width="48" height="48">
-            </article>
+            </figure>
           </div>
         </details>
         <details class="folder-stage" name="after-yes-stage" data-short="Report">
           <summary class="folder-summary"><span class="folder-num" aria-hidden="true">04</span><span class="folder-head"><h3 class="folder-title">Your first monthly report.</h3><span class="folder-line">What we did, what it brought in, and what we're changing next.</span></span></summary>
           <div class="folder-panel">
-            <article class="folder-doc" data-stage="report" aria-label="Sample: the monthly report's work and next steps, signed by Web and SEO and by Paid media">
-              <div class="folder-doc-head"><div class="folder-doc-name"><span class="folder-doc-practice">[Your practice]</span><p class="folder-doc-title">Work and next steps</p></div><span class="chip chip--sample">Sample</span></div>
-              <div class="folder-doc-body">
-                <ul class="folder-work">
-                  <li class="signed-change" data-part="row"><svg class="folder-disc founder-art" viewBox="-1 -1 2 2" aria-hidden="true" focusable="false"><circle r="1"/><path d="M0.2621 -0.8819A0.92 0.92 0 1 0 0.2621 0.8819A0.8832 0.8832 0 1 1 0.2621 -0.8819Z"/></svg><div><span class="folder-who">Web and SEO</span><p class="signed-change">Published the <em>adult braces</em> page.</p></div></li>
-                  <li class="signed-change" data-part="row"><svg class="folder-disc founder-art" viewBox="-1 -1 2 2" aria-hidden="true" focusable="false"><circle r="1"/><path d="M0.2621 -0.8819A0.92 0.92 0 1 0 0.2621 0.8819A0.8832 0.8832 0 1 1 0.2621 -0.8819Z"/></svg><div><span class="folder-who">Paid media</span><p class="signed-change">Matched the ads to the <em>adult braces</em> page.</p></div></li>
-                  <li class="folder-next"><svg class="icon" viewBox="0 0 20 20" aria-hidden="true" focusable="false"><circle cx="10" cy="10" r="8.25"/><path d="M6 10h7.5M10.5 7l3 3-3 3"/></svg><div><span class="folder-who">Next</span><p>Review enquiries and booked consults with your team.</p></div></li>
-                </ul>
+            <figure class="folder-scene folder-scene--report" data-stage="report" role="img" aria-label="Sample: your first monthly report. An email from Rose Practice Solutions: your [Month] report is ready. The [Month] report for [Your practice]: what we did, the adult braces page published, signed by Web and SEO, and the ads matched to it, signed by Paid media, each stamped; what it brought in, [n] new leads, [n] reached and [n] consults booked; and what we're changing next. Beside it, one of the consults booked: [Name], adult braces, from the Google Search ad.">
+              <div class="folder-scene-top"><span class="folder-scene-caption">Illustrative monthly report</span><span class="chip chip--sample">Sample</span></div>
+              <div class="folder-canvas">
+                <div class="folder-surface folder-report" data-part="report">
+                  <div class="folder-report-head">
+                    <p class="folder-report-title">[Month] report</p>
+                    <p class="folder-report-for">[Your practice]</p>
+                  </div>
+                  <div class="folder-report-part">
+                    <p class="folder-report-h">What we did</p>
+                    <ul class="folder-report-work">
+                      <li class="signed-change" data-part="row"><svg class="signoff-disc founder-art" viewBox="-1 -1 2 2" focusable="false"><circle r="1"/><path d="M0.2621 -0.8819A0.92 0.92 0 1 0 0.2621 0.8819A0.8832 0.8832 0 1 1 0.2621 -0.8819Z"/></svg><span class="folder-report-change"><span class="folder-report-who">Web and SEO</span><span class="signed-change">Published the <em>adult braces</em> page.</span></span><img class="stamp folder-row-stamp" src="/assets/img/stamp-signed.svg" alt="" width="40" height="40"></li>
+                      <li class="signed-change" data-part="row"><svg class="signoff-disc founder-art" viewBox="-1 -1 2 2" focusable="false"><circle r="1"/><path d="M0.2621 -0.8819A0.92 0.92 0 1 0 0.2621 0.8819A0.8832 0.8832 0 1 1 0.2621 -0.8819Z"/></svg><span class="folder-report-change"><span class="folder-report-who">Paid media</span><span class="signed-change">Matched the ads to the <em>new</em> page.</span></span><img class="stamp folder-row-stamp" src="/assets/img/stamp-signed.svg" alt="" width="40" height="40"></li>
+                    </ul>
+                  </div>
+                  <div class="folder-report-part">
+                    <p class="folder-report-h">What it brought in</p>
+                    <ul class="folder-report-stats" data-part="stats"><li><span>[n]</span>New leads</li><li><span>[n]</span>Reached</li><li><span>[n]</span>Consults booked</li></ul>
+                  </div>
+                  <div class="folder-report-part">
+                    <p class="folder-report-h">What we're changing next</p>
+                    <p class="folder-report-next" data-part="next"><svg class="icon" viewBox="0 0 20 20" focusable="false"><circle cx="10" cy="10" r="8.25"/><path d="M6 10h7.5M10.5 7l3 3-3 3"/></svg>A clear aligners page, with its own ads.</p>
+                  </div>
+                </div>
+                <div class="folder-surface folder-surface--front folder-mail" data-part="mail">
+                  <p class="folder-mail-head"><svg class="icon" viewBox="0 0 20 20" focusable="false"><rect x="2.75" y="4.25" width="14.5" height="11.5" rx="2.5"/><path d="m3.5 5.5 6.5 5 6.5-5"/></svg>Inbox<span>[Time]</span></p>
+                  <div class="folder-mail-body">
+                    <img src="/assets/logo/rose-mark-tile-light.svg" alt="" width="32" height="32">
+                    <p><span class="folder-mail-from">Rose Practice Solutions</span><span class="folder-mail-subject">Your [Month] report is ready</span><span class="folder-mail-preview">What we did, what it brought in, and what we're changing next.</span></p>
+                  </div>
+                </div>
+                <div class="folder-surface folder-surface--front folder-consult" data-part="consult">
+                  <p class="folder-consult-head"><span class="lead-dot"></span>Consult booked<span>[Time]</span></p>
+                  <p class="folder-consult-who"><span>[Name]</span>Adult braces</p>
+                  <dl class="folder-consult-source"><dt>Source</dt><dd>Google Search ad</dd><dt>Campaign</dt><dd>Adult braces · Search</dd></dl>
+                </div>
               </div>
-              <p class="folder-disclosure">Work excerpt only. Sample results are not shown.</p>
-              <img class="stamp folder-stamp folder-stamp--large" src="/assets/img/stamp-signed.svg" alt="" width="64" height="64">
-            </article>
+            </figure>
           </div>
         </details>
       </div>

@@ -2042,24 +2042,33 @@ h1 em, h2 em, h3 em, .tagline em, .signed-change em { color: var(--accent-italic
 }
 
 /* ---------- the practice folder (homepage "What happens after you say yes") ---------- */
-/* The four stages after a practice says yes, each with the piece of work it hands over, filed in one folder: Sales'
-   practice notes, the adult braces page (signed by Web and SEO), the launch checklist (signed by Paid media) and the
-   monthly report's work and next steps (two signed rows). Illustrative work: a Sample chip on every sheet, brackets
-   for the practice.
+/* The four stages after a practice says yes, each with a scene of the work it hands over: the first call with Sales
+   (the call, its invitation behind, Sales' notes in front), the adult braces page and the Google Business Profile Web
+   and SEO set up (the page in a browser and on a phone, the profile), the ads account Paid media switches on (the
+   campaigns, the accounts in your name, the two ads) and the first monthly report (the email it arrives in, and the
+   report). Illustrative work: a Sample chip on every scene, brackets for the practice, the dates and the numbers.
    Markup (static, no JavaScript): .folder[data-folder] (a field panel) > details.folder-stage[name] ×4, the first open,
    each summary.folder-summary (span.folder-num + .folder-head (h3.folder-title + span.folder-line)) + .folder-panel
-   > article.folder-doc (.folder-doc-head (practice + Sample chip) + .folder-doc-body + the sign-off + img.folder-stamp).
+   > figure.folder-scene[role=img] (.folder-scene-top (caption + Sample chip) + .folder-canvas > two to four
+   .folder-surface, cream product surfaces on the field, the one at the back on --shadow-2, those in front on --shadow-3).
    site.js ("the practice folder") then adds .is-folder and rebuilds it as .folder-rail[role=tablist] of
    button.folder-tab (number, title and line on desktop, number and short title from data-short below 1025px, and a
    span.folder-progress) beside .folder-sheet, which holds every .folder-panel[role=tabpanel] in one grid cell: the
    sheet keeps the tallest stage's height, so changing stage never moves the page. Below 1025px each panel opens with
    its stage's title and line (.folder-panel-head, moved there from the summary; read-only on desktop).
+   Each scene is a container (folder-scene). From 768px wide (desktops from 1280px) its surfaces are composed on a
+   768 by 420 canvas, overlapping; narrower (smaller desktops, tablets, phones) each scene keeps one main surface and
+   one smaller one over its edge, in the flow, and the rest stay out (the invitation, the browser, the two ads, the consult).
    Motion (site.js): while the folder is on screen it moves from stage to stage on its own, 1 to 4 and round again;
-   each sheet plays its one beat (the focus underlined; the page placed; the checklist ticked; each signed row lit,
-   then the stamp pressed) and rests, and the active stage's progress line fills until the next. A click, tap or key
-   on a stage stops that for the visit. Paused animations: the current stage, finished. Reduced motion: stage 1,
-   finished, stages change at once. Static state (no JavaScript, reduced motion, paused): every sheet finished. */
-.folder { display: grid; grid-template-columns: minmax(0, 1fr); padding: var(--space-8); border-radius: var(--radius-panel); background: var(--surface-alt); }
+   each scene places its surfaces and plays its one beat (the call runs through Sales' three topics, each ticked as
+   its caption ends; the page scrolls, the phone settles, the profile's hours are updated; the two campaigns are
+   switched on and go from draft to in review to live, tracking is set up; the email lands, the report opens and each
+   signed row is stamped), then the sign-off and the stamp, and rests while the active stage's progress line fills.
+   A click, tap or key on a stage stops that for the visit. Paused animations: the current stage, finished. Reduced
+   motion: stage 1, finished, stages change at once. Static state (no JavaScript, reduced motion, paused): every scene
+   finished. */
+/* full width wherever it sits: its scenes are size containers, so they lend it no width of their own */
+.folder { display: grid; grid-template-columns: minmax(0, 1fr); width: 100%; padding: var(--space-8); border-radius: var(--radius-panel); background: var(--surface-alt); }
 /* a stage, as a disclosure (no JavaScript) */
 .folder-stage + .folder-stage { border-top: var(--border-w) solid var(--border-quiet); }
 .folder-summary { position: relative; display: grid; grid-template-columns: 36px minmax(0, 1fr); gap: var(--space-4); padding: var(--space-5) var(--space-10) var(--space-5) 0; cursor: pointer; list-style: none; }
@@ -2085,57 +2094,281 @@ h1 em, h2 em, h3 em, .tagline em, .signed-change em { color: var(--accent-italic
 .folder-tab-short { display: none; font-size: var(--text-body-s); font-weight: 600; line-height: 1.35; }
 /* the time to the next stage: a forest line along the active stage's foot, filled by site.js while the folder moves on its own */
 .folder-progress { position: absolute; left: var(--space-4); right: var(--space-4); bottom: 0; height: 2px; border-radius: var(--radius-pill); background: var(--forest); transform: scaleX(0); transform-origin: left center; visibility: hidden; }
-.folder-sheet { display: grid; grid-template-columns: minmax(0, 1fr); min-height: 430px; }
+.folder-sheet { display: grid; grid-template-columns: minmax(0, 1fr); }
 .folder-sheet > .folder-panel { grid-area: 1 / 1; padding: 0; }
 .folder-sheet > .folder-panel:not(.is-current, .is-leaving) { visibility: hidden; }
-/* while the stage changes, the outgoing sheet sits on top as its work fades, then drops away (site.js) */
+/* while the stage changes, the outgoing scene sits on top as its surfaces fade, then drops away (site.js) */
 .folder-sheet > .folder-panel.is-leaving { z-index: 1; }
 .folder-panel-head { display: grid; gap: var(--space-1); }
 .is-folder .folder-panel-head { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
 
-/* the sheet: one piece of work on cream paper, its foot kept clear for the stamp */
-.folder-doc { position: relative; display: grid; grid-template-rows: auto 1fr auto; gap: var(--space-5); padding: var(--space-6); border-radius: var(--radius-card); background: var(--surface-page); box-shadow: var(--shadow-2); font-size: var(--text-body-s); line-height: 1.5; }
-.folder-doc-head { display: flex; align-items: flex-start; justify-content: space-between; gap: var(--space-4); padding-bottom: var(--space-4); border-bottom: var(--border-w) solid var(--border-quiet); }
-.folder-doc-name { display: grid; gap: var(--space-1); }
-.folder-doc-practice { font-size: var(--text-label); font-weight: 600; line-height: 1.4; color: var(--text-muted); }
-.folder-doc-title { font-family: var(--font-display); font-size: var(--text-h2); line-height: 1.1; }
-.folder-doc-body { display: grid; align-content: start; gap: var(--space-4); }
-/* the sign-off: what was done, then "Signed by" and the role in deep rose (.signature, 8.43:1) */
-.folder-sign { display: grid; gap: var(--space-1); padding-top: var(--space-4); border-top: var(--border-w) solid var(--border-quiet); font-size: var(--text-label); font-weight: 600; line-height: 1.4; }
-/* the signature line keeps clear of the stamp */
-.folder-sign > p:last-child { padding-right: 72px; }
-.folder-sign .signed-change, .folder-sign-note { font-size: var(--text-body-s); font-weight: 400; }
-.folder-sign .signature { display: inline; margin-left: var(--space-1); font-size: 1.6em; line-height: 1; }
-.folder-stamp { position: absolute; right: var(--space-4); bottom: var(--space-4); width: 48px; height: 48px; }
-.folder-stamp--large { right: var(--space-3); bottom: var(--space-3); width: 64px; height: 64px; }
+/* the scene: its caption and Sample chip (forest on field 7.4:1), then the canvas of surfaces. Text on the surfaces:
+   ink on cream 13.78:1, label sage on cream 5.88:1, forest on sage mist 7.55:1, cream on forest 8.7:1. Under 768px the
+   scene is kept to 520px, centred. */
+.folder-scene { container: folder-scene / inline-size; display: grid; align-content: start; gap: var(--space-3); min-width: 0; margin: 0; }
+.folder-scene-top { display: flex; align-items: center; justify-content: space-between; gap: var(--space-3); }
+.folder-scene-top, .folder-canvas { width: 100%; max-width: 520px; margin-inline: auto; }
+.folder-scene-caption { font-size: var(--text-caption); font-weight: 500; line-height: 1.4; color: var(--forest); }
+.folder-canvas { position: relative; display: grid; grid-template-columns: minmax(0, 1fr); align-items: start; font-size: var(--text-body-s); line-height: 1.5; color: var(--text-body); }
+.folder-surface { position: relative; min-width: 0; border: var(--border-w) solid var(--border-quiet); border-radius: var(--radius-card); background: var(--surface-page); box-shadow: var(--shadow-2); }
+.folder-surface--front { z-index: 2; box-shadow: var(--shadow-3); }
+.folder-canvas .icon { width: 16px; height: 16px; }
+.folder-canvas .signoff { padding-top: var(--space-3); }
+.folder-canvas .signoff .signature { white-space: nowrap; }
+/* the stamp, overprinted on a surface's corner, clear of its text: bottom right, or top right over the profile's map */
+.folder-stamp { position: absolute; right: -12px; bottom: -12px; z-index: 3; width: 64px; height: 64px; }
+.folder-stamp--top { top: -12px; bottom: auto; }
+/* a part with its states stacked in one cell, the finished one showing (site.js swaps them) */
+.folder-caption-lines, .folder-update-text, .folder-status-text { display: grid; }
+.folder-caption-lines > span, .folder-update-text > span, .folder-status-text > span { grid-area: 1 / 1; }
+.folder-caption-lines > span:not(:last-child), .folder-update-text > span:first-child, .folder-status-text > span:not([data-state="live"]) { visibility: hidden; }
 
-/* 1. practice notes: what Sales asks, and the focus it leads to, underlined */
-.folder-notes > div { display: grid; grid-template-columns: 120px minmax(0, 1fr); gap: var(--space-4); padding-block: var(--space-3); }
-.folder-notes > div + div, .folder-checks li + li { border-top: var(--border-w) solid var(--border-quiet); }
-.folder-notes dt { font-size: var(--text-label); font-weight: 600; line-height: 1.6; color: var(--text-muted); }
-.folder-notes dd { font-size: var(--text-body-m); line-height: 1.4; }
-.folder-notes .is-key dd { font-weight: 600; color: var(--forest); }
-.folder-focus { position: relative; display: inline-block; padding-bottom: 3px; }
-.folder-underline { position: absolute; left: 0; right: 0; bottom: 0; height: 2px; border-radius: var(--radius-pill); background: var(--forest); transform-origin: left center; }
-/* 2. the adult braces page, as a small page in its window */
-.folder-page { overflow: hidden; border: var(--border-w) solid var(--border-quiet); border-radius: var(--radius-input); background: var(--surface-page); box-shadow: var(--shadow-1); }
-.folder-page-bar { display: flex; gap: var(--space-2); padding: var(--space-3) var(--space-4); background: var(--surface-panel); }
-.folder-page-bar i { width: 8px; height: 8px; border-radius: 50%; background: var(--fill-quiet); }
-.folder-page-body { display: grid; justify-items: start; gap: var(--space-3); padding: var(--space-5); }
-.folder-page-title { font-family: var(--font-display); font-size: var(--text-h2); line-height: 1.1; color: var(--forest); }
-.folder-page-button { padding: var(--space-2) var(--space-4); border-radius: var(--radius-pill); background: var(--forest); color: var(--cream); font-size: var(--text-label); font-weight: 600; }
-/* 3. the launch checklist: three rows, each ticked */
-.folder-checks li { display: grid; grid-template-columns: 20px minmax(0, 1fr); align-items: center; gap: var(--space-3); padding-block: var(--space-3); font-size: var(--text-body-m); line-height: 1.4; }
-.folder-checks .icon { color: var(--forest); }
-/* 4. the monthly report's work and next steps: two signed rows, then what comes next */
-.folder-work li { display: grid; grid-template-columns: 32px minmax(0, 1fr); align-items: start; gap: var(--space-3); padding: var(--space-3); border-radius: var(--radius-input); }
-.folder-work li + li { margin-top: var(--space-1); }
-.folder-disc.founder-art { position: static; width: 32px; height: 32px; transform: rotate(-90deg); }
-.folder-who { display: block; font-size: var(--text-label); font-weight: 600; line-height: 1.4; }
-.folder-work .signed-change { font-size: var(--text-body-m); line-height: 1.4; }
-.folder-next { border: var(--border-w) solid var(--border-quiet); }
-.folder-next .icon { justify-self: center; margin-top: 6px; color: var(--forest); }
-.folder-disclosure { padding: var(--space-4) 88px 0 0; border-top: var(--border-w) solid var(--border-quiet); font-size: var(--text-caption); line-height: 1.4; color: var(--text-muted); }
+/* 1. the first call: the invitation (wide only), the call, and Sales' notes over its corner */
+.folder-invite { display: none; gap: var(--space-2); padding: var(--space-4) var(--space-5); }
+.folder-invite-head { display: flex; align-items: center; gap: var(--space-2); font-size: var(--text-caption); font-weight: 600; line-height: 1.4; color: var(--text-muted); }
+.folder-invite-head .icon, .folder-invite-meta .icon { color: var(--forest); }
+.folder-invite-head .chip { margin-left: auto; }
+.folder-invite-title { font-size: var(--text-body-m); font-weight: 600; line-height: 1.35; }
+.folder-invite-meta { display: flex; align-items: center; gap: var(--space-2); font-size: var(--text-label); line-height: 1.5; color: var(--text-muted); }
+.folder-call { display: grid; overflow: hidden; }
+.folder-call-bar { display: grid; grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr); align-items: center; gap: var(--space-3); padding: var(--space-3) var(--space-4); border-bottom: var(--border-w) solid var(--border-quiet); background: var(--surface-panel); }
+.folder-call-name { font-size: var(--text-label); font-weight: 600; line-height: 1.4; white-space: nowrap; }
+.folder-call-time { justify-self: end; display: inline-flex; align-items: center; gap: var(--space-2); font-size: var(--text-caption); font-weight: 600; line-height: 1.4; color: var(--forest); font-variant-numeric: tabular-nums; }
+.folder-call-tiles { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--space-2); padding: var(--space-3) var(--space-3) 0; }
+/* a participant: Sales on forest with the founder disc (ink and forest, as in the team band) and a ring while speaking */
+.folder-tile { position: relative; display: grid; place-items: center; height: 96px; border-radius: var(--radius-input); background: var(--surface-panel); }
+.folder-tile--sales { background: var(--surface-strong); color: var(--text-on-strong); }
+.folder-tile-face { position: relative; display: grid; place-items: center; width: 44px; height: 44px; margin-bottom: var(--space-4); }
+.folder-tile-disc.founder-art { position: static; width: 100%; height: 100%; transform: rotate(-90deg); }
+.folder-ring { position: absolute; inset: -6px; border: var(--border-w-strong) solid var(--outline-on-strong); border-radius: 50%; }
+.folder-tile-face--practice { border: var(--border-w) solid var(--border-input); border-radius: 50%; background: var(--surface-page); color: var(--forest); }
+.folder-canvas .folder-tile-face--practice .icon { width: 22px; height: 22px; }
+.folder-tile-name { position: absolute; left: var(--space-3); bottom: var(--space-2); display: inline-flex; align-items: center; gap: var(--space-1); max-width: calc(100% - var(--space-6)); font-size: var(--text-caption); font-weight: 600; line-height: 1.4; white-space: nowrap; }
+.folder-canvas .folder-tile-name .icon { width: 14px; height: 14px; }
+/* the live caption: one line, Sales' three questions stacked in it (site.js plays them in turn) */
+.folder-caption { display: flex; align-items: flex-start; gap: var(--space-2); margin: var(--space-2) var(--space-3) var(--space-3); padding: var(--space-2) var(--space-3); border-radius: var(--radius-input); background: var(--surface-panel); line-height: 1.45; }
+.folder-caption .icon { margin-top: 2px; color: var(--forest); }
+.folder-caption-who { flex: none; font-weight: 600; }
+.folder-caption-lines { min-width: 0; }
+.folder-call-controls { display: none; align-items: center; justify-content: center; gap: var(--space-2); padding: 0 var(--space-3) var(--space-3); }
+.folder-control { display: grid; place-items: center; width: 34px; height: 34px; border: var(--border-w) solid var(--border-quiet); border-radius: 50%; color: var(--forest); }
+.folder-control.is-on { border-color: var(--forest); background: var(--surface-strong); color: var(--text-on-strong); }
+.folder-control-leave { margin-left: var(--space-2); padding: 6px var(--space-3); border: var(--border-w) solid var(--border-input); border-radius: var(--radius-pill); font-size: var(--text-caption); font-weight: 600; line-height: 1.4; }
+.folder-notes { justify-self: end; display: grid; gap: var(--space-2); width: min(300px, 88%); margin-top: -12px; padding: var(--space-3) var(--space-4) var(--space-4); }
+.folder-notes-head { display: flex; align-items: center; gap: var(--space-2); padding-bottom: var(--space-2); border-bottom: var(--border-w) solid var(--border-quiet); font-weight: 600; line-height: 1.4; }
+.folder-notes-head .icon { color: var(--forest); }
+.folder-notes-meta { margin-left: auto; font-size: var(--text-caption); font-weight: 500; color: var(--text-muted); }
+.folder-topics { display: grid; gap: var(--space-2); }
+.folder-topics li { display: grid; grid-template-columns: 20px minmax(0, 1fr); gap: var(--space-3); }
+.folder-canvas .folder-topics .icon { width: 20px; height: 20px; color: var(--forest); }
+.folder-topic-name { display: block; font-weight: 600; line-height: 20px; }
+.folder-topic-line { display: none; font-size: var(--text-label); line-height: 1.45; color: var(--text-muted); }
+
+/* 2. the site: the adult braces page in a browser (wide only), the same page on a phone, the Google Business Profile.
+   Under 768px the phone and the profile share one cell, the profile over the phone's edge (a narrower canvas, so they
+   meet on wider screens too) */
+.folder-scene--site .folder-canvas { max-width: 430px; }
+.folder-browser { display: none; overflow: hidden; }
+.folder-browser-bar { display: flex; align-items: center; gap: var(--space-3); padding: var(--space-3) var(--space-4); border-bottom: var(--border-w) solid var(--border-quiet); background: var(--surface-panel); }
+.folder-browser-url { display: inline-flex; flex: 1; align-items: center; gap: var(--space-1); min-width: 0; padding: 2px var(--space-3); border-radius: var(--radius-pill); background: var(--surface-page); font-size: var(--text-caption); font-weight: 500; line-height: 1.6; color: var(--text-muted); }
+.folder-canvas .folder-browser-url .icon { width: 12px; height: 12px; }
+/* the page scrolls under its nav (site.js moves .folder-site) */
+.folder-browser-view { height: 318px; overflow: hidden; }
+.folder-browser-view > .folder-site-nav { position: relative; z-index: 1; background: var(--surface-page); }
+.folder-site { display: grid; }
+.folder-site-nav { display: flex; align-items: center; gap: var(--space-4); padding: var(--space-3) var(--space-5); border-bottom: var(--border-w) solid var(--border-quiet); }
+.folder-site-brand { font-family: var(--font-display); font-size: 18px; line-height: 1.1; white-space: nowrap; }
+.folder-site-links { display: flex; gap: var(--space-4); margin-left: auto; font-size: var(--text-caption); font-weight: 500; line-height: 1.4; color: var(--text-muted); }
+.folder-site-book { padding: var(--space-1) var(--space-3); border-radius: var(--radius-pill); background: var(--surface-strong); color: var(--text-on-strong); font-size: var(--text-caption); font-weight: 600; line-height: 1.5; }
+.folder-site-hero { display: grid; justify-items: start; gap: var(--space-3); max-width: 340px; padding: var(--space-6) var(--space-5) var(--space-5); }
+.folder-site-title { font-family: var(--font-display); font-size: 34px; line-height: 1.05; color: var(--forest); text-wrap: balance; }
+.folder-site-line { color: var(--text-muted); text-wrap: pretty; }
+.folder-site-actions { display: flex; align-items: center; gap: var(--space-4); margin-top: var(--space-1); }
+.folder-site-button { padding: var(--space-2) var(--space-4); border-radius: var(--radius-pill); background: var(--surface-strong); color: var(--text-on-strong); font-size: var(--text-label); font-weight: 600; line-height: 1.4; text-align: center; white-space: nowrap; }
+.folder-site-call { display: inline-flex; align-items: center; gap: var(--space-1); font-size: var(--text-label); font-weight: 600; line-height: 1.4; color: var(--forest); }
+.folder-site-part { display: grid; gap: var(--space-3); max-width: 320px; margin-inline: var(--space-5); padding-block: var(--space-5); border-top: var(--border-w) solid var(--border-quiet); }
+.folder-site-h { font-family: var(--font-display); font-size: 20px; line-height: 1.15; }
+.folder-site-steps { display: grid; gap: var(--space-2); }
+.folder-site-steps li { display: flex; align-items: flex-start; gap: var(--space-3); font-size: var(--text-label); line-height: 1.4; }
+.folder-site-steps span { display: grid; flex: none; place-items: center; width: 20px; height: 20px; border-radius: 50%; background: var(--surface-panel); color: var(--forest); font-family: var(--font-display); font-size: 14px; line-height: 1; }
+.folder-site-faq li { padding-block: var(--space-2); border-bottom: var(--border-w) solid var(--border-quiet); font-size: var(--text-label); font-weight: 600; line-height: 1.4; }
+/* the phone: an ink frame round a cream screen; the page runs on under its sticky booking bar */
+.folder-phone { position: relative; z-index: 1; grid-area: 1 / 1; justify-self: start; align-self: start; width: 50%; max-width: 212px; aspect-ratio: 1 / 2; padding: 6px; border-radius: var(--radius-panel); background: var(--ink); box-shadow: var(--shadow-3); }
+.folder-phone-screen { position: relative; display: grid; align-content: start; height: 100%; overflow: hidden; padding-top: var(--space-5); border-radius: var(--radius-card); background: var(--surface-page); }
+.folder-phone-notch { position: absolute; top: 7px; left: 50%; width: 40px; height: 10px; margin-left: -20px; border-radius: var(--radius-pill); background: var(--ink); }
+.folder-phone .folder-site-nav { justify-content: space-between; gap: var(--space-2); padding: var(--space-2) var(--space-3); }
+.folder-phone .folder-site-brand { font-size: 15px; }
+.folder-phone .folder-site-hero { gap: var(--space-2); padding: var(--space-4) var(--space-3) var(--space-3); }
+.folder-phone .folder-site-title { font-size: 22px; }
+.folder-phone .folder-site-part { gap: var(--space-2); margin-inline: var(--space-3); padding-block: var(--space-3); }
+.folder-phone .folder-site-h { font-size: 17px; }
+.folder-phone .folder-site-steps li { gap: var(--space-2); font-size: var(--text-body-s); }
+.folder-phone .folder-site-steps span { width: 18px; height: 18px; margin-top: 1px; font-size: 12px; }
+.folder-phone-bar { position: absolute; left: 0; right: 0; bottom: 0; display: flex; gap: var(--space-2); padding: var(--space-2) var(--space-2) var(--space-3); border-top: var(--border-w) solid var(--border-quiet); background: var(--surface-page); }
+.folder-phone-bar .folder-site-button { flex: 1; padding: var(--space-2); font-size: var(--text-caption); }
+.folder-phone-call { display: none; flex: none; place-items: center; width: 32px; border: var(--border-w) solid var(--border-input); border-radius: 50%; color: var(--forest); }
+.folder-canvas .folder-phone-call .icon { width: 14px; height: 14px; }
+.folder-profile { z-index: 2; grid-area: 1 / 1; justify-self: end; align-self: end; display: grid; width: 56%; max-width: 248px; }
+.folder-map { display: block; width: 100%; height: 56px; border-radius: var(--radius-card) var(--radius-card) 0 0; }
+.folder-map rect { fill: var(--surface-panel); }
+.folder-map-road { fill: none; stroke: var(--surface-page); stroke-width: 7; stroke-linecap: round; }
+.folder-map-road--minor { stroke-width: 3.5; }
+.folder-map-pin { fill: var(--forest); }
+.folder-map-dot { fill: var(--surface-page); }
+.folder-profile-body { display: grid; gap: 2px; padding: var(--space-3) var(--space-4) var(--space-4); }
+.folder-profile-name { font-size: var(--text-body-m); font-weight: 600; line-height: 1.35; }
+.folder-profile-kind, .folder-profile-open { font-size: var(--text-label); line-height: 1.45; color: var(--text-muted); }
+.folder-profile-open span { font-weight: 600; color: var(--forest); }
+.folder-profile-actions { display: flex; justify-content: space-between; gap: var(--space-2); margin-top: var(--space-3); }
+.folder-profile-actions li { display: grid; justify-items: center; gap: var(--space-1); font-size: var(--text-caption); font-weight: 600; line-height: 1.4; color: var(--forest); }
+.folder-profile-actions li > span { display: grid; place-items: center; width: 34px; height: 34px; border: var(--border-w) solid var(--border-input); border-radius: 50%; }
+/* the profile update: done, a forest chip (cream on forest 8.7:1); before, outlined, "Updating hours" */
+.folder-update { justify-self: start; display: inline-flex; align-items: center; gap: var(--space-1); margin-top: var(--space-3); padding: var(--space-1) var(--space-3) var(--space-1) var(--space-2); border: var(--border-w) solid var(--forest); border-radius: var(--radius-pill); background: var(--surface-strong); color: var(--text-on-strong); font-size: var(--text-caption); font-weight: 600; line-height: 1.4; }
+.folder-canvas .folder-update .icon { width: 14px; height: 14px; }
+.folder-profile .signoff { flex-wrap: nowrap; gap: var(--space-2) var(--space-3); margin-top: var(--space-3); padding-right: 0; }
+.folder-profile .signoff-who { min-width: 0; }
+
+/* 3. the ads account: the campaigns, the accounts in your name over its corner, the two ads beside it (wide only) */
+.folder-ads { grid-row: 2; display: grid; }
+.folder-ads-head { display: flex; align-items: center; gap: var(--space-3); padding: var(--space-4) var(--space-4) var(--space-3); }
+.folder-ads-title { font-size: var(--text-body-m); font-weight: 600; line-height: 1.35; }
+.folder-ads-account { display: inline-flex; align-items: center; gap: var(--space-1); min-width: 0; padding: 2px var(--space-3) 2px var(--space-2); border: var(--border-w) solid var(--border-quiet); border-radius: var(--radius-pill); font-size: var(--text-caption); font-weight: 600; line-height: 1.6; color: var(--text-muted); white-space: nowrap; }
+.folder-canvas .folder-ads-account .icon { width: 14px; height: 14px; color: var(--forest); }
+.folder-ads-cols, .folder-ads-rows li { display: grid; grid-template-columns: 32px minmax(0, 1fr) auto; align-items: center; gap: var(--space-3); padding: var(--space-3) var(--space-4); }
+.folder-ads-cols { display: none; padding-block: var(--space-2); border-block: var(--border-w) solid var(--border-quiet); background: var(--surface-panel); font-size: var(--text-caption); font-weight: 600; line-height: 1.4; color: var(--text-muted); }
+.folder-ads-rows { border-top: var(--border-w) solid var(--border-quiet); }
+.folder-ads-rows li + li { border-top: var(--border-w) solid var(--border-quiet); }
+.folder-ads-name { display: grid; font-weight: 600; line-height: 1.4; }
+.folder-ads-name span { font-size: var(--text-caption); font-weight: 500; color: var(--text-muted); }
+.folder-ads-budget { display: none; font-size: var(--text-label); color: var(--text-muted); font-variant-numeric: tabular-nums; }
+/* the switch: on, a forest track with the cream knob at the right; off (before the beat), sage with the knob left */
+.folder-switch { position: relative; width: 32px; height: 18px; border-radius: var(--radius-pill); background: var(--surface-strong); }
+.folder-switch > span { position: absolute; top: 2px; left: 2px; width: 14px; height: 14px; border-radius: 50%; background: var(--surface-page); box-shadow: var(--shadow-1); transform: translateX(14px); }
+/* the status: a dot and the word; live is forest (7.55:1 on cream), in review and draft label sage */
+.folder-status { display: inline-flex; align-items: center; gap: var(--space-2); font-size: var(--text-label); font-weight: 600; line-height: 1.4; color: var(--forest); white-space: nowrap; }
+.folder-status-dot { flex: none; width: 8px; height: 8px; border: var(--border-w) solid var(--forest); border-radius: 50%; background: var(--forest); }
+.folder-track { display: grid; gap: var(--space-2); margin: var(--space-1) var(--space-4) 0; padding: var(--space-3) var(--space-4); border-radius: var(--radius-input); background: var(--surface-panel); }
+.folder-track li { display: flex; align-items: center; gap: var(--space-2); font-size: var(--text-label); line-height: 1.4; }
+.folder-track li > .icon { color: var(--forest); }
+.folder-track-state { display: inline-flex; align-items: center; gap: 2px; margin-left: auto; font-weight: 600; color: var(--forest); }
+.folder-ads > .signoff { margin: var(--space-3) var(--space-4) var(--space-4); }
+.folder-owner { grid-row: 1; justify-self: end; display: flex; align-items: center; gap: var(--space-3); max-width: 92%; margin-bottom: -18px; padding: var(--space-3) var(--space-4) var(--space-3) var(--space-3); }
+.folder-owner-key { display: grid; flex: none; place-items: center; width: 32px; height: 32px; border-radius: 50%; background: var(--surface-strong); color: var(--text-on-strong); }
+.folder-owner-text { display: grid; font-size: var(--text-label); font-weight: 600; line-height: 1.4; }
+.folder-owner-text span { font-size: var(--text-caption); font-weight: 500; color: var(--text-muted); }
+.folder-preview { display: none; gap: var(--space-1); padding: var(--space-3) var(--space-4); font-size: var(--text-caption); line-height: 1.5; }
+.folder-preview-who { display: flex; align-items: center; gap: var(--space-2); color: var(--text-muted); }
+.folder-preview-who > span:first-child { font-weight: 600; color: var(--text-body); }
+.folder-preview-title { font-size: var(--text-body-s); font-weight: 600; line-height: 1.35; color: var(--forest); }
+.folder-preview-text { color: var(--text-muted); }
+.folder-preview--feed { overflow: hidden; gap: 0; padding: 0; }
+.folder-preview--feed .folder-preview-who { padding: var(--space-3); }
+.folder-preview-mark { flex: none; width: 24px; height: 24px; border-radius: 50%; background: var(--surface-strong); }
+.folder-preview-name { display: grid; font-weight: 600; line-height: 1.3; color: var(--text-body); }
+.folder-preview-name span { font-weight: 500; color: var(--text-muted); }
+.folder-preview-art { display: grid; align-content: end; min-height: 84px; padding: var(--space-3); background: var(--surface-strong); color: var(--text-on-strong); font-family: var(--font-display); font-size: 17px; line-height: 1.1; text-wrap: balance; }
+.folder-preview-foot { display: flex; align-items: center; justify-content: space-between; gap: var(--space-2); padding: var(--space-2) var(--space-3); background: var(--surface-panel); font-weight: 600; }
+.folder-preview-button { padding: 2px var(--space-2); border-radius: var(--radius-input); background: var(--surface-page); }
+
+/* 4. the report: the email it arrives in over its top corner; the report's three parts, its two changes each signed
+   and stamped; beside it (wide only) one of the consults it counts */
+.folder-report { grid-row: 2; display: grid; gap: var(--space-3); padding: var(--space-6) var(--space-4) var(--space-4); }
+.folder-report-head { display: flex; flex-wrap: wrap; align-items: baseline; gap: 0 var(--space-2); padding-bottom: var(--space-3); border-bottom: var(--border-w) solid var(--border-quiet); }
+.folder-report-title { font-family: var(--font-display); font-size: 26px; line-height: 1.1; }
+.folder-report-for { font-size: var(--text-label); line-height: 1.4; color: var(--text-muted); }
+.folder-report-part { display: grid; align-content: start; gap: var(--space-1); }
+.folder-report-h { font-size: var(--text-caption); font-weight: 600; line-height: 1.4; color: var(--text-muted); }
+.folder-report-work { display: grid; gap: var(--space-1); }
+.folder-report-work li { display: grid; grid-template-columns: minmax(0, 1fr) 36px; align-items: center; gap: var(--space-3); padding: 6px var(--space-2) 6px var(--space-3); border-radius: var(--radius-input); background: var(--surface-panel); }
+.folder-report-work .signoff-disc.founder-art { display: none; width: 28px; height: 28px; }
+.folder-report-change { display: grid; }
+.folder-report-who { font-size: var(--text-caption); font-weight: 600; line-height: 1.4; color: var(--text-muted); }
+.folder-report-change .signed-change { line-height: 1.4; }
+.folder-row-stamp { width: 36px; height: 36px; }
+.folder-report-stats { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--space-2); }
+.folder-report-stats li { display: grid; align-content: start; gap: 2px; padding: 6px var(--space-3); border: var(--border-w) solid var(--border-quiet); border-radius: var(--radius-input); font-size: var(--text-caption); font-weight: 500; line-height: 1.35; }
+.folder-report-stats span { font-family: var(--font-display); font-size: 24px; line-height: 1.1; color: var(--forest); }
+.folder-report-next { display: flex; align-items: flex-start; gap: var(--space-2); }
+.folder-canvas .folder-report-next .icon { flex: none; width: 18px; height: 18px; margin-top: 1px; color: var(--forest); }
+.folder-mail { z-index: 3; grid-row: 1; justify-self: end; display: grid; gap: var(--space-2); width: min(300px, 90%); margin-bottom: -16px; padding: var(--space-3) var(--space-4); }
+.folder-mail-head { display: none; align-items: center; gap: var(--space-2); font-size: var(--text-caption); font-weight: 600; line-height: 1.4; color: var(--text-muted); }
+.folder-canvas .folder-mail-head .icon { width: 14px; height: 14px; color: var(--forest); }
+.folder-mail-head span { margin-left: auto; font-weight: 500; }
+.folder-mail-body { display: grid; grid-template-columns: 28px minmax(0, 1fr); align-items: center; gap: var(--space-3); }
+.folder-mail-body img { width: 28px; height: 28px; }
+.folder-mail-body p { display: grid; }
+.folder-mail-from { font-size: var(--text-caption); font-weight: 600; line-height: 1.4; color: var(--text-muted); }
+.folder-mail-subject { font-weight: 600; line-height: 1.4; }
+.folder-mail-preview { display: none; font-size: var(--text-label); line-height: 1.45; color: var(--text-muted); }
+.folder-consult { display: none; gap: var(--space-2); padding: var(--space-4); }
+.folder-consult-head { display: flex; align-items: center; gap: var(--space-2); font-weight: 600; line-height: 1.4; }
+.folder-consult-head span:last-child { margin-left: auto; font-size: var(--text-caption); color: var(--text-muted); }
+.folder-consult-who { display: flex; align-items: baseline; gap: var(--space-2); color: var(--text-muted); }
+.folder-consult-who span { font-family: var(--font-display); font-size: 24px; line-height: 1.1; color: var(--text-body); }
+.folder-consult-source { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 2px var(--space-3); padding: var(--space-2) var(--space-3); border-radius: var(--radius-input); background: var(--surface-panel); font-size: var(--text-caption); line-height: 1.5; }
+.folder-consult-source dt { color: var(--text-muted); }
+.folder-consult-source dd { font-weight: 600; }
+
+/* the composed scenes, from 768px wide: every surface placed on a 768 by 420 canvas (centred if there is more room) */
+@container folder-scene (min-width: 768px) {
+  .folder-scene-top { max-width: none; }
+  .folder-canvas, .folder-scene--site .folder-canvas { display: block; max-width: 768px; height: 420px; }
+  .folder-canvas > * { position: absolute; margin: 0; }
+  /* 1: the invitation at the back, top right; the call over its edge; the notes in front, bottom right */
+  .folder-invite { display: grid; top: 0; right: 0; width: 276px; padding-left: var(--space-8); }
+  .folder-call { top: 32px; left: 0; z-index: 1; width: 512px; box-shadow: var(--shadow-3); }
+  .folder-tile { height: 168px; }
+  .folder-tile-face { width: 68px; height: 68px; margin-bottom: 0; }
+  .folder-canvas .folder-tile-face--practice .icon { width: 28px; height: 28px; }
+  .folder-caption { margin-right: 60px; }
+  .folder-call-controls { display: flex; padding-right: 60px; }
+  .folder-notes { right: 0; bottom: 0; width: 300px; gap: var(--space-3); padding: var(--space-4) var(--space-5); }
+  .folder-notes-head { padding-bottom: var(--space-3); }
+  .folder-topics { gap: var(--space-3); }
+  .folder-topic-line { display: block; }
+  /* 2: the browser at the back; the profile over its right edge; the phone in front, over the browser's corner */
+  .folder-browser { display: block; top: 0; left: 0; width: 524px; }
+  .folder-phone { z-index: 3; top: 100px; left: 334px; width: 172px; max-width: none; height: 320px; aspect-ratio: auto; }
+  .folder-phone .folder-site-title { font-size: 21px; }
+  .folder-phone .folder-site-line, .folder-phone .folder-site-steps li { font-size: var(--text-caption); }
+  .folder-profile { top: 24px; right: 0; width: 256px; max-width: none; }
+  .folder-map { height: 72px; }
+  /* 3: the account at the back; the accounts in your name over its corner; the search ad and the feed ad beside it */
+  .folder-ads { top: 22px; left: 0; width: 532px; }
+  .folder-ads-head { padding-inline: var(--space-5); }
+  .folder-ads-cols { display: grid; }
+  .folder-ads-cols, .folder-ads-rows li { grid-template-columns: 36px minmax(0, 1fr) 96px 92px; padding-inline: var(--space-5) var(--space-6); }
+  .folder-ads-rows { border-top: 0; }
+  .folder-ads-budget { display: block; }
+  .folder-track { margin-inline: var(--space-5); }
+  .folder-ads > .signoff { margin: var(--space-4) var(--space-5); }
+  .folder-owner { top: 0; right: 0; width: 256px; max-width: none; }
+  .folder-preview { display: grid; }
+  .folder-preview--search { top: 92px; right: 28px; width: 228px; }
+  .folder-preview--feed { right: 0; bottom: 4px; width: 204px; }
+  /* 4: the report at the back; the email over its top right; the consult it counts over its lower right */
+  .folder-report { top: 12px; left: 0; width: 512px; gap: var(--space-3); padding: var(--space-5) var(--space-6); }
+  .folder-report-head { padding-bottom: var(--space-3); }
+  .folder-report-title { font-size: 30px; }
+  .folder-report-part { gap: var(--space-2); }
+  .folder-report-h { font-size: var(--text-label); }
+  .folder-report-work li { grid-template-columns: 28px minmax(0, 1fr) 36px; padding-block: var(--space-2); }
+  .folder-report-work .signoff-disc.founder-art { display: block; }
+  .folder-report-stats li { padding: var(--space-2) var(--space-3); font-size: var(--text-label); }
+  .folder-report-stats span { font-size: 28px; }
+  .folder-mail { top: 0; right: 0; width: 296px; gap: var(--space-3); padding: var(--space-3) var(--space-4) var(--space-4); }
+  .folder-mail-head { display: flex; }
+  .folder-mail-body { grid-template-columns: 32px minmax(0, 1fr); align-items: start; }
+  .folder-mail-body img { width: 32px; height: 32px; }
+  .folder-mail-preview { display: block; }
+  .folder-consult { display: grid; right: 0; bottom: 20px; width: 272px; }
+  .folder-phone-call { display: grid; }
+}
+/* the narrowest phones: the profile keeps two of its three actions */
+@container folder-scene (max-width: 310px) {
+  .folder-profile-actions li:nth-child(3) { display: none; }
+  .folder-profile-actions { justify-content: flex-start; gap: var(--space-5); }
+}
 
 /* under 1025px: a row of four steps (two by two on phones) over the sheet; each sheet opens with its stage's title */
 @media (max-width: 1024px) {
@@ -2146,7 +2379,6 @@ h1 em, h2 em, h3 em, .tagline em, .signed-change em { color: var(--accent-italic
   .folder-tab-text { display: none; }
   .folder-tab-short { display: block; }
   .folder-progress { left: var(--space-3); right: var(--space-3); }
-  .folder-sheet { min-height: 0; }
   .folder-sheet > .folder-panel { grid-template-rows: auto minmax(0, 1fr); gap: var(--space-3); }
   .is-folder .folder-panel-head { position: static; width: auto; height: auto; overflow: visible; clip-path: none; white-space: normal; padding-inline: var(--space-1); }
 }
@@ -2157,22 +2389,12 @@ h1 em, h2 em, h3 em, .tagline em, .signed-change em { color: var(--accent-italic
   .folder-panel { padding-left: 0; }
   .folder-summary { gap: var(--space-3); padding-block: var(--space-4); }
   .folder-tab { padding-inline: var(--space-2); }
-  .folder-doc { gap: var(--space-3); padding: var(--space-4); }
-  .folder-doc-head { padding-bottom: var(--space-3); }
-  .folder-doc-title { font-size: 24px; }
-  .folder-notes > div { grid-template-columns: minmax(0, 1fr); gap: 0; padding-block: var(--space-2); }
-  .folder-notes dd, .folder-checks li, .folder-work .signed-change { font-size: var(--text-body-s); }
-  .folder-checks li { padding-block: var(--space-2); }
-  .folder-page-body { gap: var(--space-2); padding: var(--space-3) var(--space-4) var(--space-4); }
-  .folder-page-title { font-size: 22px; }
-  .folder-page-bar { display: none; }
-  .folder-work li { padding: var(--space-1) var(--space-2); }
-  .folder-work li + li { margin-top: 0; }
-  .folder-stamp { right: var(--space-3); bottom: var(--space-3); }
-  .folder-sign > p { padding-right: 64px; }
-  .folder-stamp--large { width: 56px; height: 56px; }
-  .folder-disclosure { padding: var(--space-2) 72px 0 0; }
   .folder + .cta-line { margin-top: var(--space-8); }
+  /* the scene's Sample chip moves up beside the stage's title; its caption goes (the title says what it is) */
+  .folder-sheet > .folder-panel { position: relative; gap: var(--space-2); }
+  .is-folder .folder-scene-top { position: absolute; top: 0; right: var(--space-1); width: auto; }
+  .is-folder .folder-scene-caption { display: none; }
+  .is-folder .folder-panel-head .folder-title { padding-right: 76px; }
 }
 
 @media (max-width: 1024px) {

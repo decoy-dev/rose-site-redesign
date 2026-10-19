@@ -862,16 +862,26 @@
   // stage's title and line move from its summary to the top of its panel (shown below 1025px, kept for screen readers
   // above). Tabs: click or tap, Left/Right/Up/Down, Home and End; the selected tab is the one tab stop.
   // Motion, only with GSAP, while at least 35% of the folder is on screen and the tab is visible: the folder moves
-  // from stage to stage on its own, 1 to 4 and round again. The incoming sheet's work fades in (150ms out, 250ms in;
-  // the sheet's head and Sample chip stay put) and plays its one beat: the focus is underlined (Sales' notes), the
-  // page is placed (Web and SEO), the checklist is ticked row by row (Paid media), each signed row of the report is
-  // lit in turn; then the sign-off returns and the stamp is pressed (the same press as the signed samples). It rests
-  // (--hold-lower-third) while the active stage's progress line fills, then the next stage. The first stage, on first
-  // view, holds finished for --rest-bloom before its beat replays. Off screen or in a hidden tab it holds where it is.
-  // A click, tap or key on a stage (or keyboard focus arriving on one) stops the moving on for the rest of the visit:
-  // the chosen stage plays its beat once and rests. Paused animations stop on the current stage, finished; a later
-  // play starts that stage again. Under reduced motion nothing is built: stage 1, finished, and stages change at once.
-  // The static markup is every stage's finished state, so stopping only ever clears what the timeline set.
+  // from stage to stage on its own, 1 to 4 and round again. The outgoing scene fades (150ms), the incoming one's caption
+  // fades in (250ms; the Sample chip stays put), and its surfaces are placed (500ms, power3.out, a little apart) and it
+  // plays its one beat:
+  //   1, the call: the call runs (its clock time-lapses to the end), Sales asks the three questions in turn as live
+  //      captions (word by word, the speaking ring breathing), and each topic in Sales' notes is ticked as its question
+  //      ends; then "Prepared by Sales".
+  //   2, the site: the page scrolls down to its first-visit section and back up, the phone settles over the browser's
+  //      corner, then the profile's "Updating hours" becomes "Hours updated" (ticked); signed, stamped.
+  //   3, the ads: each campaign is switched on and goes from draft to in review to live, then call and conversion
+  //      tracking is set up, line by line; signed, stamped.
+  //   4, the report: the email lands, the report opens (unfolding from the top), each signed change appears and is
+  //      stamped in turn, then what it brought in (and, wide, the consult it counts) and what's next.
+  // On phones (and anywhere the scene is under 768px wide) the surfaces that stay out (the invitation, the browser,
+  // the two ads, the consult) are simply not seen. It rests (--hold-lower-third) while the active stage's progress
+  // line fills, then the next stage. The first stage, on first view, holds finished for --rest-bloom before its beat
+  // replays. Off screen or in a hidden tab it holds where it is. A click, tap or key on a stage (or keyboard focus
+  // arriving on one) stops the moving on for the rest of the visit: the chosen stage plays its beat once and rests.
+  // Paused animations stop on the current stage, finished; a later play starts that stage again. Under reduced motion
+  // nothing is built: stage 1, finished, and stages change at once. The static markup is every stage's finished
+  // state, so stopping only ever clears what the timeline set (and puts the call's clock back).
   const folder = document.querySelector('[data-folder]');
   if (folder && folder.querySelector('details.folder-stage')) {
     const gsap = window.gsap;
@@ -944,82 +954,210 @@
         .to(stamp, { scale: 1, duration: MED * 0.8, ease: 'power2.out' }, at + MED);
       return at + MED * 1.8;
     };
-    // each stage's beat: what it hides before the beat (from, set at once or faded out over FAST) and the beat itself,
-    // which ends on the static markup's finished state and returns its end time
+    const PLACE = 0.5;
+    // a surface placed: in from a short way off (16px down unless told otherwise), power3.out
+    const place = (tl, el, at, off) => { tl.fromTo(el, { autoAlpha: 0, x: 0, y: 16, ...off }, { autoAlpha: 1, x: 0, y: 0, duration: PLACE, ease: 'power3.out', immediateRender: false }, at); };
+    // a tick drawn on
+    const tick = (tl, path, at) => { const len = path.getTotalLength(); tl.fromTo(path, { strokeDasharray: len, strokeDashoffset: len }, { strokeDashoffset: 0, duration: MED, ease: 'power2.out', immediateRender: false }, at); };
+    const undrawn = (paths) => [paths, { strokeDasharray: (i, p) => p.getTotalLength(), strokeDashoffset: (i, p) => p.getTotalLength() }];
+    // a caption's words, each in its own span (the text stays the same)
+    const words = (el) => {
+      const list = el.textContent.trim().split(/\s+/);
+      el.textContent = '';
+      return list.map((word, i) => { const s = document.createElement('span'); s.textContent = word; el.append(s, i < list.length - 1 ? ' ' : ''); return s; });
+    };
+    const INK = token('--text-body');
+    const MUTED = token('--text-muted');
+    const FOREST = token('--forest');
+    const SAGE = token('--fill-quiet');
+    const CREAM = token('--surface-page');
+    const INPUT = token('--border-input');
+    // each scene's beat: what it hides or resets before the beat (from: set at once, or faded over FAST on first view),
+    // the beat itself, which ends on the static markup's finished state and returns its end time, and anything a stop
+    // has to put back that is not a style (reset)
     const BEATS = panels.map((panel) => {
       const q = (sel) => [...panel.querySelectorAll(sel)];
-      const sign = q('.folder-sign');
+      const part = (name) => panel.querySelector('[data-part="' + name + '"]');
+      const sign = part('sign');
       const stamp = panel.querySelector('.folder-stamp');
-      const signIn = (tl, at) => { if (sign.length) tl.fromTo(sign, { autoAlpha: 0, y: 8 }, { autoAlpha: 1, y: 0, duration: MED, ease: 'power2.out', immediateRender: false }, at); return at + MED; };
-      const kind = panel.querySelector('.folder-doc').dataset.stage;
-      if (kind === 'notes') {
-        const line = panel.querySelector('[data-part="focus"]');
+      const signIn = (tl, at) => { if (sign) tl.fromTo(sign, { autoAlpha: 0, y: 8 }, { autoAlpha: 1, y: 0, duration: MED, ease: 'power2.out', immediateRender: false }, at); return at + MED; };
+      const kind = panel.querySelector('.folder-scene').dataset.stage;
+      if (kind === 'call') {
+        const invite = part('invite');
+        const call = part('call');
+        const notes = part('notes');
+        const caps = q('[data-part="cap"]');
+        const said = caps.map(words);
+        const topics = q('[data-part="topic"]');
+        const ticks = topics.map((t) => t.querySelector('path'));
+        const names = topics.map((t) => t.querySelector('.folder-topic-name'));
+        const ring = part('ring');
+        const clock = part('clock');
+        const told = clock.textContent;
+        const length = told.split(':').reduce((m, s) => m * 60 + Number(s), 0);
+        const show = (s) => { s = Math.round(s); clock.textContent = String(Math.floor(s / 60)).padStart(2, '0') + ':' + String(s % 60).padStart(2, '0'); };
+        const STEP = 1.35; // one question: its words, then its topic ticked
         return {
-          from: [[line, { scaleX: 0 }], [sign, { autoAlpha: 0 }]],
-          play: (tl, at) => { tl.fromTo(line, { scaleX: 0 }, { scaleX: 1, duration: MED, ease: 'power2.out', immediateRender: false }, at); return signIn(tl, at + MED + FAST); },
-        };
-      }
-      if (kind === 'page') {
-        const page = panel.querySelector('[data-part="page"]');
-        return {
-          from: [[page, { autoAlpha: 0, y: 8 }], [sign, { autoAlpha: 0 }], [stamp, { autoAlpha: 0 }]],
+          from: [[[invite, call, notes, sign, ...caps], { autoAlpha: 0 }], undrawn(ticks), [names, { color: MUTED }]],
+          reset: () => { clock.textContent = told; },
           play: (tl, at) => {
-            tl.fromTo(page, { autoAlpha: 0, y: 8 }, { autoAlpha: 1, y: 0, duration: SLOW, ease: 'power2.out', immediateRender: false }, at);
-            return press(tl, stamp, signIn(tl, at + SLOW + FAST));
-          },
-        };
-      }
-      if (kind === 'launch') {
-        const ticks = q('[data-part="check"] path');
-        const rows = q('[data-part="check"] > span:not(.sr-only)');
-        const lengths = ticks.map((t) => t.getTotalLength());
-        return {
-          from: [[ticks, { strokeDasharray: (i) => lengths[i], strokeDashoffset: (i) => lengths[i] }], [rows, { color: token('--text-muted') }], [sign, { autoAlpha: 0 }], [stamp, { autoAlpha: 0 }]],
-          play: (tl, at) => {
-            ticks.forEach((tick, i) => {
-              const t = at + i * (MED + FAST);
-              tl.fromTo(tick, { strokeDasharray: lengths[i], strokeDashoffset: lengths[i] }, { strokeDashoffset: 0, duration: MED, ease: 'power2.out', immediateRender: false }, t)
-                .fromTo(rows[i], { color: token('--text-muted') }, { color: token('--text-body'), duration: MED, ease: 'power2.out', immediateRender: false }, t);
+            place(tl, invite, at, { y: -12 });
+            place(tl, call, at + 0.1);
+            place(tl, notes, at + 0.25, { x: 16, y: 0 });
+            const talk = at + PLACE + 0.2;
+            const time = { s: 0 };
+            tl.fromTo(time, { s: 0 }, { s: length, duration: STEP * caps.length, ease: 'power1.inOut', immediateRender: false, onUpdate: () => show(time.s) }, talk);
+            caps.forEach((cap, i) => {
+              const at2 = talk + i * STEP;
+              if (i) tl.to(caps[i - 1], { autoAlpha: 0, duration: FAST, ease: 'power2.in' }, at2 - FAST);
+              tl.set(cap, { autoAlpha: 1 }, at2)
+                .fromTo(said[i], { autoAlpha: 0 }, { autoAlpha: 1, duration: FAST, stagger: 0.06, ease: 'none', immediateRender: false }, at2)
+                .fromTo(ring, { scale: 1, autoAlpha: 1 }, { scale: 1.12, autoAlpha: 0.35, duration: 0.4, ease: 'sine.inOut', yoyo: true, repeat: 1, immediateRender: false }, at2);
+              const covered = at2 + said[i].length * 0.06 + FAST;
+              tick(tl, ticks[i], covered);
+              tl.fromTo(names[i], { color: MUTED }, { color: INK, duration: MED, ease: 'power2.out', immediateRender: false }, covered);
             });
-            return press(tl, stamp, signIn(tl, at + ticks.length * (MED + FAST)));
+            return signIn(tl, talk + caps.length * STEP);
           },
         };
       }
-      // the report: each signed row lit in turn (sage mist, forest on sage mist 7.55:1), then the stamp
-      const rowEls = q('[data-part="row"]');
-      const lit = token('--surface-panel');
+      if (kind === 'site') {
+        const browser = part('browser');
+        const phone = part('phone');
+        const profile = part('profile');
+        const scroll = part('scroll');
+        const update = part('update');
+        const todo = part('update-todo');
+        const done = todo.nextElementSibling;
+        const mark = update.querySelector('path');
+        return {
+          from: [[[browser, phone, profile, sign, stamp, done], { autoAlpha: 0 }], [todo, { autoAlpha: 1 }], [update, { backgroundColor: CREAM, borderColor: INPUT, color: MUTED }], undrawn([mark])],
+          play: (tl, at) => {
+            let t = at;
+            if (browser.offsetWidth) {
+              // desktop: the browser and the profile, the page scrolled down and back while the phone settles on
+              place(tl, browser, t);
+              place(tl, profile, t + 0.15, { x: 16, y: 0 });
+              tl.fromTo(scroll, { y: 0 }, { y: -170, duration: 1.1, ease: 'power2.inOut', immediateRender: false }, t + 0.7)
+                .to(scroll, { y: 0, duration: 0.8, ease: 'power2.inOut' }, t + 2.3);
+              place(tl, phone, t + 1.2, { y: 40 });
+              t += 3.2;
+            } else {
+              place(tl, phone, t, { y: 24 });
+              place(tl, profile, t + 0.2, { x: 16, y: 0 });
+              t += PLACE + 0.6;
+            }
+            tl.fromTo(update, { backgroundColor: CREAM, borderColor: INPUT, color: MUTED }, { backgroundColor: FOREST, borderColor: FOREST, color: CREAM, duration: MED, ease: 'power2.out', immediateRender: false }, t)
+              .to(todo, { autoAlpha: 0, duration: FAST, ease: 'power2.in' }, t)
+              .fromTo(done, { autoAlpha: 0 }, { autoAlpha: 1, duration: MED, ease: 'power2.out', immediateRender: false }, t + FAST);
+            tick(tl, mark, t + FAST);
+            return press(tl, stamp, signIn(tl, t + MED + SLOW));
+          },
+        };
+      }
+      if (kind === 'ads') {
+        const manager = part('manager');
+        const owner = part('owner');
+        const previews = q('[data-part="preview"]');
+        const switches = q('[data-part="switch"]');
+        const knobs = switches.map((s) => s.querySelector('span'));
+        const statuses = q('[data-part="status"]');
+        const dots = statuses.map((s) => s.querySelector('.folder-status-dot'));
+        const state = (k) => statuses.map((s) => s.querySelector('[data-state="' + k + '"]'));
+        const drafts = state('draft');
+        const reviews = state('review');
+        const lives = state('live');
+        const tracked = q('[data-part="track"] .folder-track-state');
+        const marks = tracked.map((s) => s.querySelector('path'));
+        const SWITCH = 1.1; // one campaign: switched on, in review, live
+        return {
+          from: [[[manager, owner, ...previews, sign, stamp, ...tracked, ...reviews, ...lives], { autoAlpha: 0 }], [drafts, { autoAlpha: 1 }], [switches, { backgroundColor: SAGE }], [knobs, { x: 0 }], [dots, { backgroundColor: clear(FOREST), borderColor: MUTED }], [statuses, { color: MUTED }], undrawn(marks)],
+          play: (tl, at) => {
+            place(tl, manager, at);
+            previews.forEach((p, i) => place(tl, p, at + 0.2 + i * 0.12, { x: 20, y: 0 }));
+            place(tl, owner, at + 0.45, { y: -10 });
+            const on = at + PLACE + 0.45;
+            statuses.forEach((status, i) => {
+              const c = on + i * SWITCH;
+              const live = c + 0.8;
+              tl.fromTo(switches[i], { backgroundColor: SAGE }, { backgroundColor: FOREST, duration: MED, ease: 'power2.out', immediateRender: false }, c)
+                .fromTo(knobs[i], { x: 0 }, { x: 14, duration: MED, ease: 'power2.out', immediateRender: false }, c)
+                .to(drafts[i], { autoAlpha: 0, duration: FAST, ease: 'power2.in' }, c + FAST)
+                .fromTo(reviews[i], { autoAlpha: 0 }, { autoAlpha: 1, duration: MED, ease: 'power2.out', immediateRender: false }, c + 2 * FAST)
+                .fromTo(dots[i], { backgroundColor: clear(FOREST), borderColor: MUTED }, { backgroundColor: SAGE, borderColor: SAGE, duration: MED, ease: 'power2.out', immediateRender: false }, c + 2 * FAST)
+                .to(reviews[i], { autoAlpha: 0, duration: FAST, ease: 'power2.in' }, live)
+                .fromTo(lives[i], { autoAlpha: 0 }, { autoAlpha: 1, duration: MED, ease: 'power2.out', immediateRender: false }, live + FAST)
+                .fromTo(dots[i], { backgroundColor: SAGE, borderColor: SAGE }, { backgroundColor: FOREST, borderColor: FOREST, duration: MED, ease: 'power2.out', immediateRender: false }, live + FAST)
+                .fromTo(status, { color: MUTED }, { color: FOREST, duration: MED, ease: 'power2.out', immediateRender: false }, live + FAST);
+            });
+            const track = on + statuses.length * SWITCH + 0.1;
+            tracked.forEach((s, i) => {
+              const t = track + i * 0.3;
+              tl.fromTo(s, { autoAlpha: 0, x: -4 }, { autoAlpha: 1, x: 0, duration: MED, ease: 'power2.out', immediateRender: false }, t);
+              tick(tl, marks[i], t + FAST);
+            });
+            return press(tl, stamp, signIn(tl, track + tracked.length * 0.3 + FAST));
+          },
+        };
+      }
+      // the report: the email lands, the report unfolds from its top, each change appears and is stamped, then what it
+      // brought in (and, wide, one of the consults it counts slides in beside it) and what's next
+      const mail = part('mail');
+      const report = part('report');
+      const consult = part('consult');
+      const rows = q('[data-part="row"]');
+      const rowStamps = rows.map((r) => r.querySelector('.folder-row-stamp'));
+      const stats = [...part('stats').children];
+      const next = part('next');
       return {
-        from: [[stamp, { autoAlpha: 0 }]],
+        from: [[[mail, report, consult, ...rows, ...rowStamps, ...stats, next], { autoAlpha: 0 }]],
         play: (tl, at) => {
-          tl.fromTo(rowEls[0], { backgroundColor: clear(lit) }, { backgroundColor: lit, duration: SLOW, ease: 'power2.out', immediateRender: false }, at)
-            .to(rowEls[0], { backgroundColor: clear(lit), duration: SLOW, ease: 'power2.out' }, at + SLOW + REST)
-            .fromTo(rowEls[1], { backgroundColor: clear(lit) }, { backgroundColor: lit, duration: SLOW, ease: 'power2.out', immediateRender: false }, at + SLOW + REST)
-            .to(rowEls[1], { backgroundColor: clear(lit), duration: SLOW, ease: 'power2.out' }, at + 2 * SLOW + 2 * REST);
-          return press(tl, stamp, at + 2 * SLOW + 2 * REST);
+          tl.fromTo(mail, { autoAlpha: 0, y: -20 }, { autoAlpha: 1, y: 0, duration: PLACE, ease: 'power3.out', immediateRender: false }, at);
+          const open = at + PLACE + 0.3;
+          tl.fromTo(report, { autoAlpha: 0, y: 16, clipPath: 'inset(0% 0% 100% 0% round 16px)' }, { autoAlpha: 1, y: 0, clipPath: 'inset(0% 0% 0% 0% round 16px)', duration: 0.6, ease: 'power3.out', immediateRender: false }, open)
+            .set(report, { clearProps: 'clipPath' }, open + 0.6);
+          let t = open + 0.6;
+          rows.forEach((row, i) => {
+            tl.fromTo(row, { autoAlpha: 0, y: 8 }, { autoAlpha: 1, y: 0, duration: MED, ease: 'power2.out', immediateRender: false }, t);
+            t = press(tl, rowStamps[i], t + MED + FAST) + 0.2;
+          });
+          stats.forEach((s, i) => tl.fromTo(s, { autoAlpha: 0, y: 8 }, { autoAlpha: 1, y: 0, duration: MED, ease: 'power2.out', immediateRender: false }, t + i * 0.12));
+          place(tl, consult, t + 0.2, { x: 20, y: 0 });
+          t += stats.length * 0.12 + MED + 0.2;
+          tl.fromTo(next, { autoAlpha: 0, x: -6 }, { autoAlpha: 1, x: 0, duration: MED, ease: 'power2.out', immediateRender: false }, t);
+          return t + MED;
         },
       };
     });
-    // what fades when the stage changes: the outgoing sheet's work, and the incoming one's (its sign-off and stamp wait
-    // for the beat); the sheet itself, its practice line and its Sample chip stay put
-    const OUTGOING = '.folder-panel-head, .folder-doc-title, .folder-doc-body, .folder-sign, .folder-disclosure, .folder-stamp';
-    const INCOMING = '.folder-panel-head, .folder-doc-title, .folder-doc-body, .folder-disclosure';
+    // what fades when the stage changes: the outgoing scene's surfaces, and the incoming one's caption and title (its
+    // surfaces wait for the beat); the Sample chip stays put. Everything a timeline may touch, per panel, so a stop can
+    // clear it all: every element outside the icons, and of the icons only the ticks' dashes (a full clear on an SVG
+    // element would also rewrite its transform).
+    const OUTGOING = '.folder-panel-head, .folder-scene-caption, .folder-canvas';
+    const INCOMING = '.folder-panel-head, .folder-scene-caption';
     const moves = (panel, sel) => [...panel.querySelectorAll(sel)];
-    const moved = panels.map((panel) => moves(panel, OUTGOING + ', [data-part]'));
+    const touched = panels.map((panel) => moves(panel, '*:not(svg *)'));
+    const ticked = panels.map((panel) => moves(panel, '[data-part="topic"] path, [data-part="update"] path, .folder-track-state path'));
+    const clean = (i) => {
+      gsap.set(touched[i], { clearProps: 'all' });
+      if (ticked[i].length) gsap.set(ticked[i], { clearProps: 'strokeDasharray,strokeDashoffset' });
+      if (BEATS[i].reset) BEATS[i].reset();
+    };
 
     let auto = true;
     let live = false;
     let fresh = true;
     let run = null;
     let swap = null;
-    // back to the markup: every sheet finished, no progress showing
+    // back to the markup: every scene finished, no progress showing
     const settle = () => {
       if (run) run.kill();
       if (swap) swap.kill();
       run = null;
       swap = null;
       if (!gsap) return;
-      panels.forEach((panel) => panel.classList.remove('is-leaving'));
-      gsap.set([...panels, ...moved.flat(), ...bars, ...panels.flatMap((p) => moves(p, '[data-part="check"] path, [data-part="check"] > span'))], { clearProps: 'all' });
+      panels.forEach((panel, i) => { panel.classList.remove('is-leaving'); clean(i); });
+      gsap.set([...panels, ...bars], { clearProps: 'all' });
     };
     // one visit to the current stage: (on first view, hold it finished, then fade out what the beat brings back) the
     // beat; then, while it moves on its own, the rest with the progress line filling, and the next stage
@@ -1042,8 +1180,8 @@
       run = tl;
       tl.play();
     };
-    // change stage: the outgoing sheet's work fades over FAST, the incoming one's (in its pre-beat state) over MED;
-    // without motion, at once
+    // change stage: the outgoing scene fades over FAST, the incoming one's caption and title over MED while its beat
+    // places its surfaces; without motion, at once
     const go = (next, chosen) => {
       next = (next + panels.length) % panels.length;
       const from = index;
@@ -1063,11 +1201,11 @@
         mark();
         const leaving = panels[from];
         const coming = panels[next];
-        // the outgoing sheet stays on top while its work fades, then drops away to the incoming one
+        // the outgoing scene stays on top while it fades, then drops away to the incoming one
         leaving.classList.add('is-leaving');
-        gsap.set(moved[next], { clearProps: 'all' });
+        clean(next);
         BEATS[next].from.forEach(([targets, vars]) => gsap.set(targets, vars));
-        const left = () => { leaving.classList.remove('is-leaving'); gsap.set(moved[from], { clearProps: 'all' }); };
+        const left = () => { leaving.classList.remove('is-leaving'); clean(from); };
         swap = gsap.timeline({ onComplete: () => { swap = null; } })
           .to(moves(leaving, OUTGOING), { autoAlpha: 0, duration: FAST, ease: 'power2.in' }, 0)
           .fromTo(moves(coming, INCOMING), { autoAlpha: 0, y: 8 }, { autoAlpha: 1, y: 0, duration: MED, ease: 'power2.out' }, FAST)
