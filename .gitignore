@@ -8,3 +8,8 @@ __pycache__/
 # kept on the working machine only: session notes, and a mirror of the live site's code
 context/
 source/
+# round 3 to 6 screenshots and recordings (heavy; kept on the working machine only)
+shots/r3/
+shots/r4/
+shots/r5/
+shots/r6/

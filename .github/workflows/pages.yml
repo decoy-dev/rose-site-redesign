@@ -1,11 +1,12 @@
-# Publishes site/ (the redesigned homepage) to GitHub Pages on every push to main.
-# The rest of the repo (tools, shots, notes) is not deployed.
+# Publishes the clone's landing page (clone/site/index.html and its assets, with every change for Jules) to GitHub
+# Pages on every push to main. tools/build_preview.py builds the preview copy: base path for the Pages sub-path, links
+# to other pages sent to the live site, noindex, no chat widget. clone/site itself is never altered.
 name: Deploy site to Pages
 
 on:
   push:
     branches: [main]
-    paths: ["site/**", ".github/workflows/pages.yml"]
+    paths: ["clone/site/**", "tools/build_preview.py", ".github/workflows/pages.yml"]
   workflow_dispatch:
 
 permissions:
@@ -25,9 +26,12 @@ jobs:
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/configure-pages@v5
+      - id: pages
+        uses: actions/configure-pages@v5
+      - name: Build the landing page preview
+        run: python3 tools/build_preview.py clone/site _site "${{ steps.pages.outputs.base_path }}"
       - uses: actions/upload-pages-artifact@v3
         with:
-          path: site
+          path: _site
       - id: deployment
         uses: actions/deploy-pages@v4

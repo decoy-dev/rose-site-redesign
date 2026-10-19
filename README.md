@@ -1,10 +1,14 @@
 # Rose Practice Solutions homepage redesign
 
-A proposed homepage for rosepracticesolutions.com, built October 2026 (round 2).
+Two things live here:
+- **`clone/`:** an exact copy of rosepracticesolutions.com from 2026-10-19 with rounds 3 to 6 of homepage changes on top, plus the hand-off for Jules. **This is what the preview shows.**
+- **`site/`:** the earlier from-scratch redesign proposal, rounds 1 and 2.
 
-- **Live preview:** https://decoy-dev.github.io/rose-site-redesign/. It is `noindex` and canonicalised to the real site. GitHub Actions redeploys `site/` on every push to `main` (`.github/workflows/pages.yml`).
-- **Locally:** open `site/index.html` in a browser; it runs with no build step or server.
-- **Quick look:** watch `shots/final-r2/tour-1440.mp4`, a scroll through the page with every animation running.
+- **Live preview:** https://decoy-dev.github.io/rose-site-redesign/ shows the clone's landing page with every change. It is `noindex`, links to the other pages go to the live site, and the chat widget and forms are inert. GitHub Actions builds it with `tools/build_preview.py` and redeploys on every push to `main` that touches `clone/site/` (`.github/workflows/pages.yml`).
+- **Hand-off for Jules:** `clone/CHANGES-FOR-JULES.md` covers each change with its reason, its desktop and phone behaviour, its files and lines, the exact diff and how to check it. `clone/changes.patch` is all of them as one patch.
+- **Locally:** `bun tools/serve.mjs clone/site`, then open http://127.0.0.1:4173/. The old redesign still opens from `site/index.html`.
+
+The rest of this README describes the round 1 and 2 redesign in `site/`.
 
 It keeps the live site's system: Instrument Serif and Plus Jakarta Sans, the nine-colour palette, rose only in italics, no eyebrows and no gradients. It also reuses the live class names and conventions (`btn`, `chip`, `screen`, `serp`, `feed`, `status`, `[data-loop]`, `html.motion-paused`, `[data-motion-toggle]`), so sections can be moved into `site.css` and `site.js` one at a time. What changes is the order of the page, the amount of copy, the people on it, the motion and the hero letter.
 
@@ -125,7 +129,12 @@ The paper, envelope stock, envelope stamp and the "signed" stamp all come from `
 ## Files
 
 - `site/`: the redesign (`index.html`, `assets/home.css`, `assets/home.js`, plus the live `tokens.css`, fonts, logos, motifs and `vendor/gsap.min.js`).
-- `context/` and `source/` (not in git; kept on the working machine only): dated session notes, and a mirror of the live homepage's code for reference.
+- `context/` and `source/` (not in git; kept on the working machine only): dated session notes, and a mirror of the live homepage's code from 2026-10-15, for reference.
+- `clone/`: an exact copy of the whole live site from 2026-10-19 (all 17 pages), with rounds 3 to 6 of homepage changes on top (the new footer is on every page), for Jules.
+  - `site/` is the copy with the changes, and `manifest.json` lists every URL, ETag and hash as fetched.
+  - `CHANGES-FOR-JULES.md` records the sixteen changes: what and why, desktop and phone, files and lines, the exact diff, and how to check each one. `changes.patch` is all of them as one patch.
+  - Its history (merged in with `git subtree`) has one commit per change after the untouched copy, "Clone of rosepracticesolutions.com as served on 2026-10-19".
+  - Preview it with `bun tools/serve.mjs clone/site`, then open http://127.0.0.1:4173/.
 - `generated/`: the raw image-model outputs: the portraits and the paper scan.
 - `shots/`:
   - screenshots of the live site and of each round of the redesign
@@ -133,6 +142,7 @@ The paper, envelope stock, envelope stamp and the "signed" stamp all come from `
   - `final-r2/`: round 2 stills plus `tour-1440.mp4`
   - `r2/loops/`: each loop recorded, with contact sheets
   - `states/`: the fallback states
+  - `r3/` to `r6/` (not in git; heavy, kept on the working machine only): renders, recordings and contact sheets from rounds 3 to 6 on the clone, including Chris's feedback screenshots in `r5/feedback/`.
 - `tools/` (Bun + puppeteer-core with the installed Chrome; `bun install` once inside `tools/`), plus `bake_paper.py`, `sheet.py` and `vsheet.py` (Python with Pillow and NumPy; `vsheet.py` also needs ffmpeg):
   - `shoot.mjs <file|url> <out.png> [width] [full|fold]`: full-page or fold screenshot. `STILL=1` emulates reduced motion, so every sample is shown finished.
   - `record.mjs <file|url> <out.webm> [ms] [width] [crop]`: video of the page load.
@@ -146,3 +156,9 @@ The paper, envelope stock, envelope stamp and the "signed" stamp all come from `
   - `motion-check.mjs <file>`: loops run on screen, pause to their finished state, the choice survives a reload, and reduced motion is static.
   - `overflow.mjs`: lists anything wider than a 390px viewport.
   - `words.mjs <file|url> [width]`: prose and above-the-fold word counts.
+  - `mirror.py <outdir>`: copies the live site byte for byte, starting from the sitemap and following every same-origin reference. It writes `manifest.json` next to `<outdir>`.
+  - `serve.mjs <dir> [port=4173]`: serves a copy with the live site's clean URLs (`/about` → `about.html`). Form posts get a 404, so nothing reaches the real API.
+  - `clone-check.mjs <dir> [base] [compareOrigin] [outDir]`: loads every page of a served copy and lists any failed request or script error, with the chat widget blocked (GTM and Clarity only load on the production domain). With `compareOrigin` it also saves reduced-motion 1440px screenshots of the copy and the live site.
+  - `imgdiff.py <dir>`: compares those screenshot pairs pixel by pixel.
+  - `eval.mjs <file|url> <width> "<expression>"|@file.js`: loads a page and prints the JSON result of a JavaScript expression run in it (measurements, line counts, overflow). `STILL=1` emulates reduced motion.
+  - `build_preview.py [src] [out] [base]`: builds the Pages preview from `clone/site`. It copies only the landing page and its assets, puts the Pages base path on its own URLs, points links to other pages at the live site, and adds noindex. It also drops the chat widget. `clone/site` itself is never changed.
