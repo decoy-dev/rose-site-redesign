@@ -1703,6 +1703,18 @@ h1 em, h2 em, h3 em, .tagline em, .signed-change em { color: var(--accent-italic
 .signoff .chip--sample { margin-left: auto; }
 .stamp { width: 52px; height: 52px; mix-blend-mode: multiply; opacity: .9; rotate: -10deg; pointer-events: none; }
 .signoff .stamp { position: absolute; right: -14px; top: 50%; margin-top: -24px; }
+/* The panel stamp (homepage service rows): the same stamp, large, overprinted on the panel's outer bottom corner, the one
+   nearest the window's edge: bottom right when the panel sits right, bottom left on the flipped row. It hangs 16px past
+   the panel's edges, multiplies into the panel and the page, and never sits over text (each sample keeps that corner
+   clear). The sample's timeline presses it on as its last beat (site.js "signed samples"); at rest it is simply there.
+   On phones it is smaller and tucked inside the gutter, overhanging the bottom edge only.
+   Markup: .service-row-visual > .vignette + img.stamp.panel-stamp[alt=""] */
+.panel-stamp { position: absolute; right: -16px; bottom: -16px; z-index: 2; width: 112px; height: 112px; }
+.service-row--flip .panel-stamp { right: auto; left: -16px; rotate: 8deg; }
+@media (max-width: 768px) {
+  .panel-stamp { right: 4px; bottom: -12px; width: 80px; height: 80px; }
+  .service-row--flip .panel-stamp { left: 4px; }
+}
 
 /* Websites and SEO: the query types itself, this month's page lands over last month's, it is signed */
 .bar-dots { display: flex; gap: var(--space-2); }
