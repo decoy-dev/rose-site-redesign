@@ -1912,129 +1912,112 @@ h1 em, h2 em, h3 em, .tagline em, .signed-change em { color: var(--accent-italic
 }
 
 /* Google and Meta ads: the practice's ads on both platforms, and a booked consult traced back to the ad that brought it.
-   Two real-format ads side by side (a Google search ad with its Call button; a Meta feed post with a flat forest
-   creative and Learn more), and under them the consult record, signed by Paid media. A forest wire runs from the
-   record up to the ad it came from, and that ad gets a forest outline. Illustration only: the buttons do nothing.
-   Markup: .service-row-visual--ads > .vignette.ads[data-loop=ads] > .ads-top (caption + Sample chip) + .ads-slot ×2
-   (p.ads-label + .ads-ad[data-ad=google|meta] + span.ads-wire[data-wire] > i (the Meta slot also holds the Google
-   wire's pass, shown when stacked)) + .ads-consult[data-part=consult] (span.ads-wire--land, the head, the who,
-   dl.ads-consult-source whose dd holds one span[data-src] per ad, .signoff); then img.panel-stamp.
-   Each wire segment draws by --d (0 to 1) along its own axis, from the record end. Static and paused: traced to the
-   Google ad (its .is-source outline and wire; the Meta wire at --d 0, the Meta source text hidden). The loop traces
-   the next consult to the Meta ad, then back to Google (site.js "signed samples"). The bottom-left corner stays clear
-   for the panel stamp: the record and its sign-off start 128px in on desktop; stacked, the sign-off sits right. */
-/* the panel is the container (the ads stack whenever its inner width is under 520px: phones, and 1025-1150px). Its
-   top padding is small: the caption and Sample chip row sits there, as on the Websites and SEO panel. */
-.service-row-visual.service-row-visual--ads { container: ads-panel / inline-size; padding: var(--space-4) var(--space-8) var(--space-8); }
+   Two real-format ads side by side, each naming its platform in its own Sponsored line (a Google search ad with its
+   Call button and sitelinks; a Meta feed post with a flat forest creative and Learn more). Under them one slim line,
+   the booked consult (Consult booked, [Name], the enquiry, [Time]), and its sign-off, Paid media. The ad the consult
+   came from carries a forest Source tag on its edge, joined to the consult line by one straight forest line. Each card
+   is cream on the panel with one soft shadow and no outline. Illustration only: the buttons do nothing.
+   Markup: .service-row-visual--ads > .vignette.ads[data-loop=ads] > .ads-top (caption + Sample chip)
+   + .ads-ad.ads-google + .ads-ad.ads-meta (each ending in span.ads-source[data-src] > .ads-tag + .ads-link)
+   + p.ads-consult[data-part=consult] + .signoff[data-part=sign]; then img.panel-stamp.
+   Static and paused: traced to the Google ad (its .ads-source shown, the Meta one hidden). The loop clears the consult
+   and its trace, places the next consult, draws the line out of it to the other ad and tags that ad, signs it and
+   presses the panel stamp: the Meta ad first, then back to Google (site.js "signed samples"). The bottom-left corner
+   stays clear for the panel stamp: the consult line is inset 80px each side and the sign-off sits at its right end. */
+/* the panel is the container (the ads stack whenever its inner width is under 520px: phones, and 1025-1150px) */
+.service-row-visual.service-row-visual--ads { container: ads-panel / inline-size; padding: var(--space-8); }
 /* its clear corner is the bottom left wherever the panel sits (the flipped row, and its reference on components.html) */
 .service-row-visual--ads .panel-stamp { right: auto; left: -16px; rotate: 8deg; }
 @media (max-width: 768px) {
   .service-row-visual--ads .panel-stamp { left: 4px; }
 }
+/* the reference on components.html: both service-row panels size to their container, so their row is given the
+   width (stacked, at about the homepage's width) instead of shrinking to fit them */
+.ref-item > .cards:has(> .service-row-visual--ads) { justify-self: stretch; grid-template-columns: minmax(0, 664px); gap: var(--space-12); }
 @media (max-width: 640px) {
-  .service-row-visual.service-row-visual--ads { padding: var(--space-4) var(--space-4) var(--space-6); }
+  .service-row-visual.service-row-visual--ads { padding: var(--space-5) var(--space-5) var(--space-6); }
 }
-.ads { --ads-band: var(--space-6); grid-template-columns: repeat(2, minmax(0, 1fr)); justify-items: stretch; gap: var(--space-4); max-width: 600px; }
-.ads-top { grid-column: 1 / -1; display: flex; align-items: center; justify-content: space-between; gap: var(--space-3); }
+/* --ads-reach: from the cards' bottom edge to the consult line (the Source tag and its line fill it);
+   --ads-inset: the consult line's inset each side, which keeps it clear of the stamp's corner */
+.ads { --ads-reach: var(--space-10); --ads-inset: 80px; grid-template-columns: repeat(2, minmax(0, 1fr)); grid-template-areas: "top top" "google meta" "consult consult" "sign sign"; justify-items: stretch; gap: var(--space-6); max-width: 600px; }
+.ads-top { grid-area: top; display: flex; align-items: center; justify-content: space-between; gap: var(--space-3); }
 .ads-caption { font-size: var(--text-caption); font-weight: 500; line-height: 1.4; color: var(--forest); }
-.ads-slot { position: relative; display: grid; grid-template-rows: auto 1fr; gap: var(--space-2); min-width: 0; }
-/* the platform, outside its simulated UI: forest on sage mist, 7.55:1 */
-.ads-label { font-size: var(--text-label); font-weight: 600; line-height: 1.4; color: var(--forest); }
-.ads-ad { position: relative; display: grid; align-content: start; gap: var(--space-3); min-width: 0; padding: var(--space-4); border: var(--border-w) solid var(--border-quiet); border-radius: var(--radius-card); background: var(--surface-page); box-shadow: var(--shadow-2); font-size: var(--text-body-s); line-height: 1.5; }
-/* the ad a consult is traced to: a 2px forest edge over its hairline, shown by --src (0 to 1; site.js tweens it) */
-.ads-ad::after { content: ""; position: absolute; inset: -1px; border: var(--border-w-strong) solid var(--forest); border-radius: inherit; opacity: var(--src, 0); pointer-events: none; }
-.ads-ad.is-source { --src: 1; }
-/* who is advertising: the practice's mark (a plain forest disc; a globe on Google), its name, Sponsored */
-.ads-site { display: flex; align-items: center; gap: var(--space-3); min-width: 0; }
+.ads-google { grid-area: google; }
+.ads-meta { grid-area: meta; }
+.ads-ad { position: relative; display: grid; align-content: start; gap: var(--space-2); min-width: 0; padding: var(--space-5); border-radius: var(--radius-card); background: var(--surface-page); box-shadow: var(--shadow-2); font-size: var(--text-body-s); line-height: 1.5; }
+/* who is advertising, and where: the practice's mark (a plain forest disc; a globe on Google), its name, and the
+   platform's own Sponsored line naming the platform */
+.ads-site { display: flex; align-items: center; gap: var(--space-3); min-width: 0; margin-bottom: var(--space-1); }
 .ads-mark { flex: none; display: grid; place-items: center; width: 32px; height: 32px; border-radius: 50%; background: var(--surface-strong); color: var(--text-on-strong); }
 .ads-mark .icon { width: 16px; height: 16px; }
-.ads-who { display: grid; min-width: 0; line-height: 1.3; }
+.ads-who { display: grid; min-width: 0; line-height: 1.35; }
 .ads-name { font-weight: 600; }
-.ads-sponsored { font-size: var(--text-caption); font-weight: 500; color: var(--text-muted); }
-.ads-google .ads-sponsored { order: -1; font-weight: 600; color: var(--text-body); }
-.ads-call { display: inline-flex; align-items: center; gap: var(--space-1); margin-left: auto; padding: var(--space-1) var(--space-3); border: var(--border-w) solid var(--border-input); border-radius: var(--radius-pill); color: var(--forest); font-size: var(--text-caption); font-weight: 600; line-height: 1.4; }
+.ads-on { font-size: var(--text-caption); font-weight: 500; color: var(--text-muted); white-space: nowrap; }
+.ads-platform { font-weight: 600; color: var(--text-body); }
+.ads-call { flex: none; display: inline-flex; align-items: center; gap: var(--space-1); margin-left: auto; padding: var(--space-1) var(--space-3); border: var(--border-w) solid var(--border-input); border-radius: var(--radius-pill); color: var(--forest); font-size: var(--text-caption); font-weight: 600; line-height: 1.4; }
 .ads-call .icon { width: 14px; height: 14px; }
 .ads-google-title { font-size: var(--text-body-m); font-weight: 500; line-height: 1.35; color: var(--forest); }
 /* Google's and Meta's own "See more" clamps: two lines of copy on every ad */
 .ads-google-text { color: var(--text-muted); }
 .ads-google-text, .ads-meta-text { display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 2; overflow: hidden; }
-/* the search it answers, and its sitelinks (desktop only: phones show the ad alone) */
-.ads-query { display: flex; align-items: center; gap: var(--space-2); margin-bottom: var(--space-1); padding: var(--space-2) var(--space-3); border: var(--border-w) solid var(--border-input); border-radius: var(--radius-pill); font-weight: 500; }
-.ads-query .icon { width: 16px; height: 16px; color: var(--text-muted); }
-.ads-sitelinks { display: flex; flex-wrap: wrap; gap: var(--space-1) var(--space-4); }
+/* the sitelinks (wide panels only: phones show the ad alone) */
+.ads-sitelinks { display: flex; flex-wrap: wrap; gap: var(--space-1) var(--space-4); margin-top: var(--space-1); }
 .ads-sitelinks li { font-weight: 500; color: var(--forest); }
-.ads-meta { grid-template-rows: auto auto minmax(0, 1fr) auto; align-content: stretch; }
-.ads-meta-art { display: grid; align-content: end; align-self: stretch; min-height: 96px; margin-inline: calc(-1 * var(--space-4)); padding: var(--space-4); background: var(--surface-strong); color: var(--text-on-strong); font-family: var(--font-display); font-size: var(--text-h3); line-height: 1.1; text-wrap: balance; }
-.ads-meta-foot { display: flex; align-items: center; justify-content: space-between; gap: var(--space-2); margin: calc(-1 * var(--space-3)) calc(-1 * var(--space-4)) calc(-1 * var(--space-4)); padding: var(--space-3) var(--space-4); border-radius: 0 0 var(--radius-card) var(--radius-card); background: var(--surface-panel); }
+.ads-meta { grid-template-rows: auto auto minmax(0, 1fr) auto; align-content: stretch; gap: var(--space-3); }
+.ads-meta .ads-site { margin-bottom: 0; }
+.ads-meta-art { display: grid; align-content: end; align-self: stretch; min-height: 88px; margin-inline: calc(-1 * var(--space-5)); padding: var(--space-4) var(--space-5); background: var(--surface-strong); color: var(--text-on-strong); font-family: var(--font-display); font-size: var(--text-h3); line-height: 1.1; text-wrap: balance; }
+/* its foot keeps 20px under Learn more, clear of the Source tag that sits on the card's edge */
+.ads-meta-foot { display: flex; align-items: center; justify-content: space-between; gap: var(--space-2); margin: calc(-1 * var(--space-3)) calc(-1 * var(--space-5)) calc(-1 * var(--space-5)); padding: var(--space-3) var(--space-5) var(--space-5); border-radius: 0 0 var(--radius-card) var(--radius-card); background: var(--surface-panel); }
 .ads-meta-headline { font-weight: 600; }
 .ads-meta-button { flex: none; padding: var(--space-1) var(--space-3); border-radius: var(--radius-input); background: var(--surface-page); font-size: var(--text-caption); font-weight: 600; line-height: 1.6; }
-/* the consult record: booked, who and for what, and where it came from */
-.ads-consult { position: relative; grid-column: 1 / -1; justify-self: end; display: grid; gap: var(--space-2); width: calc(100% - 128px); margin-top: var(--ads-band); padding: var(--space-3) var(--space-5) var(--space-4); border: var(--border-w) solid var(--border-quiet); border-radius: var(--radius-card); background: var(--surface-page); box-shadow: var(--shadow-2); font-size: var(--text-body-s); line-height: 1.5; }
-.ads-consult-head { display: flex; align-items: center; gap: var(--space-2); font-weight: 600; }
-.ads-consult-head .lead-dot { flex: none; }
-.ads-consult-time { margin-left: auto; font-size: var(--text-label); color: var(--text-muted); font-variant-numeric: tabular-nums; }
-.ads-consult-who { display: flex; flex-wrap: wrap; align-items: baseline; gap: 0 var(--space-3); color: var(--text-muted); }
-.ads-consult-name { font-family: var(--font-display); font-size: var(--text-h3); line-height: 1.2; color: var(--text-body); }
-/* label sage on sage mist, 5.1:1 */
-.ads-consult-source { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 0 var(--space-4); padding: var(--space-2) var(--space-4); border-radius: var(--radius-input); background: var(--surface-panel); }
-.ads-consult-source dt { font-size: var(--text-label); font-weight: 600; line-height: 1.6; color: var(--text-muted); }
-.ads-consult-source dd { display: grid; font-weight: 600; }
-.ads-consult-source dd > span { grid-area: 1 / 1; }
-.ads-consult-source [data-src="meta"] { visibility: hidden; opacity: 0; }
-.ads-signoff { padding-top: var(--space-3); padding-right: 0; }
-/* on a wide panel the record's first line carries all three facts: booked, who and what for, and when */
-@container ads-panel (min-width: 520px) {
-  .ads-ad { gap: var(--space-2); }
-  .ads-consult { grid-template-columns: auto minmax(0, 1fr); column-gap: var(--space-4); }
-  .ads-consult-head, .ads-consult-who { grid-row: 1; align-self: center; }
-  .ads-consult-who { grid-column: 2; padding-right: 56px; }
-  .ads-consult-time { position: absolute; top: var(--space-4); right: var(--space-5); }
-  .ads-consult-source, .ads-signoff { grid-column: 1 / -1; }
-}
-/* the wire: 2px forest segments under each ad, meeting above the record's centre. The record's centre sits 72px past
-   the Google slot's right edge (it starts 128px in), which is 56px into the Meta slot. */
-.ads-wire { position: absolute; top: 100%; left: 0; right: 0; height: calc(var(--ads-band) / 2 + var(--space-2)); pointer-events: none; }
-.ads-wire i { position: absolute; background: var(--forest); }
-.ads-wire i:nth-child(1) { left: calc(50% - 1px); top: 0; width: 2px; height: 100%; scale: 1 var(--d, 1); transform-origin: 50% 100%; }
-.ads-wire i:nth-child(2) { top: calc(100% - 2px); height: 2px; scale: var(--d, 1) 1; }
-.ads-wire[data-wire="google"] i:nth-child(2) { left: calc(50% - 1px); width: calc(50% + 74px); transform-origin: 100% 50%; }
-.ads-wire[data-wire="meta"] i:nth-child(2) { left: 55px; width: calc(50% - 54px); transform-origin: 0 50%; }
-.ads-wire[data-wire="meta"] i { --d: 0; }
-.ads-wire--land { top: auto; bottom: 100%; height: calc(var(--ads-band) / 2 + var(--space-2) + 2px); }
-.ads-wire--land i:nth-child(2), .ads-wire--pass { display: none; }
-/* Narrow panels (phones, and 1025-1150px): the two ads stacked and compact (no platform labels: each reads as its
-   platform; the Meta post as a card with its creative a small square beside the post text), then the record. The
-   wire runs in a 20px lane down the left: out of the record's head, up past the Meta ad, into the head of the ad it
-   came from. The record's sign-off sits right (no disc), clear of the stamp on the bottom-left. */
+/* the trace: a forest Source tag centred on the ad's bottom edge, and under it one straight 1.5px forest line down to
+   the consult. site.js draws the line by scale, out from the consult end (transform-origin). The Meta one waits hidden. */
+.ads-source { position: absolute; top: 100%; left: 50%; z-index: 1; translate: -50% -50%; display: grid; }
+.ads-source[data-src="meta"] { visibility: hidden; opacity: 0; }
+.ads-tag { display: inline-flex; align-items: center; height: 24px; padding: 0 var(--space-3); border-radius: var(--radius-pill); background: var(--surface-strong); color: var(--text-on-strong); box-shadow: var(--shadow-1); font-size: var(--text-caption); font-weight: 600; line-height: 1; white-space: nowrap; }
+.ads-link { position: absolute; top: 100%; left: calc(50% - .75px); width: 1.5px; height: calc(var(--ads-reach) - 12px); background: var(--forest); transform-origin: 50% 100%; pointer-events: none; }
+/* the consult: one line, booked, who and what for, and when. [Time] never wraps; the enquiry gives way first. */
+.ads-consult { grid-area: consult; justify-self: center; display: flex; align-items: center; gap: var(--space-3); width: calc(100% - 2 * var(--ads-inset)); min-width: 0; margin-top: calc(var(--ads-reach) - var(--space-6)); padding: var(--space-3) var(--space-5); border-radius: var(--radius-card); background: var(--surface-page); box-shadow: var(--shadow-2); font-size: var(--text-body-s); line-height: 1.4; white-space: nowrap; }
+.ads-consult .lead-dot { flex: none; }
+.ads-consult-what { flex: none; font-weight: 600; }
+.ads-consult-who { display: flex; align-items: baseline; gap: var(--space-3); min-width: 0; }
+.ads-consult-name { flex: none; font-family: var(--font-display); font-size: var(--text-h3); line-height: 1.2; }
+.ads-consult-for { min-width: 0; overflow: hidden; text-overflow: ellipsis; color: var(--text-muted); }
+.ads-consult-time { flex: none; margin-left: auto; font-size: var(--text-label); font-weight: 600; color: var(--text-muted); font-variant-numeric: tabular-nums; }
+/* the sign-off: under the consult's right end, no rule */
+.ads-signoff { grid-area: sign; justify-self: end; margin: calc(-1 * var(--space-2)) var(--ads-inset) 0 0; padding: 0; border-top: 0; }
+/* Narrow panels (phones, and 1025-1150px): the ads stacked and compact (one line of Google copy and no sitelinks; the
+   Meta post as a card with its creative a square beside its headline and Learn more), and the consult between them, so
+   the line to either ad is short and straight: up to the Google ad's bottom edge, or down to the Meta ad's top edge.
+   Each ad keeps 24px on its traced edge, so a tag never crowds its copy. The sign-off sits right, clear of the stamp. */
 @container ads-panel (max-width: 519px) {
-  .ads { --ads-hook: 26px; grid-template-columns: minmax(0, 1fr); gap: var(--space-2); padding-left: var(--space-5); }
-  .ads-slot { gap: 0; }
-  .ads-label { display: none; }
-  .ads-ad { gap: var(--space-2); padding: var(--space-3); }
+  .ads { --ads-reach: 28px; grid-template-columns: minmax(0, 1fr); grid-template-areas: "top" "google" "consult" "meta" "sign"; gap: var(--space-4); }
+  .ads-ad { padding: var(--space-4); }
+  .ads-google { padding-bottom: var(--space-6); }
+  .ads-site { margin-bottom: 0; }
   .ads-mark { width: 28px; height: 28px; }
-  .ads-query, .ads-sitelinks { display: none; }
-  .ads-meta { grid-template-columns: 96px minmax(0, 1fr); grid-template-rows: auto auto 1fr; align-content: start; gap: var(--space-1) var(--space-3); }
+  .ads-google-text { -webkit-line-clamp: 1; }
+  .ads-sitelinks, .ads-meta-text { display: none; }
+  .ads-meta { grid-template-columns: 88px minmax(0, 1fr); grid-template-rows: auto 1fr; align-content: start; gap: var(--space-1) var(--space-3); padding-top: var(--space-6); }
   .ads-meta .ads-site { grid-column: 2; }
   .ads-meta .ads-mark { display: none; }
-  .ads-meta-text { grid-column: 2; grid-row: 2; }
-  .ads-meta-art { grid-column: 1; grid-row: 1 / -1; aspect-ratio: auto; min-height: 0; margin: 0; padding: var(--space-2); border-radius: var(--radius-input); font-size: var(--text-body-s); line-height: 1.05; }
-  .ads-meta-foot { grid-column: 2; grid-row: 3; align-self: end; margin: 0; padding: 0; background: none; }
-  .ads-meta-headline { display: none; }
+  .ads-meta-art { grid-column: 1; grid-row: 1 / -1; min-height: 88px; margin: 0; padding: var(--space-2); border-radius: var(--radius-input); font-size: var(--text-body-s); line-height: 1.05; }
+  .ads-meta-foot { grid-column: 2; grid-row: 2; display: grid; justify-items: start; align-content: end; gap: var(--space-1); margin: 0; padding: 0; background: none; }
   .ads-meta-button { background: var(--surface-panel); }
-  .ads-consult { width: auto; justify-self: stretch; gap: var(--space-2); margin-top: 0; padding: var(--space-3); }
-  .ads-consult-source { padding: 0; background: none; }
-  .ads-signoff { justify-content: flex-end; gap: var(--space-2); padding-top: var(--space-2); }
+  .ads-meta .ads-source { top: 0; }
+  .ads-meta .ads-link { top: auto; bottom: 100%; transform-origin: 50% 0; }
+  .ads-consult { width: auto; justify-self: stretch; margin-block: calc(var(--ads-reach) - var(--space-4)); padding: var(--space-3) var(--space-4); }
+  .ads-signoff { gap: var(--space-2); margin: var(--space-4) 0 0; }
   .ads-signoff .signoff-disc.founder-art { width: 24px; height: 24px; }
-  .ads .ads-wire { top: var(--ads-hook); bottom: calc(-1 * var(--space-2)); left: -11px; right: auto; width: 11px; height: auto; }
-  .ads .ads-wire i:nth-child(1) { left: 0; top: -1px; width: 100%; height: 2px; scale: var(--d, 1) 1; transform-origin: 0 50%; }
-  .ads .ads-wire i:nth-child(2) { left: 0; top: -1px; width: 2px; height: calc(100% + 1px); scale: 1 var(--d, 1); transform-origin: 50% 100%; }
-  .ads .ads-wire--pass { display: block; top: 0; width: 2px; }
-  .ads .ads-wire--pass i:nth-child(1) { top: 0; width: 2px; height: 100%; scale: 1 var(--d, 1); transform-origin: 50% 100%; }
-  .ads .ads-wire--land { top: -1px; bottom: auto; left: -12px; width: 12px; height: 24px; }
-  .ads .ads-wire--land i:nth-child(1) { top: 0; width: 2px; height: 100%; scale: 1 var(--d, 1); transform-origin: 50% 100%; }
-  .ads .ads-wire--land i:nth-child(2) { display: block; top: calc(100% - 1px); width: calc(100% + 1px); height: 2px; scale: var(--d, 1) 1; transform-origin: 100% 50%; }
 }
-/* stacked beside the copy (1025-1150px) the stamp is full size: lift the record clear of its 96px corner */
+/* on a phone the consult takes two lines: booked and when, then who and what for */
+@container ads-panel (max-width: 419px) {
+  .ads-consult { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; gap: 2px var(--space-2); }
+  .ads-consult .lead-dot, .ads-consult-what, .ads-consult-time { grid-row: 1; }
+  .ads-consult-time { grid-column: 3; }
+  .ads-consult-who { grid-column: 2 / -1; grid-row: 2; }
+}
+/* stacked beside the copy (1025-1150px) the stamp is full size: lift the Meta ad clear of its 96px corner */
 @media (min-width: 769px) {
   @container ads-panel (max-width: 519px) {
     .ads { padding-bottom: var(--space-5); }

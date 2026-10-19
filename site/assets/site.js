@@ -742,48 +742,31 @@
         hold(tl, reached + MED * 0.6 + 0.5);
         return tl;
       },
-      // the consult is traced back to the ad that brought it: the record clears and a new consult is placed, the wire
-      // draws from the record up to its ad, the ad is outlined, signed, the panel stamp pressed. Each cycle traces the
-      // other ad: the first to Meta, the second back to Google, which is the finished state ('rest') and the markup.
+      // the consult is traced back to the ad that brought it: the consult and its trace lift off, the next consult is
+      // placed, its line draws out of it to the ad it came from and that ad is tagged Source, it is signed and the
+      // panel stamp pressed. Each cycle traces the other ad: the first to Meta, the second back to Google, which is the
+      // finished state ('rest') and the markup.
       ads: (el) => {
         const consult = el.querySelector('[data-part="consult"]');
-        const record = consult.querySelectorAll('.ads-consult-head, .ads-consult-who, .ads-consult-source');
-        const sign = el.querySelector('[data-part="sign"]');
-        const marks = signParts(sign);
+        const marks = signParts(el.querySelector('[data-part="sign"]'));
         const stamp = el.closest('.service-row-visual').querySelector('.panel-stamp');
-        const ad = (src) => el.querySelector('[data-ad="' + src + '"]');
-        const texts = (src) => el.querySelectorAll('[data-src="' + src + '"]');
-        const own = (wire) => Array.from(wire.children).reverse();
-        // a path's segments in drawing order, from the record end: the record's stub and rise, the pass beside the
-        // Meta ad (Google's, on phones), then the ad's own run and drop
-        const path = (src) => [
-          ...own(el.querySelector('[data-wire="land"]')),
-          ...(src === 'google' ? Array.from(el.querySelectorAll('.ads-wire--pass i')) : []),
-          ...own(el.querySelector('.ads-wire[data-wire="' + src + '"]:not(.ads-wire--pass)')),
-        ];
-        const shown = (seg) => seg.getClientRects().length > 0;
+        const source = (src) => el.querySelector('.ads-source[data-src="' + src + '"]');
+        const PLACE = SLOW + 0.1;
         const tl = gsap.timeline({ paused: true, repeat: -1 });
         const cycle = (from, to, at) => {
-          tl.to([...record, ...marks], { autoAlpha: 0, y: 8, duration: SLOW, ease: 'power2.in' }, at)
-            .to(stamp, { autoAlpha: 0, duration: SLOW, ease: 'power2.in' }, at)
-            .fromTo(path(from), { '--d': 1 }, { '--d': 0, duration: MED, ease: 'power2.in', immediateRender: false }, at)
-            .fromTo(ad(from), { '--src': 1 }, { '--src': 0, duration: MED, immediateRender: false }, at)
-            .set(texts(from), { autoAlpha: 0 }, at + SLOW)
-            .set(texts(to), { autoAlpha: 1 }, at + SLOW)
-            .fromTo(record, { autoAlpha: 0, y: 14 }, { autoAlpha: 1, y: 0, duration: REST, ease: 'power3.out', stagger: 0.08, immediateRender: false }, at + 0.6);
-          // the wire draws over SLOW, split across the segments this layout shows (hidden ones are set at once)
-          const trace = at + 1.4;
-          const segs = path(to);
-          const step = SLOW / Math.max(1, segs.filter(shown).length);
-          let k = 0;
-          segs.forEach((seg) => {
-            const on = shown(seg);
-            tl.fromTo(seg, { '--d': 0 }, { '--d': 1, duration: on ? step : 0, ease: 'none', immediateRender: false }, on ? trace + step * k++ : trace);
-          });
-          tl.fromTo(ad(to), { '--src': 0 }, { '--src': 1, duration: MED, immediateRender: false }, trace + SLOW - 0.05)
-            .fromTo(marks, { autoAlpha: 0, y: 8 }, { autoAlpha: 1, y: 0, duration: SLOW, ease: 'power3.out', immediateRender: false }, trace + SLOW + MED);
-          press(tl, stamp, trace + SLOW + MED + 0.35);
-          return trace + SLOW + MED + 0.35 + MED * 1.8;
+          const trace = at + MED + 0.35 + PLACE + 0.2;
+          const line = source(to).querySelector('.ads-link');
+          const tag = source(to).querySelector('.ads-tag');
+          tl.to([consult, source(from), ...marks, stamp], { autoAlpha: 0, duration: MED, ease: 'power2.in' }, at)
+            .fromTo(consult, { autoAlpha: 0, y: 12 }, { autoAlpha: 1, y: 0, duration: PLACE, ease: 'power3.out', immediateRender: false }, at + MED + 0.35)
+            // the trace: the line grows out of the consult to the ad's edge, then the ad's tag lands on it
+            .set(tag, { autoAlpha: 0 }, trace)
+            .set(source(to), { autoAlpha: 1 }, trace)
+            .fromTo(line, { scaleY: 0 }, { scaleY: 1, duration: SLOW, ease: 'power2.inOut', immediateRender: false }, trace)
+            .fromTo(tag, { autoAlpha: 0, scale: 0.8 }, { autoAlpha: 1, scale: 1, duration: MED, ease: 'power2.out', immediateRender: false }, trace + SLOW - 0.05)
+            .fromTo(marks, { autoAlpha: 0, y: 8 }, { autoAlpha: 1, y: 0, duration: SLOW, ease: 'power3.out', immediateRender: false }, trace + SLOW + MED + 0.2);
+          press(tl, stamp, trace + SLOW + MED + 0.55);
+          return trace + SLOW + MED + 0.55 + MED * 1.8;
         };
         const first = cycle('google', 'meta', REST);
         hold(tl, cycle('meta', 'google', first + HOLD + REST));
