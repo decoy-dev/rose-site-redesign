@@ -14,26 +14,28 @@ If a file below has changed in your source since this date, check it against the
 
 ## How to use this file
 
-There are twelve changes from two rounds of Chris's feedback. Changes 1 to 11 are on the homepage (`index.html`, `assets/site.css`, `assets/site.js`) and its entries on `/components`. Change 12, the footer, is on every page.
+There are fifteen changes, from three rounds of Chris's feedback. Change 12, the footer, is on every page. The rest are on the homepage (`index.html`, `assets/site.css`, `assets/site.js`) and its entries on `/components`.
 
 You can apply them in either of two ways:
 - **All at once:** apply `changes.patch`, next to this file, from your site's root with `git apply changes.patch`. Its paths start with `site/`, so use `git apply -p2` if your files sit at the repository root.
 - **One at a time:** follow the changes below in order. Each one gives what changed and why, how it behaves on desktop and on phones, the files and line numbers it touches, the exact diff, and how to check it.
 
-Line numbers in each diff refer to the files as they are after the changes above it, so apply them in order. Every removed line is quoted exactly from the live site as of 2026-10-19. If your source has moved on since then, match on the quoted text rather than the line numbers.
+Some later changes rework earlier ones; for example, changes 10 and 13 rework the ads sample from change 6. If you apply them one at a time, apply every one, in order.
+
+Line numbers in each diff refer to the files as they are after the changes above it. Every removed line is quoted exactly from the live site as of 2026-10-19 or from an earlier change here. If your source has moved on since then, match on the quoted text rather than the line numbers.
 
 To see it running: run `bun tools/serve.mjs clone/site` from the project folder and open http://127.0.0.1:4173/. Analytics only load on the production domain; the chat widget does load locally.
 
 ## Decisions behind these changes
 
-- **Brackets stay.** Chris chose to keep `[Your practice]`, `[your city]`, `[Name]`, `[Date]`, `[Time]`, `[Month]` and `[n]` rather than invent a practice, people or results. Each sample uses each bracket as few times as it can, and every sample keeps its Sample chip.
+- **Brackets stay.** Chris chose to keep `[Your practice]`, `[your city]`, `[Name]`, `[Date]`, `[Time]`, `[Month]`, `[n]` and `[Hex]` rather than invent a practice, people or results. Each sample uses each bracket as few times as it can, and every sample keeps its Sample chip.
 - **Your system, not a new one.**
   - Palette tokens only, with no Google or Meta blue and no gradients.
   - Rose only on `em`, `.signature` and the existing stamp artwork.
   - Your radii, your shadow scale, and your class and comment conventions.
 - **Desktop and phone are designed separately**, not scaled.
-  - The phone page is 9,192px tall at 390 (10,000px before).
-  - The desktop page is 8,057px at 1440 (7,748px before). The extra is mostly the taller footer.
+  - The phone page is 9,271px tall at 390 (10,000px before).
+  - The desktop page is 8,097px at 1440 (7,748px before). The extra is mostly the taller footer.
 - **Samples loop, as they did before:** finished state, the job replays, it is signed and the stamp is pressed, it rests, it repeats.
   - They run only on screen.
   - They stop on their finished state when someone presses Pause animations.
@@ -56,6 +58,9 @@ To see it running: run `bun tools/serve.mjs clone/site` from the project folder 
 | 10 | 4 | [Google and Meta ads: a shorter panel](#10-google-and-meta-ads-a-shorter-panel) | `assets/site.css` |
 | 11 | 4 | [What happens after you say yes: four composed scenes](#11-what-happens-after-you-say-yes-four-composed-scenes) | `assets/site.css`, `assets/site.js`, `components.html`, `index.html` |
 | 12 | 4 | [Footer: a product-style footer with the name large, cropped and faded](#12-footer-a-product-style-footer-with-the-name-large-cropped-and-faded) | `assets/site.css`, `assets/site.js`, all 17 HTML pages |
+| 13 | 5 | [Google and Meta ads: rebuilt for clarity and breathing room](#13-google-and-meta-ads-rebuilt-for-clarity-and-breathing-room) | `assets/site.css`, `assets/site.js`, `components.html`, `index.html` |
+| 14 | 5 | [Beyond the core plan: richer brand, video and website samples](#14-beyond-the-core-plan-richer-brand-video-and-website-samples) | `assets/site.css`, `components.html`, `index.html` |
+| 15 | 5 | [What happens after you say yes: more room in the four scenes](#15-what-happens-after-you-say-yes-more-room-in-the-four-scenes) | `assets/site.css`, `components.html` |
 
 ## Round 3
 
@@ -6426,6 +6431,1456 @@ index 24eb16c..0c3341d 100644
 
 </details>
 
+## Round 5
+
+### 13. Google and Meta ads: rebuilt for clarity and breathing room
+
+**What and why.** Chris: the ads sample "still feels a bit claustrophobic and confusing". His screenshot also showed a bug: `[Time]` wrapping under "Consult booked". The message stays the same, with fewer pieces and more air around them. The message: your ads run on Google and on Meta, and each booked consult is traced back to the ad that brought it.
+
+**Desktop**
+- The two ads sit side by side with nothing above them.
+- Each card names its platform inside its own UI, under the practice name: "**Google** · Sponsored", "**Meta** · Sponsored".
+- **Removed:**
+  - the separate platform-label row;
+  - the search field above the Google ad;
+  - the forest outline on the traced ad;
+  - the Source/Campaign table.
+- **The consult is one slim line:** ● Consult booked, `[Name]`, Adult braces, `[Time]`. It never wraps, so `[Time]` can't drop under "Consult booked"; "Adult braces" shortens first.
+- **The trace:** the ad it came from carries one forest **Source** tag on its bottom edge, joined to the consult line by one straight line.
+- **The sign-off:** "Signed by *Paid media*" sits under the right end of the consult line, clear of the stamp's corner.
+- **Spacing:** 32px panel padding on every side, 24px between pieces, 20px inside the cards.
+
+**Phone:** the order is Google ad, consult line, Meta ad, sign-off. With the consult between the ads, the line runs straight up to Google or straight down to Meta.
+- The Google ad shows one line of copy and no sitelinks.
+- The Meta ad is a compact card with a square creative beside its headline and Learn more.
+- The consult takes two lines.
+
+**Motion:** each cycle goes place, trace (the line draws and the Source tag lands on the ad), sign, stamp, rest. It traces Meta first, then Google. Google is the finished state, so pause, reduced motion and no JavaScript all show it.
+
+**Height**
+
+| | Before | Now |
+|---|---|---|
+| Panel at 1440 | 586px | 522px |
+| Row at 390 | 859px | 855px |
+
+**Also fixed:** on /components the two service-row reference panels had collapsed to 64px wide. One scoped rule now gives them the homepage's width.
+
+**Check:** at 1440 and 390 the panel reads in a second: two ads, one tagged Source, one consult line. Watch two cycles to see the tag move between the ads.
+
+**Files and lines** (after this change):
+
+- `site/assets/site.css`: lines 1912–2023
+- `site/assets/site.js`: lines 742–772
+- `site/components.html`: lines 752–758, 783–815
+- `site/index.html`: lines 356–388
+
+<details>
+<summary>Exact diff for change 13</summary>
+
+```diff
+diff --git a/site/assets/site.css b/site/assets/site.css
+index c12aa7b..ad71cac 100644
+--- a/site/assets/site.css
++++ b/site/assets/site.css
+@@ -1912,129 +1912,112 @@ h1 em, h2 em, h3 em, .tagline em, .signed-change em { color: var(--accent-italic
+ }
+ 
+ /* Google and Meta ads: the practice's ads on both platforms, and a booked consult traced back to the ad that brought it.
+-   Two real-format ads side by side (a Google search ad with its Call button; a Meta feed post with a flat forest
+-   creative and Learn more), and under them the consult record, signed by Paid media. A forest wire runs from the
+-   record up to the ad it came from, and that ad gets a forest outline. Illustration only: the buttons do nothing.
+-   Markup: .service-row-visual--ads > .vignette.ads[data-loop=ads] > .ads-top (caption + Sample chip) + .ads-slot ×2
+-   (p.ads-label + .ads-ad[data-ad=google|meta] + span.ads-wire[data-wire] > i (the Meta slot also holds the Google
+-   wire's pass, shown when stacked)) + .ads-consult[data-part=consult] (span.ads-wire--land, the head, the who,
+-   dl.ads-consult-source whose dd holds one span[data-src] per ad, .signoff); then img.panel-stamp.
+-   Each wire segment draws by --d (0 to 1) along its own axis, from the record end. Static and paused: traced to the
+-   Google ad (its .is-source outline and wire; the Meta wire at --d 0, the Meta source text hidden). The loop traces
+-   the next consult to the Meta ad, then back to Google (site.js "signed samples"). The bottom-left corner stays clear
+-   for the panel stamp: the record and its sign-off start 128px in on desktop; stacked, the sign-off sits right. */
+-/* the panel is the container (the ads stack whenever its inner width is under 520px: phones, and 1025-1150px). Its
+-   top padding is small: the caption and Sample chip row sits there, as on the Websites and SEO panel. */
+-.service-row-visual.service-row-visual--ads { container: ads-panel / inline-size; padding: var(--space-4) var(--space-8) var(--space-8); }
++   Two real-format ads side by side, each naming its platform in its own Sponsored line (a Google search ad with its
++   Call button and sitelinks; a Meta feed post with a flat forest creative and Learn more). Under them one slim line,
++   the booked consult (Consult booked, [Name], the enquiry, [Time]), and its sign-off, Paid media. The ad the consult
++   came from carries a forest Source tag on its edge, joined to the consult line by one straight forest line. Each card
++   is cream on the panel with one soft shadow and no outline. Illustration only: the buttons do nothing.
++   Markup: .service-row-visual--ads > .vignette.ads[data-loop=ads] > .ads-top (caption + Sample chip)
++   + .ads-ad.ads-google + .ads-ad.ads-meta (each ending in span.ads-source[data-src] > .ads-tag + .ads-link)
++   + p.ads-consult[data-part=consult] + .signoff[data-part=sign]; then img.panel-stamp.
++   Static and paused: traced to the Google ad (its .ads-source shown, the Meta one hidden). The loop clears the consult
++   and its trace, places the next consult, draws the line out of it to the other ad and tags that ad, signs it and
++   presses the panel stamp: the Meta ad first, then back to Google (site.js "signed samples"). The bottom-left corner
++   stays clear for the panel stamp: the consult line is inset 80px each side and the sign-off sits at its right end. */
++/* the panel is the container (the ads stack whenever its inner width is under 520px: phones, and 1025-1150px) */
++.service-row-visual.service-row-visual--ads { container: ads-panel / inline-size; padding: var(--space-8); }
+ /* its clear corner is the bottom left wherever the panel sits (the flipped row, and its reference on components.html) */
+ .service-row-visual--ads .panel-stamp { right: auto; left: -16px; rotate: 8deg; }
+ @media (max-width: 768px) {
+   .service-row-visual--ads .panel-stamp { left: 4px; }
+ }
++/* the reference on components.html: both service-row panels size to their container, so their row is given the
++   width (stacked, at about the homepage's width) instead of shrinking to fit them */
++.ref-item > .cards:has(> .service-row-visual--ads) { justify-self: stretch; grid-template-columns: minmax(0, 664px); gap: var(--space-12); }
+ @media (max-width: 640px) {
+-  .service-row-visual.service-row-visual--ads { padding: var(--space-4) var(--space-4) var(--space-6); }
++  .service-row-visual.service-row-visual--ads { padding: var(--space-5) var(--space-5) var(--space-6); }
+ }
+-.ads { --ads-band: var(--space-6); grid-template-columns: repeat(2, minmax(0, 1fr)); justify-items: stretch; gap: var(--space-4); max-width: 600px; }
+-.ads-top { grid-column: 1 / -1; display: flex; align-items: center; justify-content: space-between; gap: var(--space-3); }
++/* --ads-reach: from the cards' bottom edge to the consult line (the Source tag and its line fill it);
++   --ads-inset: the consult line's inset each side, which keeps it clear of the stamp's corner */
++.ads { --ads-reach: var(--space-10); --ads-inset: 80px; grid-template-columns: repeat(2, minmax(0, 1fr)); grid-template-areas: "top top" "google meta" "consult consult" "sign sign"; justify-items: stretch; gap: var(--space-6); max-width: 600px; }
++.ads-top { grid-area: top; display: flex; align-items: center; justify-content: space-between; gap: var(--space-3); }
+ .ads-caption { font-size: var(--text-caption); font-weight: 500; line-height: 1.4; color: var(--forest); }
+-.ads-slot { position: relative; display: grid; grid-template-rows: auto 1fr; gap: var(--space-2); min-width: 0; }
+-/* the platform, outside its simulated UI: forest on sage mist, 7.55:1 */
+-.ads-label { font-size: var(--text-label); font-weight: 600; line-height: 1.4; color: var(--forest); }
+-.ads-ad { position: relative; display: grid; align-content: start; gap: var(--space-3); min-width: 0; padding: var(--space-4); border: var(--border-w) solid var(--border-quiet); border-radius: var(--radius-card); background: var(--surface-page); box-shadow: var(--shadow-2); font-size: var(--text-body-s); line-height: 1.5; }
+-/* the ad a consult is traced to: a 2px forest edge over its hairline, shown by --src (0 to 1; site.js tweens it) */
+-.ads-ad::after { content: ""; position: absolute; inset: -1px; border: var(--border-w-strong) solid var(--forest); border-radius: inherit; opacity: var(--src, 0); pointer-events: none; }
+-.ads-ad.is-source { --src: 1; }
+-/* who is advertising: the practice's mark (a plain forest disc; a globe on Google), its name, Sponsored */
+-.ads-site { display: flex; align-items: center; gap: var(--space-3); min-width: 0; }
++.ads-google { grid-area: google; }
++.ads-meta { grid-area: meta; }
++.ads-ad { position: relative; display: grid; align-content: start; gap: var(--space-2); min-width: 0; padding: var(--space-5); border-radius: var(--radius-card); background: var(--surface-page); box-shadow: var(--shadow-2); font-size: var(--text-body-s); line-height: 1.5; }
++/* who is advertising, and where: the practice's mark (a plain forest disc; a globe on Google), its name, and the
++   platform's own Sponsored line naming the platform */
++.ads-site { display: flex; align-items: center; gap: var(--space-3); min-width: 0; margin-bottom: var(--space-1); }
+ .ads-mark { flex: none; display: grid; place-items: center; width: 32px; height: 32px; border-radius: 50%; background: var(--surface-strong); color: var(--text-on-strong); }
+ .ads-mark .icon { width: 16px; height: 16px; }
+-.ads-who { display: grid; min-width: 0; line-height: 1.3; }
++.ads-who { display: grid; min-width: 0; line-height: 1.35; }
+ .ads-name { font-weight: 600; }
+-.ads-sponsored { font-size: var(--text-caption); font-weight: 500; color: var(--text-muted); }
+-.ads-google .ads-sponsored { order: -1; font-weight: 600; color: var(--text-body); }
+-.ads-call { display: inline-flex; align-items: center; gap: var(--space-1); margin-left: auto; padding: var(--space-1) var(--space-3); border: var(--border-w) solid var(--border-input); border-radius: var(--radius-pill); color: var(--forest); font-size: var(--text-caption); font-weight: 600; line-height: 1.4; }
++.ads-on { font-size: var(--text-caption); font-weight: 500; color: var(--text-muted); white-space: nowrap; }
++.ads-platform { font-weight: 600; color: var(--text-body); }
++.ads-call { flex: none; display: inline-flex; align-items: center; gap: var(--space-1); margin-left: auto; padding: var(--space-1) var(--space-3); border: var(--border-w) solid var(--border-input); border-radius: var(--radius-pill); color: var(--forest); font-size: var(--text-caption); font-weight: 600; line-height: 1.4; }
+ .ads-call .icon { width: 14px; height: 14px; }
+ .ads-google-title { font-size: var(--text-body-m); font-weight: 500; line-height: 1.35; color: var(--forest); }
+ /* Google's and Meta's own "See more" clamps: two lines of copy on every ad */
+ .ads-google-text { color: var(--text-muted); }
+ .ads-google-text, .ads-meta-text { display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 2; overflow: hidden; }
+-/* the search it answers, and its sitelinks (desktop only: phones show the ad alone) */
+-.ads-query { display: flex; align-items: center; gap: var(--space-2); margin-bottom: var(--space-1); padding: var(--space-2) var(--space-3); border: var(--border-w) solid var(--border-input); border-radius: var(--radius-pill); font-weight: 500; }
+-.ads-query .icon { width: 16px; height: 16px; color: var(--text-muted); }
+-.ads-sitelinks { display: flex; flex-wrap: wrap; gap: var(--space-1) var(--space-4); }
++/* the sitelinks (wide panels only: phones show the ad alone) */
++.ads-sitelinks { display: flex; flex-wrap: wrap; gap: var(--space-1) var(--space-4); margin-top: var(--space-1); }
+ .ads-sitelinks li { font-weight: 500; color: var(--forest); }
+-.ads-meta { grid-template-rows: auto auto minmax(0, 1fr) auto; align-content: stretch; }
+-.ads-meta-art { display: grid; align-content: end; align-self: stretch; min-height: 96px; margin-inline: calc(-1 * var(--space-4)); padding: var(--space-4); background: var(--surface-strong); color: var(--text-on-strong); font-family: var(--font-display); font-size: var(--text-h3); line-height: 1.1; text-wrap: balance; }
+-.ads-meta-foot { display: flex; align-items: center; justify-content: space-between; gap: var(--space-2); margin: calc(-1 * var(--space-3)) calc(-1 * var(--space-4)) calc(-1 * var(--space-4)); padding: var(--space-3) var(--space-4); border-radius: 0 0 var(--radius-card) var(--radius-card); background: var(--surface-panel); }
++.ads-meta { grid-template-rows: auto auto minmax(0, 1fr) auto; align-content: stretch; gap: var(--space-3); }
++.ads-meta .ads-site { margin-bottom: 0; }
++.ads-meta-art { display: grid; align-content: end; align-self: stretch; min-height: 88px; margin-inline: calc(-1 * var(--space-5)); padding: var(--space-4) var(--space-5); background: var(--surface-strong); color: var(--text-on-strong); font-family: var(--font-display); font-size: var(--text-h3); line-height: 1.1; text-wrap: balance; }
++/* its foot keeps 20px under Learn more, clear of the Source tag that sits on the card's edge */
++.ads-meta-foot { display: flex; align-items: center; justify-content: space-between; gap: var(--space-2); margin: calc(-1 * var(--space-3)) calc(-1 * var(--space-5)) calc(-1 * var(--space-5)); padding: var(--space-3) var(--space-5) var(--space-5); border-radius: 0 0 var(--radius-card) var(--radius-card); background: var(--surface-panel); }
+ .ads-meta-headline { font-weight: 600; }
+ .ads-meta-button { flex: none; padding: var(--space-1) var(--space-3); border-radius: var(--radius-input); background: var(--surface-page); font-size: var(--text-caption); font-weight: 600; line-height: 1.6; }
+-/* the consult record: booked, who and for what, and where it came from */
+-.ads-consult { position: relative; grid-column: 1 / -1; justify-self: end; display: grid; gap: var(--space-2); width: calc(100% - 128px); margin-top: var(--ads-band); padding: var(--space-3) var(--space-5) var(--space-4); border: var(--border-w) solid var(--border-quiet); border-radius: var(--radius-card); background: var(--surface-page); box-shadow: var(--shadow-2); font-size: var(--text-body-s); line-height: 1.5; }
+-.ads-consult-head { display: flex; align-items: center; gap: var(--space-2); font-weight: 600; }
+-.ads-consult-head .lead-dot { flex: none; }
+-.ads-consult-time { margin-left: auto; font-size: var(--text-label); color: var(--text-muted); font-variant-numeric: tabular-nums; }
+-.ads-consult-who { display: flex; flex-wrap: wrap; align-items: baseline; gap: 0 var(--space-3); color: var(--text-muted); }
+-.ads-consult-name { font-family: var(--font-display); font-size: var(--text-h3); line-height: 1.2; color: var(--text-body); }
+-/* label sage on sage mist, 5.1:1 */
+-.ads-consult-source { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 0 var(--space-4); padding: var(--space-2) var(--space-4); border-radius: var(--radius-input); background: var(--surface-panel); }
+-.ads-consult-source dt { font-size: var(--text-label); font-weight: 600; line-height: 1.6; color: var(--text-muted); }
+-.ads-consult-source dd { display: grid; font-weight: 600; }
+-.ads-consult-source dd > span { grid-area: 1 / 1; }
+-.ads-consult-source [data-src="meta"] { visibility: hidden; opacity: 0; }
+-.ads-signoff { padding-top: var(--space-3); padding-right: 0; }
+-/* on a wide panel the record's first line carries all three facts: booked, who and what for, and when */
+-@container ads-panel (min-width: 520px) {
+-  .ads-ad { gap: var(--space-2); }
+-  .ads-consult { grid-template-columns: auto minmax(0, 1fr); column-gap: var(--space-4); }
+-  .ads-consult-head, .ads-consult-who { grid-row: 1; align-self: center; }
+-  .ads-consult-who { grid-column: 2; padding-right: 56px; }
+-  .ads-consult-time { position: absolute; top: var(--space-4); right: var(--space-5); }
+-  .ads-consult-source, .ads-signoff { grid-column: 1 / -1; }
+-}
+-/* the wire: 2px forest segments under each ad, meeting above the record's centre. The record's centre sits 72px past
+-   the Google slot's right edge (it starts 128px in), which is 56px into the Meta slot. */
+-.ads-wire { position: absolute; top: 100%; left: 0; right: 0; height: calc(var(--ads-band) / 2 + var(--space-2)); pointer-events: none; }
+-.ads-wire i { position: absolute; background: var(--forest); }
+-.ads-wire i:nth-child(1) { left: calc(50% - 1px); top: 0; width: 2px; height: 100%; scale: 1 var(--d, 1); transform-origin: 50% 100%; }
+-.ads-wire i:nth-child(2) { top: calc(100% - 2px); height: 2px; scale: var(--d, 1) 1; }
+-.ads-wire[data-wire="google"] i:nth-child(2) { left: calc(50% - 1px); width: calc(50% + 74px); transform-origin: 100% 50%; }
+-.ads-wire[data-wire="meta"] i:nth-child(2) { left: 55px; width: calc(50% - 54px); transform-origin: 0 50%; }
+-.ads-wire[data-wire="meta"] i { --d: 0; }
+-.ads-wire--land { top: auto; bottom: 100%; height: calc(var(--ads-band) / 2 + var(--space-2) + 2px); }
+-.ads-wire--land i:nth-child(2), .ads-wire--pass { display: none; }
+-/* Narrow panels (phones, and 1025-1150px): the two ads stacked and compact (no platform labels: each reads as its
+-   platform; the Meta post as a card with its creative a small square beside the post text), then the record. The
+-   wire runs in a 20px lane down the left: out of the record's head, up past the Meta ad, into the head of the ad it
+-   came from. The record's sign-off sits right (no disc), clear of the stamp on the bottom-left. */
++/* the trace: a forest Source tag centred on the ad's bottom edge, and under it one straight 1.5px forest line down to
++   the consult. site.js draws the line by scale, out from the consult end (transform-origin). The Meta one waits hidden. */
++.ads-source { position: absolute; top: 100%; left: 50%; z-index: 1; translate: -50% -50%; display: grid; }
++.ads-source[data-src="meta"] { visibility: hidden; opacity: 0; }
++.ads-tag { display: inline-flex; align-items: center; height: 24px; padding: 0 var(--space-3); border-radius: var(--radius-pill); background: var(--surface-strong); color: var(--text-on-strong); box-shadow: var(--shadow-1); font-size: var(--text-caption); font-weight: 600; line-height: 1; white-space: nowrap; }
++.ads-link { position: absolute; top: 100%; left: calc(50% - .75px); width: 1.5px; height: calc(var(--ads-reach) - 12px); background: var(--forest); transform-origin: 50% 100%; pointer-events: none; }
++/* the consult: one line, booked, who and what for, and when. [Time] never wraps; the enquiry gives way first. */
++.ads-consult { grid-area: consult; justify-self: center; display: flex; align-items: center; gap: var(--space-3); width: calc(100% - 2 * var(--ads-inset)); min-width: 0; margin-top: calc(var(--ads-reach) - var(--space-6)); padding: var(--space-3) var(--space-5); border-radius: var(--radius-card); background: var(--surface-page); box-shadow: var(--shadow-2); font-size: var(--text-body-s); line-height: 1.4; white-space: nowrap; }
++.ads-consult .lead-dot { flex: none; }
++.ads-consult-what { flex: none; font-weight: 600; }
++.ads-consult-who { display: flex; align-items: baseline; gap: var(--space-3); min-width: 0; }
++.ads-consult-name { flex: none; font-family: var(--font-display); font-size: var(--text-h3); line-height: 1.2; }
++.ads-consult-for { min-width: 0; overflow: hidden; text-overflow: ellipsis; color: var(--text-muted); }
++.ads-consult-time { flex: none; margin-left: auto; font-size: var(--text-label); font-weight: 600; color: var(--text-muted); font-variant-numeric: tabular-nums; }
++/* the sign-off: under the consult's right end, no rule */
++.ads-signoff { grid-area: sign; justify-self: end; margin: calc(-1 * var(--space-2)) var(--ads-inset) 0 0; padding: 0; border-top: 0; }
++/* Narrow panels (phones, and 1025-1150px): the ads stacked and compact (one line of Google copy and no sitelinks; the
++   Meta post as a card with its creative a square beside its headline and Learn more), and the consult between them, so
++   the line to either ad is short and straight: up to the Google ad's bottom edge, or down to the Meta ad's top edge.
++   Each ad keeps 24px on its traced edge, so a tag never crowds its copy. The sign-off sits right, clear of the stamp. */
+ @container ads-panel (max-width: 519px) {
+-  .ads { --ads-hook: 26px; grid-template-columns: minmax(0, 1fr); gap: var(--space-2); padding-left: var(--space-5); }
+-  .ads-slot { gap: 0; }
+-  .ads-label { display: none; }
+-  .ads-ad { gap: var(--space-2); padding: var(--space-3); }
++  .ads { --ads-reach: 28px; grid-template-columns: minmax(0, 1fr); grid-template-areas: "top" "google" "consult" "meta" "sign"; gap: var(--space-4); }
++  .ads-ad { padding: var(--space-4); }
++  .ads-google { padding-bottom: var(--space-6); }
++  .ads-site { margin-bottom: 0; }
+   .ads-mark { width: 28px; height: 28px; }
+-  .ads-query, .ads-sitelinks { display: none; }
+-  .ads-meta { grid-template-columns: 96px minmax(0, 1fr); grid-template-rows: auto auto 1fr; align-content: start; gap: var(--space-1) var(--space-3); }
++  .ads-google-text { -webkit-line-clamp: 1; }
++  .ads-sitelinks, .ads-meta-text { display: none; }
++  .ads-meta { grid-template-columns: 88px minmax(0, 1fr); grid-template-rows: auto 1fr; align-content: start; gap: var(--space-1) var(--space-3); padding-top: var(--space-6); }
+   .ads-meta .ads-site { grid-column: 2; }
+   .ads-meta .ads-mark { display: none; }
+-  .ads-meta-text { grid-column: 2; grid-row: 2; }
+-  .ads-meta-art { grid-column: 1; grid-row: 1 / -1; aspect-ratio: auto; min-height: 0; margin: 0; padding: var(--space-2); border-radius: var(--radius-input); font-size: var(--text-body-s); line-height: 1.05; }
+-  .ads-meta-foot { grid-column: 2; grid-row: 3; align-self: end; margin: 0; padding: 0; background: none; }
+-  .ads-meta-headline { display: none; }
++  .ads-meta-art { grid-column: 1; grid-row: 1 / -1; min-height: 88px; margin: 0; padding: var(--space-2); border-radius: var(--radius-input); font-size: var(--text-body-s); line-height: 1.05; }
++  .ads-meta-foot { grid-column: 2; grid-row: 2; display: grid; justify-items: start; align-content: end; gap: var(--space-1); margin: 0; padding: 0; background: none; }
+   .ads-meta-button { background: var(--surface-panel); }
+-  .ads-consult { width: auto; justify-self: stretch; gap: var(--space-2); margin-top: 0; padding: var(--space-3); }
+-  .ads-consult-source { padding: 0; background: none; }
+-  .ads-signoff { justify-content: flex-end; gap: var(--space-2); padding-top: var(--space-2); }
++  .ads-meta .ads-source { top: 0; }
++  .ads-meta .ads-link { top: auto; bottom: 100%; transform-origin: 50% 0; }
++  .ads-consult { width: auto; justify-self: stretch; margin-block: calc(var(--ads-reach) - var(--space-4)); padding: var(--space-3) var(--space-4); }
++  .ads-signoff { gap: var(--space-2); margin: var(--space-4) 0 0; }
+   .ads-signoff .signoff-disc.founder-art { width: 24px; height: 24px; }
+-  .ads .ads-wire { top: var(--ads-hook); bottom: calc(-1 * var(--space-2)); left: -11px; right: auto; width: 11px; height: auto; }
+-  .ads .ads-wire i:nth-child(1) { left: 0; top: -1px; width: 100%; height: 2px; scale: var(--d, 1) 1; transform-origin: 0 50%; }
+-  .ads .ads-wire i:nth-child(2) { left: 0; top: -1px; width: 2px; height: calc(100% + 1px); scale: 1 var(--d, 1); transform-origin: 50% 100%; }
+-  .ads .ads-wire--pass { display: block; top: 0; width: 2px; }
+-  .ads .ads-wire--pass i:nth-child(1) { top: 0; width: 2px; height: 100%; scale: 1 var(--d, 1); transform-origin: 50% 100%; }
+-  .ads .ads-wire--land { top: -1px; bottom: auto; left: -12px; width: 12px; height: 24px; }
+-  .ads .ads-wire--land i:nth-child(1) { top: 0; width: 2px; height: 100%; scale: 1 var(--d, 1); transform-origin: 50% 100%; }
+-  .ads .ads-wire--land i:nth-child(2) { display: block; top: calc(100% - 1px); width: calc(100% + 1px); height: 2px; scale: var(--d, 1) 1; transform-origin: 100% 50%; }
+-}
+-/* stacked beside the copy (1025-1150px) the stamp is full size: lift the record clear of its 96px corner */
++}
++/* on a phone the consult takes two lines: booked and when, then who and what for */
++@container ads-panel (max-width: 419px) {
++  .ads-consult { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; gap: 2px var(--space-2); }
++  .ads-consult .lead-dot, .ads-consult-what, .ads-consult-time { grid-row: 1; }
++  .ads-consult-time { grid-column: 3; }
++  .ads-consult-who { grid-column: 2 / -1; grid-row: 2; }
++}
++/* stacked beside the copy (1025-1150px) the stamp is full size: lift the Meta ad clear of its 96px corner */
+ @media (min-width: 769px) {
+   @container ads-panel (max-width: 519px) {
+     .ads { padding-bottom: var(--space-5); }
+diff --git a/site/assets/site.js b/site/assets/site.js
+index b28284d..32b205d 100644
+--- a/site/assets/site.js
++++ b/site/assets/site.js
+@@ -742,48 +742,31 @@
+         hold(tl, reached + MED * 0.6 + 0.5);
+         return tl;
+       },
+-      // the consult is traced back to the ad that brought it: the record clears and a new consult is placed, the wire
+-      // draws from the record up to its ad, the ad is outlined, signed, the panel stamp pressed. Each cycle traces the
+-      // other ad: the first to Meta, the second back to Google, which is the finished state ('rest') and the markup.
++      // the consult is traced back to the ad that brought it: the consult and its trace lift off, the next consult is
++      // placed, its line draws out of it to the ad it came from and that ad is tagged Source, it is signed and the
++      // panel stamp pressed. Each cycle traces the other ad: the first to Meta, the second back to Google, which is the
++      // finished state ('rest') and the markup.
+       ads: (el) => {
+         const consult = el.querySelector('[data-part="consult"]');
+-        const record = consult.querySelectorAll('.ads-consult-head, .ads-consult-who, .ads-consult-source');
+-        const sign = el.querySelector('[data-part="sign"]');
+-        const marks = signParts(sign);
++        const marks = signParts(el.querySelector('[data-part="sign"]'));
+         const stamp = el.closest('.service-row-visual').querySelector('.panel-stamp');
+-        const ad = (src) => el.querySelector('[data-ad="' + src + '"]');
+-        const texts = (src) => el.querySelectorAll('[data-src="' + src + '"]');
+-        const own = (wire) => Array.from(wire.children).reverse();
+-        // a path's segments in drawing order, from the record end: the record's stub and rise, the pass beside the
+-        // Meta ad (Google's, on phones), then the ad's own run and drop
+-        const path = (src) => [
+-          ...own(el.querySelector('[data-wire="land"]')),
+-          ...(src === 'google' ? Array.from(el.querySelectorAll('.ads-wire--pass i')) : []),
+-          ...own(el.querySelector('.ads-wire[data-wire="' + src + '"]:not(.ads-wire--pass)')),
+-        ];
+-        const shown = (seg) => seg.getClientRects().length > 0;
++        const source = (src) => el.querySelector('.ads-source[data-src="' + src + '"]');
++        const PLACE = SLOW + 0.1;
+         const tl = gsap.timeline({ paused: true, repeat: -1 });
+         const cycle = (from, to, at) => {
+-          tl.to([...record, ...marks], { autoAlpha: 0, y: 8, duration: SLOW, ease: 'power2.in' }, at)
+-            .to(stamp, { autoAlpha: 0, duration: SLOW, ease: 'power2.in' }, at)
+-            .fromTo(path(from), { '--d': 1 }, { '--d': 0, duration: MED, ease: 'power2.in', immediateRender: false }, at)
+-            .fromTo(ad(from), { '--src': 1 }, { '--src': 0, duration: MED, immediateRender: false }, at)
+-            .set(texts(from), { autoAlpha: 0 }, at + SLOW)
+-            .set(texts(to), { autoAlpha: 1 }, at + SLOW)
+-            .fromTo(record, { autoAlpha: 0, y: 14 }, { autoAlpha: 1, y: 0, duration: REST, ease: 'power3.out', stagger: 0.08, immediateRender: false }, at + 0.6);
+-          // the wire draws over SLOW, split across the segments this layout shows (hidden ones are set at once)
+-          const trace = at + 1.4;
+-          const segs = path(to);
+-          const step = SLOW / Math.max(1, segs.filter(shown).length);
+-          let k = 0;
+-          segs.forEach((seg) => {
+-            const on = shown(seg);
+-            tl.fromTo(seg, { '--d': 0 }, { '--d': 1, duration: on ? step : 0, ease: 'none', immediateRender: false }, on ? trace + step * k++ : trace);
+-          });
+-          tl.fromTo(ad(to), { '--src': 0 }, { '--src': 1, duration: MED, immediateRender: false }, trace + SLOW - 0.05)
+-            .fromTo(marks, { autoAlpha: 0, y: 8 }, { autoAlpha: 1, y: 0, duration: SLOW, ease: 'power3.out', immediateRender: false }, trace + SLOW + MED);
+-          press(tl, stamp, trace + SLOW + MED + 0.35);
+-          return trace + SLOW + MED + 0.35 + MED * 1.8;
++          const trace = at + MED + 0.35 + PLACE + 0.2;
++          const line = source(to).querySelector('.ads-link');
++          const tag = source(to).querySelector('.ads-tag');
++          tl.to([consult, source(from), ...marks, stamp], { autoAlpha: 0, duration: MED, ease: 'power2.in' }, at)
++            .fromTo(consult, { autoAlpha: 0, y: 12 }, { autoAlpha: 1, y: 0, duration: PLACE, ease: 'power3.out', immediateRender: false }, at + MED + 0.35)
++            // the trace: the line grows out of the consult to the ad's edge, then the ad's tag lands on it
++            .set(tag, { autoAlpha: 0 }, trace)
++            .set(source(to), { autoAlpha: 1 }, trace)
++            .fromTo(line, { scaleY: 0 }, { scaleY: 1, duration: SLOW, ease: 'power2.inOut', immediateRender: false }, trace)
++            .fromTo(tag, { autoAlpha: 0, scale: 0.8 }, { autoAlpha: 1, scale: 1, duration: MED, ease: 'power2.out', immediateRender: false }, trace + SLOW - 0.05)
++            .fromTo(marks, { autoAlpha: 0, y: 8 }, { autoAlpha: 1, y: 0, duration: SLOW, ease: 'power3.out', immediateRender: false }, trace + SLOW + MED + 0.2);
++          press(tl, stamp, trace + SLOW + MED + 0.55);
++          return trace + SLOW + MED + 0.55 + MED * 1.8;
+         };
+         const first = cycle('google', 'meta', REST);
+         hold(tl, cycle('meta', 'google', first + HOLD + REST));
+diff --git a/site/components.html b/site/components.html
+index d44d542..43c5dc1 100644
+--- a/site/components.html
++++ b/site/components.html
+@@ -752,7 +752,7 @@
+         </div>
+ 
+         <div class="ref-item ref-item--wide">
+-          <p class="ref-name" id="demo-vignettes">.service-row-visual &gt; .vignette[data-loop][data-anim="none"][role="img"] (the homepage's core service rows, .service-row and .service-row--flip). local-page (.service-row-visual--search &gt; .vignette--search): an illustrative excerpt of a Google results page in the palette (.screen.gsr: the address bar on desktop only, "Google" in plain type, the search field, All, Maps and Images, one organic result), and outside it a cream note (.gsr-note: "New this month", its line, signed by Web and SEO) joined to the result's title by a forest connector (.gsr-link). Its loop: the note lifts off, the query is selected, cleared and typed into its one text node with the caret right after the typed text, search is pressed, the page loads with no result, the result places, the note and connector return, signed, and the panel stamp is pressed on. Under 640px the address bar goes and the page stacks as on a phone. ads (.service-row-visual--ads &gt; .vignette.ads): a caption and the Sample chip on top; a Google search ad (the search above it, Sponsored, [Your practice] and a Call button, the headline, the description, two sitelinks) and a Meta feed post ([Your practice], Sponsored, the post text, a flat forest creative with cream serif text, Adult braces and Learn more), each labelled outside its UI; under them the consult record (.ads-consult: Consult booked, [Time], [Name], the enquiry, the source ad and campaign, signed by Paid media), joined to the ad it came from by a forest wire (.ads-wire) and that ad outlined in forest. Its loop: the record clears, the next consult is placed, the wire draws from the record up to its ad, the ad is outlined, it is signed and the panel stamp is pressed on; each cycle traces the other ad (Meta, then back to Google, the finished state). In panels under 520px wide the ads stack (the Meta post becomes a compact card with a small creative) and the wire runs down a lane on the left. The panel stamp sits bottom left. Each loop is about 8 to 10s, runs only on screen with the tab visible, starts and ends on the finished, signed state, jumps there when animations are paused and never runs under reduced motion.</p>
++          <p class="ref-name" id="demo-vignettes">.service-row-visual &gt; .vignette[data-loop][data-anim="none"][role="img"] (the homepage's core service rows, .service-row and .service-row--flip). local-page (.service-row-visual--search &gt; .vignette--search): an illustrative excerpt of a Google results page in the palette (.screen.gsr: the address bar on desktop only, "Google" in plain type, the search field, All, Maps and Images, one organic result), and outside it a cream note (.gsr-note: "New this month", its line, signed by Web and SEO) joined to the result's title by a forest connector (.gsr-link). Its loop: the note lifts off, the query is selected, cleared and typed into its one text node with the caret right after the typed text, search is pressed, the page loads with no result, the result places, the note and connector return, signed, and the panel stamp is pressed on. Under 640px the address bar goes and the page stacks as on a phone. ads (.service-row-visual--ads &gt; .vignette.ads): a caption and the Sample chip on top; side by side, a Google search ad ([Your practice] over "Google · Sponsored", a Call button, the headline, the description, two sitelinks) and a Meta feed post ([Your practice] over "Meta · Sponsored", the post text, a flat forest creative with cream serif text, Adult braces and Learn more), each naming its platform in its own Sponsored line; under them the consult on one slim line (.ads-consult: Consult booked, [Name], the enquiry, [Time]) and its sign-off, Paid media. The ad the consult came from carries a forest Source tag on its edge (.ads-source &gt; .ads-tag), joined to the consult by one straight forest line (.ads-link). Its loop: the consult and its trace lift off, the next consult is placed, the line grows out of it to the ad it came from and that ad is tagged, it is signed and the panel stamp is pressed on; each cycle traces the other ad (Meta, then back to Google, the finished state). In panels under 520px wide the ads stack (one line of Google copy and no sitelinks; the Meta post a compact card with its creative a square beside its headline) with the consult between them, so the line runs straight up to the Google ad or down to the Meta ad; under 420px the consult takes two lines. The panel stamp sits bottom left, clear of the consult and the sign-off. Each loop is about 8 to 10s, runs only on screen with the tab visible, starts and ends on the finished, signed state, jumps there when animations are paused and never runs under reduced motion.</p>
+           <div class="cards">
+             <div class="service-row-visual service-row-visual--search">
+               <div class="vignette vignette--search" data-loop="local-page" data-anim="none" role="img" aria-label="Sample, an illustrative search result: a Google search for braces for adults near me shows one result, [Your practice], Adult braces in [your city]. A note outside the page says it is new this month, a page answering adult patients' questions, signed by Web and SEO.">
+@@ -783,49 +783,33 @@
+               <img class="stamp panel-stamp" src="/assets/img/stamp-signed.svg" alt="" width="112" height="112">
+             </div>
+             <div class="service-row-visual service-row-visual--ads">
+-              <div class="vignette ads" data-loop="ads" data-anim="none" role="img" aria-label="Sample: a Google search ad and a Meta feed ad for adult braces from [Your practice]. A consult booked by [Name] for adult braces is traced back to the Google search ad and its campaign, signed by Paid media.">
++              <div class="vignette ads" data-loop="ads" data-anim="none" role="img" aria-label="Sample: a Google search ad and a Meta feed ad for adult braces from [Your practice]. A consult booked by [Name] for adult braces, at [Time], is traced back to the Google search ad that brought it, signed by Paid media.">
+                 <div class="ads-top"><span class="ads-caption">Illustrative ads and booking</span><span class="chip chip--sample">Sample</span></div>
+-                <div class="ads-slot">
+-                  <p class="ads-label">Google Search</p>
+-                  <div class="ads-ad ads-google is-source" data-ad="google">
+-                    <p class="ads-query"><svg class="icon" viewBox="0 0 20 20" focusable="false"><circle cx="9" cy="9" r="5.5"/><path d="m13.2 13.2 3.8 3.8"/></svg>orthodontist for adults</p>
+-                    <div class="ads-site">
+-                      <span class="ads-mark"><svg class="icon" viewBox="0 0 20 20" focusable="false"><circle cx="10" cy="10" r="7"/><path d="M3 10h14M10 3c-3.5 4-3.5 10 0 14M10 3c3.5 4 3.5 10 0 14"/></svg></span>
+-                      <span class="ads-who"><span class="ads-name">[Your practice]</span><span class="ads-sponsored">Sponsored</span></span>
+-                      <span class="ads-call"><svg class="icon" viewBox="0 0 24 24" focusable="false"><path d="M6.5 4h3l1.5 4-2 1.5a11 11 0 0 0 5.5 5.5l1.5-2 4 1.5v3a2 2 0 0 1-2 2A15.5 15.5 0 0 1 4.5 6a2 2 0 0 1 2-2z"/></svg>Call</span>
+-                    </div>
+-                    <p class="ads-google-title">Adult braces | Request a consult</p>
+-                    <p class="ads-google-text">Braces as an adult? See what treatment involves, then ask our team about a consultation.</p>
+-                    <ul class="ads-sitelinks"><li>Your first visit</li><li>Braces or clear aligners</li></ul>
++                <div class="ads-ad ads-google">
++                  <div class="ads-site">
++                    <span class="ads-mark"><svg class="icon" viewBox="0 0 20 20" focusable="false"><circle cx="10" cy="10" r="7"/><path d="M3 10h14M10 3c-3.5 4-3.5 10 0 14M10 3c3.5 4 3.5 10 0 14"/></svg></span>
++                    <span class="ads-who"><span class="ads-name">[Your practice]</span><span class="ads-on"><span class="ads-platform">Google</span> · Sponsored</span></span>
++                    <span class="ads-call"><svg class="icon" viewBox="0 0 24 24" focusable="false"><path d="M6.5 4h3l1.5 4-2 1.5a11 11 0 0 0 5.5 5.5l1.5-2 4 1.5v3a2 2 0 0 1-2 2A15.5 15.5 0 0 1 4.5 6a2 2 0 0 1 2-2z"/></svg>Call</span>
+                   </div>
+-                  <span class="ads-wire" data-wire="google"><i></i><i></i></span>
++                  <p class="ads-google-title">Adult braces | Request a consult</p>
++                  <p class="ads-google-text">Braces as an adult? See what treatment involves, then ask our team about a consultation.</p>
++                  <ul class="ads-sitelinks"><li>Your first visit</li><li>Braces or clear aligners</li></ul>
++                  <span class="ads-source" data-src="google"><span class="ads-tag">Source</span><span class="ads-link"></span></span>
+                 </div>
+-                <div class="ads-slot">
+-                  <p class="ads-label">Meta</p>
+-                  <div class="ads-ad ads-meta" data-ad="meta">
+-                    <div class="ads-site">
+-                      <span class="ads-mark"></span>
+-                      <span class="ads-who"><span class="ads-name">[Your practice]</span><span class="ads-sponsored">Sponsored</span></span>
+-                    </div>
+-                    <p class="ads-meta-text">Considering braces as an adult? Start with a conversation about your options.</p>
+-                    <p class="ads-meta-art">Your questions about adult braces, answered.</p>
+-                    <div class="ads-meta-foot"><span class="ads-meta-headline">Adult braces</span><span class="ads-meta-button">Learn more</span></div>
++                <div class="ads-ad ads-meta">
++                  <div class="ads-site">
++                    <span class="ads-mark"></span>
++                    <span class="ads-who"><span class="ads-name">[Your practice]</span><span class="ads-on"><span class="ads-platform">Meta</span> · Sponsored</span></span>
+                   </div>
+-                  <span class="ads-wire" data-wire="meta"><i></i><i></i></span>
+-                  <span class="ads-wire ads-wire--pass" data-wire="google"><i></i></span>
++                  <p class="ads-meta-text">Considering braces as an adult? Start with a conversation about your options.</p>
++                  <p class="ads-meta-art">Your questions about adult braces, answered.</p>
++                  <div class="ads-meta-foot"><span class="ads-meta-headline">Adult braces</span><span class="ads-meta-button">Learn more</span></div>
++                  <span class="ads-source" data-src="meta"><span class="ads-tag">Source</span><span class="ads-link"></span></span>
+                 </div>
+-                <div class="ads-consult" data-part="consult">
+-                  <span class="ads-wire ads-wire--land" data-wire="land"><i></i><i></i></span>
+-                  <p class="ads-consult-head"><span class="lead-dot"></span>Consult booked<span class="ads-consult-time">[Time]</span></p>
+-                  <p class="ads-consult-who"><span class="ads-consult-name">[Name]</span>Adult braces</p>
+-                  <dl class="ads-consult-source">
+-                    <dt>Source</dt><dd><span data-src="google">Google Search ad</span><span data-src="meta">Meta feed ad</span></dd>
+-                    <dt>Campaign</dt><dd><span data-src="google">Search: Adult braces</span><span data-src="meta">Meta: Adult braces</span></dd>
+-                  </dl>
+-                  <div class="signoff ads-signoff" data-part="sign">
+-                    <svg class="signoff-disc founder-art" viewBox="-1 -1 2 2" focusable="false"><circle r="1"/><path d="M0.2621 -0.8819A0.92 0.92 0 1 0 0.2621 0.8819A0.8832 0.8832 0 1 1 0.2621 -0.8819Z"/></svg>
+-                    <span class="signoff-who">Signed by <em class="signature">Paid media</em></span>
+-                  </div>
++                <p class="ads-consult" data-part="consult"><span class="lead-dot"></span><span class="ads-consult-what">Consult booked</span><span class="ads-consult-who"><span class="ads-consult-name">[Name]</span><span class="ads-consult-for">Adult braces</span></span><span class="ads-consult-time">[Time]</span></p>
++                <div class="signoff ads-signoff" data-part="sign">
++                  <svg class="signoff-disc founder-art" viewBox="-1 -1 2 2" focusable="false"><circle r="1"/><path d="M0.2621 -0.8819A0.92 0.92 0 1 0 0.2621 0.8819A0.8832 0.8832 0 1 1 0.2621 -0.8819Z"/></svg>
++                  <span class="signoff-who">Signed by <em class="signature">Paid media</em></span>
+                 </div>
+               </div>
+               <img class="stamp panel-stamp" src="/assets/img/stamp-signed.svg" alt="" width="112" height="112">
+diff --git a/site/index.html b/site/index.html
+index 1795554..08ce4a9 100644
+--- a/site/index.html
++++ b/site/index.html
+@@ -356,49 +356,33 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+             <a class="btn btn--secondary" href="/services/paid-ads">See ads management <svg class="arrow" viewBox="0 0 22 12" aria-hidden="true" focusable="false"><path d="M1 6h19M15 1l5 5-5 5"/></svg></a>
+           </div>
+           <div class="service-row-visual service-row-visual--ads" data-place>
+-            <div class="vignette ads" data-loop="ads" data-anim="none" role="img" aria-label="Sample: a Google search ad and a Meta feed ad for adult braces from [Your practice]. A consult booked by [Name] for adult braces is traced back to the Google search ad and its campaign, signed by Paid media.">
++            <div class="vignette ads" data-loop="ads" data-anim="none" role="img" aria-label="Sample: a Google search ad and a Meta feed ad for adult braces from [Your practice]. A consult booked by [Name] for adult braces, at [Time], is traced back to the Google search ad that brought it, signed by Paid media.">
+               <div class="ads-top"><span class="ads-caption">Illustrative ads and booking</span><span class="chip chip--sample">Sample</span></div>
+-              <div class="ads-slot">
+-                <p class="ads-label">Google Search</p>
+-                <div class="ads-ad ads-google is-source" data-ad="google">
+-                  <p class="ads-query"><svg class="icon" viewBox="0 0 20 20" focusable="false"><circle cx="9" cy="9" r="5.5"/><path d="m13.2 13.2 3.8 3.8"/></svg>orthodontist for adults</p>
+-                  <div class="ads-site">
+-                    <span class="ads-mark"><svg class="icon" viewBox="0 0 20 20" focusable="false"><circle cx="10" cy="10" r="7"/><path d="M3 10h14M10 3c-3.5 4-3.5 10 0 14M10 3c3.5 4 3.5 10 0 14"/></svg></span>
+-                    <span class="ads-who"><span class="ads-name">[Your practice]</span><span class="ads-sponsored">Sponsored</span></span>
+-                    <span class="ads-call"><svg class="icon" viewBox="0 0 24 24" focusable="false"><path d="M6.5 4h3l1.5 4-2 1.5a11 11 0 0 0 5.5 5.5l1.5-2 4 1.5v3a2 2 0 0 1-2 2A15.5 15.5 0 0 1 4.5 6a2 2 0 0 1 2-2z"/></svg>Call</span>
+-                  </div>
+-                  <p class="ads-google-title">Adult braces | Request a consult</p>
+-                  <p class="ads-google-text">Braces as an adult? See what treatment involves, then ask our team about a consultation.</p>
+-                  <ul class="ads-sitelinks"><li>Your first visit</li><li>Braces or clear aligners</li></ul>
++              <div class="ads-ad ads-google">
++                <div class="ads-site">
++                  <span class="ads-mark"><svg class="icon" viewBox="0 0 20 20" focusable="false"><circle cx="10" cy="10" r="7"/><path d="M3 10h14M10 3c-3.5 4-3.5 10 0 14M10 3c3.5 4 3.5 10 0 14"/></svg></span>
++                  <span class="ads-who"><span class="ads-name">[Your practice]</span><span class="ads-on"><span class="ads-platform">Google</span> · Sponsored</span></span>
++                  <span class="ads-call"><svg class="icon" viewBox="0 0 24 24" focusable="false"><path d="M6.5 4h3l1.5 4-2 1.5a11 11 0 0 0 5.5 5.5l1.5-2 4 1.5v3a2 2 0 0 1-2 2A15.5 15.5 0 0 1 4.5 6a2 2 0 0 1 2-2z"/></svg>Call</span>
+                 </div>
+-                <span class="ads-wire" data-wire="google"><i></i><i></i></span>
++                <p class="ads-google-title">Adult braces | Request a consult</p>
++                <p class="ads-google-text">Braces as an adult? See what treatment involves, then ask our team about a consultation.</p>
++                <ul class="ads-sitelinks"><li>Your first visit</li><li>Braces or clear aligners</li></ul>
++                <span class="ads-source" data-src="google"><span class="ads-tag">Source</span><span class="ads-link"></span></span>
+               </div>
+-              <div class="ads-slot">
+-                <p class="ads-label">Meta</p>
+-                <div class="ads-ad ads-meta" data-ad="meta">
+-                  <div class="ads-site">
+-                    <span class="ads-mark"></span>
+-                    <span class="ads-who"><span class="ads-name">[Your practice]</span><span class="ads-sponsored">Sponsored</span></span>
+-                  </div>
+-                  <p class="ads-meta-text">Considering braces as an adult? Start with a conversation about your options.</p>
+-                  <p class="ads-meta-art">Your questions about adult braces, answered.</p>
+-                  <div class="ads-meta-foot"><span class="ads-meta-headline">Adult braces</span><span class="ads-meta-button">Learn more</span></div>
++              <div class="ads-ad ads-meta">
++                <div class="ads-site">
++                  <span class="ads-mark"></span>
++                  <span class="ads-who"><span class="ads-name">[Your practice]</span><span class="ads-on"><span class="ads-platform">Meta</span> · Sponsored</span></span>
+                 </div>
+-                <span class="ads-wire" data-wire="meta"><i></i><i></i></span>
+-                <span class="ads-wire ads-wire--pass" data-wire="google"><i></i></span>
++                <p class="ads-meta-text">Considering braces as an adult? Start with a conversation about your options.</p>
++                <p class="ads-meta-art">Your questions about adult braces, answered.</p>
++                <div class="ads-meta-foot"><span class="ads-meta-headline">Adult braces</span><span class="ads-meta-button">Learn more</span></div>
++                <span class="ads-source" data-src="meta"><span class="ads-tag">Source</span><span class="ads-link"></span></span>
+               </div>
+-              <div class="ads-consult" data-part="consult">
+-                <span class="ads-wire ads-wire--land" data-wire="land"><i></i><i></i></span>
+-                <p class="ads-consult-head"><span class="lead-dot"></span>Consult booked<span class="ads-consult-time">[Time]</span></p>
+-                <p class="ads-consult-who"><span class="ads-consult-name">[Name]</span>Adult braces</p>
+-                <dl class="ads-consult-source">
+-                  <dt>Source</dt><dd><span data-src="google">Google Search ad</span><span data-src="meta">Meta feed ad</span></dd>
+-                  <dt>Campaign</dt><dd><span data-src="google">Search: Adult braces</span><span data-src="meta">Meta: Adult braces</span></dd>
+-                </dl>
+-                <div class="signoff ads-signoff" data-part="sign">
+-                  <svg class="signoff-disc founder-art" viewBox="-1 -1 2 2" focusable="false"><circle r="1"/><path d="M0.2621 -0.8819A0.92 0.92 0 1 0 0.2621 0.8819A0.8832 0.8832 0 1 1 0.2621 -0.8819Z"/></svg>
+-                  <span class="signoff-who">Signed by <em class="signature">Paid media</em></span>
+-                </div>
++              <p class="ads-consult" data-part="consult"><span class="lead-dot"></span><span class="ads-consult-what">Consult booked</span><span class="ads-consult-who"><span class="ads-consult-name">[Name]</span><span class="ads-consult-for">Adult braces</span></span><span class="ads-consult-time">[Time]</span></p>
++              <div class="signoff ads-signoff" data-part="sign">
++                <svg class="signoff-disc founder-art" viewBox="-1 -1 2 2" focusable="false"><circle r="1"/><path d="M0.2621 -0.8819A0.92 0.92 0 1 0 0.2621 0.8819A0.8832 0.8832 0 1 1 0.2621 -0.8819Z"/></svg>
++                <span class="signoff-who">Signed by <em class="signature">Paid media</em></span>
+               </div>
+             </div>
+             <img class="stamp panel-stamp" src="/assets/img/stamp-signed.svg" alt="" width="112" height="112">
+```
+
+</details>
+
+### 14. Beyond the core plan: richer brand, video and website samples
+
+**What and why.** Chris:
+- the brand card "could be a bit more involved and refer better to the subject", and the video card the same;
+- the website card should "show a bit higher fidelity website mockup".
+
+**Brand and logo work: a brand identity board for `[Your practice]`**
+- Two type-set lockups: a horizontal one with an icon tile holding `[P]`, and a stacked one reversed out of forest.
+- A colour strip: Primary, Ground, Accent and Text, each with `[Hex]`.
+- A type specimen: "Aa" with `[Display face]` and `[Text face]`.
+- "In use": an appointment card, a business card and a profile image.
+- There's no drawn logo and no Rose bloom.
+- **Beat:** the pieces place in order, about 1.6s.
+
+**Video and content: the first-visit video in the edit**
+- A preview frame with the title "What to expect at your first visit", a caption line and a timecode.
+- A timeline with three clips (Welcome, Consultation, Next steps), a caption track and an SVG audio waveform.
+- Beside it, a sage 9:16 vertical cut and an article card: the "written content" half.
+- There are no photos or faces.
+- **Beat:** the playhead scrubs, the waveform it has passed darkens, captions appear, then the vertical cut splits off and the article places.
+
+**Website without the ads: a full practice homepage in a browser at `[yourpractice].com`**
+- The navigation.
+- A hero with "Request a consultation" and "Call", and a visual made of flat brand shapes rather than a photo.
+- Treatments: Braces, Clear aligners, Early treatment.
+- A reassurance strip: Evening appointments, Payment plans, Adults and teens. There are no numbers and no reviews.
+- A consultation form and a footer.
+- Signed by *Web and SEO*, with its stamp.
+- **Beat:** the page scrolls down inside the browser and back, and the hero button is ringed. The sign-off appears after the scroll, about 5s in.
+
+**Layout**
+- These three cards give their sample a 432px column; the other three keep 340px.
+- Each sample lays itself out by its own width, with a separate phone design and 14px body text on phones. The desktop website and timeline use 9.5 to 10.5px text, which is website-in-a-browser scale.
+- Card titles now balance when they wrap.
+
+**Height**
+- The deck section is 633px at 1440 (617 before) and 967px at 390 (927 before).
+- Patient follow-up, Reputation management and Dental consulting look the same. Their card is 16px taller on desktop, because the deck takes its tallest card's height.
+
+**Unchanged:** the deck's behaviour, /services/add-ons, and site.js.
+
+**Check:** step to cards 2, 3 and 4 at 1440 and 390 and watch each beat. Rails, names, Previous/Next and swipe all still work.
+
+**Files and lines** (after this change):
+
+- `site/assets/site.css`: lines 1482–1490, 1510–1523, 1581–1796, 1801–1858
+- `site/components.html`: lines 539–545, 574–692
+- `site/index.html`: lines 432–550
+
+<details>
+<summary>Exact diff for change 14</summary>
+
+```diff
+diff --git a/site/assets/site.css b/site/assets/site.css
+index ad71cac..f3016e4 100644
+--- a/site/assets/site.css
++++ b/site/assets/site.css
+@@ -1482,8 +1482,9 @@ h1 em, h2 em, h3 em, .tagline em, .signed-change em { color: var(--accent-italic
+    Tablet (768 to 1024): the named buttons wrap in a row above the deck. Phones (under 768): no named buttons; the rear
+    cards show under the card in front, the next one's name on its edge, and a sideways swipe on the deck chooses the
+    next or previous card. A card's copy sits beside its sample only where the card is 640px wide or more (a container
+-   query), otherwise above it. Without JavaScript the six cards are a plain list and the buttons, rails and counter
+-   stay hidden.
++   query), otherwise above it; beside it, the sample column is 340px, or 432px for the brand, video and website cards
++   (.deck-body--wide), whose richer samples compose themselves by their own width. Without JavaScript the six cards are
++   a plain list and the buttons, rails and counter stay hidden.
+    Markup: .beyond[data-deck] > .beyond-head (h3.beyond-title + p + .deck-picks[role=group] > button.deck-pick
+    [data-deck-go] ×6, the current one aria-current) + .deck-stage (.deck[data-anim=none] > article.deck-card[data-slot] ×6
+    (.deck-body (.deck-copy (.deck-head (h4.deck-title + span.chip) + p + a.btn) + .deck-sheet[role=img]) + button.deck-rail
+@@ -1509,12 +1510,14 @@ h1 em, h2 em, h3 em, .tagline em, .signed-change em { color: var(--accent-italic
+ .deck { display: grid; gap: var(--space-6); }
+ .deck-card { position: relative; container-type: inline-size; border-radius: var(--radius-card); background: var(--surface-panel); }
+ .deck-body { display: grid; grid-template-columns: minmax(0, 1fr); align-content: start; gap: var(--space-6); height: 100%; padding: var(--space-6); }
++/* the brand, video and website cards (.deck-body--wide) give their richer samples a wider column */
+ @container (min-width: 640px) {
+   .deck-body { grid-template-columns: minmax(0, 1fr) 340px; gap: var(--space-8); }
++  .deck-body--wide { grid-template-columns: minmax(0, 1fr) 432px; }
+ }
+ .deck-copy { display: grid; justify-items: start; align-content: start; gap: var(--space-3); }
+ .deck-head { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-2) var(--space-3); }
+-.deck-title { font-family: var(--font-display); font-size: var(--text-h2); font-weight: 400; line-height: 1.15; }
++.deck-title { font-family: var(--font-display); font-size: var(--text-h2); font-weight: 400; line-height: 1.15; text-wrap: balance; }
+ .deck-copy > p { text-wrap: pretty; }
+ .deck-card .deck-head .chip { background: var(--surface-page); }
+ 
+@@ -1578,40 +1581,216 @@ h1 em, h2 em, h3 em, .tagline em, .signed-change em { color: var(--accent-italic
+ .deck-follow-booked b { font-weight: 600; }
+ .deck-follow-booked small { font-size: var(--text-caption); line-height: 1.4; color: var(--text-muted); }
+ 
+-/* brand: the practice's name set in the display face, three labelled colours, and an appointment card in them */
+-.deck-brand-mark { display: grid; padding-block: var(--space-2); font-family: var(--font-display); line-height: 1.1; }
+-.deck-brand-mark span:first-child { font-size: var(--text-h2); }
+-.deck-brand-mark span + span { font-size: var(--text-h3); color: var(--text-muted); }
+-.deck-swatches { display: flex; flex-wrap: wrap; gap: var(--space-4); font-size: var(--text-caption); font-weight: 500; line-height: 1.4; color: var(--text-muted); }
+-.deck-swatches li { display: grid; justify-items: start; gap: var(--space-1); }
+-.deck-swatch { display: block; width: 48px; height: 28px; border: var(--border-w) solid var(--border-quiet); border-radius: var(--radius-input); }
+-.deck-swatch--forest { background: var(--forest); }
+-.deck-swatch--cream { background: var(--cream); }
+-.deck-swatch--sage { background: var(--sage); }
+-.deck-appt { display: grid; justify-self: start; padding: var(--space-3) var(--space-4); border-radius: var(--radius-input); background: var(--surface-strong); color: var(--text-on-strong); }
+-.deck-appt small { font-size: var(--text-caption); line-height: 1.4; color: var(--sage-mist); }
+-.deck-appt span { font-family: var(--font-display); font-size: var(--text-h3); line-height: 1.2; }
+-
+-/* video: three frames beside the first one's title card, and the clips under them, the first one selected */
+-.deck-video-board { display: grid; grid-template-columns: minmax(0, 1fr) 104px; align-items: start; gap: var(--space-4); }
+-.deck-frames { display: grid; gap: var(--space-2); }
+-.deck-frames li { padding: var(--space-2) var(--space-3); border: var(--border-w) solid var(--border-quiet); border-radius: var(--radius-input); font-size: var(--text-label); font-weight: 500; line-height: 1.4; color: var(--text-muted); }
+-.deck-frames li.is-current { border-color: var(--border-strong); color: var(--text-body); font-weight: 600; }
+-.deck-video-title { display: grid; align-items: end; aspect-ratio: 9 / 16; padding: var(--space-3); border-radius: var(--radius-input); background: var(--surface-strong); color: var(--text-on-strong); font-family: var(--font-display); font-size: 17px; line-height: 1.15; }
+-.deck-video-title span { display: block; }
+-.deck-clips { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--space-1); }
+-.deck-clips li { position: relative; padding: var(--space-2) var(--space-1); border-radius: var(--radius-input); background: var(--surface-panel); color: var(--forest); font-size: var(--text-caption); font-weight: 600; line-height: 1.4; text-align: center; }
+-.deck-clips li.is-current::after { content: ""; position: absolute; inset: 0; border: var(--border-w-strong) solid var(--forest); border-radius: inherit; }
+-
+-/* a website without the ads: a real small home page, its button a picture of one */
+-.deck-site-page { display: grid; justify-items: start; gap: var(--space-2); padding: var(--space-4); border: var(--border-w) solid var(--border-quiet); border-radius: var(--radius-input); }
+-.deck-site-top { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: var(--space-1) var(--space-3); width: 100%; padding-bottom: var(--space-2); border-bottom: var(--border-w) solid var(--border-quiet); font-size: var(--text-caption); line-height: 1.4; color: var(--text-muted); }
+-.deck-site-top b { font-family: var(--font-display); font-size: 17px; font-weight: 400; color: var(--text-body); }
+-.deck-site-h { font-family: var(--font-display); font-size: 22px; line-height: 1.15; text-wrap: balance; }
+-.deck-site-p { color: var(--text-muted); text-wrap: pretty; }
+-.deck-site-btn { position: relative; margin-top: var(--space-1); padding: var(--space-1) var(--space-4); border-radius: var(--radius-pill); background: var(--surface-strong); color: var(--text-on-strong); font-size: var(--text-label); font-weight: 600; line-height: 1.6; }
+-/* the button's emphasis ring: hidden at rest, it shows for a moment when the sample plays */
+-.deck-site-btn::after { content: ""; position: absolute; inset: -5px; border: var(--border-w-strong) solid var(--forest); border-radius: inherit; opacity: 0; }
++/* the three richer samples (brand, video, website): a wider sheet, composed by its own width. 360px or wider inside
++   (desktop, and the stacked cards on tablets) they take their full composition; narrower (phones) each one is
++   recomposed for the width rather than scaled down. */
++.deck-sheet--wide { container: deck-sheet / inline-size; }
++
++/* brand: a brand identity board for [Your practice]. Five cells: the primary lockup (an icon tile holding the
++   initial, then the name in the display face over "Orthodontics" in tracked caps), the stacked lockup reversed out
++   of forest, the four colors as one strip with their names and [Hex], the two faces as "Aa", and the brand in use on
++   a sage mist ground: an appointment card, a business card and a round profile image. Type-set lockups only, no
++   drawn logo. */
++.deck-brand-board { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)) 124px; grid-template-areas: "primary primary stacked" "colors colors type" "uses uses uses"; gap: var(--space-2); }
++.deck-brand-cell { display: grid; grid-template-rows: auto minmax(0, 1fr); gap: var(--space-1); min-width: 0; padding: var(--space-2) 10px 10px; border: var(--border-w) solid var(--border-quiet); border-radius: var(--radius-input); }
++.deck-brand-label { font-size: 10.5px; font-weight: 500; line-height: 13px; letter-spacing: var(--tracking-label); color: var(--text-muted); }
++.deck-brand-tile { display: grid; place-items: center; flex: none; width: 36px; height: 36px; border-radius: var(--radius-input); background: var(--forest); color: var(--cream); font-family: var(--font-display); font-size: 17px; line-height: 1; letter-spacing: -.02em; }
++.deck-brand-lockup { display: flex; align-items: center; gap: var(--space-3); }
++.deck-brand-word { display: grid; justify-items: start; gap: 3px; }
++.deck-brand-word b { font-family: var(--font-display); font-size: 25px; font-weight: 400; line-height: 1; white-space: nowrap; color: var(--text-body); }
++.deck-brand-word small { padding-left: 1px; font-size: 8px; font-weight: 600; line-height: 1; letter-spacing: .26em; text-transform: uppercase; color: var(--text-muted); }
++.deck-brand-primary { grid-area: primary; }
++.deck-brand-stacked { grid-area: stacked; border-color: var(--forest); background: var(--surface-strong); }
++.deck-brand-stacked .deck-brand-label { color: var(--sage-mist); }
++.deck-brand-stacked .deck-brand-lockup { flex-direction: column; justify-content: center; gap: 5px; }
++.deck-brand-stacked .deck-brand-tile { width: 30px; height: 30px; background: var(--cream); color: var(--forest); font-size: 14px; }
++.deck-brand-stacked .deck-brand-word { justify-items: center; }
++.deck-brand-stacked .deck-brand-word b { font-size: 16px; color: var(--cream); }
++.deck-brand-stacked .deck-brand-word small { font-size: 6.5px; color: var(--sage-mist); }
++.deck-brand-colors { grid-area: colors; }
++.deck-brand-swatches { display: grid; grid-template-columns: 1.5fr 1.2fr 1fr 1fr; min-height: 46px; overflow: hidden; border: var(--border-w) solid var(--border-quiet); border-radius: var(--radius-input); }
++.deck-brand-swatch { display: grid; align-content: end; padding: 6px 8px; font-size: 10px; font-weight: 600; line-height: 1.3; }
++.deck-brand-swatch small { font-size: 9.5px; font-weight: 500; }
++.deck-brand-swatch:nth-child(1) { background: var(--forest); color: var(--cream); }
++.deck-brand-swatch:nth-child(2) { background: var(--cream); color: var(--ink); }
++.deck-brand-swatch:nth-child(3) { background: var(--sage); color: var(--ink); }
++.deck-brand-swatch:nth-child(4) { background: var(--ink); color: var(--cream); }
++.deck-brand-type { grid-area: type; }
++.deck-brand-faces { display: grid; align-content: center; gap: 2px; }
++.deck-brand-face { display: flex; align-items: baseline; gap: var(--space-2); font-size: 9.5px; font-weight: 500; line-height: 1.2; color: var(--text-muted); }
++.deck-brand-face b { flex: none; width: 30px; font-family: var(--font-display); font-size: 26px; font-weight: 400; line-height: 1.1; color: var(--text-body); }
++.deck-brand-face + .deck-brand-face b { font-family: var(--font-text); font-size: 19px; font-weight: 600; letter-spacing: -.02em; }
++.deck-brand-uses { grid-area: uses; grid-template-columns: auto auto minmax(0, 1fr); grid-template-rows: auto auto; align-items: end; column-gap: var(--space-3); border-color: var(--surface-panel); background: var(--surface-panel); }
++.deck-brand-uses .deck-brand-label { grid-column: 1 / -1; }
++.deck-brand-appt { display: grid; gap: 2px; padding: var(--space-2) var(--space-3); border-radius: var(--radius-input); background: var(--surface-strong); color: var(--cream); box-shadow: var(--shadow-2); }
++.deck-brand-appt small { font-size: 9.5px; font-weight: 500; line-height: 1.3; color: var(--sage-mist); }
++.deck-brand-appt b { font-family: var(--font-display); font-size: 17px; font-weight: 400; line-height: 1.1; white-space: nowrap; }
++.deck-brand-biz { display: flex; align-items: center; gap: var(--space-2); padding: var(--space-2) var(--space-3) var(--space-2) var(--space-2); border-radius: var(--radius-input); background: var(--surface-page); box-shadow: var(--shadow-2); }
++.deck-brand-biz .deck-brand-tile { width: 32px; height: 32px; font-size: 15px; }
++.deck-brand-biz-who { display: grid; gap: 3px; }
++.deck-brand-biz-who b { font-size: 11px; font-weight: 600; line-height: 1.2; }
++.deck-brand-biz-who small { font-size: 6.5px; font-weight: 600; line-height: 1; letter-spacing: .26em; text-transform: uppercase; color: var(--text-muted); }
++.deck-brand-avatar { display: grid; justify-items: center; justify-self: end; gap: 3px; font-size: 9.5px; font-weight: 500; line-height: 1.2; color: var(--text-muted); }
++.deck-brand-avatar .deck-brand-tile { width: 40px; height: 40px; border-radius: 50%; box-shadow: var(--shadow-2); font-size: 16px; }
++@container deck-sheet (max-width: 359px) {
++  .deck-brand-board { grid-template-columns: repeat(2, minmax(0, 1fr)); grid-template-areas: "primary primary" "stacked type" "colors colors" "uses uses"; gap: 6px; }
++  .deck-brand-tile { width: 32px; height: 32px; font-size: 15px; }
++  .deck-brand-word b { font-size: 22px; }
++  .deck-brand-primary { position: relative; grid-template-rows: auto; padding-block: 12px; }
++  .deck-brand-primary .deck-brand-label { position: absolute; right: 10px; bottom: 10px; }
++  .deck-brand-stacked .deck-brand-lockup { gap: 4px; }
++  .deck-brand-stacked .deck-brand-tile { width: 26px; height: 26px; font-size: 12px; }
++  .deck-brand-stacked .deck-brand-word b { font-size: 15px; }
++  .deck-brand-face b { font-size: 24px; }
++  .deck-brand-face + .deck-brand-face b { font-size: 18px; }
++  .deck-brand-swatches { min-height: 36px; }
++  .deck-brand-swatch { padding: 4px 6px; }
++  .deck-brand-uses { grid-template-columns: auto minmax(0, 1fr) auto; column-gap: 6px; }
++  .deck-brand-appt { padding-inline: var(--space-2); }
++  .deck-brand-appt b { font-size: 14px; }
++  .deck-brand-biz { padding: 6px; }
++  .deck-brand-biz .deck-brand-tile { width: 28px; height: 28px; font-size: 13px; }
++  .deck-brand-biz-who small { display: none; }
++  .deck-brand-avatar .deck-brand-tile { width: 32px; height: 32px; font-size: 13px; }
++}
++
++/* video: a first-visit video in the edit. The preview (forest, 16:9) with its title and the caption under the
++   playhead; under it the timeline: a ruler, three clips (the playhead in Consultation), the caption track and the
++   audio as SVG bars, played bars in forest; beside it what was cut from it, a vertical 9:16 version for social
++   (sage) and an article for the site. Type and 1.5px line icons only, no pictures. */
++.deck-video-edit { --split: -200px; display: grid; grid-template-columns: minmax(0, 1fr) 104px; grid-template-areas: "mon cut" "time cut" "time art"; align-items: start; gap: var(--space-3); }
++.deck-video-monitor { grid-area: mon; position: relative; display: grid; align-content: space-between; justify-items: start; aspect-ratio: 16 / 9; padding: var(--space-3); border-radius: var(--radius-input); background: var(--surface-strong); color: var(--cream); }
++.deck-video-tc { position: absolute; top: 9px; right: var(--space-3); font-size: 9.5px; font-weight: 500; line-height: 1.2; color: var(--sage-mist); font-variant-numeric: tabular-nums; }
++.deck-video-title { display: grid; gap: 6px; max-width: 10em; font-family: var(--font-display); font-size: 21px; line-height: 1.05; text-wrap: balance; }
++.deck-video-title::before { content: ""; width: 20px; height: 2px; border-radius: var(--radius-pill); background: var(--sage); }
++.deck-video-cap { justify-self: center; padding: 2px var(--space-2); border-radius: var(--radius-pill); background: var(--ink); color: var(--cream); font-size: 10px; font-weight: 500; line-height: 1.4; white-space: nowrap; }
++.deck-video-time { grid-area: time; position: relative; display: grid; grid-template-columns: 14px minmax(0, 1fr); grid-template-rows: auto 22px 10px 22px; align-items: center; gap: 6px var(--space-2); padding: var(--space-2) var(--space-3) var(--space-3) var(--space-2); border-radius: var(--radius-input); background: var(--surface-panel); }
++.deck-video-time .icon { width: 14px; height: 14px; color: var(--text-muted); }
++.deck-video-ruler { grid-column: 2; display: flex; justify-content: space-between; padding-bottom: 3px; border-bottom: var(--border-w) solid var(--border-quiet); font-size: 9.5px; font-weight: 500; line-height: 1.2; color: var(--text-muted); font-variant-numeric: tabular-nums; }
++.deck-video-clips { display: grid; grid-template-columns: 29fr 43fr 28fr; gap: 2px; height: 100%; overflow: hidden; border-radius: var(--radius-input); }
++.deck-video-clips span { display: block; min-width: 0; padding-inline: 6px; overflow: hidden; background: var(--sage); color: var(--ink); font-size: 9.5px; font-weight: 600; line-height: 22px; white-space: nowrap; text-overflow: ellipsis; }
++.deck-video-clips .is-current { background: var(--forest); color: var(--cream); }
++.deck-video-caps { position: relative; height: 100%; }
++.deck-video-caps i { position: absolute; top: 0; bottom: 0; left: var(--x); width: var(--w); border-radius: var(--radius-pill); background: var(--sage); }
++.deck-video-caps .is-current { background: var(--forest); }
++.deck-video-wave { position: relative; height: 100%; }
++.deck-video-wave svg { display: block; width: 100%; height: 100%; fill: var(--sage); }
++.deck-video-wave .deck-video-played { position: absolute; inset: 0; fill: var(--forest); clip-path: inset(0 52% 0 0); }
++/* the playhead: a 2px line with a knob, 48% along the lanes (cqi: the lanes are its container) */
++.deck-video-scrub { position: absolute; top: 19px; right: var(--space-3); bottom: var(--space-2); left: 30px; container-type: inline-size; pointer-events: none; }
++.deck-video-scrub i { position: absolute; top: 0; bottom: 0; left: -1px; width: 2px; border-radius: var(--radius-pill); background: var(--ink); translate: 48cqi 0; }
++.deck-video-scrub i::before { content: ""; position: absolute; top: 0; left: -3px; width: 8px; height: 8px; border-radius: 50%; background: var(--ink); }
++.deck-video-cut { grid-area: cut; position: relative; z-index: 1; display: grid; align-content: space-between; justify-items: start; aspect-ratio: 9 / 16; padding: var(--space-2); border-radius: var(--radius-input); background: var(--sage); color: var(--ink); box-shadow: var(--shadow-2); }
++.deck-video-ratio { padding: 1px 6px; border-radius: var(--radius-pill); background: var(--cream); color: var(--forest); font-size: 9.5px; font-weight: 600; line-height: 1.3; font-variant-numeric: tabular-nums; }
++.deck-video-cut .deck-video-title { font-size: 17px; }
++.deck-video-cut .deck-video-title::before { background: var(--forest); }
++.deck-video-cut .deck-video-cap { justify-self: stretch; padding: 3px 6px; border-radius: var(--radius-input); font-size: 9.5px; line-height: 1.3; text-align: center; white-space: normal; }
++.deck-video-article { grid-area: art; display: grid; align-content: start; gap: 4px; padding: var(--space-2); border: var(--border-w) solid var(--border-quiet); border-radius: var(--radius-input); background: var(--surface-page); box-shadow: var(--shadow-1); }
++.deck-video-kind { display: flex; align-items: center; gap: 4px; font-size: 9.5px; font-weight: 600; line-height: 1.2; color: var(--text-muted); }
++.deck-video-kind .icon { width: 12px; height: 12px; }
++.deck-video-article b { font-family: var(--font-display); font-size: 14px; font-weight: 400; line-height: 1.1; }
++.deck-video-lede { display: none; }
++@container deck-sheet (max-width: 359px) {
++  .deck-video-edit { --split: -148px; grid-template-columns: minmax(0, 1fr) 72px; grid-template-areas: "mon cut" "time time" "art art"; gap: var(--space-2); }
++  .deck-video-title { font-size: 17px; }
++  .deck-video-cap { max-width: 100%; border-radius: var(--radius-input); font-size: 9.5px; text-align: center; white-space: normal; text-wrap: balance; }
++  .deck-video-cut { padding: 6px; }
++  .deck-video-cut .deck-video-title { gap: 4px; font-size: 13px; }
++  .deck-video-cut .deck-video-cap { padding: 2px 4px; font-size: 8px; }
++  .deck-video-article { grid-template-columns: minmax(0, 1fr); gap: 2px; padding: var(--space-2) var(--space-3); }
++  .deck-video-article b { font-size: 17px; }
++  .deck-video-lede { display: block; font-size: var(--text-label); line-height: 1.4; color: var(--text-muted); }
++}
++
++/* website without the ads: a practice home page in a browser. The page (nav, hero with its two calls to action and
++   a visual of flat brand shapes, treatments, a reassurance strip, a consultation form and the footer) is taller than
++   the window; at rest the window shows its top. The window is a size container: the page and the scroll thumb move by
++   container units when the sample plays. Under 340px wide inside, the page takes its own phone layout. */
++.deck-site-browser { display: grid; overflow: hidden; border: var(--border-w) solid var(--border-quiet); border-radius: var(--radius-input); background: var(--surface-page); box-shadow: var(--shadow-2); }
++.deck-site-bar { display: flex; align-items: center; gap: var(--space-3); padding: 6px var(--space-3); border-bottom: var(--border-w) solid var(--border-quiet); background: var(--surface-panel); }
++.deck-site-dots { display: flex; gap: 5px; }
++.deck-site-dots i { width: 7px; height: 7px; border-radius: 50%; background: var(--sage); }
++.deck-site-url { display: flex; flex: 1; align-items: center; justify-content: center; gap: 4px; min-width: 0; margin-right: 27px; padding: 2px var(--space-3); border-radius: var(--radius-pill); background: var(--surface-page); font-size: 10px; font-weight: 500; line-height: 1.4; color: var(--text-muted); }
++.deck-site-url .icon { width: 11px; height: 11px; }
++.deck-site-view { position: relative; display: block; height: 240px; overflow: hidden; container: deck-site / size; }
++.deck-site-page { display: grid; font-size: 10px; line-height: 1.45; color: var(--text-body); }
++.deck-site-nav { display: flex; align-items: center; justify-content: space-between; gap: var(--space-3); padding: 9px 14px; border-bottom: var(--border-w) solid var(--border-quiet); }
++.deck-site-word { font-family: var(--font-display); font-size: 16px; font-weight: 400; line-height: 1.1; white-space: nowrap; }
++.deck-site-links { display: flex; gap: var(--space-3); font-weight: 500; color: var(--text-muted); }
++.deck-site-links .is-on { color: var(--text-body); }
++.deck-site-menu { display: none; }
++.deck-site-hero { display: grid; grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr); align-items: center; gap: 14px; padding: 18px 14px; }
++.deck-site-lead { display: grid; justify-items: start; gap: 6px; }
++.deck-site-h { font-family: var(--font-display); font-size: 23px; line-height: 1.02; text-wrap: balance; }
++.deck-site-p { font-size: 10.5px; color: var(--text-muted); text-wrap: pretty; }
++.deck-site-ctas { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 4px; }
++.deck-site-btn { position: relative; display: inline-flex; align-items: center; justify-content: center; gap: 4px; padding: 4px 10px; border: var(--border-w) solid var(--forest); border-radius: var(--radius-pill); background: var(--forest); color: var(--cream); font-size: 9.5px; font-weight: 600; line-height: 1.4; white-space: nowrap; }
++.deck-site-btn--line { background: transparent; color: var(--forest); }
++.deck-site-btn .icon { width: 10px; height: 10px; }
++/* the hero button's emphasis ring: hidden at rest, it shows for a moment when the sample plays */
++.deck-site-lead .deck-site-btn::after { content: ""; position: absolute; inset: -4px; border: var(--border-w-strong) solid var(--forest); border-radius: inherit; opacity: 0; }
++.deck-site-lead .deck-site-btn--line::after { display: none; }
++.deck-site-art { position: relative; display: block; height: 124px; overflow: hidden; border-radius: var(--radius-input); background: var(--forest); }
++.deck-site-art i { position: absolute; display: block; }
++.deck-site-art i:nth-child(1) { left: 14%; bottom: 0; width: 44%; height: 72%; border-radius: 999px 999px 0 0; background: var(--sage); }
++.deck-site-art i:nth-child(2) { top: 16%; right: 12%; width: 30%; aspect-ratio: 1; border-radius: 50%; background: var(--cream); }
++.deck-site-art i:nth-child(3) { right: 12%; bottom: 16%; width: 34%; height: 8px; border-radius: var(--radius-pill); background: var(--sage-mist); }
++.deck-site-treat { display: grid; gap: var(--space-2); padding: 4px 14px 16px; }
++.deck-site-h2 { font-family: var(--font-display); font-size: 16px; line-height: 1.1; }
++.deck-site-cards { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 6px; }
++.deck-site-cards > span { display: grid; justify-items: start; gap: 1px; padding: var(--space-2) 10px; border-radius: var(--radius-input); background: var(--surface-panel); font-size: 9.5px; color: var(--text-muted); }
++.deck-site-cards b { font-size: 10.5px; font-weight: 600; color: var(--text-body); }
++.deck-site-cards .arrow { width: 13px; height: 8px; margin-top: 4px; color: var(--forest); }
++.deck-site-trust { display: flex; justify-content: space-between; gap: var(--space-2); padding: var(--space-2) 14px; background: var(--forest); color: var(--cream); font-weight: 500; }
++.deck-site-trust > span { display: flex; align-items: center; gap: 4px; white-space: nowrap; }
++.deck-site-trust .icon { width: 12px; height: 12px; color: var(--sage-mist); }
++.deck-site-form { display: grid; grid-template-columns: minmax(0, .9fr) minmax(0, 1.1fr); align-items: start; gap: 14px; padding: 16px 14px; }
++.deck-site-ask { display: grid; gap: 4px; }
++.deck-site-fields { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 6px; }
++.deck-site-fields > span:not(.deck-site-btn) { display: flex; align-items: center; justify-content: space-between; padding: 4px 10px; border: var(--border-w) solid var(--border-input); border-radius: var(--radius-pill); background: var(--surface-page); color: var(--text-muted); line-height: 1.4; }
++.deck-site-fields .icon { width: 10px; height: 10px; }
++.deck-site-select, .deck-site-fields .deck-site-btn { grid-column: 1 / -1; }
++.deck-site-foot { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px var(--space-3); padding: var(--space-3) 14px 14px; border-top: var(--border-w) solid var(--border-quiet); background: var(--surface-panel); font-size: 9.5px; font-weight: 500; color: var(--text-muted); }
++.deck-site-foot .deck-site-word { flex: 1 1 100%; font-size: 14px; color: var(--text-body); }
++/* the scroll thumb: its track is a size container too, so it travels by the same keyframes as the page */
++.deck-site-track { position: absolute; top: 4px; right: 3px; bottom: 4px; width: 3px; container-type: size; }
++.deck-site-track i { display: block; width: 3px; height: 40%; border-radius: var(--radius-pill); background: var(--sage); }
++/* phones: a taller window, and the page in its own phone layout (by the window's width, below) */
++@container deck-sheet (max-width: 359px) {
++  .deck-site-view { height: 276px; }
++}
++@container deck-site (max-width: 339px) {
++  .deck-site-page { font-size: var(--text-label); line-height: 1.45; }
++  .deck-site-nav { padding: 10px 14px; }
++  .deck-site-word { font-size: 18px; }
++  .deck-site-links { display: none; }
++  .deck-site-menu { display: block; width: 18px; height: 18px; color: var(--text-body); }
++  .deck-site-hero { grid-template-columns: minmax(0, 1fr); gap: 14px; padding: 16px 14px; }
++  .deck-site-lead { gap: var(--space-2); }
++  .deck-site-h { font-size: 26px; }
++  .deck-site-p { font-size: var(--text-body-s); line-height: 1.45; }
++  .deck-site-ctas { gap: var(--space-2); }
++  .deck-site-btn { padding: 7px 14px; font-size: 12px; }
++  .deck-site-btn .icon { width: 12px; height: 12px; }
++  .deck-site-art { height: 64px; }
++  .deck-site-art i:nth-child(1) { left: 8%; width: 22%; height: 80%; }
++  .deck-site-art i:nth-child(2) { top: 22%; right: 30%; width: 14%; }
++  .deck-site-art i:nth-child(3) { right: 6%; bottom: 28%; width: 20%; }
++  .deck-site-h2 { font-size: 20px; }
++  .deck-site-cards { grid-template-columns: minmax(0, 1fr); }
++  .deck-site-cards > span { grid-template-columns: auto minmax(0, 1fr) auto; align-items: center; gap: var(--space-2); padding: 10px 12px; font-size: 12px; }
++  .deck-site-cards b { font-size: var(--text-label); }
++  .deck-site-cards .arrow { margin-top: 0; }
++  .deck-site-trust { flex-direction: column; gap: 6px; padding: 12px 14px; }
++  .deck-site-trust .icon { width: 14px; height: 14px; }
++  .deck-site-form { grid-template-columns: minmax(0, 1fr); }
++  .deck-site-fields { grid-template-columns: minmax(0, 1fr); }
++  .deck-site-fields > span:not(.deck-site-btn) { padding: 7px 14px; }
++  .deck-site-fields .deck-site-btn { padding-block: 8px; }
++  .deck-site-fields .icon { width: 12px; height: 12px; }
++  .deck-site-foot { font-size: 12px; }
++  .deck-site-foot .deck-site-word { font-size: 16px; }
++}
+ 
+ /* coming soon: the questions a first conversation would cover, the first one ruled. Nothing ticked. */
+ .deck-plan-title { font-family: var(--font-display); font-size: var(--text-h3); line-height: 1.2; }
+@@ -1622,23 +1801,58 @@ h1 em, h2 em, h3 em, .tagline em, .signed-change em { color: var(--accent-italic
+ .deck-topics-ask { color: var(--text-muted); font-weight: 500; }
+ 
+ /* each sample's one action, 600ms after its card is chosen (site.js adds .is-playing). Each starts from a quiet state
+-   and ends on the element's own style, so a sample that doesn't play is complete. */
++   and ends on the element's own style, so a sample that doesn't play is complete.
++   Brand: the identity is set in order: the tile, the name beside it, the stacked lockup, the colors drawn left to
++   right, the two faces, then the three things it is used on. Video: the playhead scrubs to the consultation while
++   the played audio follows it and the captions appear as it passes them (the rest are filled in when it stops), then
++   the vertical cut splits off the preview to its column and the article places. Website: the page scrolls down
++   through the window (pausing at the treatments and at the form) and back to the top, the hero button is ringed,
++   then the sample is signed and stamped. */
+ @keyframes deck-place { from { opacity: 0; translate: 0 6px; } }
++@keyframes deck-pop { from { opacity: 0; scale: .8; } }
++@keyframes deck-show { from { opacity: 0; } }
+ @keyframes deck-draw { from { clip-path: inset(0 100% 0 0); } to { clip-path: inset(0 0 0 0); } }
+ @keyframes deck-rule { from { transform: scaleX(0); } }
+ @keyframes deck-ring { 0%, 100% { opacity: 0; } 35%, 65% { opacity: 1; } }
+ @keyframes deck-press { 0% { opacity: 0; scale: 1.7; } 60% { opacity: .9; scale: .93; } }
++@keyframes deck-scrub { from { translate: 0 0; } }
++@keyframes deck-played { from { clip-path: inset(0 100% 0 0); } }
++@keyframes deck-split { 0% { opacity: 0; translate: var(--split) 0; scale: .86; } 30% { opacity: 1; } }
++@keyframes deck-scroll {
++  0%, 10% { translate: 0 0; }
++  32%, 44% { translate: 0 calc((100cqh - 100%) * .5); }
++  64%, 80% { translate: 0 calc(100cqh - 100%); }
++  100% { translate: 0 0; }
++}
+ @keyframes deck-fan { 50% { translate: calc(var(--fan-x) * var(--fan-n, 1)) calc(var(--fan-y) * var(--fan-n, 1)); } }
+ @media (prefers-reduced-motion: no-preference) {
+-  .js:not(.motion-paused) .deck-card.is-playing :is(.deck-swatch, .deck-appt, .deck-video-title span, .deck-site .deck-sign) { animation: deck-place var(--dur-slow) var(--ease-standard) backwards; }
+-  .js:not(.motion-paused) .deck-card.is-playing .deck-swatches li:nth-child(2) .deck-swatch { animation-delay: var(--dur-fast); }
+-  .js:not(.motion-paused) .deck-card.is-playing .deck-swatches li:nth-child(3) .deck-swatch { animation-delay: calc(var(--dur-fast) * 2); }
+-  .js:not(.motion-paused) .deck-card.is-playing .deck-appt { animation-delay: calc(var(--dur-fast) * 2 + var(--dur-med)); }
+-  .js:not(.motion-paused) .deck-card.is-playing .deck-clips li.is-current::after { animation: deck-draw var(--dur-slow) var(--ease-standard) backwards; }
+-  .js:not(.motion-paused) .deck-card.is-playing .deck-video-title span { animation-duration: var(--dur-med); animation-delay: var(--dur-slow); }
+-  .js:not(.motion-paused) .deck-card.is-playing .deck-site-btn::after { animation: deck-ring calc(var(--dur-med) * 3) var(--ease-standard); }
+-  .js:not(.motion-paused) .deck-card.is-playing .deck-site .deck-sign { animation-delay: calc(var(--dur-med) * 3); }
+-  .js:not(.motion-paused) .deck-card.is-playing .deck-site .stamp { animation: deck-press calc(var(--dur-med) * 1.8) var(--ease-standard) calc(var(--dur-med) * 3 + var(--dur-slow)) backwards; }
++  .js:not(.motion-paused) .deck-card.is-playing :is(.deck-brand-stacked, .deck-brand-face, .deck-brand-appt, .deck-brand-biz, .deck-brand-avatar, .deck-video-article) { animation: deck-place var(--dur-slow) var(--ease-standard) backwards; }
++  /* brand */
++  .js:not(.motion-paused) .deck-card.is-playing .deck-brand-primary .deck-brand-tile { animation: deck-pop var(--dur-slow) var(--ease-standard) backwards; }
++  .js:not(.motion-paused) .deck-card.is-playing .deck-brand-primary .deck-brand-word { animation: deck-draw var(--dur-slow) var(--ease-standard) var(--dur-fast) backwards; }
++  .js:not(.motion-paused) .deck-card.is-playing .deck-brand-stacked { animation-delay: 350ms; }
++  .js:not(.motion-paused) .deck-card.is-playing .deck-brand-swatches { animation: deck-draw 500ms var(--ease-standard) 550ms backwards; }
++  .js:not(.motion-paused) .deck-card.is-playing .deck-brand-face:first-child { animation-delay: 700ms; }
++  .js:not(.motion-paused) .deck-card.is-playing .deck-brand-face + .deck-brand-face { animation-delay: 800ms; }
++  .js:not(.motion-paused) .deck-card.is-playing .deck-brand-appt { animation-delay: 950ms; }
++  .js:not(.motion-paused) .deck-card.is-playing .deck-brand-biz { animation-delay: 1075ms; }
++  .js:not(.motion-paused) .deck-card.is-playing .deck-brand-avatar { animation-delay: 1200ms; }
++  /* video */
++  .js:not(.motion-paused) .deck-card.is-playing .deck-video-monitor .deck-video-title { animation: deck-place var(--dur-slow) var(--ease-standard) backwards; }
++  .js:not(.motion-paused) .deck-card.is-playing .deck-video-scrub i { animation: deck-scrub 2.4s var(--ease-standard) backwards; }
++  .js:not(.motion-paused) .deck-card.is-playing .deck-video-played { animation: deck-played 2.4s var(--ease-standard) backwards; }
++  .js:not(.motion-paused) .deck-card.is-playing :is(.deck-video-caps i, .deck-video-monitor .deck-video-cap) { animation: deck-show var(--dur-med) var(--ease-standard) backwards; }
++  .js:not(.motion-paused) .deck-card.is-playing .deck-video-caps i:nth-child(2) { animation-delay: 300ms; }
++  .js:not(.motion-paused) .deck-card.is-playing :is(.deck-video-caps i:nth-child(3), .deck-video-monitor .deck-video-cap) { animation-delay: 1.1s; }
++  .js:not(.motion-paused) .deck-card.is-playing .deck-video-caps i:nth-child(4) { animation-delay: 2.4s; }
++  .js:not(.motion-paused) .deck-card.is-playing .deck-video-caps i:nth-child(5) { animation-delay: 2.5s; }
++  .js:not(.motion-paused) .deck-card.is-playing .deck-video-cut { animation: deck-split 700ms var(--ease-standard) 2.5s backwards; }
++  .js:not(.motion-paused) .deck-card.is-playing .deck-video-article { animation-delay: 3s; }
++  /* website */
++  .js:not(.motion-paused) .deck-card.is-playing :is(.deck-site-page, .deck-site-track i) { animation: deck-scroll 4.4s var(--ease-standard); }
++  .js:not(.motion-paused) .deck-card.is-playing .deck-site-lead .deck-site-btn::after { animation: deck-ring calc(var(--dur-med) * 3) var(--ease-standard) 4.4s; }
++  .js:not(.motion-paused) .deck-card.is-playing .deck-site .deck-sign { animation: deck-place var(--dur-slow) var(--ease-standard) 4.9s backwards; }
++  .js:not(.motion-paused) .deck-card.is-playing .deck-site .stamp { animation: deck-press calc(var(--dur-med) * 1.8) var(--ease-standard) 5.3s backwards; }
+   .js:not(.motion-paused) .deck-card.is-playing .deck-topics li.is-key::after { animation: deck-rule var(--dur-slow) var(--ease-standard) backwards; }
+   /* the nudge: the rear cards fan out and settle back, once */
+   .js:not(.motion-paused) .deck.is-nudging .deck-card:is([data-slot="1"], [data-slot="2"]) { animation: deck-fan var(--rest-bloom) var(--ease-standard) var(--dur-med); }
+diff --git a/site/components.html b/site/components.html
+index 43c5dc1..472bd60 100644
+--- a/site/components.html
++++ b/site/components.html
+@@ -539,7 +539,7 @@
+         </div>
+ 
+         <div class="ref-item ref-item--wide">
+-          <p class="ref-name" id="demo-beyond">.beyond[data-deck] (the homepage's "Beyond the core plan", under the How we help rows, on its own hairline): the add-ons as a deck of cards browsed by hand, patient follow-up first. Left: h3.beyond-title, its line, and .deck-picks, six named buttons (aria-current on the chosen one; Left/Right, Up/Down, Home and End move along them; a wrapping row of pills on tablets; none on phones). Right: .deck, six article.deck-card in one grid cell, each a sage mist card with h4.deck-title, its chip, a line, a link and a real sample on a cream sheet (.deck-sheet, the Sample chip in its header, the attribution on its own line at the foot). site.js ("the add-ons deck") sets data-slot on every card: 0 in front (shadow level 3), 1 and 2 behind it, smaller and offset right and down (on phones, down), their bodies blurred 1.5px and 3px (.75px and 1.5px on phones) and inert, back and prev out of sight. Each rear card shows .deck-rail on its exposed edge: an unblurred button naming it (on phones only the next card's, along its bottom edge). Under the deck, .deck-bar: Previous add-on and Next add-on (a 32px circle in a 44px target; both wrap), "1 of 6", and "Ask about a project". A swipe of 48px or more, mostly sideways, on a phone chooses the next or previous card; vertical scrolling is left alone. The choice is announced politely (the name and "2 of 6"). Nothing advances on its own. Moves take 400ms; the card coming forward comes into focus in its last 150ms. The first time the deck is on screen the rear cards fan out 12px and settle back, once. Follow-up's sample (a call note, the concierge's text, the booking in the practice's software, signed by Follow-up with a small stamp) is a signed sample (data-loop="follow") that loops while its card is in front; the others replay one action 600ms after they are chosen: brand, the swatches place and the appointment card settles; video, the selected clip's frame draws in and the title settles; website, the button's ring shows and the sign-off is stamped; the coming-soon two, the rule under the first topic draws. Under reduced motion or with animations paused the cards swap at once and the samples stay finished; without JavaScript the six cards are a plain list and the controls stay hidden.</p>
++          <p class="ref-name" id="demo-beyond">.beyond[data-deck] (the homepage's "Beyond the core plan", under the How we help rows, on its own hairline): the add-ons as a deck of cards browsed by hand, patient follow-up first. Left: h3.beyond-title, its line, and .deck-picks, six named buttons (aria-current on the chosen one; Left/Right, Up/Down, Home and End move along them; a wrapping row of pills on tablets; none on phones). Right: .deck, six article.deck-card in one grid cell, each a sage mist card with h4.deck-title, its chip, a line, a link and a real sample on a cream sheet (.deck-sheet, the Sample chip in its header, the attribution on its own line at the foot). The brand, video and website cards (.deck-body--wide, .deck-sheet--wide) give their samples a 432px column beside the copy; each of those samples is composed by its own width (a container query) and recomposed for phones rather than scaled down. site.js ("the add-ons deck") sets data-slot on every card: 0 in front (shadow level 3), 1 and 2 behind it, smaller and offset right and down (on phones, down), their bodies blurred 1.5px and 3px (.75px and 1.5px on phones) and inert, back and prev out of sight. Each rear card shows .deck-rail on its exposed edge: an unblurred button naming it (on phones only the next card's, along its bottom edge). Under the deck, .deck-bar: Previous add-on and Next add-on (a 32px circle in a 44px target; both wrap), "1 of 6", and "Ask about a project". A swipe of 48px or more, mostly sideways, on a phone chooses the next or previous card; vertical scrolling is left alone. The choice is announced politely (the name and "2 of 6"). Nothing advances on its own. Moves take 400ms; the card coming forward comes into focus in its last 150ms. The first time the deck is on screen the rear cards fan out 12px and settle back, once. Follow-up's sample (a call note, the concierge's text, the booking in the practice's software, signed by Follow-up with a small stamp) is a signed sample (data-loop="follow") that loops while its card is in front; the others replay one action 600ms after they are chosen: brand, a brand identity board (two lockups, the colors, the type, the brand in use) is set piece by piece; video, the playhead scrubs along the edit's timeline as the captions appear, then the vertical cut splits off the preview and the article places; website, the practice home page scrolls down through the browser and back, the hero button's ring shows and the sign-off is stamped; the coming-soon two, the rule under the first topic draws. Under reduced motion or with animations paused the cards swap at once and the samples stay finished; without JavaScript the six cards are a plain list and the controls stay hidden.</p>
+           <div class="ref-stage">
+           <div class="beyond" data-deck>
+             <div class="beyond-head">
+@@ -574,55 +574,119 @@
+                   <button class="deck-rail" type="button" data-deck-go="0"><span class="sr-only">Show </span><span class="deck-rail-name">Patient follow-up</span></button>
+                 </article>
+                 <article class="deck-card" data-slot="1" aria-labelledby="deck-brand">
+-                  <div class="deck-body">
++                  <div class="deck-body deck-body--wide">
+                     <div class="deck-copy">
+                       <div class="deck-head"><h4 class="deck-title" id="deck-brand" tabindex="-1">Brand and logo work</h4><span class="chip">Priced for your practice</span></div>
+                       <p>A logo and a brand kit made for your practice.</p>
+                       <a class="btn btn--secondary btn--small" href="/services/add-ons#brand">See brand work <svg class="arrow" viewBox="0 0 22 12" aria-hidden="true" focusable="false"><path d="M1 6h19M15 1l5 5-5 5"/></svg></a>
+                     </div>
+-                    <div class="deck-sheet deck-brand" role="img" aria-label="Sample: a brand application study. [Your practice], orthodontics, in forest, cream and sage, and an appointment card: your next visit, [Date] at [Time]. Prepared for discussion.">
+-                      <div class="deck-sheet-head"><span class="deck-sheet-title">Brand application study</span><span class="chip chip--sample">Sample</span></div>
+-                      <p class="deck-brand-mark"><span>[Your practice]</span><span>Orthodontics</span></p>
+-                      <ul class="deck-swatches"><li><span class="deck-swatch deck-swatch--forest"></span>Forest</li><li><span class="deck-swatch deck-swatch--cream"></span>Cream</li><li><span class="deck-swatch deck-swatch--sage"></span>Sage</li></ul>
+-                      <p class="deck-appt"><small>Your next visit</small><span>[Date] at [Time]</span></p>
++                    <div class="deck-sheet deck-sheet--wide deck-brand" role="img" aria-label="Sample: a brand identity board for [Your practice]. The name set in two lockups, horizontal and stacked, each with an icon tile holding your initial; four colors, primary, ground, accent and text, their hex codes to come; a display face and a text face; and the brand in use on an appointment card, your next visit on [Date] at [Time], a business card for [Name], and a social profile image. Prepared for discussion.">
++                      <div class="deck-sheet-head"><span class="deck-sheet-title">Brand identity board</span><span class="chip chip--sample">Sample</span></div>
++                      <div class="deck-brand-board">
++                        <div class="deck-brand-cell deck-brand-primary">
++                          <span class="deck-brand-label">Primary lockup</span>
++                          <span class="deck-brand-lockup"><span class="deck-brand-tile">[P]</span><span class="deck-brand-word"><b>[Your practice]</b><small>Orthodontics</small></span></span>
++                        </div>
++                        <div class="deck-brand-cell deck-brand-stacked">
++                          <span class="deck-brand-label">Stacked</span>
++                          <span class="deck-brand-lockup"><span class="deck-brand-tile">[P]</span><span class="deck-brand-word"><b>[Your practice]</b><small>Orthodontics</small></span></span>
++                        </div>
++                        <div class="deck-brand-cell deck-brand-colors">
++                          <span class="deck-brand-label">Color</span>
++                          <span class="deck-brand-swatches"><span class="deck-brand-swatch">Primary<small>[Hex]</small></span><span class="deck-brand-swatch">Ground<small>[Hex]</small></span><span class="deck-brand-swatch">Accent<small>[Hex]</small></span><span class="deck-brand-swatch">Text<small>[Hex]</small></span></span>
++                        </div>
++                        <div class="deck-brand-cell deck-brand-type">
++                          <span class="deck-brand-label">Type</span>
++                          <span class="deck-brand-faces"><span class="deck-brand-face"><b>Aa</b><small>[Display face]</small></span><span class="deck-brand-face"><b>Aa</b><small>[Text face]</small></span></span>
++                        </div>
++                        <div class="deck-brand-cell deck-brand-uses">
++                          <span class="deck-brand-label">In use</span>
++                          <span class="deck-brand-appt"><small>Your next visit</small><b>[Date] at [Time]</b></span>
++                          <span class="deck-brand-biz"><span class="deck-brand-tile">[P]</span><span class="deck-brand-biz-who"><b>[Name]</b><small>Orthodontics</small></span></span>
++                          <span class="deck-brand-avatar"><span class="deck-brand-tile">[P]</span><small>Profile</small></span>
++                        </div>
++                      </div>
+                       <p class="deck-by">Prepared for discussion</p>
+                     </div>
+                   </div>
+                   <button class="deck-rail" type="button" data-deck-go="1"><span class="sr-only">Show </span><span class="deck-rail-name">Brand and logo work</span></button>
+                 </article>
+                 <article class="deck-card" data-slot="2" aria-labelledby="deck-video">
+-                  <div class="deck-body">
++                  <div class="deck-body deck-body--wide">
+                     <div class="deck-copy">
+                       <div class="deck-head"><h4 class="deck-title" id="deck-video" tabindex="-1">Video and content</h4><span class="chip">Priced for your practice</span></div>
+                       <p>Video cutdowns and written content for your site and social.</p>
+                       <a class="btn btn--secondary btn--small" href="/services/add-ons#video">See video and content <svg class="arrow" viewBox="0 0 22 12" aria-hidden="true" focusable="false"><path d="M1 6h19M15 1l5 5-5 5"/></svg></a>
+                     </div>
+-                    <div class="deck-sheet deck-video" role="img" aria-label="Sample: a title sequence study. Three frames, your first visit, your questions and what happens next; the first frame's title, what to expect at your first visit; and three clips, welcome, consultation and next steps. Prepared for discussion.">
+-                      <div class="deck-sheet-head"><span class="deck-sheet-title">Title sequence study</span><span class="chip chip--sample">Sample</span></div>
+-                      <div class="deck-video-board">
+-                        <ol class="deck-frames"><li class="is-current">Your first visit</li><li>Your questions</li><li>What happens next</li></ol>
+-                        <p class="deck-video-title"><span>What to expect at your first visit</span></p>
++                    <div class="deck-sheet deck-sheet--wide deck-video" role="img" aria-label="Sample: a video in the edit, What to expect at your first visit. The preview shows its title and the caption, Your first visit starts with a conversation. Under it, the timeline: three clips, welcome, consultation and next steps, a caption track and the audio, with the playhead in the consultation. Cut from it, a vertical version for social and an article for your site. Prepared for discussion.">
++                      <div class="deck-sheet-head"><span class="deck-sheet-title">First visit video, in the edit</span><span class="chip chip--sample">Sample</span></div>
++                      <div class="deck-video-edit">
++                        <div class="deck-video-monitor">
++                          <span class="deck-video-tc">0:14 / 0:30</span>
++                          <span class="deck-video-title">What to expect at your first visit</span>
++                          <span class="deck-video-cap">Your first visit starts with a conversation.</span>
++                        </div>
++                        <div class="deck-video-time">
++                          <span class="deck-video-ruler"><span>0:00</span><span>0:10</span><span>0:20</span><span>0:30</span></span>
++                          <svg class="icon" viewBox="0 0 20 20" aria-hidden="true" focusable="false"><rect x="2.5" y="5.5" width="10.5" height="9" rx="2"/><path d="m13 9 4.5-2.5v7L13 11"/></svg>
++                          <span class="deck-video-clips"><span>Welcome</span><span class="is-current">Consultation</span><span>Next steps</span></span>
++                          <svg class="icon" viewBox="0 0 20 20" aria-hidden="true" focusable="false"><rect x="2.5" y="4.5" width="15" height="11" rx="2"/><path d="M6 9h3M11.5 9h2.5M6 12h8"/></svg>
++                          <span class="deck-video-caps"><i style="--x: 1%; --w: 12%"></i><i style="--x: 17%; --w: 17%"></i><i class="is-current" style="--x: 39%; --w: 18%"></i><i style="--x: 61%; --w: 18%"></i><i style="--x: 83%; --w: 16%"></i></span>
++                          <svg class="icon" viewBox="0 0 20 20" aria-hidden="true" focusable="false"><path d="M3.5 8v4h3l4 3.5v-11L6.5 8Z"/><path d="M13.5 7.5a3.5 3.5 0 0 1 0 5M15.5 5.5a6.5 6.5 0 0 1 0 9"/></svg>
++                          <span class="deck-video-wave"><svg viewBox="0 0 256 24" preserveAspectRatio="none" aria-hidden="true" focusable="false"><path id="deck-wave" d="M1 9h2v6h-2zM5 9h2v6h-2zM9 6h2v12h-2zM13 9h2v6h-2zM17 6h2v12h-2zM21 8h2v8h-2zM25 10h2v4h-2zM29 8h2v8h-2zM33 10h2v4h-2zM37 11h2v2h-2zM41 11h2v2h-2zM45 7h2v10h-2zM49 10h2v4h-2zM53 10h2v4h-2zM57 8h2v8h-2zM61 6h2v12h-2zM65 9h2v6h-2zM69 8h2v8h-2zM73 5h2v14h-2zM77 4h2v16h-2zM81 7h2v10h-2zM85 8h2v8h-2zM89 11h2v2h-2zM93 11h2v2h-2zM97 11h2v2h-2zM101 2h2v20h-2zM105 10h2v4h-2zM109 6h2v12h-2zM113 9h2v6h-2zM117 9h2v6h-2zM121 9h2v6h-2zM125 8h2v8h-2zM129 4h2v16h-2zM133 9h2v6h-2zM137 7h2v10h-2zM141 7h2v10h-2zM145 8h2v8h-2zM149 11h2v2h-2zM153 11h2v2h-2zM157 6h2v12h-2zM161 10h2v4h-2zM165 10h2v4h-2zM169 9h2v6h-2zM173 6h2v12h-2zM177 7h2v10h-2zM181 8h2v8h-2zM185 5h2v14h-2zM189 7h2v10h-2zM193 9h2v6h-2zM197 6h2v12h-2zM201 6h2v12h-2zM205 11h2v2h-2zM209 11h2v2h-2zM213 8h2v8h-2zM217 6h2v12h-2zM221 7h2v10h-2zM225 6h2v12h-2zM229 6h2v12h-2zM233 8h2v8h-2zM237 2h2v20h-2zM241 9h2v6h-2zM245 7h2v10h-2zM249 6h2v12h-2zM253 9h2v6h-2z"/></svg><svg class="deck-video-played" viewBox="0 0 256 24" preserveAspectRatio="none" aria-hidden="true" focusable="false"><use href="#deck-wave"/></svg></span>
++                          <span class="deck-video-scrub"><i></i></span>
++                        </div>
++                        <div class="deck-video-cut">
++                          <span class="deck-video-ratio">9:16</span>
++                          <span class="deck-video-title">What to expect at your first visit</span>
++                          <span class="deck-video-cap">Your first visit starts with a conversation.</span>
++                        </div>
++                        <div class="deck-video-article">
++                          <span class="deck-video-kind"><svg class="icon" viewBox="0 0 20 20" aria-hidden="true" focusable="false"><path d="M5.5 2.5h6l3.5 3.5v11.5h-9.5Z"/><path d="M11.5 2.5V6H15M8 10h4.5M8 13h4.5"/></svg>Article</span>
++                          <b>What to expect at your first visit</b>
++                          <span class="deck-video-lede">Who you'll meet and what happens.</span>
++                        </div>
+                       </div>
+-                      <ol class="deck-clips"><li class="is-current">Welcome</li><li>Consultation</li><li>Next steps</li></ol>
+                       <p class="deck-by">Prepared for discussion</p>
+                     </div>
+                   </div>
+                   <button class="deck-rail" type="button" data-deck-go="2"><span class="sr-only">Show </span><span class="deck-rail-name">Video and content</span></button>
+                 </article>
+                 <article class="deck-card" data-slot="back" aria-labelledby="deck-website">
+-                  <div class="deck-body">
++                  <div class="deck-body deck-body--wide">
+                     <div class="deck-copy">
+                       <div class="deck-head"><h4 class="deck-title" id="deck-website" tabindex="-1">Website without the ads</h4><span class="chip">Priced for your practice</span></div>
+                       <p>A website built from your practice, with SEO, for practices running their own ads.</p>
+                       <a class="btn btn--secondary btn--small" href="/services/add-ons#website">See website projects <svg class="arrow" viewBox="0 0 22 12" aria-hidden="true" focusable="false"><path d="M1 6h19M15 1l5 5-5 5"/></svg></a>
+                     </div>
+-                    <div class="deck-sheet deck-site" role="img" aria-label="Sample: a home page for [Your practice], with links to treatments, your visit and contact. A place to start with your orthodontic questions. Learn about treatment options and what to expect at your first visit. Request a consultation. Signed by Web and SEO.">
+-                      <div class="deck-sheet-head"><span class="deck-sheet-title">Home page</span><span class="chip chip--sample">Sample</span></div>
+-                      <div class="deck-site-page">
+-                        <p class="deck-site-top"><b>[Your practice]</b><span>Treatments · Your visit · Contact</span></p>
+-                        <p class="deck-site-h">A place to start with your orthodontic questions.</p>
+-                        <p class="deck-site-p">Learn about treatment options and what to expect at your first visit.</p>
+-                        <span class="deck-site-btn">Request a consultation</span>
++                    <div class="deck-sheet deck-sheet--wide deck-site" role="img" aria-label="Sample: the home page of a website for [Your practice], scrolled from top to bottom. A menu: treatments, your visit, about and contact. A place to start with your orthodontic questions. Learn about treatment options and what to expect at your first visit. Request a consultation, or call. Treatments: braces, clear aligners and early treatment. Evening appointments, payment plans, and treatment for adults and teens. A form to request a consultation: name, phone and what you would like to ask about. Then the footer. Signed by Web and SEO.">
++                      <div class="deck-sheet-head"><span class="deck-sheet-title">Practice home page</span><span class="chip chip--sample">Sample</span></div>
++                      <div class="deck-site-browser">
++                        <span class="deck-site-bar"><span class="deck-site-dots"><i></i><i></i><i></i></span><span class="deck-site-url"><svg class="icon" viewBox="0 0 20 20" aria-hidden="true" focusable="false"><rect x="5" y="9" width="10" height="7.5" rx="2"/><path d="M7.5 9V7a2.5 2.5 0 0 1 5 0v2"/></svg>[yourpractice].com</span></span>
++                        <span class="deck-site-view">
++                          <span class="deck-site-page">
++                            <span class="deck-site-nav"><b class="deck-site-word">[Your practice]</b><span class="deck-site-links"><span class="is-on">Treatments</span><span>Your visit</span><span>About</span><span>Contact</span></span><svg class="icon deck-site-menu" viewBox="0 0 20 20" aria-hidden="true" focusable="false"><path d="M3.5 6h13M3.5 10h13M3.5 14h13"/></svg></span>
++                            <span class="deck-site-hero">
++                              <span class="deck-site-lead">
++                                <span class="deck-site-h">A place to start with your orthodontic questions.</span>
++                                <span class="deck-site-p">Learn about treatment options and what to expect at your first visit.</span>
++                                <span class="deck-site-ctas"><span class="deck-site-btn">Request a consultation</span><span class="deck-site-btn deck-site-btn--line"><svg class="icon" viewBox="0 0 20 20" aria-hidden="true" focusable="false"><path d="M6.6 3.2 8.4 7 7 8.4a9.6 9.6 0 0 0 4.6 4.6L13 11.6l3.8 1.8v2.4a1.6 1.6 0 0 1-1.7 1.6A13.4 13.4 0 0 1 2.6 4.9 1.6 1.6 0 0 1 4.2 3.2Z"/></svg>Call</span></span>
++                              </span>
++                              <span class="deck-site-art"><i></i><i></i><i></i></span>
++                            </span>
++                            <span class="deck-site-treat">
++                              <span class="deck-site-h2">Treatments</span>
++                              <span class="deck-site-cards"><span><b>Braces</b>Metal or ceramic<svg class="arrow" viewBox="0 0 22 12" aria-hidden="true" focusable="false"><path d="M1 6h19M15 1l5 5-5 5"/></svg></span><span><b>Clear aligners</b>Removable trays<svg class="arrow" viewBox="0 0 22 12" aria-hidden="true" focusable="false"><path d="M1 6h19M15 1l5 5-5 5"/></svg></span><span><b>Early treatment</b>For younger children<svg class="arrow" viewBox="0 0 22 12" aria-hidden="true" focusable="false"><path d="M1 6h19M15 1l5 5-5 5"/></svg></span></span>
++                            </span>
++                            <span class="deck-site-trust"><span><svg class="icon" viewBox="0 0 20 20" aria-hidden="true" focusable="false"><path d="m4.5 10.5 3.5 3.5 7.5-8"/></svg>Evening appointments</span><span><svg class="icon" viewBox="0 0 20 20" aria-hidden="true" focusable="false"><path d="m4.5 10.5 3.5 3.5 7.5-8"/></svg>Payment plans</span><span><svg class="icon" viewBox="0 0 20 20" aria-hidden="true" focusable="false"><path d="m4.5 10.5 3.5 3.5 7.5-8"/></svg>Adults and teens</span></span>
++                            <span class="deck-site-form">
++                              <span class="deck-site-ask"><span class="deck-site-h2">Request a consultation</span><span class="deck-site-p">Tell us what you would like to ask about.</span></span>
++                              <span class="deck-site-fields"><span>Name</span><span>Phone</span><span class="deck-site-select">I'm asking about<svg class="icon" viewBox="0 0 20 20" aria-hidden="true" focusable="false"><path d="m6 8 4 4 4-4"/></svg></span><span class="deck-site-btn">Send request</span></span>
++                            </span>
++                            <span class="deck-site-foot"><b class="deck-site-word">[Your practice]</b><span>Treatments</span><span>Your visit</span><span>About</span><span>Contact</span><span>Privacy</span></span>
++                          </span>
++                          <span class="deck-site-track"><i></i></span>
++                        </span>
+                       </div>
+                       <p class="deck-sign"><span class="deck-sign-who">Signed by <em class="signature">Web and SEO</em></span><img class="stamp" src="/assets/img/stamp-signed.svg" alt="" width="48" height="48"></p>
+                     </div>
+diff --git a/site/index.html b/site/index.html
+index 08ce4a9..72b1143 100644
+--- a/site/index.html
++++ b/site/index.html
+@@ -432,55 +432,119 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+               <button class="deck-rail" type="button" data-deck-go="0"><span class="sr-only">Show </span><span class="deck-rail-name">Patient follow-up</span></button>
+             </article>
+             <article class="deck-card" data-slot="1" aria-labelledby="deck-brand">
+-              <div class="deck-body">
++              <div class="deck-body deck-body--wide">
+                 <div class="deck-copy">
+                   <div class="deck-head"><h4 class="deck-title" id="deck-brand" tabindex="-1">Brand and logo work</h4><span class="chip">Priced for your practice</span></div>
+                   <p>A logo and a brand kit made for your practice.</p>
+                   <a class="btn btn--secondary btn--small" href="/services/add-ons#brand">See brand work <svg class="arrow" viewBox="0 0 22 12" aria-hidden="true" focusable="false"><path d="M1 6h19M15 1l5 5-5 5"/></svg></a>
+                 </div>
+-                <div class="deck-sheet deck-brand" role="img" aria-label="Sample: a brand application study. [Your practice], orthodontics, in forest, cream and sage, and an appointment card: your next visit, [Date] at [Time]. Prepared for discussion.">
+-                  <div class="deck-sheet-head"><span class="deck-sheet-title">Brand application study</span><span class="chip chip--sample">Sample</span></div>
+-                  <p class="deck-brand-mark"><span>[Your practice]</span><span>Orthodontics</span></p>
+-                  <ul class="deck-swatches"><li><span class="deck-swatch deck-swatch--forest"></span>Forest</li><li><span class="deck-swatch deck-swatch--cream"></span>Cream</li><li><span class="deck-swatch deck-swatch--sage"></span>Sage</li></ul>
+-                  <p class="deck-appt"><small>Your next visit</small><span>[Date] at [Time]</span></p>
++                <div class="deck-sheet deck-sheet--wide deck-brand" role="img" aria-label="Sample: a brand identity board for [Your practice]. The name set in two lockups, horizontal and stacked, each with an icon tile holding your initial; four colors, primary, ground, accent and text, their hex codes to come; a display face and a text face; and the brand in use on an appointment card, your next visit on [Date] at [Time], a business card for [Name], and a social profile image. Prepared for discussion.">
++                  <div class="deck-sheet-head"><span class="deck-sheet-title">Brand identity board</span><span class="chip chip--sample">Sample</span></div>
++                  <div class="deck-brand-board">
++                    <div class="deck-brand-cell deck-brand-primary">
++                      <span class="deck-brand-label">Primary lockup</span>
++                      <span class="deck-brand-lockup"><span class="deck-brand-tile">[P]</span><span class="deck-brand-word"><b>[Your practice]</b><small>Orthodontics</small></span></span>
++                    </div>
++                    <div class="deck-brand-cell deck-brand-stacked">
++                      <span class="deck-brand-label">Stacked</span>
++                      <span class="deck-brand-lockup"><span class="deck-brand-tile">[P]</span><span class="deck-brand-word"><b>[Your practice]</b><small>Orthodontics</small></span></span>
++                    </div>
++                    <div class="deck-brand-cell deck-brand-colors">
++                      <span class="deck-brand-label">Color</span>
++                      <span class="deck-brand-swatches"><span class="deck-brand-swatch">Primary<small>[Hex]</small></span><span class="deck-brand-swatch">Ground<small>[Hex]</small></span><span class="deck-brand-swatch">Accent<small>[Hex]</small></span><span class="deck-brand-swatch">Text<small>[Hex]</small></span></span>
++                    </div>
++                    <div class="deck-brand-cell deck-brand-type">
++                      <span class="deck-brand-label">Type</span>
++                      <span class="deck-brand-faces"><span class="deck-brand-face"><b>Aa</b><small>[Display face]</small></span><span class="deck-brand-face"><b>Aa</b><small>[Text face]</small></span></span>
++                    </div>
++                    <div class="deck-brand-cell deck-brand-uses">
++                      <span class="deck-brand-label">In use</span>
++                      <span class="deck-brand-appt"><small>Your next visit</small><b>[Date] at [Time]</b></span>
++                      <span class="deck-brand-biz"><span class="deck-brand-tile">[P]</span><span class="deck-brand-biz-who"><b>[Name]</b><small>Orthodontics</small></span></span>
++                      <span class="deck-brand-avatar"><span class="deck-brand-tile">[P]</span><small>Profile</small></span>
++                    </div>
++                  </div>
+                   <p class="deck-by">Prepared for discussion</p>
+                 </div>
+               </div>
+               <button class="deck-rail" type="button" data-deck-go="1"><span class="sr-only">Show </span><span class="deck-rail-name">Brand and logo work</span></button>
+             </article>
+             <article class="deck-card" data-slot="2" aria-labelledby="deck-video">
+-              <div class="deck-body">
++              <div class="deck-body deck-body--wide">
+                 <div class="deck-copy">
+                   <div class="deck-head"><h4 class="deck-title" id="deck-video" tabindex="-1">Video and content</h4><span class="chip">Priced for your practice</span></div>
+                   <p>Video cutdowns and written content for your site and social.</p>
+                   <a class="btn btn--secondary btn--small" href="/services/add-ons#video">See video and content <svg class="arrow" viewBox="0 0 22 12" aria-hidden="true" focusable="false"><path d="M1 6h19M15 1l5 5-5 5"/></svg></a>
+                 </div>
+-                <div class="deck-sheet deck-video" role="img" aria-label="Sample: a title sequence study. Three frames, your first visit, your questions and what happens next; the first frame's title, what to expect at your first visit; and three clips, welcome, consultation and next steps. Prepared for discussion.">
+-                  <div class="deck-sheet-head"><span class="deck-sheet-title">Title sequence study</span><span class="chip chip--sample">Sample</span></div>
+-                  <div class="deck-video-board">
+-                    <ol class="deck-frames"><li class="is-current">Your first visit</li><li>Your questions</li><li>What happens next</li></ol>
+-                    <p class="deck-video-title"><span>What to expect at your first visit</span></p>
++                <div class="deck-sheet deck-sheet--wide deck-video" role="img" aria-label="Sample: a video in the edit, What to expect at your first visit. The preview shows its title and the caption, Your first visit starts with a conversation. Under it, the timeline: three clips, welcome, consultation and next steps, a caption track and the audio, with the playhead in the consultation. Cut from it, a vertical version for social and an article for your site. Prepared for discussion.">
++                  <div class="deck-sheet-head"><span class="deck-sheet-title">First visit video, in the edit</span><span class="chip chip--sample">Sample</span></div>
++                  <div class="deck-video-edit">
++                    <div class="deck-video-monitor">
++                      <span class="deck-video-tc">0:14 / 0:30</span>
++                      <span class="deck-video-title">What to expect at your first visit</span>
++                      <span class="deck-video-cap">Your first visit starts with a conversation.</span>
++                    </div>
++                    <div class="deck-video-time">
++                      <span class="deck-video-ruler"><span>0:00</span><span>0:10</span><span>0:20</span><span>0:30</span></span>
++                      <svg class="icon" viewBox="0 0 20 20" aria-hidden="true" focusable="false"><rect x="2.5" y="5.5" width="10.5" height="9" rx="2"/><path d="m13 9 4.5-2.5v7L13 11"/></svg>
++                      <span class="deck-video-clips"><span>Welcome</span><span class="is-current">Consultation</span><span>Next steps</span></span>
++                      <svg class="icon" viewBox="0 0 20 20" aria-hidden="true" focusable="false"><rect x="2.5" y="4.5" width="15" height="11" rx="2"/><path d="M6 9h3M11.5 9h2.5M6 12h8"/></svg>
++                      <span class="deck-video-caps"><i style="--x: 1%; --w: 12%"></i><i style="--x: 17%; --w: 17%"></i><i class="is-current" style="--x: 39%; --w: 18%"></i><i style="--x: 61%; --w: 18%"></i><i style="--x: 83%; --w: 16%"></i></span>
++                      <svg class="icon" viewBox="0 0 20 20" aria-hidden="true" focusable="false"><path d="M3.5 8v4h3l4 3.5v-11L6.5 8Z"/><path d="M13.5 7.5a3.5 3.5 0 0 1 0 5M15.5 5.5a6.5 6.5 0 0 1 0 9"/></svg>
++                      <span class="deck-video-wave"><svg viewBox="0 0 256 24" preserveAspectRatio="none" aria-hidden="true" focusable="false"><path id="deck-wave" d="M1 9h2v6h-2zM5 9h2v6h-2zM9 6h2v12h-2zM13 9h2v6h-2zM17 6h2v12h-2zM21 8h2v8h-2zM25 10h2v4h-2zM29 8h2v8h-2zM33 10h2v4h-2zM37 11h2v2h-2zM41 11h2v2h-2zM45 7h2v10h-2zM49 10h2v4h-2zM53 10h2v4h-2zM57 8h2v8h-2zM61 6h2v12h-2zM65 9h2v6h-2zM69 8h2v8h-2zM73 5h2v14h-2zM77 4h2v16h-2zM81 7h2v10h-2zM85 8h2v8h-2zM89 11h2v2h-2zM93 11h2v2h-2zM97 11h2v2h-2zM101 2h2v20h-2zM105 10h2v4h-2zM109 6h2v12h-2zM113 9h2v6h-2zM117 9h2v6h-2zM121 9h2v6h-2zM125 8h2v8h-2zM129 4h2v16h-2zM133 9h2v6h-2zM137 7h2v10h-2zM141 7h2v10h-2zM145 8h2v8h-2zM149 11h2v2h-2zM153 11h2v2h-2zM157 6h2v12h-2zM161 10h2v4h-2zM165 10h2v4h-2zM169 9h2v6h-2zM173 6h2v12h-2zM177 7h2v10h-2zM181 8h2v8h-2zM185 5h2v14h-2zM189 7h2v10h-2zM193 9h2v6h-2zM197 6h2v12h-2zM201 6h2v12h-2zM205 11h2v2h-2zM209 11h2v2h-2zM213 8h2v8h-2zM217 6h2v12h-2zM221 7h2v10h-2zM225 6h2v12h-2zM229 6h2v12h-2zM233 8h2v8h-2zM237 2h2v20h-2zM241 9h2v6h-2zM245 7h2v10h-2zM249 6h2v12h-2zM253 9h2v6h-2z"/></svg><svg class="deck-video-played" viewBox="0 0 256 24" preserveAspectRatio="none" aria-hidden="true" focusable="false"><use href="#deck-wave"/></svg></span>
++                      <span class="deck-video-scrub"><i></i></span>
++                    </div>
++                    <div class="deck-video-cut">
++                      <span class="deck-video-ratio">9:16</span>
++                      <span class="deck-video-title">What to expect at your first visit</span>
++                      <span class="deck-video-cap">Your first visit starts with a conversation.</span>
++                    </div>
++                    <div class="deck-video-article">
++                      <span class="deck-video-kind"><svg class="icon" viewBox="0 0 20 20" aria-hidden="true" focusable="false"><path d="M5.5 2.5h6l3.5 3.5v11.5h-9.5Z"/><path d="M11.5 2.5V6H15M8 10h4.5M8 13h4.5"/></svg>Article</span>
++                      <b>What to expect at your first visit</b>
++                      <span class="deck-video-lede">Who you'll meet and what happens.</span>
++                    </div>
+                   </div>
+-                  <ol class="deck-clips"><li class="is-current">Welcome</li><li>Consultation</li><li>Next steps</li></ol>
+                   <p class="deck-by">Prepared for discussion</p>
+                 </div>
+               </div>
+               <button class="deck-rail" type="button" data-deck-go="2"><span class="sr-only">Show </span><span class="deck-rail-name">Video and content</span></button>
+             </article>
+             <article class="deck-card" data-slot="back" aria-labelledby="deck-website">
+-              <div class="deck-body">
++              <div class="deck-body deck-body--wide">
+                 <div class="deck-copy">
+                   <div class="deck-head"><h4 class="deck-title" id="deck-website" tabindex="-1">Website without the ads</h4><span class="chip">Priced for your practice</span></div>
+                   <p>A website built from your practice, with SEO, for practices running their own ads.</p>
+                   <a class="btn btn--secondary btn--small" href="/services/add-ons#website">See website projects <svg class="arrow" viewBox="0 0 22 12" aria-hidden="true" focusable="false"><path d="M1 6h19M15 1l5 5-5 5"/></svg></a>
+                 </div>
+-                <div class="deck-sheet deck-site" role="img" aria-label="Sample: a home page for [Your practice], with links to treatments, your visit and contact. A place to start with your orthodontic questions. Learn about treatment options and what to expect at your first visit. Request a consultation. Signed by Web and SEO.">
+-                  <div class="deck-sheet-head"><span class="deck-sheet-title">Home page</span><span class="chip chip--sample">Sample</span></div>
+-                  <div class="deck-site-page">
+-                    <p class="deck-site-top"><b>[Your practice]</b><span>Treatments · Your visit · Contact</span></p>
+-                    <p class="deck-site-h">A place to start with your orthodontic questions.</p>
+-                    <p class="deck-site-p">Learn about treatment options and what to expect at your first visit.</p>
+-                    <span class="deck-site-btn">Request a consultation</span>
++                <div class="deck-sheet deck-sheet--wide deck-site" role="img" aria-label="Sample: the home page of a website for [Your practice], scrolled from top to bottom. A menu: treatments, your visit, about and contact. A place to start with your orthodontic questions. Learn about treatment options and what to expect at your first visit. Request a consultation, or call. Treatments: braces, clear aligners and early treatment. Evening appointments, payment plans, and treatment for adults and teens. A form to request a consultation: name, phone and what you would like to ask about. Then the footer. Signed by Web and SEO.">
++                  <div class="deck-sheet-head"><span class="deck-sheet-title">Practice home page</span><span class="chip chip--sample">Sample</span></div>
++                  <div class="deck-site-browser">
++                    <span class="deck-site-bar"><span class="deck-site-dots"><i></i><i></i><i></i></span><span class="deck-site-url"><svg class="icon" viewBox="0 0 20 20" aria-hidden="true" focusable="false"><rect x="5" y="9" width="10" height="7.5" rx="2"/><path d="M7.5 9V7a2.5 2.5 0 0 1 5 0v2"/></svg>[yourpractice].com</span></span>
++                    <span class="deck-site-view">
++                      <span class="deck-site-page">
++                        <span class="deck-site-nav"><b class="deck-site-word">[Your practice]</b><span class="deck-site-links"><span class="is-on">Treatments</span><span>Your visit</span><span>About</span><span>Contact</span></span><svg class="icon deck-site-menu" viewBox="0 0 20 20" aria-hidden="true" focusable="false"><path d="M3.5 6h13M3.5 10h13M3.5 14h13"/></svg></span>
++                        <span class="deck-site-hero">
++                          <span class="deck-site-lead">
++                            <span class="deck-site-h">A place to start with your orthodontic questions.</span>
++                            <span class="deck-site-p">Learn about treatment options and what to expect at your first visit.</span>
++                            <span class="deck-site-ctas"><span class="deck-site-btn">Request a consultation</span><span class="deck-site-btn deck-site-btn--line"><svg class="icon" viewBox="0 0 20 20" aria-hidden="true" focusable="false"><path d="M6.6 3.2 8.4 7 7 8.4a9.6 9.6 0 0 0 4.6 4.6L13 11.6l3.8 1.8v2.4a1.6 1.6 0 0 1-1.7 1.6A13.4 13.4 0 0 1 2.6 4.9 1.6 1.6 0 0 1 4.2 3.2Z"/></svg>Call</span></span>
++                          </span>
++                          <span class="deck-site-art"><i></i><i></i><i></i></span>
++                        </span>
++                        <span class="deck-site-treat">
++                          <span class="deck-site-h2">Treatments</span>
++                          <span class="deck-site-cards"><span><b>Braces</b>Metal or ceramic<svg class="arrow" viewBox="0 0 22 12" aria-hidden="true" focusable="false"><path d="M1 6h19M15 1l5 5-5 5"/></svg></span><span><b>Clear aligners</b>Removable trays<svg class="arrow" viewBox="0 0 22 12" aria-hidden="true" focusable="false"><path d="M1 6h19M15 1l5 5-5 5"/></svg></span><span><b>Early treatment</b>For younger children<svg class="arrow" viewBox="0 0 22 12" aria-hidden="true" focusable="false"><path d="M1 6h19M15 1l5 5-5 5"/></svg></span></span>
++                        </span>
++                        <span class="deck-site-trust"><span><svg class="icon" viewBox="0 0 20 20" aria-hidden="true" focusable="false"><path d="m4.5 10.5 3.5 3.5 7.5-8"/></svg>Evening appointments</span><span><svg class="icon" viewBox="0 0 20 20" aria-hidden="true" focusable="false"><path d="m4.5 10.5 3.5 3.5 7.5-8"/></svg>Payment plans</span><span><svg class="icon" viewBox="0 0 20 20" aria-hidden="true" focusable="false"><path d="m4.5 10.5 3.5 3.5 7.5-8"/></svg>Adults and teens</span></span>
++                        <span class="deck-site-form">
++                          <span class="deck-site-ask"><span class="deck-site-h2">Request a consultation</span><span class="deck-site-p">Tell us what you would like to ask about.</span></span>
++                          <span class="deck-site-fields"><span>Name</span><span>Phone</span><span class="deck-site-select">I'm asking about<svg class="icon" viewBox="0 0 20 20" aria-hidden="true" focusable="false"><path d="m6 8 4 4 4-4"/></svg></span><span class="deck-site-btn">Send request</span></span>
++                        </span>
++                        <span class="deck-site-foot"><b class="deck-site-word">[Your practice]</b><span>Treatments</span><span>Your visit</span><span>About</span><span>Contact</span><span>Privacy</span></span>
++                      </span>
++                      <span class="deck-site-track"><i></i></span>
++                    </span>
+                   </div>
+                   <p class="deck-sign"><span class="deck-sign-who">Signed by <em class="signature">Web and SEO</em></span><img class="stamp" src="/assets/img/stamp-signed.svg" alt="" width="48" height="48"></p>
+                 </div>
+```
+
+</details>
+
+### 15. What happens after you say yes: more room in the four scenes
+
+**What and why.** Chris: "Every section under 'what happens after you say yes' is great, however the graphics with the floating cards come off as slightly claustrophobic, I'd just adjust some of the spacing and margins on each." Every surface, every line of copy and every beat is unchanged; only spacing changed (CSS in "the practice folder", plus the components entry's text).
+
+**Desktop (1280px and up)**
+- **Canvas:** 768×500, up from 768×420, and every card sits 16px in from its edges.
+- **Caption row:** 20px between the caption/Sample row and the scene, up from 12px.
+- **Overlaps:** cards still layer, but now overlap by 12 to 32px and never cover another card's text:
+  - the search ad no longer covers the Budget column;
+  - the email sits clear of the report's heading;
+  - the ads scene's three stacked cards are 24px and 46px apart, where they were 13px and 1px.
+- **Website scene:** the browser page's text is narrower, so the phone in front no longer covers its headline.
+
+**1025 to 1279px, tablets and phones**
+- The smaller front card (call notes, ad accounts, email) is set in from the right edge by 16px, or 24px once the scene is at least 480px wide. It overlaps the main card by 10px.
+- The phone is slightly narrower, and the profile card sits 24px lower so it only covers the phone's frame.
+- Phones only: the folder's inner padding is 16px, and there are 16px between the stage title and the scene.
+
+**Height**
+
+| Width | Before | After |
+|---|---|---|
+| 1440 | 993px | 1,081px |
+| 390 | 1,045px | 1,087px |
+| 360 | n/a | 1,147px |
+
+**Check:** step through all four stages at 1440, 1100 and 390. No card crowds another's text, and the section height stays the same as stages change.
+
+**Files and lines** (after this change):
+
+- `site/assets/site.css`: lines 2254–2262, 2300–2309, 2352–2358, 2363–2370, 2391–2397, 2406–2412, 2450–2456, 2488–2494, 2507–2546, 2548–2559, 2562–2573, 2589–2595, 2597–2603
+- `site/components.html`: lines 882–888
+
+<details>
+<summary>Exact diff for change 15</summary>
+
+```diff
+diff --git a/site/assets/site.css b/site/assets/site.css
+index f3016e4..1264880 100644
+--- a/site/assets/site.css
++++ b/site/assets/site.css
+@@ -2254,8 +2254,9 @@ h1 em, h2 em, h3 em, .tagline em, .signed-change em { color: var(--accent-italic
+    sheet keeps the tallest stage's height, so changing stage never moves the page. Below 1025px each panel opens with
+    its stage's title and line (.folder-panel-head, moved there from the summary; read-only on desktop).
+    Each scene is a container (folder-scene). From 768px wide (desktops from 1280px) its surfaces are composed on a
+-   768 by 420 canvas, overlapping; narrower (smaller desktops, tablets, phones) each scene keeps one main surface and
+-   one smaller one over its edge, in the flow, and the rest stay out (the invitation, the browser, the two ads, the consult).
++   768 by 500 canvas, inset 16px from its edges, overlapping by 12 to 32px at most and never over another's text;
++   narrower (smaller desktops, tablets, phones) each scene keeps one main surface and one smaller one, set in from the
++   right and over its edge by 10px, in the flow, and the rest stay out (the invitation, the browser, the two ads, the consult).
+    Motion (site.js): while the folder is on screen it moves from stage to stage on its own, 1 to 4 and round again;
+    each scene places its surfaces and plays its one beat (the call runs through Sales' three topics, each ticked as
+    its caption ends; the page scrolls, the phone settles, the profile's hours are updated; the two campaigns are
+@@ -2299,10 +2300,10 @@ h1 em, h2 em, h3 em, .tagline em, .signed-change em { color: var(--accent-italic
+ .folder-panel-head { display: grid; gap: var(--space-1); }
+ .is-folder .folder-panel-head { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+ 
+-/* the scene: its caption and Sample chip (forest on field 7.4:1), then the canvas of surfaces. Text on the surfaces:
+-   ink on cream 13.78:1, label sage on cream 5.88:1, forest on sage mist 7.55:1, cream on forest 8.7:1. Under 768px the
+-   scene is kept to 520px, centred. */
+-.folder-scene { container: folder-scene / inline-size; display: grid; align-content: start; gap: var(--space-3); min-width: 0; margin: 0; }
++/* the scene: its caption and Sample chip (forest on field 7.4:1), then the canvas of surfaces, a 20px gap between.
++   Text on the surfaces: ink on cream 13.78:1, label sage on cream 5.88:1, forest on sage mist 7.55:1, cream on forest
++   8.7:1. Under 768px the scene is kept to 520px, centred. */
++.folder-scene { container: folder-scene / inline-size; display: grid; align-content: start; gap: var(--space-5); min-width: 0; margin: 0; }
+ .folder-scene-top { display: flex; align-items: center; justify-content: space-between; gap: var(--space-3); }
+ .folder-scene-top, .folder-canvas { width: 100%; max-width: 520px; margin-inline: auto; }
+ .folder-scene-caption { font-size: var(--text-caption); font-weight: 500; line-height: 1.4; color: var(--forest); }
+@@ -2351,7 +2352,7 @@ h1 em, h2 em, h3 em, .tagline em, .signed-change em { color: var(--accent-italic
+ .folder-control { display: grid; place-items: center; width: 34px; height: 34px; border: var(--border-w) solid var(--border-quiet); border-radius: 50%; color: var(--forest); }
+ .folder-control.is-on { border-color: var(--forest); background: var(--surface-strong); color: var(--text-on-strong); }
+ .folder-control-leave { margin-left: var(--space-2); padding: 6px var(--space-3); border: var(--border-w) solid var(--border-input); border-radius: var(--radius-pill); font-size: var(--text-caption); font-weight: 600; line-height: 1.4; }
+-.folder-notes { justify-self: end; display: grid; gap: var(--space-2); width: min(300px, 88%); margin-top: -12px; padding: var(--space-3) var(--space-4) var(--space-4); }
++.folder-notes { justify-self: end; display: grid; gap: var(--space-2); width: min(300px, 86%); margin: -10px var(--space-4) 0 0; padding: var(--space-3) var(--space-4) var(--space-4); }
+ .folder-notes-head { display: flex; align-items: center; gap: var(--space-2); padding-bottom: var(--space-2); border-bottom: var(--border-w) solid var(--border-quiet); font-weight: 600; line-height: 1.4; }
+ .folder-notes-head .icon { color: var(--forest); }
+ .folder-notes-meta { margin-left: auto; font-size: var(--text-caption); font-weight: 500; color: var(--text-muted); }
+@@ -2362,8 +2363,8 @@ h1 em, h2 em, h3 em, .tagline em, .signed-change em { color: var(--accent-italic
+ .folder-topic-line { display: none; font-size: var(--text-label); line-height: 1.45; color: var(--text-muted); }
+ 
+ /* 2. the site: the adult braces page in a browser (wide only), the same page on a phone, the Google Business Profile.
+-   Under 768px the phone and the profile share one cell, the profile over the phone's edge (a narrower canvas, so they
+-   meet on wider screens too) */
++   Under 768px the phone and the profile share one cell, the profile a step lower and over the phone's frame only (a
++   narrower canvas, so they meet on wider screens too) */
+ .folder-scene--site .folder-canvas { max-width: 430px; }
+ .folder-browser { display: none; overflow: hidden; }
+ .folder-browser-bar { display: flex; align-items: center; gap: var(--space-3); padding: var(--space-3) var(--space-4); border-bottom: var(--border-w) solid var(--border-quiet); background: var(--surface-panel); }
+@@ -2390,7 +2391,7 @@ h1 em, h2 em, h3 em, .tagline em, .signed-change em { color: var(--accent-italic
+ .folder-site-steps span { display: grid; flex: none; place-items: center; width: 20px; height: 20px; border-radius: 50%; background: var(--surface-panel); color: var(--forest); font-family: var(--font-display); font-size: 14px; line-height: 1; }
+ .folder-site-faq li { padding-block: var(--space-2); border-bottom: var(--border-w) solid var(--border-quiet); font-size: var(--text-label); font-weight: 600; line-height: 1.4; }
+ /* the phone: an ink frame round a cream screen; the page runs on under its sticky booking bar */
+-.folder-phone { position: relative; z-index: 1; grid-area: 1 / 1; justify-self: start; align-self: start; width: 50%; max-width: 212px; aspect-ratio: 1 / 2; padding: 6px; border-radius: var(--radius-panel); background: var(--ink); box-shadow: var(--shadow-3); }
++.folder-phone { position: relative; z-index: 1; grid-area: 1 / 1; justify-self: start; align-self: start; width: 48%; max-width: 212px; aspect-ratio: 1 / 2; padding: 6px; border-radius: var(--radius-panel); background: var(--ink); box-shadow: var(--shadow-3); }
+ .folder-phone-screen { position: relative; display: grid; align-content: start; height: 100%; overflow: hidden; padding-top: var(--space-5); border-radius: var(--radius-card); background: var(--surface-page); }
+ .folder-phone-notch { position: absolute; top: 7px; left: 50%; width: 40px; height: 10px; margin-left: -20px; border-radius: var(--radius-pill); background: var(--ink); }
+ .folder-phone .folder-site-nav { justify-content: space-between; gap: var(--space-2); padding: var(--space-2) var(--space-3); }
+@@ -2405,7 +2406,7 @@ h1 em, h2 em, h3 em, .tagline em, .signed-change em { color: var(--accent-italic
+ .folder-phone-bar .folder-site-button { flex: 1; padding: var(--space-2); font-size: var(--text-caption); }
+ .folder-phone-call { display: none; flex: none; place-items: center; width: 32px; border: var(--border-w) solid var(--border-input); border-radius: 50%; color: var(--forest); }
+ .folder-canvas .folder-phone-call .icon { width: 14px; height: 14px; }
+-.folder-profile { z-index: 2; grid-area: 1 / 1; justify-self: end; align-self: end; display: grid; width: 56%; max-width: 248px; }
++.folder-profile { z-index: 2; grid-area: 1 / 1; justify-self: end; align-self: end; display: grid; width: 56%; max-width: 248px; margin-top: var(--space-6); }
+ .folder-map { display: block; width: 100%; height: 56px; border-radius: var(--radius-card) var(--radius-card) 0 0; }
+ .folder-map rect { fill: var(--surface-panel); }
+ .folder-map-road { fill: none; stroke: var(--surface-page); stroke-width: 7; stroke-linecap: round; }
+@@ -2449,7 +2450,7 @@ h1 em, h2 em, h3 em, .tagline em, .signed-change em { color: var(--accent-italic
+ .folder-track li > .icon { color: var(--forest); }
+ .folder-track-state { display: inline-flex; align-items: center; gap: 2px; margin-left: auto; font-weight: 600; color: var(--forest); }
+ .folder-ads > .signoff { margin: var(--space-3) var(--space-4) var(--space-4); }
+-.folder-owner { grid-row: 1; justify-self: end; display: flex; align-items: center; gap: var(--space-3); max-width: 92%; margin-bottom: -18px; padding: var(--space-3) var(--space-4) var(--space-3) var(--space-3); }
++.folder-owner { grid-row: 1; justify-self: end; display: flex; align-items: center; gap: var(--space-3); max-width: calc(100% - var(--space-8)); margin: 0 var(--space-4) -10px 0; padding: var(--space-3) var(--space-4) var(--space-3) var(--space-3); }
+ .folder-owner-key { display: grid; flex: none; place-items: center; width: 32px; height: 32px; border-radius: 50%; background: var(--surface-strong); color: var(--text-on-strong); }
+ .folder-owner-text { display: grid; font-size: var(--text-label); font-weight: 600; line-height: 1.4; }
+ .folder-owner-text span { font-size: var(--text-caption); font-weight: 500; color: var(--text-muted); }
+@@ -2487,7 +2488,7 @@ h1 em, h2 em, h3 em, .tagline em, .signed-change em { color: var(--accent-italic
+ .folder-report-stats span { font-family: var(--font-display); font-size: 24px; line-height: 1.1; color: var(--forest); }
+ .folder-report-next { display: flex; align-items: flex-start; gap: var(--space-2); }
+ .folder-canvas .folder-report-next .icon { flex: none; width: 18px; height: 18px; margin-top: 1px; color: var(--forest); }
+-.folder-mail { z-index: 3; grid-row: 1; justify-self: end; display: grid; gap: var(--space-2); width: min(300px, 90%); margin-bottom: -16px; padding: var(--space-3) var(--space-4); }
++.folder-mail { z-index: 3; grid-row: 1; justify-self: end; display: grid; gap: var(--space-2); width: min(300px, 86%); margin: 0 var(--space-4) -10px 0; padding: var(--space-3) var(--space-4); }
+ .folder-mail-head { display: none; align-items: center; gap: var(--space-2); font-size: var(--text-caption); font-weight: 600; line-height: 1.4; color: var(--text-muted); }
+ .folder-canvas .folder-mail-head .icon { width: 14px; height: 14px; color: var(--forest); }
+ .folder-mail-head span { margin-left: auto; font-weight: 500; }
+@@ -2506,32 +2507,40 @@ h1 em, h2 em, h3 em, .tagline em, .signed-change em { color: var(--accent-italic
+ .folder-consult-source dt { color: var(--text-muted); }
+ .folder-consult-source dd { font-weight: 600; }
+ 
+-/* the composed scenes, from 768px wide: every surface placed on a 768 by 420 canvas (centred if there is more room) */
++/* wider flowing scenes (compact desktops, tablets): the front surface sits further in from the right */
++@container folder-scene (min-width: 480px) {
++  .folder-notes, .folder-owner, .folder-mail { margin-right: var(--space-6); }
++}
++/* the composed scenes, from 768px wide: every surface placed on a 768 by 500 canvas (centred if there is more room),
++   16px in from its edges */
+ @container folder-scene (min-width: 768px) {
+   .folder-scene-top { max-width: none; }
+-  .folder-canvas, .folder-scene--site .folder-canvas { display: block; max-width: 768px; height: 420px; }
++  .folder-canvas, .folder-scene--site .folder-canvas { display: block; max-width: 768px; height: 500px; }
+   .folder-canvas > * { position: absolute; margin: 0; }
+   /* 1: the invitation at the back, top right; the call over its edge; the notes in front, bottom right */
+-  .folder-invite { display: grid; top: 0; right: 0; width: 276px; padding-left: var(--space-8); }
+-  .folder-call { top: 32px; left: 0; z-index: 1; width: 512px; box-shadow: var(--shadow-3); }
++  .folder-invite { display: grid; top: 16px; right: 16px; width: 284px; padding-left: var(--space-8); }
++  .folder-call { top: 56px; left: 16px; z-index: 1; width: 468px; box-shadow: var(--shadow-3); }
+   .folder-tile { height: 168px; }
+   .folder-tile-face { width: 68px; height: 68px; margin-bottom: 0; }
+   .folder-canvas .folder-tile-face--practice .icon { width: 28px; height: 28px; }
+   .folder-caption { margin-right: 60px; }
+   .folder-call-controls { display: flex; padding-right: 60px; }
+-  .folder-notes { right: 0; bottom: 0; width: 300px; gap: var(--space-3); padding: var(--space-4) var(--space-5); }
++  .folder-notes { right: 16px; bottom: 16px; width: 300px; gap: var(--space-3); padding: var(--space-4) var(--space-5); }
+   .folder-notes-head { padding-bottom: var(--space-3); }
+   .folder-topics { gap: var(--space-3); }
+   .folder-topic-line { display: block; }
+   /* 2: the browser at the back; the profile over its right edge; the phone in front, over the browser's corner */
+-  .folder-browser { display: block; top: 0; left: 0; width: 524px; }
+-  .folder-phone { z-index: 3; top: 100px; left: 334px; width: 172px; max-width: none; height: 320px; aspect-ratio: auto; }
++  .folder-browser { display: block; top: 16px; left: 16px; width: 500px; }
++  /* the browser page's copy kept to its left, clear of the phone in front */
++  .folder-browser .folder-site-hero { max-width: 296px; }
++  .folder-browser .folder-site-part { max-width: 260px; }
++  .folder-phone { z-index: 3; top: 148px; left: 318px; width: 172px; max-width: none; height: 320px; aspect-ratio: auto; }
+   .folder-phone .folder-site-title { font-size: 21px; }
+   .folder-phone .folder-site-line, .folder-phone .folder-site-steps li { font-size: var(--text-caption); }
+-  .folder-profile { top: 24px; right: 0; width: 256px; max-width: none; }
++  .folder-profile { top: 40px; right: 16px; width: 248px; max-width: none; }
+   .folder-map { height: 72px; }
+   /* 3: the account at the back; the accounts in your name over its corner; the search ad and the feed ad beside it */
+-  .folder-ads { top: 22px; left: 0; width: 532px; }
++  .folder-ads { top: 56px; left: 16px; width: 512px; }
+   .folder-ads-head { padding-inline: var(--space-5); }
+   .folder-ads-cols { display: grid; }
+   .folder-ads-cols, .folder-ads-rows li { grid-template-columns: 36px minmax(0, 1fr) 96px 92px; padding-inline: var(--space-5) var(--space-6); }
+@@ -2539,12 +2548,12 @@ h1 em, h2 em, h3 em, .tagline em, .signed-change em { color: var(--accent-italic
+   .folder-ads-budget { display: block; }
+   .folder-track { margin-inline: var(--space-5); }
+   .folder-ads > .signoff { margin: var(--space-4) var(--space-5); }
+-  .folder-owner { top: 0; right: 0; width: 256px; max-width: none; }
++  .folder-owner { top: 16px; right: 16px; width: 248px; max-width: none; }
+   .folder-preview { display: grid; }
+-  .folder-preview--search { top: 92px; right: 28px; width: 228px; }
+-  .folder-preview--feed { right: 0; bottom: 4px; width: 204px; }
++  .folder-preview--search { top: 119px; right: 24px; width: 224px; }
++  .folder-preview--feed { right: 16px; bottom: 16px; width: 204px; }
+   /* 4: the report at the back; the email over its top right; the consult it counts over its lower right */
+-  .folder-report { top: 12px; left: 0; width: 512px; gap: var(--space-3); padding: var(--space-5) var(--space-6); }
++  .folder-report { top: 40px; left: 16px; width: 480px; gap: var(--space-3); padding: var(--space-5) var(--space-6); }
+   .folder-report-head { padding-bottom: var(--space-3); }
+   .folder-report-title { font-size: 30px; }
+   .folder-report-part { gap: var(--space-2); }
+@@ -2553,12 +2562,12 @@ h1 em, h2 em, h3 em, .tagline em, .signed-change em { color: var(--accent-italic
+   .folder-report-work .signoff-disc.founder-art { display: block; }
+   .folder-report-stats li { padding: var(--space-2) var(--space-3); font-size: var(--text-label); }
+   .folder-report-stats span { font-size: 28px; }
+-  .folder-mail { top: 0; right: 0; width: 296px; gap: var(--space-3); padding: var(--space-3) var(--space-4) var(--space-4); }
++  .folder-mail { top: 16px; right: 16px; width: 280px; gap: var(--space-3); padding: var(--space-3) var(--space-4) var(--space-4); }
+   .folder-mail-head { display: flex; }
+   .folder-mail-body { grid-template-columns: 32px minmax(0, 1fr); align-items: start; }
+   .folder-mail-body img { width: 32px; height: 32px; }
+   .folder-mail-preview { display: block; }
+-  .folder-consult { display: grid; right: 0; bottom: 20px; width: 272px; }
++  .folder-consult { display: grid; right: 16px; bottom: 24px; width: 264px; }
+   .folder-phone-call { display: grid; }
+ }
+ /* the narrowest phones: the profile keeps two of its three actions */
+@@ -2580,7 +2589,7 @@ h1 em, h2 em, h3 em, .tagline em, .signed-change em { color: var(--accent-italic
+   .is-folder .folder-panel-head { position: static; width: auto; height: auto; overflow: visible; clip-path: none; white-space: normal; padding-inline: var(--space-1); }
+ }
+ @media (max-width: 640px) {
+-  .folder { padding: var(--space-3); border-radius: var(--radius-card); }
++  .folder { padding: var(--space-4); border-radius: var(--radius-card); }
+   .folder.is-folder { gap: var(--space-3); }
+   .folder-rail { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+   .folder-panel { padding-left: 0; }
+@@ -2588,7 +2597,7 @@ h1 em, h2 em, h3 em, .tagline em, .signed-change em { color: var(--accent-italic
+   .folder-tab { padding-inline: var(--space-2); }
+   .folder + .cta-line { margin-top: var(--space-8); }
+   /* the scene's Sample chip moves up beside the stage's title; its caption goes (the title says what it is) */
+-  .folder-sheet > .folder-panel { position: relative; gap: var(--space-2); }
++  .folder-sheet > .folder-panel { position: relative; gap: var(--space-4); }
+   .is-folder .folder-scene-top { position: absolute; top: 0; right: var(--space-1); width: auto; }
+   .is-folder .folder-scene-caption { display: none; }
+   .is-folder .folder-panel-head .folder-title { padding-right: 76px; }
+diff --git a/site/components.html b/site/components.html
+index 472bd60..7adca06 100644
+--- a/site/components.html
++++ b/site/components.html
+@@ -882,7 +882,7 @@
+         </div>
+ 
+         <div class="ref-item ref-item--wide">
+-          <p class="ref-name" id="demo-after-yes">.folder, the practice folder (the homepage's "What happens after you say yes"): a field panel holding four stages, each one of the onboarding steps on /services#after-yes (its title and line, as written there) with a composed scene of the work it hands over (figure.folder-scene[role=img]: a caption and the Sample chip over .folder-canvas, two to four cream .folder-surface layered with depth, the back one on --shadow-2, the ones in front on --shadow-3). 1, the first call: the video call (First conversation, its clock, Sales on forest with the founder disc and a speaking ring, [Your practice], the live caption, the controls), the invitation behind it ([Date] · [Time] · Video call, Accepted) and Sales' call notes in front, three topics ticked, "Prepared by Sales". 2, the site: the adult braces page in a browser (its nav, "Adult braces in [your city]", Request a consultation, what to expect at your first visit), the same page on a phone (an ink frame, a sticky booking bar) and the Google Business Profile (a map, Open, Directions, Call, Website, "Hours updated"), "Signed by Web and SEO", the stamp on the profile's top corner. 3, the ads account: two campaigns (switch, name, Draft / In review / Live with a forest dot, [Budget]/day), call and conversion tracking set up, "Signed by Paid media" and the stamp; over its corner "Ad accounts in your practice's name" (a key icon); beside it the search ad and the feed ad. 4, the report: the email it arrives in ("Your [Month] report is ready", from Rose), the [Month] report for [Your practice] (what we did: two signed changes, each stamped; what it brought in: [n] new leads, [n] reached, [n] consults booked; what we're changing next) and one consult it counts ([Name], Google Search ad). From 768px wide (a container query on the scene; desktops from 1280px) the surfaces are composed on a 768 by 420 canvas; narrower, each scene keeps one main surface and one over its edge, and the invitation, the browser, the two ads and the consult stay out. In the markup each stage is details[name] (the first open), so without JavaScript each opens in place. site.js ("the practice folder") rebuilds it as a tablist of stages beside one .folder-sheet holding every panel in one grid cell, so the sheet keeps the tallest stage's height and changing stage moves nothing; under 1025px four steps in a row (two by two under 641px, the Sample chip beside the stage's title). While on screen it moves from stage 1 to 4 and round again: each scene places its surfaces and plays one beat (the call's three questions captioned and ticked; the page scrolled and the phone settled, the hours updated; the campaigns switched on, draft to live, tracking set up; the email landing, the report opening, each change stamped), then signed and stamped, rests 4s, and a forest line along the active stage fills until the next. A click, tap or key on a stage stops that for the visit. Paused: the current stage, finished. Reduced motion: stage 1, finished, changes at once. Brackets only; no real dates, names or results.</p>
++          <p class="ref-name" id="demo-after-yes">.folder, the practice folder (the homepage's "What happens after you say yes"): a field panel holding four stages, each one of the onboarding steps on /services#after-yes (its title and line, as written there) with a composed scene of the work it hands over (figure.folder-scene[role=img]: a caption and the Sample chip over .folder-canvas, two to four cream .folder-surface layered with depth, the back one on --shadow-2, the ones in front on --shadow-3). 1, the first call: the video call (First conversation, its clock, Sales on forest with the founder disc and a speaking ring, [Your practice], the live caption, the controls), the invitation behind it ([Date] · [Time] · Video call, Accepted) and Sales' call notes in front, three topics ticked, "Prepared by Sales". 2, the site: the adult braces page in a browser (its nav, "Adult braces in [your city]", Request a consultation, what to expect at your first visit), the same page on a phone (an ink frame, a sticky booking bar) and the Google Business Profile (a map, Open, Directions, Call, Website, "Hours updated"), "Signed by Web and SEO", the stamp on the profile's top corner. 3, the ads account: two campaigns (switch, name, Draft / In review / Live with a forest dot, [Budget]/day), call and conversion tracking set up, "Signed by Paid media" and the stamp; over its corner "Ad accounts in your practice's name" (a key icon); beside it the search ad and the feed ad. 4, the report: the email it arrives in ("Your [Month] report is ready", from Rose), the [Month] report for [Your practice] (what we did: two signed changes, each stamped; what it brought in: [n] new leads, [n] reached, [n] consults booked; what we're changing next) and one consult it counts ([Name], Google Search ad). Spacing: 20px between the caption row and the canvas. From 768px wide (a container query on the scene; desktops from 1280px) the surfaces are composed on a 768 by 500 canvas, 16px in from its edges, overlapping by 12 to 32px and never over another surface's text; narrower, each scene keeps one main surface and one set 16px in from the right (24px from a 480px scene) and 10px over its edge, and the invitation, the browser, the two ads and the consult stay out. In the markup each stage is details[name] (the first open), so without JavaScript each opens in place. site.js ("the practice folder") rebuilds it as a tablist of stages beside one .folder-sheet holding every panel in one grid cell, so the sheet keeps the tallest stage's height and changing stage moves nothing; under 1025px four steps in a row (two by two under 641px, the Sample chip beside the stage's title). While on screen it moves from stage 1 to 4 and round again: each scene places its surfaces and plays one beat (the call's three questions captioned and ticked; the page scrolled and the phone settled, the hours updated; the campaigns switched on, draft to live, tracking set up; the email landing, the report opening, each change stamped), then signed and stamped, rests 4s, and a forest line along the active stage fills until the next. A click, tap or key on a stage stops that for the visit. Paused: the current stage, finished. Reduced motion: stage 1, finished, changes at once. Brackets only; no real dates, names or results.</p>
+           <div class="folder" data-folder data-anim="none">
+             <details class="folder-stage" name="demo-folder-stage" data-short="Conversation" open>
+               <summary class="folder-summary"><span class="folder-num" aria-hidden="true">01</span><span class="folder-head"><h3 class="folder-title">A first conversation.</h3><span class="folder-line">About your practice, your patients and what you've already tried.</span></span></summary>
+```
+
+</details>
+
 ## Not changed
 
 - **The team band** ("A small team that knows its clients…" and the ring of five founders).
@@ -6434,11 +7889,13 @@ index 24eb16c..0c3341d 100644
 
 ## Small things to know
 
-- **The Google and Meta row at 390px is 859px tall,** a little over the 820px it was aimed at. The Sample row at the top of the panel costs about 34px; it's kept so both service panels match.
+- **The Google and Meta row at 390px is 855px tall,** a little over the 820px it was aimed at.
 - **At 360px the 80px panel stamp just touches the corner of the SEO note.** There's no text under it.
 - **The chat widget's bubble sits over the right edge of some samples on phones.** That's the LeadConnector widget, which was already on the page.
-- **The practice folder on narrower desktops:** from 1025 to 1279px it shows the compact two-surface scenes centred beside the rail. The full scenes need a 768px canvas.
-- **The phone folder is 1,045px at 390.** The report stage sets that height, so longer copy there would make the section taller.
+- **The deck on phones:** the card behind peeks out under the front one, and when it's the tallest card the top of its content shows, blurred, in that strip. Clipping the rear cards would change how the deck behaves, so it's left as it is.
+- **The website card's sign-off appears about 5 seconds into its beat,** after the page has scrolled.
+- **The practice folder on narrower desktops:** from 1025 to 1279px it shows the compact two-surface scenes beside the rail. The full scenes need a 768px canvas.
+- **The folder's height on phones:** 1,087px at 390 and 1,147px at 360.
 - **The practice folder repeats the stamp-press helper** (`press()`) from "signed samples". It has the same values, because the original lives inside that block's scope. If you'd like one copy, move `press` and `hold` above both sections.
 - **The footer's text Pause animations button doesn't set `aria-pressed`;** only the header's icon button does. That was already the case and is unchanged.
 - **The footer's home link is now the logo tile** rather than the white wordmark lockup, because the giant wordmark carries the name. If you want the lockup back, swap the image inside `a.foot-home`.
@@ -6448,11 +7905,11 @@ index 24eb16c..0c3341d 100644
 - **All 17 pages load locally** with no failed requests and no script errors, with motion on and with reduced motion.
 - **Behaviour at 1440 and 390:**
   - the SEO query types with the caret moving along with it, and the callout's arm takes 1.35s to reach the result;
-  - the ads trace alternates between Meta and Google;
+  - the ads Source tag alternates between Meta and Google;
   - the deck's names, rails, Previous and Next, keys and swipe all work;
   - the folder advances on its own and holds when paused or clicked;
   - every footer link resolves;
   - no console errors.
 - **Without JavaScript** every section is complete and readable.
-- **No sideways overflow** at 360, 390, 430 or 768px.
+- **No sideways overflow** at 360, 390, 430, 768 or 1100px.
 - **Your design checker** (`rose-design-check.mjs`) gives the same 3 blocks and 2 warnings as the live site.
