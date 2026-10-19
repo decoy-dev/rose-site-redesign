@@ -2254,8 +2254,9 @@ h1 em, h2 em, h3 em, .tagline em, .signed-change em { color: var(--accent-italic
    sheet keeps the tallest stage's height, so changing stage never moves the page. Below 1025px each panel opens with
    its stage's title and line (.folder-panel-head, moved there from the summary; read-only on desktop).
    Each scene is a container (folder-scene). From 768px wide (desktops from 1280px) its surfaces are composed on a
-   768 by 420 canvas, overlapping; narrower (smaller desktops, tablets, phones) each scene keeps one main surface and
-   one smaller one over its edge, in the flow, and the rest stay out (the invitation, the browser, the two ads, the consult).
+   768 by 500 canvas, inset 16px from its edges, overlapping by 12 to 32px at most and never over another's text;
+   narrower (smaller desktops, tablets, phones) each scene keeps one main surface and one smaller one, set in from the
+   right and over its edge by 10px, in the flow, and the rest stay out (the invitation, the browser, the two ads, the consult).
    Motion (site.js): while the folder is on screen it moves from stage to stage on its own, 1 to 4 and round again;
    each scene places its surfaces and plays its one beat (the call runs through Sales' three topics, each ticked as
    its caption ends; the page scrolls, the phone settles, the profile's hours are updated; the two campaigns are
@@ -2299,10 +2300,10 @@ h1 em, h2 em, h3 em, .tagline em, .signed-change em { color: var(--accent-italic
 .folder-panel-head { display: grid; gap: var(--space-1); }
 .is-folder .folder-panel-head { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
 
-/* the scene: its caption and Sample chip (forest on field 7.4:1), then the canvas of surfaces. Text on the surfaces:
-   ink on cream 13.78:1, label sage on cream 5.88:1, forest on sage mist 7.55:1, cream on forest 8.7:1. Under 768px the
-   scene is kept to 520px, centred. */
-.folder-scene { container: folder-scene / inline-size; display: grid; align-content: start; gap: var(--space-3); min-width: 0; margin: 0; }
+/* the scene: its caption and Sample chip (forest on field 7.4:1), then the canvas of surfaces, a 20px gap between.
+   Text on the surfaces: ink on cream 13.78:1, label sage on cream 5.88:1, forest on sage mist 7.55:1, cream on forest
+   8.7:1. Under 768px the scene is kept to 520px, centred. */
+.folder-scene { container: folder-scene / inline-size; display: grid; align-content: start; gap: var(--space-5); min-width: 0; margin: 0; }
 .folder-scene-top { display: flex; align-items: center; justify-content: space-between; gap: var(--space-3); }
 .folder-scene-top, .folder-canvas { width: 100%; max-width: 520px; margin-inline: auto; }
 .folder-scene-caption { font-size: var(--text-caption); font-weight: 500; line-height: 1.4; color: var(--forest); }
@@ -2351,7 +2352,7 @@ h1 em, h2 em, h3 em, .tagline em, .signed-change em { color: var(--accent-italic
 .folder-control { display: grid; place-items: center; width: 34px; height: 34px; border: var(--border-w) solid var(--border-quiet); border-radius: 50%; color: var(--forest); }
 .folder-control.is-on { border-color: var(--forest); background: var(--surface-strong); color: var(--text-on-strong); }
 .folder-control-leave { margin-left: var(--space-2); padding: 6px var(--space-3); border: var(--border-w) solid var(--border-input); border-radius: var(--radius-pill); font-size: var(--text-caption); font-weight: 600; line-height: 1.4; }
-.folder-notes { justify-self: end; display: grid; gap: var(--space-2); width: min(300px, 88%); margin-top: -12px; padding: var(--space-3) var(--space-4) var(--space-4); }
+.folder-notes { justify-self: end; display: grid; gap: var(--space-2); width: min(300px, 86%); margin: -10px var(--space-4) 0 0; padding: var(--space-3) var(--space-4) var(--space-4); }
 .folder-notes-head { display: flex; align-items: center; gap: var(--space-2); padding-bottom: var(--space-2); border-bottom: var(--border-w) solid var(--border-quiet); font-weight: 600; line-height: 1.4; }
 .folder-notes-head .icon { color: var(--forest); }
 .folder-notes-meta { margin-left: auto; font-size: var(--text-caption); font-weight: 500; color: var(--text-muted); }
@@ -2362,8 +2363,8 @@ h1 em, h2 em, h3 em, .tagline em, .signed-change em { color: var(--accent-italic
 .folder-topic-line { display: none; font-size: var(--text-label); line-height: 1.45; color: var(--text-muted); }
 
 /* 2. the site: the adult braces page in a browser (wide only), the same page on a phone, the Google Business Profile.
-   Under 768px the phone and the profile share one cell, the profile over the phone's edge (a narrower canvas, so they
-   meet on wider screens too) */
+   Under 768px the phone and the profile share one cell, the profile a step lower and over the phone's frame only (a
+   narrower canvas, so they meet on wider screens too) */
 .folder-scene--site .folder-canvas { max-width: 430px; }
 .folder-browser { display: none; overflow: hidden; }
 .folder-browser-bar { display: flex; align-items: center; gap: var(--space-3); padding: var(--space-3) var(--space-4); border-bottom: var(--border-w) solid var(--border-quiet); background: var(--surface-panel); }
@@ -2390,7 +2391,7 @@ h1 em, h2 em, h3 em, .tagline em, .signed-change em { color: var(--accent-italic
 .folder-site-steps span { display: grid; flex: none; place-items: center; width: 20px; height: 20px; border-radius: 50%; background: var(--surface-panel); color: var(--forest); font-family: var(--font-display); font-size: 14px; line-height: 1; }
 .folder-site-faq li { padding-block: var(--space-2); border-bottom: var(--border-w) solid var(--border-quiet); font-size: var(--text-label); font-weight: 600; line-height: 1.4; }
 /* the phone: an ink frame round a cream screen; the page runs on under its sticky booking bar */
-.folder-phone { position: relative; z-index: 1; grid-area: 1 / 1; justify-self: start; align-self: start; width: 50%; max-width: 212px; aspect-ratio: 1 / 2; padding: 6px; border-radius: var(--radius-panel); background: var(--ink); box-shadow: var(--shadow-3); }
+.folder-phone { position: relative; z-index: 1; grid-area: 1 / 1; justify-self: start; align-self: start; width: 48%; max-width: 212px; aspect-ratio: 1 / 2; padding: 6px; border-radius: var(--radius-panel); background: var(--ink); box-shadow: var(--shadow-3); }
 .folder-phone-screen { position: relative; display: grid; align-content: start; height: 100%; overflow: hidden; padding-top: var(--space-5); border-radius: var(--radius-card); background: var(--surface-page); }
 .folder-phone-notch { position: absolute; top: 7px; left: 50%; width: 40px; height: 10px; margin-left: -20px; border-radius: var(--radius-pill); background: var(--ink); }
 .folder-phone .folder-site-nav { justify-content: space-between; gap: var(--space-2); padding: var(--space-2) var(--space-3); }
@@ -2405,7 +2406,7 @@ h1 em, h2 em, h3 em, .tagline em, .signed-change em { color: var(--accent-italic
 .folder-phone-bar .folder-site-button { flex: 1; padding: var(--space-2); font-size: var(--text-caption); }
 .folder-phone-call { display: none; flex: none; place-items: center; width: 32px; border: var(--border-w) solid var(--border-input); border-radius: 50%; color: var(--forest); }
 .folder-canvas .folder-phone-call .icon { width: 14px; height: 14px; }
-.folder-profile { z-index: 2; grid-area: 1 / 1; justify-self: end; align-self: end; display: grid; width: 56%; max-width: 248px; }
+.folder-profile { z-index: 2; grid-area: 1 / 1; justify-self: end; align-self: end; display: grid; width: 56%; max-width: 248px; margin-top: var(--space-6); }
 .folder-map { display: block; width: 100%; height: 56px; border-radius: var(--radius-card) var(--radius-card) 0 0; }
 .folder-map rect { fill: var(--surface-panel); }
 .folder-map-road { fill: none; stroke: var(--surface-page); stroke-width: 7; stroke-linecap: round; }
@@ -2449,7 +2450,7 @@ h1 em, h2 em, h3 em, .tagline em, .signed-change em { color: var(--accent-italic
 .folder-track li > .icon { color: var(--forest); }
 .folder-track-state { display: inline-flex; align-items: center; gap: 2px; margin-left: auto; font-weight: 600; color: var(--forest); }
 .folder-ads > .signoff { margin: var(--space-3) var(--space-4) var(--space-4); }
-.folder-owner { grid-row: 1; justify-self: end; display: flex; align-items: center; gap: var(--space-3); max-width: 92%; margin-bottom: -18px; padding: var(--space-3) var(--space-4) var(--space-3) var(--space-3); }
+.folder-owner { grid-row: 1; justify-self: end; display: flex; align-items: center; gap: var(--space-3); max-width: calc(100% - var(--space-8)); margin: 0 var(--space-4) -10px 0; padding: var(--space-3) var(--space-4) var(--space-3) var(--space-3); }
 .folder-owner-key { display: grid; flex: none; place-items: center; width: 32px; height: 32px; border-radius: 50%; background: var(--surface-strong); color: var(--text-on-strong); }
 .folder-owner-text { display: grid; font-size: var(--text-label); font-weight: 600; line-height: 1.4; }
 .folder-owner-text span { font-size: var(--text-caption); font-weight: 500; color: var(--text-muted); }
@@ -2487,7 +2488,7 @@ h1 em, h2 em, h3 em, .tagline em, .signed-change em { color: var(--accent-italic
 .folder-report-stats span { font-family: var(--font-display); font-size: 24px; line-height: 1.1; color: var(--forest); }
 .folder-report-next { display: flex; align-items: flex-start; gap: var(--space-2); }
 .folder-canvas .folder-report-next .icon { flex: none; width: 18px; height: 18px; margin-top: 1px; color: var(--forest); }
-.folder-mail { z-index: 3; grid-row: 1; justify-self: end; display: grid; gap: var(--space-2); width: min(300px, 90%); margin-bottom: -16px; padding: var(--space-3) var(--space-4); }
+.folder-mail { z-index: 3; grid-row: 1; justify-self: end; display: grid; gap: var(--space-2); width: min(300px, 86%); margin: 0 var(--space-4) -10px 0; padding: var(--space-3) var(--space-4); }
 .folder-mail-head { display: none; align-items: center; gap: var(--space-2); font-size: var(--text-caption); font-weight: 600; line-height: 1.4; color: var(--text-muted); }
 .folder-canvas .folder-mail-head .icon { width: 14px; height: 14px; color: var(--forest); }
 .folder-mail-head span { margin-left: auto; font-weight: 500; }
@@ -2506,32 +2507,40 @@ h1 em, h2 em, h3 em, .tagline em, .signed-change em { color: var(--accent-italic
 .folder-consult-source dt { color: var(--text-muted); }
 .folder-consult-source dd { font-weight: 600; }
 
-/* the composed scenes, from 768px wide: every surface placed on a 768 by 420 canvas (centred if there is more room) */
+/* wider flowing scenes (compact desktops, tablets): the front surface sits further in from the right */
+@container folder-scene (min-width: 480px) {
+  .folder-notes, .folder-owner, .folder-mail { margin-right: var(--space-6); }
+}
+/* the composed scenes, from 768px wide: every surface placed on a 768 by 500 canvas (centred if there is more room),
+   16px in from its edges */
 @container folder-scene (min-width: 768px) {
   .folder-scene-top { max-width: none; }
-  .folder-canvas, .folder-scene--site .folder-canvas { display: block; max-width: 768px; height: 420px; }
+  .folder-canvas, .folder-scene--site .folder-canvas { display: block; max-width: 768px; height: 500px; }
   .folder-canvas > * { position: absolute; margin: 0; }
   /* 1: the invitation at the back, top right; the call over its edge; the notes in front, bottom right */
-  .folder-invite { display: grid; top: 0; right: 0; width: 276px; padding-left: var(--space-8); }
-  .folder-call { top: 32px; left: 0; z-index: 1; width: 512px; box-shadow: var(--shadow-3); }
+  .folder-invite { display: grid; top: 16px; right: 16px; width: 284px; padding-left: var(--space-8); }
+  .folder-call { top: 56px; left: 16px; z-index: 1; width: 468px; box-shadow: var(--shadow-3); }
   .folder-tile { height: 168px; }
   .folder-tile-face { width: 68px; height: 68px; margin-bottom: 0; }
   .folder-canvas .folder-tile-face--practice .icon { width: 28px; height: 28px; }
   .folder-caption { margin-right: 60px; }
   .folder-call-controls { display: flex; padding-right: 60px; }
-  .folder-notes { right: 0; bottom: 0; width: 300px; gap: var(--space-3); padding: var(--space-4) var(--space-5); }
+  .folder-notes { right: 16px; bottom: 16px; width: 300px; gap: var(--space-3); padding: var(--space-4) var(--space-5); }
   .folder-notes-head { padding-bottom: var(--space-3); }
   .folder-topics { gap: var(--space-3); }
   .folder-topic-line { display: block; }
   /* 2: the browser at the back; the profile over its right edge; the phone in front, over the browser's corner */
-  .folder-browser { display: block; top: 0; left: 0; width: 524px; }
-  .folder-phone { z-index: 3; top: 100px; left: 334px; width: 172px; max-width: none; height: 320px; aspect-ratio: auto; }
+  .folder-browser { display: block; top: 16px; left: 16px; width: 500px; }
+  /* the browser page's copy kept to its left, clear of the phone in front */
+  .folder-browser .folder-site-hero { max-width: 296px; }
+  .folder-browser .folder-site-part { max-width: 260px; }
+  .folder-phone { z-index: 3; top: 148px; left: 318px; width: 172px; max-width: none; height: 320px; aspect-ratio: auto; }
   .folder-phone .folder-site-title { font-size: 21px; }
   .folder-phone .folder-site-line, .folder-phone .folder-site-steps li { font-size: var(--text-caption); }
-  .folder-profile { top: 24px; right: 0; width: 256px; max-width: none; }
+  .folder-profile { top: 40px; right: 16px; width: 248px; max-width: none; }
   .folder-map { height: 72px; }
   /* 3: the account at the back; the accounts in your name over its corner; the search ad and the feed ad beside it */
-  .folder-ads { top: 22px; left: 0; width: 532px; }
+  .folder-ads { top: 56px; left: 16px; width: 512px; }
   .folder-ads-head { padding-inline: var(--space-5); }
   .folder-ads-cols { display: grid; }
   .folder-ads-cols, .folder-ads-rows li { grid-template-columns: 36px minmax(0, 1fr) 96px 92px; padding-inline: var(--space-5) var(--space-6); }
@@ -2539,12 +2548,12 @@ h1 em, h2 em, h3 em, .tagline em, .signed-change em { color: var(--accent-italic
   .folder-ads-budget { display: block; }
   .folder-track { margin-inline: var(--space-5); }
   .folder-ads > .signoff { margin: var(--space-4) var(--space-5); }
-  .folder-owner { top: 0; right: 0; width: 256px; max-width: none; }
+  .folder-owner { top: 16px; right: 16px; width: 248px; max-width: none; }
   .folder-preview { display: grid; }
-  .folder-preview--search { top: 92px; right: 28px; width: 228px; }
-  .folder-preview--feed { right: 0; bottom: 4px; width: 204px; }
+  .folder-preview--search { top: 119px; right: 24px; width: 224px; }
+  .folder-preview--feed { right: 16px; bottom: 16px; width: 204px; }
   /* 4: the report at the back; the email over its top right; the consult it counts over its lower right */
-  .folder-report { top: 12px; left: 0; width: 512px; gap: var(--space-3); padding: var(--space-5) var(--space-6); }
+  .folder-report { top: 40px; left: 16px; width: 480px; gap: var(--space-3); padding: var(--space-5) var(--space-6); }
   .folder-report-head { padding-bottom: var(--space-3); }
   .folder-report-title { font-size: 30px; }
   .folder-report-part { gap: var(--space-2); }
@@ -2553,12 +2562,12 @@ h1 em, h2 em, h3 em, .tagline em, .signed-change em { color: var(--accent-italic
   .folder-report-work .signoff-disc.founder-art { display: block; }
   .folder-report-stats li { padding: var(--space-2) var(--space-3); font-size: var(--text-label); }
   .folder-report-stats span { font-size: 28px; }
-  .folder-mail { top: 0; right: 0; width: 296px; gap: var(--space-3); padding: var(--space-3) var(--space-4) var(--space-4); }
+  .folder-mail { top: 16px; right: 16px; width: 280px; gap: var(--space-3); padding: var(--space-3) var(--space-4) var(--space-4); }
   .folder-mail-head { display: flex; }
   .folder-mail-body { grid-template-columns: 32px minmax(0, 1fr); align-items: start; }
   .folder-mail-body img { width: 32px; height: 32px; }
   .folder-mail-preview { display: block; }
-  .folder-consult { display: grid; right: 0; bottom: 20px; width: 272px; }
+  .folder-consult { display: grid; right: 16px; bottom: 24px; width: 264px; }
   .folder-phone-call { display: grid; }
 }
 /* the narrowest phones: the profile keeps two of its three actions */
@@ -2580,7 +2589,7 @@ h1 em, h2 em, h3 em, .tagline em, .signed-change em { color: var(--accent-italic
   .is-folder .folder-panel-head { position: static; width: auto; height: auto; overflow: visible; clip-path: none; white-space: normal; padding-inline: var(--space-1); }
 }
 @media (max-width: 640px) {
-  .folder { padding: var(--space-3); border-radius: var(--radius-card); }
+  .folder { padding: var(--space-4); border-radius: var(--radius-card); }
   .folder.is-folder { gap: var(--space-3); }
   .folder-rail { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .folder-panel { padding-left: 0; }
@@ -2588,7 +2597,7 @@ h1 em, h2 em, h3 em, .tagline em, .signed-change em { color: var(--accent-italic
   .folder-tab { padding-inline: var(--space-2); }
   .folder + .cta-line { margin-top: var(--space-8); }
   /* the scene's Sample chip moves up beside the stage's title; its caption goes (the title says what it is) */
-  .folder-sheet > .folder-panel { position: relative; gap: var(--space-2); }
+  .folder-sheet > .folder-panel { position: relative; gap: var(--space-4); }
   .is-folder .folder-scene-top { position: absolute; top: 0; right: var(--space-1); width: auto; }
   .is-folder .folder-scene-caption { display: none; }
   .is-folder .folder-panel-head .folder-title { padding-right: 76px; }
