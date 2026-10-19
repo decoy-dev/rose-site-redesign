@@ -539,7 +539,7 @@
         </div>
 
         <div class="ref-item ref-item--wide">
-          <p class="ref-name" id="demo-beyond">.beyond[data-deck] (the homepage's "Beyond the core plan", under the How we help rows, on its own hairline): the add-ons as a deck of cards browsed by hand, patient follow-up first. Left: h3.beyond-title, its line, and .deck-picks, six named buttons (aria-current on the chosen one; Left/Right, Up/Down, Home and End move along them; a wrapping row of pills on tablets; none on phones). Right: .deck, six article.deck-card in one grid cell, each a sage mist card with h4.deck-title, its chip, a line, a link and a real sample on a cream sheet (.deck-sheet, the Sample chip in its header, the attribution on its own line at the foot). site.js ("the add-ons deck") sets data-slot on every card: 0 in front (shadow level 3), 1 and 2 behind it, smaller and offset right and down (on phones, down), their bodies blurred 1.5px and 3px (.75px and 1.5px on phones) and inert, back and prev out of sight. Each rear card shows .deck-rail on its exposed edge: an unblurred button naming it (on phones only the next card's, along its bottom edge). Under the deck, .deck-bar: Previous add-on and Next add-on (a 32px circle in a 44px target; both wrap), "1 of 6", and "Ask about a project". A swipe of 48px or more, mostly sideways, on a phone chooses the next or previous card; vertical scrolling is left alone. The choice is announced politely (the name and "2 of 6"). Nothing advances on its own. Moves take 400ms; the card coming forward comes into focus in its last 150ms. The first time the deck is on screen the rear cards fan out 12px and settle back, once. Follow-up's sample (a call note, the concierge's text, the booking in the practice's software, signed by Follow-up with a small stamp) is a signed sample (data-loop="follow") that loops while its card is in front; the others replay one action 600ms after they are chosen: brand, the swatches place and the appointment card settles; video, the selected clip's frame draws in and the title settles; website, the button's ring shows and the sign-off is stamped; the coming-soon two, the rule under the first topic draws. Under reduced motion or with animations paused the cards swap at once and the samples stay finished; without JavaScript the six cards are a plain list and the controls stay hidden.</p>
+          <p class="ref-name" id="demo-beyond">.beyond[data-deck] (the homepage's "Beyond the core plan", under the How we help rows, on its own hairline): the add-ons as a deck of cards browsed by hand, patient follow-up first. Left: h3.beyond-title, its line, and .deck-picks, six named buttons (aria-current on the chosen one; Left/Right, Up/Down, Home and End move along them; a wrapping row of pills on tablets; none on phones). Right: .deck, six article.deck-card in one grid cell, each a sage mist card with h4.deck-title, its chip, a line, a link and a real sample on a cream sheet (.deck-sheet, the Sample chip in its header, the attribution on its own line at the foot). The brand, video and website cards (.deck-body--wide, .deck-sheet--wide) give their samples a 432px column beside the copy; each of those samples is composed by its own width (a container query) and recomposed for phones rather than scaled down. site.js ("the add-ons deck") sets data-slot on every card: 0 in front (shadow level 3), 1 and 2 behind it, smaller and offset right and down (on phones, down), their bodies blurred 1.5px and 3px (.75px and 1.5px on phones) and inert, back and prev out of sight. Each rear card shows .deck-rail on its exposed edge: an unblurred button naming it (on phones only the next card's, along its bottom edge). Under the deck, .deck-bar: Previous add-on and Next add-on (a 32px circle in a 44px target; both wrap), "1 of 6", and "Ask about a project". A swipe of 48px or more, mostly sideways, on a phone chooses the next or previous card; vertical scrolling is left alone. The choice is announced politely (the name and "2 of 6"). Nothing advances on its own. Moves take 400ms; the card coming forward comes into focus in its last 150ms. The first time the deck is on screen the rear cards fan out 12px and settle back, once. Follow-up's sample (a call note, the concierge's text, the booking in the practice's software, signed by Follow-up with a small stamp) is a signed sample (data-loop="follow") that loops while its card is in front; the others replay one action 600ms after they are chosen: brand, a brand identity board (two lockups, the colors, the type, the brand in use) is set piece by piece; video, the playhead scrubs along the edit's timeline as the captions appear, then the vertical cut splits off the preview and the article places; website, the practice home page scrolls down through the browser and back, the hero button's ring shows and the sign-off is stamped; the coming-soon two, the rule under the first topic draws. Under reduced motion or with animations paused the cards swap at once and the samples stay finished; without JavaScript the six cards are a plain list and the controls stay hidden.</p>
           <div class="ref-stage">
           <div class="beyond" data-deck>
             <div class="beyond-head">
@@ -574,55 +574,119 @@
                   <button class="deck-rail" type="button" data-deck-go="0"><span class="sr-only">Show </span><span class="deck-rail-name">Patient follow-up</span></button>
                 </article>
                 <article class="deck-card" data-slot="1" aria-labelledby="deck-brand">
-                  <div class="deck-body">
+                  <div class="deck-body deck-body--wide">
                     <div class="deck-copy">
                       <div class="deck-head"><h4 class="deck-title" id="deck-brand" tabindex="-1">Brand and logo work</h4><span class="chip">Priced for your practice</span></div>
                       <p>A logo and a brand kit made for your practice.</p>
                       <a class="btn btn--secondary btn--small" href="/services/add-ons#brand">See brand work <svg class="arrow" viewBox="0 0 22 12" aria-hidden="true" focusable="false"><path d="M1 6h19M15 1l5 5-5 5"/></svg></a>
                     </div>
-                    <div class="deck-sheet deck-brand" role="img" aria-label="Sample: a brand application study. [Your practice], orthodontics, in forest, cream and sage, and an appointment card: your next visit, [Date] at [Time]. Prepared for discussion.">
-                      <div class="deck-sheet-head"><span class="deck-sheet-title">Brand application study</span><span class="chip chip--sample">Sample</span></div>
-                      <p class="deck-brand-mark"><span>[Your practice]</span><span>Orthodontics</span></p>
-                      <ul class="deck-swatches"><li><span class="deck-swatch deck-swatch--forest"></span>Forest</li><li><span class="deck-swatch deck-swatch--cream"></span>Cream</li><li><span class="deck-swatch deck-swatch--sage"></span>Sage</li></ul>
-                      <p class="deck-appt"><small>Your next visit</small><span>[Date] at [Time]</span></p>
+                    <div class="deck-sheet deck-sheet--wide deck-brand" role="img" aria-label="Sample: a brand identity board for [Your practice]. The name set in two lockups, horizontal and stacked, each with an icon tile holding your initial; four colors, primary, ground, accent and text, their hex codes to come; a display face and a text face; and the brand in use on an appointment card, your next visit on [Date] at [Time], a business card for [Name], and a social profile image. Prepared for discussion.">
+                      <div class="deck-sheet-head"><span class="deck-sheet-title">Brand identity board</span><span class="chip chip--sample">Sample</span></div>
+                      <div class="deck-brand-board">
+                        <div class="deck-brand-cell deck-brand-primary">
+                          <span class="deck-brand-label">Primary lockup</span>
+                          <span class="deck-brand-lockup"><span class="deck-brand-tile">[P]</span><span class="deck-brand-word"><b>[Your practice]</b><small>Orthodontics</small></span></span>
+                        </div>
+                        <div class="deck-brand-cell deck-brand-stacked">
+                          <span class="deck-brand-label">Stacked</span>
+                          <span class="deck-brand-lockup"><span class="deck-brand-tile">[P]</span><span class="deck-brand-word"><b>[Your practice]</b><small>Orthodontics</small></span></span>
+                        </div>
+                        <div class="deck-brand-cell deck-brand-colors">
+                          <span class="deck-brand-label">Color</span>
+                          <span class="deck-brand-swatches"><span class="deck-brand-swatch">Primary<small>[Hex]</small></span><span class="deck-brand-swatch">Ground<small>[Hex]</small></span><span class="deck-brand-swatch">Accent<small>[Hex]</small></span><span class="deck-brand-swatch">Text<small>[Hex]</small></span></span>
+                        </div>
+                        <div class="deck-brand-cell deck-brand-type">
+                          <span class="deck-brand-label">Type</span>
+                          <span class="deck-brand-faces"><span class="deck-brand-face"><b>Aa</b><small>[Display face]</small></span><span class="deck-brand-face"><b>Aa</b><small>[Text face]</small></span></span>
+                        </div>
+                        <div class="deck-brand-cell deck-brand-uses">
+                          <span class="deck-brand-label">In use</span>
+                          <span class="deck-brand-appt"><small>Your next visit</small><b>[Date] at [Time]</b></span>
+                          <span class="deck-brand-biz"><span class="deck-brand-tile">[P]</span><span class="deck-brand-biz-who"><b>[Name]</b><small>Orthodontics</small></span></span>
+                          <span class="deck-brand-avatar"><span class="deck-brand-tile">[P]</span><small>Profile</small></span>
+                        </div>
+                      </div>
                       <p class="deck-by">Prepared for discussion</p>
                     </div>
                   </div>
                   <button class="deck-rail" type="button" data-deck-go="1"><span class="sr-only">Show </span><span class="deck-rail-name">Brand and logo work</span></button>
                 </article>
                 <article class="deck-card" data-slot="2" aria-labelledby="deck-video">
-                  <div class="deck-body">
+                  <div class="deck-body deck-body--wide">
                     <div class="deck-copy">
                       <div class="deck-head"><h4 class="deck-title" id="deck-video" tabindex="-1">Video and content</h4><span class="chip">Priced for your practice</span></div>
                       <p>Video cutdowns and written content for your site and social.</p>
                       <a class="btn btn--secondary btn--small" href="/services/add-ons#video">See video and content <svg class="arrow" viewBox="0 0 22 12" aria-hidden="true" focusable="false"><path d="M1 6h19M15 1l5 5-5 5"/></svg></a>
                     </div>
-                    <div class="deck-sheet deck-video" role="img" aria-label="Sample: a title sequence study. Three frames, your first visit, your questions and what happens next; the first frame's title, what to expect at your first visit; and three clips, welcome, consultation and next steps. Prepared for discussion.">
-                      <div class="deck-sheet-head"><span class="deck-sheet-title">Title sequence study</span><span class="chip chip--sample">Sample</span></div>
-                      <div class="deck-video-board">
-                        <ol class="deck-frames"><li class="is-current">Your first visit</li><li>Your questions</li><li>What happens next</li></ol>
-                        <p class="deck-video-title"><span>What to expect at your first visit</span></p>
+                    <div class="deck-sheet deck-sheet--wide deck-video" role="img" aria-label="Sample: a video in the edit, What to expect at your first visit. The preview shows its title and the caption, Your first visit starts with a conversation. Under it, the timeline: three clips, welcome, consultation and next steps, a caption track and the audio, with the playhead in the consultation. Cut from it, a vertical version for social and an article for your site. Prepared for discussion.">
+                      <div class="deck-sheet-head"><span class="deck-sheet-title">First visit video, in the edit</span><span class="chip chip--sample">Sample</span></div>
+                      <div class="deck-video-edit">
+                        <div class="deck-video-monitor">
+                          <span class="deck-video-tc">0:14 / 0:30</span>
+                          <span class="deck-video-title">What to expect at your first visit</span>
+                          <span class="deck-video-cap">Your first visit starts with a conversation.</span>
+                        </div>
+                        <div class="deck-video-time">
+                          <span class="deck-video-ruler"><span>0:00</span><span>0:10</span><span>0:20</span><span>0:30</span></span>
+                          <svg class="icon" viewBox="0 0 20 20" aria-hidden="true" focusable="false"><rect x="2.5" y="5.5" width="10.5" height="9" rx="2"/><path d="m13 9 4.5-2.5v7L13 11"/></svg>
+                          <span class="deck-video-clips"><span>Welcome</span><span class="is-current">Consultation</span><span>Next steps</span></span>
+                          <svg class="icon" viewBox="0 0 20 20" aria-hidden="true" focusable="false"><rect x="2.5" y="4.5" width="15" height="11" rx="2"/><path d="M6 9h3M11.5 9h2.5M6 12h8"/></svg>
+                          <span class="deck-video-caps"><i style="--x: 1%; --w: 12%"></i><i style="--x: 17%; --w: 17%"></i><i class="is-current" style="--x: 39%; --w: 18%"></i><i style="--x: 61%; --w: 18%"></i><i style="--x: 83%; --w: 16%"></i></span>
+                          <svg class="icon" viewBox="0 0 20 20" aria-hidden="true" focusable="false"><path d="M3.5 8v4h3l4 3.5v-11L6.5 8Z"/><path d="M13.5 7.5a3.5 3.5 0 0 1 0 5M15.5 5.5a6.5 6.5 0 0 1 0 9"/></svg>
+                          <span class="deck-video-wave"><svg viewBox="0 0 256 24" preserveAspectRatio="none" aria-hidden="true" focusable="false"><path id="deck-wave" d="M1 9h2v6h-2zM5 9h2v6h-2zM9 6h2v12h-2zM13 9h2v6h-2zM17 6h2v12h-2zM21 8h2v8h-2zM25 10h2v4h-2zM29 8h2v8h-2zM33 10h2v4h-2zM37 11h2v2h-2zM41 11h2v2h-2zM45 7h2v10h-2zM49 10h2v4h-2zM53 10h2v4h-2zM57 8h2v8h-2zM61 6h2v12h-2zM65 9h2v6h-2zM69 8h2v8h-2zM73 5h2v14h-2zM77 4h2v16h-2zM81 7h2v10h-2zM85 8h2v8h-2zM89 11h2v2h-2zM93 11h2v2h-2zM97 11h2v2h-2zM101 2h2v20h-2zM105 10h2v4h-2zM109 6h2v12h-2zM113 9h2v6h-2zM117 9h2v6h-2zM121 9h2v6h-2zM125 8h2v8h-2zM129 4h2v16h-2zM133 9h2v6h-2zM137 7h2v10h-2zM141 7h2v10h-2zM145 8h2v8h-2zM149 11h2v2h-2zM153 11h2v2h-2zM157 6h2v12h-2zM161 10h2v4h-2zM165 10h2v4h-2zM169 9h2v6h-2zM173 6h2v12h-2zM177 7h2v10h-2zM181 8h2v8h-2zM185 5h2v14h-2zM189 7h2v10h-2zM193 9h2v6h-2zM197 6h2v12h-2zM201 6h2v12h-2zM205 11h2v2h-2zM209 11h2v2h-2zM213 8h2v8h-2zM217 6h2v12h-2zM221 7h2v10h-2zM225 6h2v12h-2zM229 6h2v12h-2zM233 8h2v8h-2zM237 2h2v20h-2zM241 9h2v6h-2zM245 7h2v10h-2zM249 6h2v12h-2zM253 9h2v6h-2z"/></svg><svg class="deck-video-played" viewBox="0 0 256 24" preserveAspectRatio="none" aria-hidden="true" focusable="false"><use href="#deck-wave"/></svg></span>
+                          <span class="deck-video-scrub"><i></i></span>
+                        </div>
+                        <div class="deck-video-cut">
+                          <span class="deck-video-ratio">9:16</span>
+                          <span class="deck-video-title">What to expect at your first visit</span>
+                          <span class="deck-video-cap">Your first visit starts with a conversation.</span>
+                        </div>
+                        <div class="deck-video-article">
+                          <span class="deck-video-kind"><svg class="icon" viewBox="0 0 20 20" aria-hidden="true" focusable="false"><path d="M5.5 2.5h6l3.5 3.5v11.5h-9.5Z"/><path d="M11.5 2.5V6H15M8 10h4.5M8 13h4.5"/></svg>Article</span>
+                          <b>What to expect at your first visit</b>
+                          <span class="deck-video-lede">Who you'll meet and what happens.</span>
+                        </div>
                       </div>
-                      <ol class="deck-clips"><li class="is-current">Welcome</li><li>Consultation</li><li>Next steps</li></ol>
                       <p class="deck-by">Prepared for discussion</p>
                     </div>
                   </div>
                   <button class="deck-rail" type="button" data-deck-go="2"><span class="sr-only">Show </span><span class="deck-rail-name">Video and content</span></button>
                 </article>
                 <article class="deck-card" data-slot="back" aria-labelledby="deck-website">
-                  <div class="deck-body">
+                  <div class="deck-body deck-body--wide">
                     <div class="deck-copy">
                       <div class="deck-head"><h4 class="deck-title" id="deck-website" tabindex="-1">Website without the ads</h4><span class="chip">Priced for your practice</span></div>
                       <p>A website built from your practice, with SEO, for practices running their own ads.</p>
                       <a class="btn btn--secondary btn--small" href="/services/add-ons#website">See website projects <svg class="arrow" viewBox="0 0 22 12" aria-hidden="true" focusable="false"><path d="M1 6h19M15 1l5 5-5 5"/></svg></a>
                     </div>
-                    <div class="deck-sheet deck-site" role="img" aria-label="Sample: a home page for [Your practice], with links to treatments, your visit and contact. A place to start with your orthodontic questions. Learn about treatment options and what to expect at your first visit. Request a consultation. Signed by Web and SEO.">
-                      <div class="deck-sheet-head"><span class="deck-sheet-title">Home page</span><span class="chip chip--sample">Sample</span></div>
-                      <div class="deck-site-page">
-                        <p class="deck-site-top"><b>[Your practice]</b><span>Treatments · Your visit · Contact</span></p>
-                        <p class="deck-site-h">A place to start with your orthodontic questions.</p>
-                        <p class="deck-site-p">Learn about treatment options and what to expect at your first visit.</p>
-                        <span class="deck-site-btn">Request a consultation</span>
+                    <div class="deck-sheet deck-sheet--wide deck-site" role="img" aria-label="Sample: the home page of a website for [Your practice], scrolled from top to bottom. A menu: treatments, your visit, about and contact. A place to start with your orthodontic questions. Learn about treatment options and what to expect at your first visit. Request a consultation, or call. Treatments: braces, clear aligners and early treatment. Evening appointments, payment plans, and treatment for adults and teens. A form to request a consultation: name, phone and what you would like to ask about. Then the footer. Signed by Web and SEO.">
+                      <div class="deck-sheet-head"><span class="deck-sheet-title">Practice home page</span><span class="chip chip--sample">Sample</span></div>
+                      <div class="deck-site-browser">
+                        <span class="deck-site-bar"><span class="deck-site-dots"><i></i><i></i><i></i></span><span class="deck-site-url"><svg class="icon" viewBox="0 0 20 20" aria-hidden="true" focusable="false"><rect x="5" y="9" width="10" height="7.5" rx="2"/><path d="M7.5 9V7a2.5 2.5 0 0 1 5 0v2"/></svg>[yourpractice].com</span></span>
+                        <span class="deck-site-view">
+                          <span class="deck-site-page">
+                            <span class="deck-site-nav"><b class="deck-site-word">[Your practice]</b><span class="deck-site-links"><span class="is-on">Treatments</span><span>Your visit</span><span>About</span><span>Contact</span></span><svg class="icon deck-site-menu" viewBox="0 0 20 20" aria-hidden="true" focusable="false"><path d="M3.5 6h13M3.5 10h13M3.5 14h13"/></svg></span>
+                            <span class="deck-site-hero">
+                              <span class="deck-site-lead">
+                                <span class="deck-site-h">A place to start with your orthodontic questions.</span>
+                                <span class="deck-site-p">Learn about treatment options and what to expect at your first visit.</span>
+                                <span class="deck-site-ctas"><span class="deck-site-btn">Request a consultation</span><span class="deck-site-btn deck-site-btn--line"><svg class="icon" viewBox="0 0 20 20" aria-hidden="true" focusable="false"><path d="M6.6 3.2 8.4 7 7 8.4a9.6 9.6 0 0 0 4.6 4.6L13 11.6l3.8 1.8v2.4a1.6 1.6 0 0 1-1.7 1.6A13.4 13.4 0 0 1 2.6 4.9 1.6 1.6 0 0 1 4.2 3.2Z"/></svg>Call</span></span>
+                              </span>
+                              <span class="deck-site-art"><i></i><i></i><i></i></span>
+                            </span>
+                            <span class="deck-site-treat">
+                              <span class="deck-site-h2">Treatments</span>
+                              <span class="deck-site-cards"><span><b>Braces</b>Metal or ceramic<svg class="arrow" viewBox="0 0 22 12" aria-hidden="true" focusable="false"><path d="M1 6h19M15 1l5 5-5 5"/></svg></span><span><b>Clear aligners</b>Removable trays<svg class="arrow" viewBox="0 0 22 12" aria-hidden="true" focusable="false"><path d="M1 6h19M15 1l5 5-5 5"/></svg></span><span><b>Early treatment</b>For younger children<svg class="arrow" viewBox="0 0 22 12" aria-hidden="true" focusable="false"><path d="M1 6h19M15 1l5 5-5 5"/></svg></span></span>
+                            </span>
+                            <span class="deck-site-trust"><span><svg class="icon" viewBox="0 0 20 20" aria-hidden="true" focusable="false"><path d="m4.5 10.5 3.5 3.5 7.5-8"/></svg>Evening appointments</span><span><svg class="icon" viewBox="0 0 20 20" aria-hidden="true" focusable="false"><path d="m4.5 10.5 3.5 3.5 7.5-8"/></svg>Payment plans</span><span><svg class="icon" viewBox="0 0 20 20" aria-hidden="true" focusable="false"><path d="m4.5 10.5 3.5 3.5 7.5-8"/></svg>Adults and teens</span></span>
+                            <span class="deck-site-form">
+                              <span class="deck-site-ask"><span class="deck-site-h2">Request a consultation</span><span class="deck-site-p">Tell us what you would like to ask about.</span></span>
+                              <span class="deck-site-fields"><span>Name</span><span>Phone</span><span class="deck-site-select">I'm asking about<svg class="icon" viewBox="0 0 20 20" aria-hidden="true" focusable="false"><path d="m6 8 4 4 4-4"/></svg></span><span class="deck-site-btn">Send request</span></span>
+                            </span>
+                            <span class="deck-site-foot"><b class="deck-site-word">[Your practice]</b><span>Treatments</span><span>Your visit</span><span>About</span><span>Contact</span><span>Privacy</span></span>
+                          </span>
+                          <span class="deck-site-track"><i></i></span>
+                        </span>
                       </div>
                       <p class="deck-sign"><span class="deck-sign-who">Signed by <em class="signature">Web and SEO</em></span><img class="stamp" src="/assets/img/stamp-signed.svg" alt="" width="48" height="48"></p>
                     </div>

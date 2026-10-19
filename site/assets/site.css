@@ -1482,8 +1482,9 @@ h1 em, h2 em, h3 em, .tagline em, .signed-change em { color: var(--accent-italic
    Tablet (768 to 1024): the named buttons wrap in a row above the deck. Phones (under 768): no named buttons; the rear
    cards show under the card in front, the next one's name on its edge, and a sideways swipe on the deck chooses the
    next or previous card. A card's copy sits beside its sample only where the card is 640px wide or more (a container
-   query), otherwise above it. Without JavaScript the six cards are a plain list and the buttons, rails and counter
-   stay hidden.
+   query), otherwise above it; beside it, the sample column is 340px, or 432px for the brand, video and website cards
+   (.deck-body--wide), whose richer samples compose themselves by their own width. Without JavaScript the six cards are
+   a plain list and the buttons, rails and counter stay hidden.
    Markup: .beyond[data-deck] > .beyond-head (h3.beyond-title + p + .deck-picks[role=group] > button.deck-pick
    [data-deck-go] ×6, the current one aria-current) + .deck-stage (.deck[data-anim=none] > article.deck-card[data-slot] ×6
    (.deck-body (.deck-copy (.deck-head (h4.deck-title + span.chip) + p + a.btn) + .deck-sheet[role=img]) + button.deck-rail
@@ -1509,12 +1510,14 @@ h1 em, h2 em, h3 em, .tagline em, .signed-change em { color: var(--accent-italic
 .deck { display: grid; gap: var(--space-6); }
 .deck-card { position: relative; container-type: inline-size; border-radius: var(--radius-card); background: var(--surface-panel); }
 .deck-body { display: grid; grid-template-columns: minmax(0, 1fr); align-content: start; gap: var(--space-6); height: 100%; padding: var(--space-6); }
+/* the brand, video and website cards (.deck-body--wide) give their richer samples a wider column */
 @container (min-width: 640px) {
   .deck-body { grid-template-columns: minmax(0, 1fr) 340px; gap: var(--space-8); }
+  .deck-body--wide { grid-template-columns: minmax(0, 1fr) 432px; }
 }
 .deck-copy { display: grid; justify-items: start; align-content: start; gap: var(--space-3); }
 .deck-head { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-2) var(--space-3); }
-.deck-title { font-family: var(--font-display); font-size: var(--text-h2); font-weight: 400; line-height: 1.15; }
+.deck-title { font-family: var(--font-display); font-size: var(--text-h2); font-weight: 400; line-height: 1.15; text-wrap: balance; }
 .deck-copy > p { text-wrap: pretty; }
 .deck-card .deck-head .chip { background: var(--surface-page); }
 
@@ -1578,40 +1581,216 @@ h1 em, h2 em, h3 em, .tagline em, .signed-change em { color: var(--accent-italic
 .deck-follow-booked b { font-weight: 600; }
 .deck-follow-booked small { font-size: var(--text-caption); line-height: 1.4; color: var(--text-muted); }
 
-/* brand: the practice's name set in the display face, three labelled colours, and an appointment card in them */
-.deck-brand-mark { display: grid; padding-block: var(--space-2); font-family: var(--font-display); line-height: 1.1; }
-.deck-brand-mark span:first-child { font-size: var(--text-h2); }
-.deck-brand-mark span + span { font-size: var(--text-h3); color: var(--text-muted); }
-.deck-swatches { display: flex; flex-wrap: wrap; gap: var(--space-4); font-size: var(--text-caption); font-weight: 500; line-height: 1.4; color: var(--text-muted); }
-.deck-swatches li { display: grid; justify-items: start; gap: var(--space-1); }
-.deck-swatch { display: block; width: 48px; height: 28px; border: var(--border-w) solid var(--border-quiet); border-radius: var(--radius-input); }
-.deck-swatch--forest { background: var(--forest); }
-.deck-swatch--cream { background: var(--cream); }
-.deck-swatch--sage { background: var(--sage); }
-.deck-appt { display: grid; justify-self: start; padding: var(--space-3) var(--space-4); border-radius: var(--radius-input); background: var(--surface-strong); color: var(--text-on-strong); }
-.deck-appt small { font-size: var(--text-caption); line-height: 1.4; color: var(--sage-mist); }
-.deck-appt span { font-family: var(--font-display); font-size: var(--text-h3); line-height: 1.2; }
+/* the three richer samples (brand, video, website): a wider sheet, composed by its own width. 360px or wider inside
+   (desktop, and the stacked cards on tablets) they take their full composition; narrower (phones) each one is
+   recomposed for the width rather than scaled down. */
+.deck-sheet--wide { container: deck-sheet / inline-size; }
 
-/* video: three frames beside the first one's title card, and the clips under them, the first one selected */
-.deck-video-board { display: grid; grid-template-columns: minmax(0, 1fr) 104px; align-items: start; gap: var(--space-4); }
-.deck-frames { display: grid; gap: var(--space-2); }
-.deck-frames li { padding: var(--space-2) var(--space-3); border: var(--border-w) solid var(--border-quiet); border-radius: var(--radius-input); font-size: var(--text-label); font-weight: 500; line-height: 1.4; color: var(--text-muted); }
-.deck-frames li.is-current { border-color: var(--border-strong); color: var(--text-body); font-weight: 600; }
-.deck-video-title { display: grid; align-items: end; aspect-ratio: 9 / 16; padding: var(--space-3); border-radius: var(--radius-input); background: var(--surface-strong); color: var(--text-on-strong); font-family: var(--font-display); font-size: 17px; line-height: 1.15; }
-.deck-video-title span { display: block; }
-.deck-clips { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--space-1); }
-.deck-clips li { position: relative; padding: var(--space-2) var(--space-1); border-radius: var(--radius-input); background: var(--surface-panel); color: var(--forest); font-size: var(--text-caption); font-weight: 600; line-height: 1.4; text-align: center; }
-.deck-clips li.is-current::after { content: ""; position: absolute; inset: 0; border: var(--border-w-strong) solid var(--forest); border-radius: inherit; }
+/* brand: a brand identity board for [Your practice]. Five cells: the primary lockup (an icon tile holding the
+   initial, then the name in the display face over "Orthodontics" in tracked caps), the stacked lockup reversed out
+   of forest, the four colors as one strip with their names and [Hex], the two faces as "Aa", and the brand in use on
+   a sage mist ground: an appointment card, a business card and a round profile image. Type-set lockups only, no
+   drawn logo. */
+.deck-brand-board { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)) 124px; grid-template-areas: "primary primary stacked" "colors colors type" "uses uses uses"; gap: var(--space-2); }
+.deck-brand-cell { display: grid; grid-template-rows: auto minmax(0, 1fr); gap: var(--space-1); min-width: 0; padding: var(--space-2) 10px 10px; border: var(--border-w) solid var(--border-quiet); border-radius: var(--radius-input); }
+.deck-brand-label { font-size: 10.5px; font-weight: 500; line-height: 13px; letter-spacing: var(--tracking-label); color: var(--text-muted); }
+.deck-brand-tile { display: grid; place-items: center; flex: none; width: 36px; height: 36px; border-radius: var(--radius-input); background: var(--forest); color: var(--cream); font-family: var(--font-display); font-size: 17px; line-height: 1; letter-spacing: -.02em; }
+.deck-brand-lockup { display: flex; align-items: center; gap: var(--space-3); }
+.deck-brand-word { display: grid; justify-items: start; gap: 3px; }
+.deck-brand-word b { font-family: var(--font-display); font-size: 25px; font-weight: 400; line-height: 1; white-space: nowrap; color: var(--text-body); }
+.deck-brand-word small { padding-left: 1px; font-size: 8px; font-weight: 600; line-height: 1; letter-spacing: .26em; text-transform: uppercase; color: var(--text-muted); }
+.deck-brand-primary { grid-area: primary; }
+.deck-brand-stacked { grid-area: stacked; border-color: var(--forest); background: var(--surface-strong); }
+.deck-brand-stacked .deck-brand-label { color: var(--sage-mist); }
+.deck-brand-stacked .deck-brand-lockup { flex-direction: column; justify-content: center; gap: 5px; }
+.deck-brand-stacked .deck-brand-tile { width: 30px; height: 30px; background: var(--cream); color: var(--forest); font-size: 14px; }
+.deck-brand-stacked .deck-brand-word { justify-items: center; }
+.deck-brand-stacked .deck-brand-word b { font-size: 16px; color: var(--cream); }
+.deck-brand-stacked .deck-brand-word small { font-size: 6.5px; color: var(--sage-mist); }
+.deck-brand-colors { grid-area: colors; }
+.deck-brand-swatches { display: grid; grid-template-columns: 1.5fr 1.2fr 1fr 1fr; min-height: 46px; overflow: hidden; border: var(--border-w) solid var(--border-quiet); border-radius: var(--radius-input); }
+.deck-brand-swatch { display: grid; align-content: end; padding: 6px 8px; font-size: 10px; font-weight: 600; line-height: 1.3; }
+.deck-brand-swatch small { font-size: 9.5px; font-weight: 500; }
+.deck-brand-swatch:nth-child(1) { background: var(--forest); color: var(--cream); }
+.deck-brand-swatch:nth-child(2) { background: var(--cream); color: var(--ink); }
+.deck-brand-swatch:nth-child(3) { background: var(--sage); color: var(--ink); }
+.deck-brand-swatch:nth-child(4) { background: var(--ink); color: var(--cream); }
+.deck-brand-type { grid-area: type; }
+.deck-brand-faces { display: grid; align-content: center; gap: 2px; }
+.deck-brand-face { display: flex; align-items: baseline; gap: var(--space-2); font-size: 9.5px; font-weight: 500; line-height: 1.2; color: var(--text-muted); }
+.deck-brand-face b { flex: none; width: 30px; font-family: var(--font-display); font-size: 26px; font-weight: 400; line-height: 1.1; color: var(--text-body); }
+.deck-brand-face + .deck-brand-face b { font-family: var(--font-text); font-size: 19px; font-weight: 600; letter-spacing: -.02em; }
+.deck-brand-uses { grid-area: uses; grid-template-columns: auto auto minmax(0, 1fr); grid-template-rows: auto auto; align-items: end; column-gap: var(--space-3); border-color: var(--surface-panel); background: var(--surface-panel); }
+.deck-brand-uses .deck-brand-label { grid-column: 1 / -1; }
+.deck-brand-appt { display: grid; gap: 2px; padding: var(--space-2) var(--space-3); border-radius: var(--radius-input); background: var(--surface-strong); color: var(--cream); box-shadow: var(--shadow-2); }
+.deck-brand-appt small { font-size: 9.5px; font-weight: 500; line-height: 1.3; color: var(--sage-mist); }
+.deck-brand-appt b { font-family: var(--font-display); font-size: 17px; font-weight: 400; line-height: 1.1; white-space: nowrap; }
+.deck-brand-biz { display: flex; align-items: center; gap: var(--space-2); padding: var(--space-2) var(--space-3) var(--space-2) var(--space-2); border-radius: var(--radius-input); background: var(--surface-page); box-shadow: var(--shadow-2); }
+.deck-brand-biz .deck-brand-tile { width: 32px; height: 32px; font-size: 15px; }
+.deck-brand-biz-who { display: grid; gap: 3px; }
+.deck-brand-biz-who b { font-size: 11px; font-weight: 600; line-height: 1.2; }
+.deck-brand-biz-who small { font-size: 6.5px; font-weight: 600; line-height: 1; letter-spacing: .26em; text-transform: uppercase; color: var(--text-muted); }
+.deck-brand-avatar { display: grid; justify-items: center; justify-self: end; gap: 3px; font-size: 9.5px; font-weight: 500; line-height: 1.2; color: var(--text-muted); }
+.deck-brand-avatar .deck-brand-tile { width: 40px; height: 40px; border-radius: 50%; box-shadow: var(--shadow-2); font-size: 16px; }
+@container deck-sheet (max-width: 359px) {
+  .deck-brand-board { grid-template-columns: repeat(2, minmax(0, 1fr)); grid-template-areas: "primary primary" "stacked type" "colors colors" "uses uses"; gap: 6px; }
+  .deck-brand-tile { width: 32px; height: 32px; font-size: 15px; }
+  .deck-brand-word b { font-size: 22px; }
+  .deck-brand-primary { position: relative; grid-template-rows: auto; padding-block: 12px; }
+  .deck-brand-primary .deck-brand-label { position: absolute; right: 10px; bottom: 10px; }
+  .deck-brand-stacked .deck-brand-lockup { gap: 4px; }
+  .deck-brand-stacked .deck-brand-tile { width: 26px; height: 26px; font-size: 12px; }
+  .deck-brand-stacked .deck-brand-word b { font-size: 15px; }
+  .deck-brand-face b { font-size: 24px; }
+  .deck-brand-face + .deck-brand-face b { font-size: 18px; }
+  .deck-brand-swatches { min-height: 36px; }
+  .deck-brand-swatch { padding: 4px 6px; }
+  .deck-brand-uses { grid-template-columns: auto minmax(0, 1fr) auto; column-gap: 6px; }
+  .deck-brand-appt { padding-inline: var(--space-2); }
+  .deck-brand-appt b { font-size: 14px; }
+  .deck-brand-biz { padding: 6px; }
+  .deck-brand-biz .deck-brand-tile { width: 28px; height: 28px; font-size: 13px; }
+  .deck-brand-biz-who small { display: none; }
+  .deck-brand-avatar .deck-brand-tile { width: 32px; height: 32px; font-size: 13px; }
+}
 
-/* a website without the ads: a real small home page, its button a picture of one */
-.deck-site-page { display: grid; justify-items: start; gap: var(--space-2); padding: var(--space-4); border: var(--border-w) solid var(--border-quiet); border-radius: var(--radius-input); }
-.deck-site-top { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: var(--space-1) var(--space-3); width: 100%; padding-bottom: var(--space-2); border-bottom: var(--border-w) solid var(--border-quiet); font-size: var(--text-caption); line-height: 1.4; color: var(--text-muted); }
-.deck-site-top b { font-family: var(--font-display); font-size: 17px; font-weight: 400; color: var(--text-body); }
-.deck-site-h { font-family: var(--font-display); font-size: 22px; line-height: 1.15; text-wrap: balance; }
-.deck-site-p { color: var(--text-muted); text-wrap: pretty; }
-.deck-site-btn { position: relative; margin-top: var(--space-1); padding: var(--space-1) var(--space-4); border-radius: var(--radius-pill); background: var(--surface-strong); color: var(--text-on-strong); font-size: var(--text-label); font-weight: 600; line-height: 1.6; }
-/* the button's emphasis ring: hidden at rest, it shows for a moment when the sample plays */
-.deck-site-btn::after { content: ""; position: absolute; inset: -5px; border: var(--border-w-strong) solid var(--forest); border-radius: inherit; opacity: 0; }
+/* video: a first-visit video in the edit. The preview (forest, 16:9) with its title and the caption under the
+   playhead; under it the timeline: a ruler, three clips (the playhead in Consultation), the caption track and the
+   audio as SVG bars, played bars in forest; beside it what was cut from it, a vertical 9:16 version for social
+   (sage) and an article for the site. Type and 1.5px line icons only, no pictures. */
+.deck-video-edit { --split: -200px; display: grid; grid-template-columns: minmax(0, 1fr) 104px; grid-template-areas: "mon cut" "time cut" "time art"; align-items: start; gap: var(--space-3); }
+.deck-video-monitor { grid-area: mon; position: relative; display: grid; align-content: space-between; justify-items: start; aspect-ratio: 16 / 9; padding: var(--space-3); border-radius: var(--radius-input); background: var(--surface-strong); color: var(--cream); }
+.deck-video-tc { position: absolute; top: 9px; right: var(--space-3); font-size: 9.5px; font-weight: 500; line-height: 1.2; color: var(--sage-mist); font-variant-numeric: tabular-nums; }
+.deck-video-title { display: grid; gap: 6px; max-width: 10em; font-family: var(--font-display); font-size: 21px; line-height: 1.05; text-wrap: balance; }
+.deck-video-title::before { content: ""; width: 20px; height: 2px; border-radius: var(--radius-pill); background: var(--sage); }
+.deck-video-cap { justify-self: center; padding: 2px var(--space-2); border-radius: var(--radius-pill); background: var(--ink); color: var(--cream); font-size: 10px; font-weight: 500; line-height: 1.4; white-space: nowrap; }
+.deck-video-time { grid-area: time; position: relative; display: grid; grid-template-columns: 14px minmax(0, 1fr); grid-template-rows: auto 22px 10px 22px; align-items: center; gap: 6px var(--space-2); padding: var(--space-2) var(--space-3) var(--space-3) var(--space-2); border-radius: var(--radius-input); background: var(--surface-panel); }
+.deck-video-time .icon { width: 14px; height: 14px; color: var(--text-muted); }
+.deck-video-ruler { grid-column: 2; display: flex; justify-content: space-between; padding-bottom: 3px; border-bottom: var(--border-w) solid var(--border-quiet); font-size: 9.5px; font-weight: 500; line-height: 1.2; color: var(--text-muted); font-variant-numeric: tabular-nums; }
+.deck-video-clips { display: grid; grid-template-columns: 29fr 43fr 28fr; gap: 2px; height: 100%; overflow: hidden; border-radius: var(--radius-input); }
+.deck-video-clips span { display: block; min-width: 0; padding-inline: 6px; overflow: hidden; background: var(--sage); color: var(--ink); font-size: 9.5px; font-weight: 600; line-height: 22px; white-space: nowrap; text-overflow: ellipsis; }
+.deck-video-clips .is-current { background: var(--forest); color: var(--cream); }
+.deck-video-caps { position: relative; height: 100%; }
+.deck-video-caps i { position: absolute; top: 0; bottom: 0; left: var(--x); width: var(--w); border-radius: var(--radius-pill); background: var(--sage); }
+.deck-video-caps .is-current { background: var(--forest); }
+.deck-video-wave { position: relative; height: 100%; }
+.deck-video-wave svg { display: block; width: 100%; height: 100%; fill: var(--sage); }
+.deck-video-wave .deck-video-played { position: absolute; inset: 0; fill: var(--forest); clip-path: inset(0 52% 0 0); }
+/* the playhead: a 2px line with a knob, 48% along the lanes (cqi: the lanes are its container) */
+.deck-video-scrub { position: absolute; top: 19px; right: var(--space-3); bottom: var(--space-2); left: 30px; container-type: inline-size; pointer-events: none; }
+.deck-video-scrub i { position: absolute; top: 0; bottom: 0; left: -1px; width: 2px; border-radius: var(--radius-pill); background: var(--ink); translate: 48cqi 0; }
+.deck-video-scrub i::before { content: ""; position: absolute; top: 0; left: -3px; width: 8px; height: 8px; border-radius: 50%; background: var(--ink); }
+.deck-video-cut { grid-area: cut; position: relative; z-index: 1; display: grid; align-content: space-between; justify-items: start; aspect-ratio: 9 / 16; padding: var(--space-2); border-radius: var(--radius-input); background: var(--sage); color: var(--ink); box-shadow: var(--shadow-2); }
+.deck-video-ratio { padding: 1px 6px; border-radius: var(--radius-pill); background: var(--cream); color: var(--forest); font-size: 9.5px; font-weight: 600; line-height: 1.3; font-variant-numeric: tabular-nums; }
+.deck-video-cut .deck-video-title { font-size: 17px; }
+.deck-video-cut .deck-video-title::before { background: var(--forest); }
+.deck-video-cut .deck-video-cap { justify-self: stretch; padding: 3px 6px; border-radius: var(--radius-input); font-size: 9.5px; line-height: 1.3; text-align: center; white-space: normal; }
+.deck-video-article { grid-area: art; display: grid; align-content: start; gap: 4px; padding: var(--space-2); border: var(--border-w) solid var(--border-quiet); border-radius: var(--radius-input); background: var(--surface-page); box-shadow: var(--shadow-1); }
+.deck-video-kind { display: flex; align-items: center; gap: 4px; font-size: 9.5px; font-weight: 600; line-height: 1.2; color: var(--text-muted); }
+.deck-video-kind .icon { width: 12px; height: 12px; }
+.deck-video-article b { font-family: var(--font-display); font-size: 14px; font-weight: 400; line-height: 1.1; }
+.deck-video-lede { display: none; }
+@container deck-sheet (max-width: 359px) {
+  .deck-video-edit { --split: -148px; grid-template-columns: minmax(0, 1fr) 72px; grid-template-areas: "mon cut" "time time" "art art"; gap: var(--space-2); }
+  .deck-video-title { font-size: 17px; }
+  .deck-video-cap { max-width: 100%; border-radius: var(--radius-input); font-size: 9.5px; text-align: center; white-space: normal; text-wrap: balance; }
+  .deck-video-cut { padding: 6px; }
+  .deck-video-cut .deck-video-title { gap: 4px; font-size: 13px; }
+  .deck-video-cut .deck-video-cap { padding: 2px 4px; font-size: 8px; }
+  .deck-video-article { grid-template-columns: minmax(0, 1fr); gap: 2px; padding: var(--space-2) var(--space-3); }
+  .deck-video-article b { font-size: 17px; }
+  .deck-video-lede { display: block; font-size: var(--text-label); line-height: 1.4; color: var(--text-muted); }
+}
+
+/* website without the ads: a practice home page in a browser. The page (nav, hero with its two calls to action and
+   a visual of flat brand shapes, treatments, a reassurance strip, a consultation form and the footer) is taller than
+   the window; at rest the window shows its top. The window is a size container: the page and the scroll thumb move by
+   container units when the sample plays. Under 340px wide inside, the page takes its own phone layout. */
+.deck-site-browser { display: grid; overflow: hidden; border: var(--border-w) solid var(--border-quiet); border-radius: var(--radius-input); background: var(--surface-page); box-shadow: var(--shadow-2); }
+.deck-site-bar { display: flex; align-items: center; gap: var(--space-3); padding: 6px var(--space-3); border-bottom: var(--border-w) solid var(--border-quiet); background: var(--surface-panel); }
+.deck-site-dots { display: flex; gap: 5px; }
+.deck-site-dots i { width: 7px; height: 7px; border-radius: 50%; background: var(--sage); }
+.deck-site-url { display: flex; flex: 1; align-items: center; justify-content: center; gap: 4px; min-width: 0; margin-right: 27px; padding: 2px var(--space-3); border-radius: var(--radius-pill); background: var(--surface-page); font-size: 10px; font-weight: 500; line-height: 1.4; color: var(--text-muted); }
+.deck-site-url .icon { width: 11px; height: 11px; }
+.deck-site-view { position: relative; display: block; height: 240px; overflow: hidden; container: deck-site / size; }
+.deck-site-page { display: grid; font-size: 10px; line-height: 1.45; color: var(--text-body); }
+.deck-site-nav { display: flex; align-items: center; justify-content: space-between; gap: var(--space-3); padding: 9px 14px; border-bottom: var(--border-w) solid var(--border-quiet); }
+.deck-site-word { font-family: var(--font-display); font-size: 16px; font-weight: 400; line-height: 1.1; white-space: nowrap; }
+.deck-site-links { display: flex; gap: var(--space-3); font-weight: 500; color: var(--text-muted); }
+.deck-site-links .is-on { color: var(--text-body); }
+.deck-site-menu { display: none; }
+.deck-site-hero { display: grid; grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr); align-items: center; gap: 14px; padding: 18px 14px; }
+.deck-site-lead { display: grid; justify-items: start; gap: 6px; }
+.deck-site-h { font-family: var(--font-display); font-size: 23px; line-height: 1.02; text-wrap: balance; }
+.deck-site-p { font-size: 10.5px; color: var(--text-muted); text-wrap: pretty; }
+.deck-site-ctas { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 4px; }
+.deck-site-btn { position: relative; display: inline-flex; align-items: center; justify-content: center; gap: 4px; padding: 4px 10px; border: var(--border-w) solid var(--forest); border-radius: var(--radius-pill); background: var(--forest); color: var(--cream); font-size: 9.5px; font-weight: 600; line-height: 1.4; white-space: nowrap; }
+.deck-site-btn--line { background: transparent; color: var(--forest); }
+.deck-site-btn .icon { width: 10px; height: 10px; }
+/* the hero button's emphasis ring: hidden at rest, it shows for a moment when the sample plays */
+.deck-site-lead .deck-site-btn::after { content: ""; position: absolute; inset: -4px; border: var(--border-w-strong) solid var(--forest); border-radius: inherit; opacity: 0; }
+.deck-site-lead .deck-site-btn--line::after { display: none; }
+.deck-site-art { position: relative; display: block; height: 124px; overflow: hidden; border-radius: var(--radius-input); background: var(--forest); }
+.deck-site-art i { position: absolute; display: block; }
+.deck-site-art i:nth-child(1) { left: 14%; bottom: 0; width: 44%; height: 72%; border-radius: 999px 999px 0 0; background: var(--sage); }
+.deck-site-art i:nth-child(2) { top: 16%; right: 12%; width: 30%; aspect-ratio: 1; border-radius: 50%; background: var(--cream); }
+.deck-site-art i:nth-child(3) { right: 12%; bottom: 16%; width: 34%; height: 8px; border-radius: var(--radius-pill); background: var(--sage-mist); }
+.deck-site-treat { display: grid; gap: var(--space-2); padding: 4px 14px 16px; }
+.deck-site-h2 { font-family: var(--font-display); font-size: 16px; line-height: 1.1; }
+.deck-site-cards { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 6px; }
+.deck-site-cards > span { display: grid; justify-items: start; gap: 1px; padding: var(--space-2) 10px; border-radius: var(--radius-input); background: var(--surface-panel); font-size: 9.5px; color: var(--text-muted); }
+.deck-site-cards b { font-size: 10.5px; font-weight: 600; color: var(--text-body); }
+.deck-site-cards .arrow { width: 13px; height: 8px; margin-top: 4px; color: var(--forest); }
+.deck-site-trust { display: flex; justify-content: space-between; gap: var(--space-2); padding: var(--space-2) 14px; background: var(--forest); color: var(--cream); font-weight: 500; }
+.deck-site-trust > span { display: flex; align-items: center; gap: 4px; white-space: nowrap; }
+.deck-site-trust .icon { width: 12px; height: 12px; color: var(--sage-mist); }
+.deck-site-form { display: grid; grid-template-columns: minmax(0, .9fr) minmax(0, 1.1fr); align-items: start; gap: 14px; padding: 16px 14px; }
+.deck-site-ask { display: grid; gap: 4px; }
+.deck-site-fields { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 6px; }
+.deck-site-fields > span:not(.deck-site-btn) { display: flex; align-items: center; justify-content: space-between; padding: 4px 10px; border: var(--border-w) solid var(--border-input); border-radius: var(--radius-pill); background: var(--surface-page); color: var(--text-muted); line-height: 1.4; }
+.deck-site-fields .icon { width: 10px; height: 10px; }
+.deck-site-select, .deck-site-fields .deck-site-btn { grid-column: 1 / -1; }
+.deck-site-foot { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px var(--space-3); padding: var(--space-3) 14px 14px; border-top: var(--border-w) solid var(--border-quiet); background: var(--surface-panel); font-size: 9.5px; font-weight: 500; color: var(--text-muted); }
+.deck-site-foot .deck-site-word { flex: 1 1 100%; font-size: 14px; color: var(--text-body); }
+/* the scroll thumb: its track is a size container too, so it travels by the same keyframes as the page */
+.deck-site-track { position: absolute; top: 4px; right: 3px; bottom: 4px; width: 3px; container-type: size; }
+.deck-site-track i { display: block; width: 3px; height: 40%; border-radius: var(--radius-pill); background: var(--sage); }
+/* phones: a taller window, and the page in its own phone layout (by the window's width, below) */
+@container deck-sheet (max-width: 359px) {
+  .deck-site-view { height: 276px; }
+}
+@container deck-site (max-width: 339px) {
+  .deck-site-page { font-size: var(--text-label); line-height: 1.45; }
+  .deck-site-nav { padding: 10px 14px; }
+  .deck-site-word { font-size: 18px; }
+  .deck-site-links { display: none; }
+  .deck-site-menu { display: block; width: 18px; height: 18px; color: var(--text-body); }
+  .deck-site-hero { grid-template-columns: minmax(0, 1fr); gap: 14px; padding: 16px 14px; }
+  .deck-site-lead { gap: var(--space-2); }
+  .deck-site-h { font-size: 26px; }
+  .deck-site-p { font-size: var(--text-body-s); line-height: 1.45; }
+  .deck-site-ctas { gap: var(--space-2); }
+  .deck-site-btn { padding: 7px 14px; font-size: 12px; }
+  .deck-site-btn .icon { width: 12px; height: 12px; }
+  .deck-site-art { height: 64px; }
+  .deck-site-art i:nth-child(1) { left: 8%; width: 22%; height: 80%; }
+  .deck-site-art i:nth-child(2) { top: 22%; right: 30%; width: 14%; }
+  .deck-site-art i:nth-child(3) { right: 6%; bottom: 28%; width: 20%; }
+  .deck-site-h2 { font-size: 20px; }
+  .deck-site-cards { grid-template-columns: minmax(0, 1fr); }
+  .deck-site-cards > span { grid-template-columns: auto minmax(0, 1fr) auto; align-items: center; gap: var(--space-2); padding: 10px 12px; font-size: 12px; }
+  .deck-site-cards b { font-size: var(--text-label); }
+  .deck-site-cards .arrow { margin-top: 0; }
+  .deck-site-trust { flex-direction: column; gap: 6px; padding: 12px 14px; }
+  .deck-site-trust .icon { width: 14px; height: 14px; }
+  .deck-site-form { grid-template-columns: minmax(0, 1fr); }
+  .deck-site-fields { grid-template-columns: minmax(0, 1fr); }
+  .deck-site-fields > span:not(.deck-site-btn) { padding: 7px 14px; }
+  .deck-site-fields .deck-site-btn { padding-block: 8px; }
+  .deck-site-fields .icon { width: 12px; height: 12px; }
+  .deck-site-foot { font-size: 12px; }
+  .deck-site-foot .deck-site-word { font-size: 16px; }
+}
 
 /* coming soon: the questions a first conversation would cover, the first one ruled. Nothing ticked. */
 .deck-plan-title { font-family: var(--font-display); font-size: var(--text-h3); line-height: 1.2; }
@@ -1622,23 +1801,58 @@ h1 em, h2 em, h3 em, .tagline em, .signed-change em { color: var(--accent-italic
 .deck-topics-ask { color: var(--text-muted); font-weight: 500; }
 
 /* each sample's one action, 600ms after its card is chosen (site.js adds .is-playing). Each starts from a quiet state
-   and ends on the element's own style, so a sample that doesn't play is complete. */
+   and ends on the element's own style, so a sample that doesn't play is complete.
+   Brand: the identity is set in order: the tile, the name beside it, the stacked lockup, the colors drawn left to
+   right, the two faces, then the three things it is used on. Video: the playhead scrubs to the consultation while
+   the played audio follows it and the captions appear as it passes them (the rest are filled in when it stops), then
+   the vertical cut splits off the preview to its column and the article places. Website: the page scrolls down
+   through the window (pausing at the treatments and at the form) and back to the top, the hero button is ringed,
+   then the sample is signed and stamped. */
 @keyframes deck-place { from { opacity: 0; translate: 0 6px; } }
+@keyframes deck-pop { from { opacity: 0; scale: .8; } }
+@keyframes deck-show { from { opacity: 0; } }
 @keyframes deck-draw { from { clip-path: inset(0 100% 0 0); } to { clip-path: inset(0 0 0 0); } }
 @keyframes deck-rule { from { transform: scaleX(0); } }
 @keyframes deck-ring { 0%, 100% { opacity: 0; } 35%, 65% { opacity: 1; } }
 @keyframes deck-press { 0% { opacity: 0; scale: 1.7; } 60% { opacity: .9; scale: .93; } }
+@keyframes deck-scrub { from { translate: 0 0; } }
+@keyframes deck-played { from { clip-path: inset(0 100% 0 0); } }
+@keyframes deck-split { 0% { opacity: 0; translate: var(--split) 0; scale: .86; } 30% { opacity: 1; } }
+@keyframes deck-scroll {
+  0%, 10% { translate: 0 0; }
+  32%, 44% { translate: 0 calc((100cqh - 100%) * .5); }
+  64%, 80% { translate: 0 calc(100cqh - 100%); }
+  100% { translate: 0 0; }
+}
 @keyframes deck-fan { 50% { translate: calc(var(--fan-x) * var(--fan-n, 1)) calc(var(--fan-y) * var(--fan-n, 1)); } }
 @media (prefers-reduced-motion: no-preference) {
-  .js:not(.motion-paused) .deck-card.is-playing :is(.deck-swatch, .deck-appt, .deck-video-title span, .deck-site .deck-sign) { animation: deck-place var(--dur-slow) var(--ease-standard) backwards; }
-  .js:not(.motion-paused) .deck-card.is-playing .deck-swatches li:nth-child(2) .deck-swatch { animation-delay: var(--dur-fast); }
-  .js:not(.motion-paused) .deck-card.is-playing .deck-swatches li:nth-child(3) .deck-swatch { animation-delay: calc(var(--dur-fast) * 2); }
-  .js:not(.motion-paused) .deck-card.is-playing .deck-appt { animation-delay: calc(var(--dur-fast) * 2 + var(--dur-med)); }
-  .js:not(.motion-paused) .deck-card.is-playing .deck-clips li.is-current::after { animation: deck-draw var(--dur-slow) var(--ease-standard) backwards; }
-  .js:not(.motion-paused) .deck-card.is-playing .deck-video-title span { animation-duration: var(--dur-med); animation-delay: var(--dur-slow); }
-  .js:not(.motion-paused) .deck-card.is-playing .deck-site-btn::after { animation: deck-ring calc(var(--dur-med) * 3) var(--ease-standard); }
-  .js:not(.motion-paused) .deck-card.is-playing .deck-site .deck-sign { animation-delay: calc(var(--dur-med) * 3); }
-  .js:not(.motion-paused) .deck-card.is-playing .deck-site .stamp { animation: deck-press calc(var(--dur-med) * 1.8) var(--ease-standard) calc(var(--dur-med) * 3 + var(--dur-slow)) backwards; }
+  .js:not(.motion-paused) .deck-card.is-playing :is(.deck-brand-stacked, .deck-brand-face, .deck-brand-appt, .deck-brand-biz, .deck-brand-avatar, .deck-video-article) { animation: deck-place var(--dur-slow) var(--ease-standard) backwards; }
+  /* brand */
+  .js:not(.motion-paused) .deck-card.is-playing .deck-brand-primary .deck-brand-tile { animation: deck-pop var(--dur-slow) var(--ease-standard) backwards; }
+  .js:not(.motion-paused) .deck-card.is-playing .deck-brand-primary .deck-brand-word { animation: deck-draw var(--dur-slow) var(--ease-standard) var(--dur-fast) backwards; }
+  .js:not(.motion-paused) .deck-card.is-playing .deck-brand-stacked { animation-delay: 350ms; }
+  .js:not(.motion-paused) .deck-card.is-playing .deck-brand-swatches { animation: deck-draw 500ms var(--ease-standard) 550ms backwards; }
+  .js:not(.motion-paused) .deck-card.is-playing .deck-brand-face:first-child { animation-delay: 700ms; }
+  .js:not(.motion-paused) .deck-card.is-playing .deck-brand-face + .deck-brand-face { animation-delay: 800ms; }
+  .js:not(.motion-paused) .deck-card.is-playing .deck-brand-appt { animation-delay: 950ms; }
+  .js:not(.motion-paused) .deck-card.is-playing .deck-brand-biz { animation-delay: 1075ms; }
+  .js:not(.motion-paused) .deck-card.is-playing .deck-brand-avatar { animation-delay: 1200ms; }
+  /* video */
+  .js:not(.motion-paused) .deck-card.is-playing .deck-video-monitor .deck-video-title { animation: deck-place var(--dur-slow) var(--ease-standard) backwards; }
+  .js:not(.motion-paused) .deck-card.is-playing .deck-video-scrub i { animation: deck-scrub 2.4s var(--ease-standard) backwards; }
+  .js:not(.motion-paused) .deck-card.is-playing .deck-video-played { animation: deck-played 2.4s var(--ease-standard) backwards; }
+  .js:not(.motion-paused) .deck-card.is-playing :is(.deck-video-caps i, .deck-video-monitor .deck-video-cap) { animation: deck-show var(--dur-med) var(--ease-standard) backwards; }
+  .js:not(.motion-paused) .deck-card.is-playing .deck-video-caps i:nth-child(2) { animation-delay: 300ms; }
+  .js:not(.motion-paused) .deck-card.is-playing :is(.deck-video-caps i:nth-child(3), .deck-video-monitor .deck-video-cap) { animation-delay: 1.1s; }
+  .js:not(.motion-paused) .deck-card.is-playing .deck-video-caps i:nth-child(4) { animation-delay: 2.4s; }
+  .js:not(.motion-paused) .deck-card.is-playing .deck-video-caps i:nth-child(5) { animation-delay: 2.5s; }
+  .js:not(.motion-paused) .deck-card.is-playing .deck-video-cut { animation: deck-split 700ms var(--ease-standard) 2.5s backwards; }
+  .js:not(.motion-paused) .deck-card.is-playing .deck-video-article { animation-delay: 3s; }
+  /* website */
+  .js:not(.motion-paused) .deck-card.is-playing :is(.deck-site-page, .deck-site-track i) { animation: deck-scroll 4.4s var(--ease-standard); }
+  .js:not(.motion-paused) .deck-card.is-playing .deck-site-lead .deck-site-btn::after { animation: deck-ring calc(var(--dur-med) * 3) var(--ease-standard) 4.4s; }
+  .js:not(.motion-paused) .deck-card.is-playing .deck-site .deck-sign { animation: deck-place var(--dur-slow) var(--ease-standard) 4.9s backwards; }
+  .js:not(.motion-paused) .deck-card.is-playing .deck-site .stamp { animation: deck-press calc(var(--dur-med) * 1.8) var(--ease-standard) 5.3s backwards; }
   .js:not(.motion-paused) .deck-card.is-playing .deck-topics li.is-key::after { animation: deck-rule var(--dur-slow) var(--ease-standard) backwards; }
   /* the nudge: the rear cards fan out and settle back, once */
   .js:not(.motion-paused) .deck.is-nudging .deck-card:is([data-slot="1"], [data-slot="2"]) { animation: deck-fan var(--rest-bloom) var(--ease-standard) var(--dur-med); }
