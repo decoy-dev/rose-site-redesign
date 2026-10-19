@@ -282,6 +282,7 @@
   //   [data-anim="draw"]           an SVG line draws in
   //   [data-anim="status"]         a status row steps from new to called to booked
   //   [data-play]                  a small sample plays its steps once (site.css), starting as it comes into view
+  //   .foot-giant                  the footer's wordmark rises the last 12% into its crop, once, as it comes into view
   const reduceMotion = matchMedia('(prefers-reduced-motion: reduce)');
   const gs = window.gsap;
   const ST = window.ScrollTrigger;
@@ -548,6 +549,10 @@
         if (quiet(sig) || sig.closest('.site-foot, .note-letter')) return;
         gs.fromTo(sig, { clipPath: 'inset(-20% 100% -20% 0)' }, { clipPath: 'inset(-20% -5% -20% 0)', duration: REST * 1.4, ease: OUT, scrollTrigger: { trigger: sig, start: 'top 88%', once: true } });
       });
+
+      // the footer's wordmark rises the last stretch into its crop as it comes into view (site.css "footer")
+      const giant = document.querySelector('.foot-giant');
+      if (giant) gs.from(giant, { yPercent: 12, duration: REST * 1.4, ease: 'power3.out', scrollTrigger: { trigger: giant, start: 'top 75%', once: true } });
 
       // the numeral on a numbered card counts up to its number as the card arrives
       gs.utils.toArray('.commit-num, .step-num').forEach((num) => {

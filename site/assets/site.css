@@ -542,7 +542,7 @@ h1 em, h2 em, h3 em, .tagline em, .signed-change em { color: var(--accent-italic
 .on-strong { --link-line: var(--line-cream); --link-rest-color: var(--outline-on-strong); }
 .on-strong .on-light { --link-line: var(--line-forest); --link-rest-color: var(--text-muted); }
 
-:where(.inline-link, .faq-a a, .qa-item a, .prose a:not([class]), .hero-note a, .hero-capture-help a, .hero-capture-status a, .foot-links a, .foot-contact a, .foot-legal a, .foot-legal .motion-toggle) {
+:where(.inline-link, .faq-a a, .qa-item a, .prose a:not([class]), .hero-note a, .hero-capture-help a, .hero-capture-status a, .foot-nav a, .foot-contact a, .foot-legal a, .foot-legal .motion-toggle) {
   text-decoration-line: underline;
   text-decoration-color: var(--link-rest-color, var(--text-muted));
   text-decoration-thickness: 1px;
@@ -554,7 +554,7 @@ h1 em, h2 em, h3 em, .tagline em, .signed-change em { color: var(--accent-italic
   background-size: 0% 2px;
   transition: background-size var(--dur-med) var(--ease-standard);
 }
-:where(.inline-link, .faq-a a, .qa-item a, .prose a:not([class]), .hero-note a, .hero-capture-help a, .hero-capture-status a, .foot-links a, .foot-contact a, .foot-legal a, .foot-legal .motion-toggle):is(:hover, :focus-visible) {
+:where(.inline-link, .faq-a a, .qa-item a, .prose a:not([class]), .hero-note a, .hero-capture-help a, .hero-capture-status a, .foot-nav a, .foot-contact a, .foot-legal a, .foot-legal .motion-toggle):is(:hover, :focus-visible) {
   background-size: var(--link-span, 100%) 2px;
 }
 
@@ -3339,26 +3339,49 @@ main > #questions:last-child { margin-bottom: calc(-1 * var(--radius-panel)); pa
 }
 
 /* ---------- footer ---------- */
+/* The site footer, the same on every page. A forest panel with 28px top corners; cream text (8.7:1), sage mist for the
+   quiet text and the column labels (7.55:1), focus in cream (from .on-strong).
+   Markup: footer.site-foot.on-strong > .wrap > (.foot-grid > .foot-brand + nav.foot-nav) + .foot-legal, then
+   img.foot-giant.
+   - .foot-brand: a.foot-home (the logo tile, 44px, named "Rose Practice Solutions, home"), the tagline, the line about
+     us, and .foot-contact ("Write to us" over the email address).
+   - nav.foot-nav[aria-label="Footer"]: three .foot-col, each an h2.foot-label (a small label, 13px/600 sage mist, not
+     a headline) over a ul of 44px links labelled by it: What we do, Who we work with, Company.
+   - .foot-legal: the copyright, the legal links and the pause button, in tracked-caps meta over a hairline.
+   - img.foot-giant: the wordmark (rose-wordmark-white.svg) the full width of the footer, in cream at 7% so it reads as
+     a tone of the forest (flat, no gradient). The footer's bottom edge crops it: --giant-show is how much of the word's
+     height shows (80%; the strap under it never does), --giant-tuck how much of it runs up under the content above
+     (30%, 62% on phones, where it sits under the legal links). The wordmark is .6245 of its width tall and the word
+     .481, so both turn into margins in % of the width. Over its tone cream measures 7.17:1 and sage mist 6.22:1.
+     Decorative: alt="" and aria-hidden; the tile is the home link.
+   Motion: site.js ("motion, with GSAP") lifts the wordmark the last 12% into its crop once, as it comes into view.
+   Without JavaScript or under reduced motion it is simply in place; like every one-off entrance, pausing lets it finish. */
 
 .site-foot {
-  padding-block: var(--space-16) var(--space-8);
+  --giant-show: .8;
+  --giant-tuck: .3;
+  position: relative;
+  isolation: isolate;
+  display: flow-root;
+  overflow: clip;
+  padding-top: var(--space-24);
   border-radius: 28px 28px 0 0;
   background: var(--surface-strong);
   color: var(--text-on-strong);
 }
 
-.foot-grid { display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr); gap: var(--space-6) var(--space-12); align-items: start; }
-.foot-brand { grid-row: 1 / span 2; }
-.foot-links { display: flex; flex-wrap: wrap; gap: 0 var(--space-6); }
-.foot-brand { display: grid; justify-items: start; align-content: start; gap: var(--space-6); }
-/* the wordmark with its strap: 200px wide, never smaller */
-.foot-wordmark { width: 200px; height: auto; }
-.foot-about { max-width: 26em; font-size: var(--text-body-s); color: var(--sage-mist); }
-.site-foot .meta { color: var(--sage-mist); }
-.foot-contact { display: flex; flex-wrap: wrap; align-items: center; gap: 0 var(--space-3); }
+.foot-grid { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: var(--space-12) var(--space-16); align-items: start; }
+.foot-brand { display: grid; justify-items: start; align-content: start; }
+.foot-home { display: block; border-radius: var(--radius-input); }
+.foot-home img { width: 44px; height: 44px; }
+.foot-brand .tagline { margin-top: var(--space-8); font-size: var(--text-display-m); line-height: 1.1; }
+.foot-about { max-width: 26em; margin-top: var(--space-4); font-size: var(--text-body-s); color: var(--sage-mist); }
+.foot-contact { margin-top: var(--space-8); }
+.foot-label { font-family: var(--font-text); font-size: var(--text-label); font-weight: 600; line-height: 1.4; letter-spacing: var(--tracking-label); color: var(--sage-mist); }
+.foot-nav { display: grid; grid-template-columns: repeat(3, auto); justify-content: space-between; gap: var(--space-8); }
+.foot-col ul { margin-top: var(--space-2); }
 /* footer links take the site's link line in cream, with no rest underline (they read as a menu) */
-.foot-links a, .foot-contact a { --link-y: var(--link-flex-y); display: inline-flex; align-items: center; min-width: 44px; min-height: 44px; color: var(--text-on-strong); font-size: var(--text-body-s); font-weight: 500; text-decoration: none; overflow-wrap: anywhere; }
-.foot-contact p { min-height: 44px; display: flex; align-items: center; color: var(--sage-mist); }
+.foot-nav a, .foot-contact a { --link-y: var(--link-flex-y); display: inline-flex; align-items: center; min-width: 44px; min-height: 44px; color: var(--text-on-strong); font-size: var(--text-body-s); font-weight: 500; text-decoration: none; overflow-wrap: anywhere; }
 
 .foot-legal {
   display: flex;
@@ -3366,15 +3389,51 @@ main > #questions:last-child { margin-bottom: calc(-1 * var(--radius-panel)); pa
   align-items: center;
   justify-content: space-between;
   gap: var(--space-2) var(--space-6);
-  margin-top: var(--space-12);
+  margin-top: var(--space-16);
   padding-top: var(--space-4);
   border-top: var(--border-w) solid var(--line-on-strong);
 }
-
+.site-foot .meta { color: var(--sage-mist); }
 .foot-legal a { --link-y: var(--link-flex-y); display: inline-flex; align-items: center; min-height: 44px; text-decoration: none; }
 .foot-legal-links { display: flex; flex-wrap: wrap; gap: var(--space-2) var(--space-6); }
 /* a button that reads as the meta links beside it: .meta sets the type; this only takes off the button chrome */
 .foot-legal .motion-toggle { --link-y: var(--link-flex-y); min-height: 44px; padding: 0; border: 0; background-color: transparent; font-family: inherit; color: var(--sage-mist); text-decoration: none; cursor: pointer; }
+
+.foot-giant {
+  position: relative;
+  z-index: -1;
+  width: 100%;
+  max-width: none;
+  height: auto;
+  margin-top: calc(-.481 * var(--giant-tuck) * 100%);
+  margin-bottom: calc((.481 * var(--giant-show) - .6245) * 100%);
+  opacity: .07;
+  pointer-events: none;
+  user-select: none;
+}
+
+@media (max-width: 1024px) {
+  .foot-grid { grid-template-columns: minmax(0, 1fr); }
+}
+
+@media (max-width: 768px) {
+  .site-foot { --giant-show: .9; --giant-tuck: .72; padding-top: var(--space-12); }
+  .foot-grid { row-gap: var(--space-10); }
+  .foot-brand { grid-template-columns: auto minmax(0, 1fr); align-items: center; column-gap: var(--space-4); }
+  .foot-brand .tagline { margin-top: 0; font-size: var(--text-h2); }
+  .foot-about, .foot-contact { grid-column: 1 / -1; }
+  .foot-about { margin-top: var(--space-4); }
+  .foot-contact { margin-top: var(--space-5); }
+  .foot-legal { flex-direction: column; align-items: flex-start; margin-top: var(--space-8); }
+  .foot-legal-links { gap: 0 var(--space-6); }
+}
+
+@media (max-width: 600px) {
+  .foot-nav { grid-template-columns: repeat(2, minmax(0, 1fr)); grid-template-areas: "what company" "who ."; justify-content: stretch; gap: var(--space-5) var(--space-4); }
+  .foot-col:nth-child(1) { grid-area: what; }
+  .foot-col:nth-child(2) { grid-area: who; }
+  .foot-col:nth-child(3) { grid-area: company; }
+}
 
 /* ---------- pause animations ---------- */
 /* WCAG 2.2.2. The control is a script feature, so it shows only with JavaScript, and not under reduced motion,
@@ -3413,12 +3472,6 @@ main > #questions:last-child { margin-bottom: calc(-1 * var(--radius-panel)); pa
 .motion-paused .motion-toggle--icon .i-pause { display: none; }
 @media (max-width: 768px) {
   .js .nav-actions .btn { flex: 1 1 auto; width: auto; }
-}
-
-@media (max-width: 768px) {
-  .site-foot { padding-top: var(--space-12); }
-  .foot-grid { grid-template-columns: minmax(0, 1fr); gap: var(--space-6); }
-  .foot-brand { grid-row: auto; }
 }
 
 /* ---------- components reference page ---------- */
