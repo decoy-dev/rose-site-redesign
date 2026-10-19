@@ -1,0 +1,14 @@
+{
+  "name": "Rose Practice Solutions",
+  "short_name": "Rose",
+  "description": "Marketing for orthodontic and dental practices, made by people you'll actually know.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "browser",
+  "background_color": "#FBF8F2",
+  "theme_color": "#3F4B39",
+  "icons": [
+    { "src": "/icon-192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "/icon-512.png", "sizes": "512x512", "type": "image/png" }
+  ]
+}

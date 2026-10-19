@@ -1,0 +1,679 @@
+{
+  "origin": "https://rosepracticesolutions.com",
+  "fetched_at": "2026-10-19T19:02:50Z",
+  "not_fetched_server_endpoints": [
+    "/api/book-a-call"
+  ],
+  "responses": [
+    {
+      "url": "https://rosepracticesolutions.com/",
+      "status": 200,
+      "content_type": "text/html; charset=utf-8",
+      "etag": null,
+      "last_modified": "Mon, 19 Oct 2026 18:09:49 GMT",
+      "bytes": 61396,
+      "sha256": "e817a9542d98eb64caa481d7cc4a0c5056686d9c2806a133bf0f47dd404a2eaf",
+      "file": "index.html"
+    },
+    {
+      "url": "https://rosepracticesolutions.com/.well-known/security.txt",
+      "status": 200,
+      "content_type": "text/plain; charset=utf-8",
+      "etag": null,
+      "last_modified": "Mon, 19 Oct 2026 18:59:58 GMT",
+      "bytes": 226,
+      "sha256": "f3d70e315fbbf052ec3e63f5169047e0d799fd8c7885a96556bf3946f785cd45",
+      "file": ".well-known/security.txt"
+    },
+    {
+      "url": "https://rosepracticesolutions.com/404",
+      "status": 200,
+      "content_type": "text/html; charset=utf-8",
+      "etag": null,
+      "last_modified": "Mon, 19 Oct 2026 18:59:57 GMT",
+      "bytes": 8592,
+      "sha256": "5d7cda37b02cd7117143619ddc36518830d07ac3816f37a200ebac24508a9f80",
+      "file": "404.html"
+    },
+    {
+      "url": "https://rosepracticesolutions.com/about",
+      "status": 200,
+      "content_type": "text/html; charset=utf-8",
+      "etag": null,
+      "last_modified": "Mon, 19 Oct 2026 18:09:56 GMT",
+      "bytes": 24869,
+      "sha256": "90f20bd13ca2e6aea3a74fcbdf2957d69ae18a03cb1d3439482037a045918bf8",
+      "file": "about.html"
+    },
+    {
+      "url": "https://rosepracticesolutions.com/accessibility",
+      "status": 200,
+      "content_type": "text/html; charset=utf-8",
+      "etag": null,
+      "last_modified": "Mon, 19 Oct 2026 19:01:41 GMT",
+      "bytes": 15249,
+      "sha256": "5db2acbb3d8c527d2be9d3e031d615fa259f29d030c2ee4e0e6fb5fdcc597930",
+      "file": "accessibility.html"
+    },
+    {
+      "url": "https://rosepracticesolutions.com/ai-policy",
+      "status": 200,
+      "content_type": "text/html; charset=utf-8",
+      "etag": null,
+      "last_modified": "Mon, 19 Oct 2026 19:01:42 GMT",
+      "bytes": 13847,
+      "sha256": "698a0478b70fcb74a0f744f9b713a9196621d40e510a7cc964f2208333929350",
+      "file": "ai-policy.html"
+    },
+    {
+      "url": "https://rosepracticesolutions.com/apple-touch-icon.png",
+      "status": 200,
+      "content_type": "image/png",
+      "etag": null,
+      "last_modified": "Mon, 19 Oct 2026 19:01:42 GMT",
+      "bytes": 13369,
+      "sha256": "2faaa77be9b771cb7a43636672840698a68bf42c96baf3624769d76d37ea5e4b",
+      "file": "apple-touch-icon.png"
+    },
+    {
+      "url": "https://rosepracticesolutions.com/assets/img/paper-envelope.webp",
+      "status": 200,
+      "content_type": "image/webp",
+      "etag": null,
+      "last_modified": "Mon, 19 Oct 2026 18:09:55 GMT",
+      "bytes": 37434,
+      "sha256": "24b52b435c716adcad3833b39b3483e833a5f70d1acd9d3bde862a287a4d4736",
+      "file": "assets/img/paper-envelope.webp"
+    },
+    {
+      "url": "https://rosepracticesolutions.com/assets/img/paper-letter.webp",
+      "status": 200,
+      "content_type": "image/webp",
+      "etag": null,
+      "last_modified": "Mon, 19 Oct 2026 18:09:49 GMT",
+      "bytes": 28768,
+      "sha256": "ac89a660251ed3c9894086d6bf35ab59ba630117d6da50a81a1e116fba634845",
+      "file": "assets/img/paper-letter.webp"
+    },
+    {
+      "url": "https://rosepracticesolutions.com/assets/img/stamp-signed.svg",
+      "status": 200,
+      "content_type": "image/svg+xml",
+      "etag": null,
+      "last_modified": "Mon, 19 Oct 2026 18:09:49 GMT",
+      "bytes": 2819,
+      "sha256": "7a0931128d92c615ed95bdf69435a939a4e95f4c15d869d1b253eaf5289b2800",
+      "file": "assets/img/stamp-signed.svg"
+    },
+    {
+      "url": "https://rosepracticesolutions.com/assets/img/stamp.svg",
+      "status": 200,
+      "content_type": "image/svg+xml",
+      "etag": null,
+      "last_modified": "Mon, 19 Oct 2026 18:09:55 GMT",
+      "bytes": 4949,
+      "sha256": "5cd5c3a2bc89d25026fe59eec552f8a95d2f7fb9aac66ac0e611f7231167b47b",
+      "file": "assets/img/stamp.svg"
+    },
+    {
+      "url": "https://rosepracticesolutions.com/assets/logo/rose-lockup-horizontal-light.svg",
+      "status": 200,
+      "content_type": "image/svg+xml",
+      "etag": null,
+      "last_modified": "Mon, 19 Oct 2026 18:09:49 GMT",
+      "bytes": 11731,
+      "sha256": "b317423c9788802cbce5ba64e6418cb0a004ff8585e406d1be95013140d430f4",
+      "file": "assets/logo/rose-lockup-horizontal-light.svg"
+    },
+    {
+      "url": "https://rosepracticesolutions.com/assets/logo/rose-mark-tile-light.svg",
+      "status": 200,
+      "content_type": "image/svg+xml",
+      "etag": null,
+      "last_modified": "Mon, 19 Oct 2026 18:09:49 GMT",
+      "bytes": 2661,
+      "sha256": "23c68fd7ed008ee820dd1cd3cb6b4047641710b352960ef47543ceb29213d54e",
+      "file": "assets/logo/rose-mark-tile-light.svg"
+    },
+    {
+      "url": "https://rosepracticesolutions.com/assets/logo/rose-wordmark-white.svg",
+      "status": 200,
+      "content_type": "image/svg+xml",
+      "etag": null,
+      "last_modified": "Mon, 19 Oct 2026 19:01:43 GMT",
+      "bytes": 9145,
+      "sha256": "223a05d2bd1ae37d756c5997bb7c0392b8150f21e5e8fe82fe4e785f58b15f57",
+      "file": "assets/logo/rose-wordmark-white.svg"
+    },
+    {
+      "url": "https://rosepracticesolutions.com/assets/motif/rose-motif-ground-a-dark.svg",
+      "status": 200,
+      "content_type": "image/svg+xml",
+      "etag": null,
+      "last_modified": "Mon, 19 Oct 2026 18:09:49 GMT",
+      "bytes": 2530,
+      "sha256": "4fac6ca277a69f18b5b204e3062d8e0b300371836b38293cb3a6c268c73b7a9e",
+      "file": "assets/motif/rose-motif-ground-a-dark.svg"
+    },
+    {
+      "url": "https://rosepracticesolutions.com/assets/motif/rose-motif-ground-a-light.svg",
+      "status": 200,
+      "content_type": "image/svg+xml",
+      "etag": null,
+      "last_modified": "Mon, 19 Oct 2026 19:01:51 GMT",
+      "bytes": 2551,
+      "sha256": "4c9ef022f3624550a69e36116eb38adde056a970d5832e1af02033a5390f4928",
+      "file": "assets/motif/rose-motif-ground-a-light.svg"
+    },
+    {
+      "url": "https://rosepracticesolutions.com/assets/motif/rose-motif-ground-a-rose.svg",
+      "status": 200,
+      "content_type": "image/svg+xml",
+      "etag": null,
+      "last_modified": "Mon, 19 Oct 2026 19:01:51 GMT",
+      "bytes": 2530,
+      "sha256": "92ddbbc6fa6cc3c4640d9ce567e5a86548e7e2f11a31ca9c7b5754fd14f47f4e",
+      "file": "assets/motif/rose-motif-ground-a-rose.svg"
+    },
+    {
+      "url": "https://rosepracticesolutions.com/assets/motif/rose-motif-ground-b-dark.svg",
+      "status": 200,
+      "content_type": "image/svg+xml",
+      "etag": null,
+      "last_modified": "Mon, 19 Oct 2026 19:01:51 GMT",
+      "bytes": 2530,
+      "sha256": "49b790a36733ae6e556e73a0251caee360aa3a9733c021afe6ad44b5f2b48332",
+      "file": "assets/motif/rose-motif-ground-b-dark.svg"
+    },
+    {
+      "url": "https://rosepracticesolutions.com/assets/motif/rose-motif-ground-b-light.svg",
+      "status": 200,
+      "content_type": "image/svg+xml",
+      "etag": null,
+      "last_modified": "Mon, 19 Oct 2026 19:01:51 GMT",
+      "bytes": 2551,
+      "sha256": "2da14e909ea72aa6116edf3f1762f2e3755aad88151d5fe18e76a69a00aeccc7",
+      "file": "assets/motif/rose-motif-ground-b-light.svg"
+    },
+    {
+      "url": "https://rosepracticesolutions.com/assets/motif/rose-motif-ground-c-dark.svg",
+      "status": 200,
+      "content_type": "image/svg+xml",
+      "etag": null,
+      "last_modified": "Mon, 19 Oct 2026 19:01:52 GMT",
+      "bytes": 2536,
+      "sha256": "6548f706488f20d51b4a1202471fa454dd73cdeafac245537125a1fa42eb887d",
+      "file": "assets/motif/rose-motif-ground-c-dark.svg"
+    },
+    {
+      "url": "https://rosepracticesolutions.com/assets/motif/rose-motif-ground-c-light.svg",
+      "status": 200,
+      "content_type": "image/svg+xml",
+      "etag": null,
+      "last_modified": "Mon, 19 Oct 2026 19:01:52 GMT",
+      "bytes": 2557,
+      "sha256": "c5985c9c3f451ed5d71ed17eacd459cad5ba9fc74acb449eb5a6cd111bbfdd80",
+      "file": "assets/motif/rose-motif-ground-c-light.svg"
+    },
+    {
+      "url": "https://rosepracticesolutions.com/assets/motif/rose-motif-hairline-dark.svg",
+      "status": 200,
+      "content_type": "image/svg+xml",
+      "etag": null,
+      "last_modified": "Mon, 19 Oct 2026 19:01:52 GMT",
+      "bytes": 789,
+      "sha256": "7f09fb7821a680349793bd9abcedeb6ba3d0009904672f5fd704468f3296753f",
+      "file": "assets/motif/rose-motif-hairline-dark.svg"
+    },
+    {
+      "url": "https://rosepracticesolutions.com/assets/motif/rose-motif-hairline.svg",
+      "status": 200,
+      "content_type": "image/svg+xml",
+      "etag": null,
+      "last_modified": "Mon, 19 Oct 2026 19:01:52 GMT",
+      "bytes": 789,
+      "sha256": "b0d607d49651ff0b19b1bcfcc533a62bac18a6dc01f89c17efa88469656d9773",
+      "file": "assets/motif/rose-motif-hairline.svg"
+    },
+    {
+      "url": "https://rosepracticesolutions.com/assets/site.css",
+      "status": 200,
+      "content_type": "text/css; charset=utf-8",
+      "etag": null,
+      "last_modified": "Mon, 19 Oct 2026 18:09:49 GMT",
+      "bytes": 154585,
+      "sha256": "82e2d6099d3a13d741f1a558f60cc3bc2ed21422ccffe04f5cd45cf3fdf92cb7",
+      "file": "assets/site.css"
+    },
+    {
+      "url": "https://rosepracticesolutions.com/assets/site.js",
+      "status": 200,
+      "content_type": "application/javascript; charset=utf-8",
+      "etag": null,
+      "last_modified": "Mon, 19 Oct 2026 18:09:49 GMT",
+      "bytes": 80250,
+      "sha256": "b6a547a0b7192e0eea6c05178d9cff13311968ab4c9290a9b939abb75e2162e6",
+      "file": "assets/site.js"
+    },
+    {
+      "url": "https://rosepracticesolutions.com/assets/tokens.css",
+      "status": 200,
+      "content_type": "text/css; charset=utf-8",
+      "etag": null,
+      "last_modified": "Mon, 19 Oct 2026 18:09:49 GMT",
+      "bytes": 4581,
+      "sha256": "6969f57f3adf5c12eaafd36132d433410c18193a2e6919d117fe90cc0a468378",
+      "file": "assets/tokens.css"
+    },
+    {
+      "url": "https://rosepracticesolutions.com/assets/type/InstrumentSerif-Italic-latin.woff2",
+      "status": 200,
+      "content_type": "font/woff2",
+      "etag": null,
+      "last_modified": "Mon, 19 Oct 2026 18:09:49 GMT",
+      "bytes": 21956,
+      "sha256": "922b731b415711a0f4a943e0b8dda976ac156a8567f26991d1299b05c7b84ed5",
+      "file": "assets/type/InstrumentSerif-Italic-latin.woff2"
+    },
+    {
+      "url": "https://rosepracticesolutions.com/assets/type/InstrumentSerif-Regular-latin.woff2",
+      "status": 200,
+      "content_type": "font/woff2",
+      "etag": null,
+      "last_modified": "Mon, 19 Oct 2026 18:09:49 GMT",
+      "bytes": 21260,
+      "sha256": "867e32af79282732375729d984ef6fb4a181fef310c087c451d2eacea4459089",
+      "file": "assets/type/InstrumentSerif-Regular-latin.woff2"
+    },
+    {
+      "url": "https://rosepracticesolutions.com/assets/type/PlusJakartaSans-latin.woff2",
+      "status": 200,
+      "content_type": "font/woff2",
+      "etag": null,
+      "last_modified": "Mon, 19 Oct 2026 18:09:49 GMT",
+      "bytes": 32492,
+      "sha256": "fc07ae69bdd076870bdc0728ed5fe639ad5af1b01ba1c7ffb424e6560f7e43ef",
+      "file": "assets/type/PlusJakartaSans-latin.woff2"
+    },
+    {
+      "url": "https://rosepracticesolutions.com/assets/vendor/ScrollTrigger.min.js",
+      "status": 200,
+      "content_type": "application/javascript; charset=utf-8",
+      "etag": null,
+      "last_modified": "Mon, 19 Oct 2026 18:09:49 GMT",
+      "bytes": 44575,
+      "sha256": "b0b14d67b55b0c43c756ac0b106cfcb09d0879945f6ead64451065b0672916a2",
+      "file": "assets/vendor/ScrollTrigger.min.js"
+    },
+    {
+      "url": "https://rosepracticesolutions.com/assets/vendor/SplitText.min.js",
+      "status": 200,
+      "content_type": "application/javascript; charset=utf-8",
+      "etag": null,
+      "last_modified": "Mon, 19 Oct 2026 18:09:49 GMT",
+      "bytes": 7732,
+      "sha256": "419f7027a5f086a12cb7988736d8fdd3a6ed2200229661de25b6628ca7ced344",
+      "file": "assets/vendor/SplitText.min.js"
+    },
+    {
+      "url": "https://rosepracticesolutions.com/assets/vendor/gsap.min.js",
+      "status": 200,
+      "content_type": "application/javascript; charset=utf-8",
+      "etag": null,
+      "last_modified": "Mon, 19 Oct 2026 18:09:49 GMT",
+      "bytes": 72927,
+      "sha256": "92bb9a96476f983d212a2bc4f54c889039c1696dd4461d40a736860938570fbb",
+      "file": "assets/vendor/gsap.min.js"
+    },
+    {
+      "url": "https://rosepracticesolutions.com/components",
+      "status": 200,
+      "content_type": "text/html; charset=utf-8",
+      "etag": null,
+      "last_modified": "Mon, 19 Oct 2026 18:59:57 GMT",
+      "bytes": 112712,
+      "sha256": "15b43fc74a9d28287f8f9693e9c7078956422ef514463cdb96d487b55ab50f1c",
+      "file": "components.html"
+    },
+    {
+      "url": "https://rosepracticesolutions.com/contact",
+      "status": 200,
+      "content_type": "text/html; charset=utf-8",
+      "etag": null,
+      "last_modified": "Mon, 19 Oct 2026 19:01:45 GMT",
+      "bytes": 21344,
+      "sha256": "8fd011e8f009d7d73bcf95ab711cb7189a8cbe70effd5ca9c2c3726075ce22d9",
+      "file": "contact.html"
+    },
+    {
+      "url": "https://rosepracticesolutions.com/dental-marketing",
+      "status": 200,
+      "content_type": "text/html; charset=utf-8",
+      "etag": null,
+      "last_modified": "Mon, 19 Oct 2026 18:10:00 GMT",
+      "bytes": 45795,
+      "sha256": "4fcd09b12c1ac05412b3fe23cf256b2bdd88bc6f0c26db8fffba2ae81dac094b",
+      "file": "dental-marketing.html"
+    },
+    {
+      "url": "https://rosepracticesolutions.com/favicon.ico",
+      "status": 200,
+      "content_type": "image/vnd.microsoft.icon",
+      "etag": null,
+      "last_modified": "Mon, 19 Oct 2026 19:01:04 GMT",
+      "bytes": 6415,
+      "sha256": "a7c502f29bf3791894903eee09ec5c5a61523cbebabf29c8e59caeafb3aeae44",
+      "file": "favicon.ico"
+    },
+    {
+      "url": "https://rosepracticesolutions.com/icon-192.png",
+      "status": 200,
+      "content_type": "image/png",
+      "etag": null,
+      "last_modified": "Mon, 19 Oct 2026 19:01:46 GMT",
+      "bytes": 14209,
+      "sha256": "70f6a84c29c78243daa6e582de8085904da5342f415e02f4475639571c37f368",
+      "file": "icon-192.png"
+    },
+    {
+      "url": "https://rosepracticesolutions.com/icon-32.png",
+      "status": 200,
+      "content_type": "image/png",
+      "etag": null,
+      "last_modified": "Mon, 19 Oct 2026 19:01:46 GMT",
+      "bytes": 2116,
+      "sha256": "2107249b32830ef07fc85daf6c9609645637f15349ebc0839876e71e7dd4a84d",
+      "file": "icon-32.png"
+    },
+    {
+      "url": "https://rosepracticesolutions.com/icon-512.png",
+      "status": 200,
+      "content_type": "image/png",
+      "etag": null,
+      "last_modified": "Mon, 19 Oct 2026 19:01:49 GMT",
+      "bytes": 40963,
+      "sha256": "b37207d79d2a2114cda9951481ba2e961420fe2826d355919afa00a761ab3527",
+      "file": "icon-512.png"
+    },
+    {
+      "url": "https://rosepracticesolutions.com/llms.txt",
+      "status": 200,
+      "content_type": "text/plain; charset=utf-8",
+      "etag": null,
+      "last_modified": "Mon, 19 Oct 2026 18:59:58 GMT",
+      "bytes": 6190,
+      "sha256": "67a07e5ca70f6fbd39d19f6a46151967b8a5c9358b95fc4ce9420e32c5b37978",
+      "file": "llms.txt"
+    },
+    {
+      "url": "https://rosepracticesolutions.com/og/about.png",
+      "status": 200,
+      "content_type": "image/png",
+      "etag": null,
+      "last_modified": "Mon, 19 Oct 2026 19:01:49 GMT",
+      "bytes": 60958,
+      "sha256": "3937fb12adf3fd1f5e74aba16451821db78ce4bb5b14ace1970a29457687b75c",
+      "file": "og/about.png"
+    },
+    {
+      "url": "https://rosepracticesolutions.com/og/accessibility.png",
+      "status": 200,
+      "content_type": "image/png",
+      "etag": null,
+      "last_modified": "Mon, 19 Oct 2026 19:01:50 GMT",
+      "bytes": 37177,
+      "sha256": "158ffb017c07dcf3222655a1eb7db5f7b621389e83d01a17759b337bc8e5f4aa",
+      "file": "og/accessibility.png"
+    },
+    {
+      "url": "https://rosepracticesolutions.com/og/add-ons.png",
+      "status": 200,
+      "content_type": "image/png",
+      "etag": null,
+      "last_modified": "Mon, 19 Oct 2026 19:01:55 GMT",
+      "bytes": 60541,
+      "sha256": "b9467fa11edde81e73059b9d13072570685edb9ddeaae58f8abd158a4c877c95",
+      "file": "og/add-ons.png"
+    },
+    {
+      "url": "https://rosepracticesolutions.com/og/ai-policy.png",
+      "status": 200,
+      "content_type": "image/png",
+      "etag": null,
+      "last_modified": "Mon, 19 Oct 2026 19:01:50 GMT",
+      "bytes": 50106,
+      "sha256": "756e52ff61ba10153a7e050d77556bf97fb2cbeb2d5a77d6579f1cf2555139a7",
+      "file": "og/ai-policy.png"
+    },
+    {
+      "url": "https://rosepracticesolutions.com/og/contact.png",
+      "status": 200,
+      "content_type": "image/png",
+      "etag": null,
+      "last_modified": "Mon, 19 Oct 2026 19:01:53 GMT",
+      "bytes": 58261,
+      "sha256": "1f3892613bb8fd962cded720525ef73848c146c683698a44cf9b46f2a7a9d884",
+      "file": "og/contact.png"
+    },
+    {
+      "url": "https://rosepracticesolutions.com/og/dental-marketing.png",
+      "status": 200,
+      "content_type": "image/png",
+      "etag": null,
+      "last_modified": "Mon, 19 Oct 2026 19:01:53 GMT",
+      "bytes": 67801,
+      "sha256": "c1daa21e2f18f84186eaa0a88bfcd5864230f0d2780eab7ba0408cede12774f2",
+      "file": "og/dental-marketing.png"
+    },
+    {
+      "url": "https://rosepracticesolutions.com/og/home.png",
+      "status": 200,
+      "content_type": "image/png",
+      "etag": null,
+      "last_modified": "Mon, 19 Oct 2026 18:59:59 GMT",
+      "bytes": 81818,
+      "sha256": "aebfddee790fb92af503014c7f970c7197aacf3f0cc4b976baf5e19c5d8c3ebb",
+      "file": "og/home.png"
+    },
+    {
+      "url": "https://rosepracticesolutions.com/og/orthodontic-marketing.png",
+      "status": 200,
+      "content_type": "image/png",
+      "etag": null,
+      "last_modified": "Mon, 19 Oct 2026 19:01:54 GMT",
+      "bytes": 68940,
+      "sha256": "06270e68acdd352148147e1179982f7adfc0ea347e9b3b9a977c3047fbd5a158",
+      "file": "og/orthodontic-marketing.png"
+    },
+    {
+      "url": "https://rosepracticesolutions.com/og/paid-ads.png",
+      "status": 200,
+      "content_type": "image/png",
+      "etag": null,
+      "last_modified": "Mon, 19 Oct 2026 19:01:55 GMT",
+      "bytes": 80801,
+      "sha256": "2568af67214efad32940760fe4c58be1015460923285a6fd847bbf05ca390167",
+      "file": "og/paid-ads.png"
+    },
+    {
+      "url": "https://rosepracticesolutions.com/og/patient-follow-up.png",
+      "status": 200,
+      "content_type": "image/png",
+      "etag": null,
+      "last_modified": "Mon, 19 Oct 2026 19:01:56 GMT",
+      "bytes": 63076,
+      "sha256": "459cf893afa73dbefdc2df36349808e905c9b13e1e59c3058de1ec17b848b2eb",
+      "file": "og/patient-follow-up.png"
+    },
+    {
+      "url": "https://rosepracticesolutions.com/og/pricing.png",
+      "status": 200,
+      "content_type": "image/png",
+      "etag": null,
+      "last_modified": "Mon, 19 Oct 2026 19:01:54 GMT",
+      "bytes": 54631,
+      "sha256": "09b73417fd89073c52ecf6410a75f3de21e87b07f318a6744a48f68baac0dcf5",
+      "file": "og/pricing.png"
+    },
+    {
+      "url": "https://rosepracticesolutions.com/og/privacy.png",
+      "status": 200,
+      "content_type": "image/png",
+      "etag": null,
+      "last_modified": "Mon, 19 Oct 2026 19:01:54 GMT",
+      "bytes": 33360,
+      "sha256": "ad11c6a417c04f853f805741c9dc8f66e513f15b86dad8d27a4ad76e57d708a8",
+      "file": "og/privacy.png"
+    },
+    {
+      "url": "https://rosepracticesolutions.com/og/services.png",
+      "status": 200,
+      "content_type": "image/png",
+      "etag": null,
+      "last_modified": "Mon, 19 Oct 2026 19:01:55 GMT",
+      "bytes": 68778,
+      "sha256": "aec37c00d806298b74028ef09c52d3271dbf550c2246749c6a6fb4f35fcf2fc0",
+      "file": "og/services.png"
+    },
+    {
+      "url": "https://rosepracticesolutions.com/og/terms.png",
+      "status": 200,
+      "content_type": "image/png",
+      "etag": null,
+      "last_modified": "Mon, 19 Oct 2026 19:01:56 GMT",
+      "bytes": 38354,
+      "sha256": "532dca8d58948928761ff757534f071dd431d9fccc24e235a6068abfafcea7b6",
+      "file": "og/terms.png"
+    },
+    {
+      "url": "https://rosepracticesolutions.com/og/websites-and-seo.png",
+      "status": 200,
+      "content_type": "image/png",
+      "etag": null,
+      "last_modified": "Mon, 19 Oct 2026 19:01:56 GMT",
+      "bytes": 85545,
+      "sha256": "9da7034b02d311f38d8f29b0878fbfacecb368c616572cc347a75e295b296295",
+      "file": "og/websites-and-seo.png"
+    },
+    {
+      "url": "https://rosepracticesolutions.com/orthodontic-marketing",
+      "status": 200,
+      "content_type": "text/html; charset=utf-8",
+      "etag": null,
+      "last_modified": "Mon, 19 Oct 2026 18:09:58 GMT",
+      "bytes": 43779,
+      "sha256": "e11bfa2dc5e5a2da20d10c3a75a062f9651db37d773c1ae4f8274df2ee36819e",
+      "file": "orthodontic-marketing.html"
+    },
+    {
+      "url": "https://rosepracticesolutions.com/pricing",
+      "status": 200,
+      "content_type": "text/html; charset=utf-8",
+      "etag": null,
+      "last_modified": "Mon, 19 Oct 2026 19:01:47 GMT",
+      "bytes": 33871,
+      "sha256": "788704a3c02102685f348993a994a3279dfdf6386ef309a9f55dc234fcce2666",
+      "file": "pricing.html"
+    },
+    {
+      "url": "https://rosepracticesolutions.com/privacy",
+      "status": 200,
+      "content_type": "text/html; charset=utf-8",
+      "etag": null,
+      "last_modified": "Mon, 19 Oct 2026 19:01:47 GMT",
+      "bytes": 16004,
+      "sha256": "24a9f44337b52aba3362748506cc6eada4fa1e9751230413e1287fee42855934",
+      "file": "privacy.html"
+    },
+    {
+      "url": "https://rosepracticesolutions.com/robots.txt",
+      "status": 200,
+      "content_type": "text/plain; charset=utf-8",
+      "etag": null,
+      "last_modified": "Mon, 19 Oct 2026 18:59:26 GMT",
+      "bytes": 569,
+      "sha256": "e190254fc1cf0500b6a5ebc2f78b5018c88d51969365ed9ac4d428ab77ad7cfa",
+      "file": "robots.txt"
+    },
+    {
+      "url": "https://rosepracticesolutions.com/services",
+      "status": 200,
+      "content_type": "text/html; charset=utf-8",
+      "etag": null,
+      "last_modified": "Mon, 19 Oct 2026 19:01:47 GMT",
+      "bytes": 34525,
+      "sha256": "6a0fdaa886c079e6fd7d78842d6afb3c173e6bf7a72ddb2572e1fdc61824390b",
+      "file": "services.html"
+    },
+    {
+      "url": "https://rosepracticesolutions.com/services/add-ons",
+      "status": 200,
+      "content_type": "text/html; charset=utf-8",
+      "etag": null,
+      "last_modified": "Mon, 19 Oct 2026 19:01:47 GMT",
+      "bytes": 28217,
+      "sha256": "b0699be6a235938de70bc6a1d4f3bf34e917dc6f6f0ceeb247c3de42b07ac3b6",
+      "file": "services/add-ons.html"
+    },
+    {
+      "url": "https://rosepracticesolutions.com/services/paid-ads",
+      "status": 200,
+      "content_type": "text/html; charset=utf-8",
+      "etag": null,
+      "last_modified": "Mon, 19 Oct 2026 19:01:48 GMT",
+      "bytes": 29947,
+      "sha256": "5a2541e57df7743ac9b064411860df6c4b049d785368d6ebe8847818d5a9f513",
+      "file": "services/paid-ads.html"
+    },
+    {
+      "url": "https://rosepracticesolutions.com/services/patient-follow-up",
+      "status": 200,
+      "content_type": "text/html; charset=utf-8",
+      "etag": null,
+      "last_modified": "Mon, 19 Oct 2026 19:01:48 GMT",
+      "bytes": 33587,
+      "sha256": "150a929dba3e788f7ac6980239980c2666c718b017e1b0d2ff7415e3f964e3a3",
+      "file": "services/patient-follow-up.html"
+    },
+    {
+      "url": "https://rosepracticesolutions.com/services/websites-and-seo",
+      "status": 200,
+      "content_type": "text/html; charset=utf-8",
+      "etag": null,
+      "last_modified": "Mon, 19 Oct 2026 19:01:48 GMT",
+      "bytes": 28932,
+      "sha256": "4140d2da4c79bfd025c81acda491199025c50dc5624f35bfceea946f31b6edf7",
+      "file": "services/websites-and-seo.html"
+    },
+    {
+      "url": "https://rosepracticesolutions.com/site.webmanifest",
+      "status": 200,
+      "content_type": "application/manifest+json; charset=utf-8",
+      "etag": null,
+      "last_modified": "Mon, 19 Oct 2026 18:09:54 GMT",
+      "bytes": 453,
+      "sha256": "5470a253f07ddc8c86eebf40c03cd962b3516f81c41a6962708e577366802957",
+      "file": "site.webmanifest"
+    },
+    {
+      "url": "https://rosepracticesolutions.com/sitemap.xml",
+      "status": 200,
+      "content_type": "application/xml",
+      "etag": null,
+      "last_modified": "Mon, 19 Oct 2026 18:59:26 GMT",
+      "bytes": 1612,
+      "sha256": "b58e14726cff9022d53c6bb5a4a4da5a7ba942c4c48f8e0391539af73959a7e7",
+      "file": "sitemap.xml"
+    },
+    {
+      "url": "https://rosepracticesolutions.com/terms",
+      "status": 200,
+      "content_type": "text/html; charset=utf-8",
+      "etag": null,
+      "last_modified": "Mon, 19 Oct 2026 19:01:49 GMT",
+      "bytes": 14236,
+      "sha256": "63bc936d09cd783d2469b9708e13709e67d22af69d9c509e96b680bffc482c04",
+      "file": "terms.html"
+    }
+  ]
+}
