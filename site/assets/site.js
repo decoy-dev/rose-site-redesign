@@ -692,8 +692,13 @@
         const FAST = sec('--dur-fast', 0.15);
         const fill = token('--fill-quiet');
         const mist = token('--sage-mist');
+        // the connector draws in two phases: up from the note (its left strip only), then out along the top to the
+        // title, slowing as it arrives, so the arm reads as reaching for the result rather than snapping to it
+        const armW = link.offsetWidth;
+        const armH = link.offsetHeight;
+        const hidden = 'inset(' + (armH + 8) + 'px ' + (armW - 14) + 'px -8px -8px)';
+        const risen = 'inset(-8px ' + (armW - 14) + 'px -8px -8px)';
         const drawn = 'inset(-8px -8px -8px -8px)';
-        const undrawn = 'inset(' + (link.offsetHeight + 8) + 'px -8px -8px -8px)';
         const tl = gsap.timeline({ paused: true, repeat: -1 });
         tl.to([note, link, stamp], { autoAlpha: 0, duration: FAST, ease: 'power2.in' }, REST)
           .set(marks, { autoAlpha: 0 }, REST + FAST)
@@ -721,12 +726,15 @@
           .to(load, { autoAlpha: 0, duration: FAST }, sent + FAST + SLOW);
         const placed = sent + FAST * 2 + MED;
         tl.fromTo(result, { autoAlpha: 0, y: 10 }, { autoAlpha: 1, y: 0, duration: SLOW, ease: 'power2.out', immediateRender: false }, placed)
-          // the note returns and its connector draws from it up to the title, then it is signed
-          .fromTo(note, { autoAlpha: 0, y: 8 }, { autoAlpha: 1, y: 0, duration: MED, ease: 'power2.out', immediateRender: false }, placed + SLOW)
-          .fromTo(link, { autoAlpha: 1, clipPath: undrawn }, { autoAlpha: 1, clipPath: drawn, duration: SLOW, ease: 'power2.out', immediateRender: false }, placed + SLOW)
-          .fromTo(marks, { autoAlpha: 0, y: 6 }, { autoAlpha: 1, y: 0, duration: MED, ease: 'power2.out', immediateRender: false }, placed + SLOW + MED);
-        press(tl, stamp, placed + SLOW * 2 + MED);
-        hold(tl, placed + SLOW * 2 + MED * 2.8);
+          // the note returns, then its connector rises from it and reaches across to the title; then it is signed
+          .fromTo(note, { autoAlpha: 0, y: 8 }, { autoAlpha: 1, y: 0, duration: MED, ease: 'power2.out', immediateRender: false }, placed + SLOW);
+        const reach = placed + SLOW + MED * 0.6;
+        const reached = reach + 0.55 + 0.8;
+        tl.fromTo(link, { autoAlpha: 1, clipPath: hidden }, { autoAlpha: 1, clipPath: risen, duration: 0.55, ease: 'sine.inOut', immediateRender: false }, reach)
+          .to(link, { clipPath: drawn, duration: 0.8, ease: 'power3.out' }, reach + 0.55)
+          .fromTo(marks, { autoAlpha: 0, y: 6 }, { autoAlpha: 1, y: 0, duration: MED, ease: 'power2.out', immediateRender: false }, reached - 0.1);
+        press(tl, stamp, reached + MED * 0.6);
+        hold(tl, reached + MED * 0.6 + 0.5);
         return tl;
       },
       // the consult is traced back to the ad that brought it: the record clears and a new consult is placed, the wire
