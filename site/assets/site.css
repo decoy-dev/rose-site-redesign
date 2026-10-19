@@ -1716,17 +1716,80 @@ h1 em, h2 em, h3 em, .tagline em, .signed-change em { color: var(--accent-italic
   .service-row--flip .panel-stamp { left: 4px; }
 }
 
-/* Websites and SEO: the query types itself, this month's page lands over last month's, it is signed */
+/* Websites and SEO: an excerpt of a Google results page in the palette (illustrative, not a screenshot), one organic
+   result, and outside the page a cream note pointing to it: new this month, signed by Web and SEO. The search runs
+   again: the query is selected, cleared and typed into its one text node with the caret right after it, search is
+   pressed, the page loads with no results, the result places, the note and its connector return, signed, and the panel
+   stamp is pressed on (site.js "signed samples", local-page). Static, it is the finished search: full query, the result,
+   the note, the signature, the stamp; no caret. When the panel is 430px or narrower inside (phones; a container query
+   on the panel) the address bar goes and the page stacks the way Google does on a phone. The panel's bottom-right
+   corner is kept clear for the panel stamp.
+   Markup: .service-row-visual--search > .vignette--search[data-loop=local-page] > .gsr-top (caption + Sample chip)
+   + .screen.gsr (.screen-bar + .gsr-page: .gsr-mark + .gsr-field (.gsr-q > span[data-type] + .gsr-caret; .gsr-go)
+   + .gsr-tabs (.gsr-load) + .gsr-result (.gsr-site + .gsr-title + .gsr-snippet + .gsr-link))
+   + .gsr-note (title + line + .signoff) ; then img.panel-stamp */
+.service-row-visual.service-row-visual--search { container-type: inline-size; container-name: seo-sample; padding: var(--space-4) var(--space-8) var(--space-8); }
+.vignette--search {
+  --gsr-pad: var(--space-6);        /* the page's inset */
+  --gsr-indent: 108px;              /* the wordmark column and its gap: results line up under the search field */
+  --gsr-reach: var(--space-6);      /* how far the connector runs out past the page's left edge */
+  --gsr-gap: var(--space-4);        /* page to note */
+  --gsr-title-mid: 49px;            /* the result title's first line, from the top of the result */
+  --gsr-note-mid: 22px;             /* the note's first line, from the top of the note */
+  max-width: 560px;
+  justify-items: stretch;
+}
+.gsr-top { display: flex; align-items: center; justify-content: space-between; gap: var(--space-3); margin-bottom: var(--space-2); }
+.gsr-caption { font-size: var(--text-caption); font-weight: 500; line-height: 1.4; color: var(--forest); }
+.vignette .screen.gsr { --screen-pad: var(--gsr-pad); max-width: none; }
 .bar-dots { display: flex; gap: var(--space-2); }
 .bar-dots i { width: 8px; height: 8px; border-radius: 50%; background: var(--fill-quiet); }
-.screen--front { z-index: 1; translate: -18px 30px; }
-.screen--ghost { position: absolute; z-index: 0; top: 34px; right: 40px; width: 280px; justify-items: end; gap: var(--space-2); padding: var(--space-4) var(--space-5) 120px; text-align: right; box-shadow: var(--shadow-1); rotate: 4deg; }
-.screen--ghost .serp-title { font-size: var(--text-body-s); }
-.vignette .serp-query .icon { width: 18px; height: 18px; }
-.caret { width: 1.5px; height: 1.2em; margin-left: calc(-1 * var(--space-2)); background: var(--forest); opacity: 0; }
-.vignette .serp-result { padding: var(--space-4); border-radius: var(--radius-input); background: var(--surface-panel); }
-.vignette .serp-url { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-2); }
-.chip--new { padding: 2px var(--space-2); background: var(--forest); color: var(--cream); font-size: var(--text-caption); }
+.gsr-page { display: grid; grid-template-columns: 88px minmax(0, 1fr); align-items: center; gap: var(--space-3) var(--space-5); }
+.gsr-mark { font-size: 22px; font-weight: 600; line-height: 1; letter-spacing: -.02em; color: var(--text-body); }
+.gsr-field { display: flex; align-items: center; gap: var(--space-2); min-width: 0; height: 40px; padding: 0 var(--space-1) 0 var(--space-4); border: var(--border-w) solid var(--border-input); border-radius: var(--radius-pill); background: var(--surface-page); }
+.gsr-q { flex: 1; min-width: 0; overflow: hidden; font-size: var(--text-body-s); line-height: 20px; white-space: pre; color: var(--text-body); }
+.gsr-caret { display: inline-block; width: 1.5px; height: 18px; margin-left: 1px; vertical-align: -4px; background: var(--forest); opacity: 0; }
+.gsr-go { display: grid; place-items: center; flex: none; width: 32px; height: 32px; border-radius: 50%; color: var(--forest); }
+.gsr-go .icon { width: 16px; height: 16px; }
+.gsr-tabs { position: relative; grid-column: 1 / -1; display: flex; gap: var(--space-6); padding-left: var(--gsr-indent); border-bottom: var(--border-w) solid var(--border-quiet); font-size: var(--text-label); font-weight: 500; line-height: 1.4; color: var(--text-muted); }
+.gsr-tabs > span { padding-bottom: var(--space-2); }
+.gsr-tabs .is-on { margin-bottom: -1px; border-bottom: var(--border-w-strong) solid var(--forest); font-weight: 600; color: var(--text-body); }
+/* the page loading: a forest line runs along the tabs' rule, then goes (set by site.js; never shown at rest) */
+.gsr-tabs .gsr-load { position: absolute; left: 0; right: 0; bottom: -1px; height: 2px; padding: 0; background: var(--forest); transform-origin: left center; opacity: 0; }
+.gsr-result { position: relative; grid-column: 2; display: grid; justify-items: start; gap: var(--space-1); margin-top: var(--space-1); }
+.gsr-site { display: flex; align-items: center; gap: var(--space-3); margin-bottom: var(--space-1); }
+.gsr-fav { display: grid; place-items: center; flex: none; width: 28px; height: 28px; border-radius: 50%; background: var(--forest); color: var(--cream); }
+.gsr-fav .icon { width: 16px; height: 16px; }
+.gsr-site-text { display: grid; }
+.gsr-name { font-size: var(--text-body-s); font-weight: 500; line-height: 16px; color: var(--text-body); }
+.gsr-crumb { font-size: var(--text-caption); line-height: 14px; color: var(--text-muted); }
+.gsr-title { font-size: 20px; line-height: 26px; color: var(--forest); }
+.gsr-snippet { font-size: var(--text-body-s); line-height: 21px; color: var(--text-body); }
+/* the connector: from the note, up past the page's left edge, then in to the result's title, ending on a dot. The
+   note covers its lower arm; site.js draws it from the note upward. */
+.gsr-link { position: absolute; top: var(--gsr-title-mid); bottom: calc(-1 * (var(--gsr-pad) + 1px + var(--gsr-gap) + var(--gsr-note-mid))); left: calc(-1 * (var(--gsr-indent) + var(--gsr-pad) + 1px + var(--gsr-reach))); width: calc(var(--gsr-indent) + var(--gsr-pad) + 1px + var(--gsr-reach) - var(--space-3)); border: 1.5px solid var(--forest); border-right: 0; border-radius: var(--radius-input) 0 0 var(--radius-input); pointer-events: none; }
+.gsr-link::after { content: ""; position: absolute; top: -4.25px; right: -4px; width: 7px; height: 7px; border-radius: 50%; background: var(--forest); }
+.gsr-note { position: relative; z-index: 1; display: grid; justify-items: start; gap: 2px; width: 100%; max-width: 360px; margin-top: var(--gsr-gap); padding: var(--space-3) var(--space-5) var(--space-4); border-radius: var(--radius-card); background: var(--surface-page); box-shadow: var(--shadow-2); }
+.gsr-note-title { font-size: var(--text-body-s); font-weight: 600; line-height: 20px; color: var(--text-body); }
+.gsr-note-line { font-size: var(--text-body-s); line-height: 21px; color: var(--text-muted); }
+.gsr-note .signoff { justify-self: stretch; margin-top: var(--space-3); padding-top: var(--space-3); padding-right: 0; }
+@media (max-width: 640px) {
+  .service-row-visual.service-row-visual--search { padding: var(--space-4); }
+}
+/* the phone page: by the panel's own content width, so a narrow panel never gets the desktop chrome (phones and the
+   narrowest tablets; the desktop row at 1025px is 441px wide inside) */
+@container seo-sample (max-width: 430px) {
+  .vignette--search { --gsr-pad: var(--space-4); --gsr-indent: 0px; --gsr-reach: var(--space-2); --gsr-title-mid: 48px; }
+  .gsr .screen-bar { display: none; }
+  .gsr-page { grid-template-columns: minmax(0, 1fr); }
+  .gsr-mark { justify-self: center; }
+  .gsr-tabs { gap: var(--space-5); }
+  .gsr-result { grid-column: 1; }
+  .gsr-title { font-size: 18px; line-height: 24px; }
+  .gsr-note { max-width: calc(100% - 64px); padding-inline: var(--space-3); }
+  .gsr-note .signoff { gap: var(--space-2); }
+  .gsr-note .signoff-disc.founder-art { width: 24px; height: 24px; }
+}
 
 /* Google and Meta ads: a consult arrives, a band traces it down the ledger to its source, the source lights, signed */
 .ledger { max-width: 440px; }
@@ -1775,8 +1838,6 @@ h1 em, h2 em, h3 em, .tagline em, .signed-change em { color: var(--accent-italic
 }
 @media (max-width: 640px) {
   .service-row-visual { min-height: 0; padding: var(--space-6) var(--space-4); border-radius: var(--radius-card); }
-  .screen--ghost { display: none; }
-  .screen--front { translate: none; }
   .vignette .screen { --screen-pad: var(--space-5); }
   .signoff .stamp { right: -8px; width: 44px; height: 44px; margin-top: -20px; }
   .yes-step { grid-template-columns: 52px minmax(0, 1fr); }
@@ -1785,12 +1846,10 @@ h1 em, h2 em, h3 em, .tagline em, .signed-change em { color: var(--accent-italic
 
 /* Placing: a sample panel settles 16px into place the first time it reaches the screen, always at full opacity, so
    nothing waits on a scroll to be readable. site.js adds .is-placing when it starts watching and .is-placed when the
-   panel arrives, so without the script nothing is offset. The search box's caret blinks while its query types. */
-@keyframes caret { 0% { opacity: 1; } 50% { opacity: 0; } }
+   panel arrives, so without the script nothing is offset. */
 @media (prefers-reduced-motion: no-preference) {
   .js:not(.motion-paused) [data-place].is-placing { transition: translate var(--rest-bloom) var(--ease-out); }
   .js:not(.motion-paused) [data-place].is-placing:not(.is-placed) { translate: 0 16px; }
-  .js:not(.motion-paused) [data-loop="local-page"].is-live .caret { animation: caret calc(var(--rest-bloom) * 2) steps(1) infinite; }
 }
 
 /* ---------- follow-up band: the line that keeps going past the lead ---------- */

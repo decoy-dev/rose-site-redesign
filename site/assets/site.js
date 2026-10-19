@@ -669,29 +669,64 @@
     };
     const hold = (tl, at) => tl.addLabel('rest', at).to({}, { duration: HOLD }, 'rest');
     const BUILD = {
-      // the query clears and types itself, this month's page lands over last month's, which slides back, signed
+      // Websites and SEO: the search runs again. After the finished hold the note, its connector, its signature and the
+      // panel stamp lift off; the query is selected and cleared, then typed into its one text node (no per-letter spans),
+      // so the caret rides right after the typed text, at a typist's uneven pace with a breath after "adults". A beat to
+      // read it, search is pressed, the result clears while the page loads, the result places, the note returns and its
+      // connector draws up to the title, it is signed and the panel stamp is pressed on. Every change is a tween or a
+      // set (no callbacks), so a seek to 'rest' always lands on the full query with no caret.
       'local-page': (el) => {
-        const type = el.querySelector('[data-type]');
-        const chars = type.textContent.split('').map((c) => { const s = document.createElement('span'); s.textContent = c; return s; });
-        type.textContent = '';
-        chars.forEach((s) => type.appendChild(s));
+        const field = el.querySelector('[data-type]');
+        const text = field.firstChild;
+        const query = text.data;
+        // GSAP sets plain properties, not a text node's: this hands its sets straight to the node
+        const typed = { get value() { return text.data; }, set value(v) { text.data = v; } };
+        const caret = el.querySelector('.gsr-caret');
+        const go = el.querySelector('[data-part="go"]');
+        const load = el.querySelector('[data-part="load"]');
         const result = el.querySelector('[data-part="result"]');
-        const sign = el.querySelector('[data-part="sign"]');
-        const marks = signParts(sign);
-        const stamp = sign.querySelector('.stamp');
-        const ghost = el.querySelector('.screen--ghost');
-        const typed = 0.9 + chars.length * 0.055;
+        const link = el.querySelector('[data-part="link"]');
+        const note = el.querySelector('[data-part="note"]');
+        const marks = signParts(el.querySelector('[data-part="sign"]'));
+        const stamp = el.closest('.service-row-visual').querySelector('.panel-stamp');
+        const FAST = sec('--dur-fast', 0.15);
+        const fill = token('--fill-quiet');
+        const mist = token('--sage-mist');
+        const drawn = 'inset(-8px -8px -8px -8px)';
+        const undrawn = 'inset(' + (link.offsetHeight + 8) + 'px -8px -8px -8px)';
         const tl = gsap.timeline({ paused: true, repeat: -1 });
-        tl.to([result, ...marks, stamp], { autoAlpha: 0, y: 8, duration: SLOW, ease: 'power2.in' }, 0)
-          .to(chars.slice().reverse(), { autoAlpha: 0, duration: 0.01, stagger: 0.012 }, 0.3)
-          .to(ghost, { x: 14, y: 10, rotation: -2, duration: REST, ease: 'power3.out' }, 0.3)
-          .to(chars, { autoAlpha: 1, duration: 0.01, stagger: 0.055, ease: 'none' }, 0.9)
-          .fromTo(result, { autoAlpha: 0, y: 14, scale: 0.98 }, { autoAlpha: 1, y: 0, scale: 1, duration: REST, ease: 'power3.out', immediateRender: false }, typed + 0.3)
-          .to(ghost, { x: 0, y: 0, rotation: 0, duration: REST, ease: 'power3.out' }, typed + 0.3)
-          .fromTo(marks, { autoAlpha: 0, y: 8 }, { autoAlpha: 1, y: 0, duration: SLOW, ease: 'power3.out', immediateRender: false }, typed + 0.9)
-          .set(stamp, { y: 0 }, typed + 0.9);
-        press(tl, stamp, typed + 1.15);
-        hold(tl, typed + 1.6);
+        tl.to([note, link, stamp], { autoAlpha: 0, duration: FAST, ease: 'power2.in' }, REST)
+          .set(marks, { autoAlpha: 0 }, REST + FAST)
+          // select the query, then clear it; the caret waits at the start
+          .set(field, { backgroundColor: fill }, REST + 0.3)
+          .set(field, { backgroundColor: clear(fill) }, REST + 0.3 + FAST)
+          .set(typed, { value: '' }, REST + 0.3 + FAST)
+          .set(caret, { autoAlpha: 1 }, REST + 0.3 + FAST);
+        // type: 70/90/60/110ms a letter in turn, 60ms a space, 180ms more after "adults"
+        const pace = [0.07, 0.09, 0.06, 0.11];
+        let t = REST + 0.3 + FAST + 0.35;
+        let n = 0;
+        for (let i = 1; i <= query.length; i++) {
+          tl.set(typed, { value: query.slice(0, i) }, t);
+          t += query[i - 1] === ' ' ? 0.06 : pace[n++ % pace.length];
+          if (query.slice(0, i).endsWith('adults')) t += 0.18;
+        }
+        // read it, press search; the result clears, the page loads, the result places
+        const sent = t + MED;
+        tl.set(caret, { autoAlpha: 0 }, sent)
+          .fromTo(go, { scale: 1, backgroundColor: clear(mist) }, { scale: 0.88, backgroundColor: mist, duration: FAST / 2, ease: 'power2.in', immediateRender: false }, sent)
+          .to(go, { scale: 1, backgroundColor: clear(mist), duration: FAST / 2, ease: 'power2.out' }, sent + FAST / 2)
+          .to(result, { autoAlpha: 0, duration: FAST, ease: 'power2.in' }, sent + FAST)
+          .fromTo(load, { autoAlpha: 1, scaleX: 0 }, { scaleX: 1, duration: SLOW, ease: 'power2.out', immediateRender: false }, sent + FAST)
+          .to(load, { autoAlpha: 0, duration: FAST }, sent + FAST + SLOW);
+        const placed = sent + FAST * 2 + MED;
+        tl.fromTo(result, { autoAlpha: 0, y: 10 }, { autoAlpha: 1, y: 0, duration: SLOW, ease: 'power2.out', immediateRender: false }, placed)
+          // the note returns and its connector draws from it up to the title, then it is signed
+          .fromTo(note, { autoAlpha: 0, y: 8 }, { autoAlpha: 1, y: 0, duration: MED, ease: 'power2.out', immediateRender: false }, placed + SLOW)
+          .fromTo(link, { autoAlpha: 1, clipPath: undrawn }, { autoAlpha: 1, clipPath: drawn, duration: SLOW, ease: 'power2.out', immediateRender: false }, placed + SLOW)
+          .fromTo(marks, { autoAlpha: 0, y: 6 }, { autoAlpha: 1, y: 0, duration: MED, ease: 'power2.out', immediateRender: false }, placed + SLOW + MED);
+        press(tl, stamp, placed + SLOW * 2 + MED);
+        hold(tl, placed + SLOW * 2 + MED * 2.8);
         return tl;
       },
       // a consult arrives, the band traces it down the ledger to its source, the source lights, signed
