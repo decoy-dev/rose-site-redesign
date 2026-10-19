@@ -10,43 +10,54 @@ Every change in this file was made to an exact copy of the live site, so each on
 - **Same layout as the live URLs:** `/about` is `site/about.html`, `/services/paid-ads` is `site/services/paid-ads.html`, and `/` is `site/index.html`.
 - **Not copied:** `/api/book-a-call`. It's a server function, so the copy's forms don't send anything.
 
+If a file below has changed in your source since this date, check it against the **Before** block first. Every Before block is quoted exactly from the copy.
+
 ## How to use this file
 
-There are eight changes, all on the homepage (`index.html`, `assets/site.css`, `assets/site.js`) plus the matching entries on `/components`. No other page changes.
+There are twelve changes from two rounds of Chris's feedback. Changes 1 to 11 are on the homepage (`index.html`, `assets/site.css`, `assets/site.js`) and its entries on `/components`. Change 12, the footer, is on every page.
 
 You can apply them in either of two ways:
-- **All at once:** apply `round-3.patch`, next to this file, from your site's root: `git apply round-3.patch`. Its paths start with `site/`, so use `git apply -p2` if your files sit at the repository root.
+- **All at once:** apply `changes.patch`, next to this file, from your site's root with `git apply changes.patch`. Its paths start with `site/`, so use `git apply -p2` if your files sit at the repository root.
 - **One at a time:** follow the changes below in order. Each one gives what changed and why, how it behaves on desktop and on phones, the files and line numbers it touches, the exact diff, and how to check it.
 
 Line numbers in each diff refer to the files as they are after the changes above it, so apply them in order. Every removed line is quoted exactly from the live site as of 2026-10-19. If your source has moved on since then, match on the quoted text rather than the line numbers.
 
-To see a change running: run `bun tools/serve.mjs clone/site` from the project folder and open http://127.0.0.1:4173/. Analytics only load on the production domain; the chat widget does load locally.
+To see it running: run `bun tools/serve.mjs clone/site` from the project folder and open http://127.0.0.1:4173/. Analytics only load on the production domain; the chat widget does load locally.
 
-## Decisions behind this round
+## Decisions behind these changes
 
-- **Brackets stay.** Chris chose to keep `[Your practice]`, `[your city]`, `[Name]`, `[Date]` and `[Time]` rather than invent a practice, people or results. Each sample uses each bracket as few times as it can. There are no numbers anywhere, and every sample keeps its Sample chip.
+- **Brackets stay.** Chris chose to keep `[Your practice]`, `[your city]`, `[Name]`, `[Date]`, `[Time]`, `[Month]` and `[n]` rather than invent a practice, people or results. Each sample uses each bracket as few times as it can, and every sample keeps its Sample chip.
 - **Your system, not a new one.**
-  - Palette tokens only, with no Google or Meta blue.
-  - No gradients.
+  - Palette tokens only, with no Google or Meta blue and no gradients.
   - Rose only on `em`, `.signature` and the existing stamp artwork.
-  - Your radii and shadow scale.
-  - Your class and comment conventions.
-- **Desktop and phone are designed separately**, not scaled. The phone page is now about 840px shorter at 390px wide (10,000px before, 9,164px after).
-- **Samples loop, as they did before:** finished state, the job replays, it is signed and the stamp is pressed, it rests, it repeats. They run only on screen, they stop on their finished state when someone presses Pause animations, and they don't run at all under reduced motion.
+  - Your radii, your shadow scale, and your class and comment conventions.
+- **Desktop and phone are designed separately**, not scaled.
+  - The phone page is 9,192px tall at 390 (10,000px before).
+  - The desktop page is 8,057px at 1440 (7,748px before). The extra is mostly the taller footer.
+- **Samples loop, as they did before:** finished state, the job replays, it is signed and the stamp is pressed, it rests, it repeats.
+  - They run only on screen.
+  - They stop on their finished state when someone presses Pause animations.
+  - They don't run at all under reduced motion.
 - **Your design checker reports exactly what it reports on the live site:** 3 blocks for the hero letter's shadows, and 2 warnings on /services/patient-follow-up. No new findings.
 
 ## The changes
 
-| # | Change | Files |
-|---|---|---|
-| 1 | [Hero: the headline in three lines, the letter higher, the curve off the four claims](#1-hero-the-headline-in-three-lines-the-letter-higher-the-curve-off-the-four-claims) | `assets/site.css` |
-| 2 | [Move the questions below the closing ask](#2-move-the-questions-below-the-closing-ask) | `assets/site.css`, `index.html` |
-| 3 | [Fold "We work with orthodontic practices first" into the How we help intro](#3-fold-we-work-with-orthodontic-practices-first-into-the-how-we-help-intro) | `assets/site.css`, `components.html`, `index.html` |
-| 4 | [Panel stamp: the signed stamp, large, on each service panel's outer corner](#4-panel-stamp-the-signed-stamp-large-on-each-service-panels-outer-corner) | `assets/site.css`, `index.html` |
-| 5 | [Websites and SEO sample: a credible Google result, realistic typing, the note outside it](#5-websites-and-seo-sample-a-credible-google-result-realistic-typing-the-note-outside-it) | `assets/site.css`, `assets/site.js`, `components.html`, `index.html` |
-| 6 | [Google and Meta ads sample: two real-format ads and a consult traced back to its ad](#6-google-and-meta-ads-sample-two-real-format-ads-and-a-consult-traced-back-to-its-ad) | `assets/site.css`, `assets/site.js`, `components.html`, `index.html` |
-| 7 | [Beyond the core plan: a card deck you browse, with depth of field](#7-beyond-the-core-plan-a-card-deck-you-browse-with-depth-of-field) | `assets/site.css`, `assets/site.js`, `components.html`, `index.html` |
-| 8 | [What happens after you say yes: the practice folder](#8-what-happens-after-you-say-yes-the-practice-folder) | `assets/site.css`, `assets/site.js`, `components.html`, `index.html` |
+| # | Round | Change | Files |
+|---|---|---|---|
+| 1 | 3 | [Hero: the headline in three lines, the letter higher, the curve off the four claims](#1-hero-the-headline-in-three-lines-the-letter-higher-the-curve-off-the-four-claims) | `assets/site.css` |
+| 2 | 3 | [Move the questions below the closing ask](#2-move-the-questions-below-the-closing-ask) | `assets/site.css`, `index.html` |
+| 3 | 3 | [Fold "We work with orthodontic practices first" into the How we help intro](#3-fold-we-work-with-orthodontic-practices-first-into-the-how-we-help-intro) | `assets/site.css`, `components.html`, `index.html` |
+| 4 | 3 | [Panel stamp: the signed stamp, large, on each service panel's outer corner](#4-panel-stamp-the-signed-stamp-large-on-each-service-panels-outer-corner) | `assets/site.css`, `index.html` |
+| 5 | 3 | [Websites and SEO sample: a credible Google result, realistic typing, the note outside it](#5-websites-and-seo-sample-a-credible-google-result-realistic-typing-the-note-outside-it) | `assets/site.css`, `assets/site.js`, `components.html`, `index.html` |
+| 6 | 3 | [Google and Meta ads sample: two real-format ads and a consult traced back to its ad](#6-google-and-meta-ads-sample-two-real-format-ads-and-a-consult-traced-back-to-its-ad) | `assets/site.css`, `assets/site.js`, `components.html`, `index.html` |
+| 7 | 3 | [Beyond the core plan: a card deck you browse, with depth of field](#7-beyond-the-core-plan-a-card-deck-you-browse-with-depth-of-field) | `assets/site.css`, `assets/site.js`, `components.html`, `index.html` |
+| 8 | 3 | [What happens after you say yes: the practice folder](#8-what-happens-after-you-say-yes-the-practice-folder) | `assets/site.css`, `assets/site.js`, `components.html`, `index.html` |
+| 9 | 4 | [Websites and SEO: the callout's arm reaches the result more slowly](#9-websites-and-seo-the-callouts-arm-reaches-the-result-more-slowly) | `assets/site.js` |
+| 10 | 4 | [Google and Meta ads: a shorter panel](#10-google-and-meta-ads-a-shorter-panel) | `assets/site.css` |
+| 11 | 4 | [What happens after you say yes: four composed scenes](#11-what-happens-after-you-say-yes-four-composed-scenes) | `assets/site.css`, `assets/site.js`, `components.html`, `index.html` |
+| 12 | 4 | [Footer: a product-style footer with the name large, cropped and faded](#12-footer-a-product-style-footer-with-the-name-large-cropped-and-faded) | `assets/site.css`, `assets/site.js`, all 17 HTML pages |
+
+## Round 3
 
 ### 1. Hero: the headline in three lines, the letter higher, the curve off the four claims
 
@@ -3533,33 +3544,2915 @@ index 291f6f1..97570bc 100644
 
 </details>
 
+## Round 4
+
+### 9. Websites and SEO: the callout's arm reaches the result more slowly
+
+**What and why.** Chris found the callout "a bit too snappy when the arm connects and points to the result". The connector used to wipe into view in one 0.4s move.
+
+**Now** (site.js "signed samples", builder `'local-page'`), the arm draws in two eased phases after the note has landed:
+1. It rises from the note up its left side: 0.55s, `sine.inOut`.
+2. It reaches across to the result's title, slowing as it arrives: 0.8s, `power3.out`.
+
+The signature and the panel stamp follow once the arm has arrived. That's 1.35s for the arm, where it used to be 0.4s. Pause, reduced motion and no-JS states are unchanged.
+
+**Check:** watch the SEO sample. The line climbs from the note, then glides into the dot beside "Adult braces in [your city]".
+
+**Files and lines** (after this change):
+
+- `site/assets/site.js`: lines 692–704, 726–740
+
+<details>
+<summary>Exact diff for change 9</summary>
+
+```diff
+diff --git a/site/assets/site.js b/site/assets/site.js
+index b323e73..0503967 100644
+--- a/site/assets/site.js
++++ b/site/assets/site.js
+@@ -692,8 +692,13 @@
+         const FAST = sec('--dur-fast', 0.15);
+         const fill = token('--fill-quiet');
+         const mist = token('--sage-mist');
++        // the connector draws in two phases: up from the note (its left strip only), then out along the top to the
++        // title, slowing as it arrives, so the arm reads as reaching for the result rather than snapping to it
++        const armW = link.offsetWidth;
++        const armH = link.offsetHeight;
++        const hidden = 'inset(' + (armH + 8) + 'px ' + (armW - 14) + 'px -8px -8px)';
++        const risen = 'inset(-8px ' + (armW - 14) + 'px -8px -8px)';
+         const drawn = 'inset(-8px -8px -8px -8px)';
+-        const undrawn = 'inset(' + (link.offsetHeight + 8) + 'px -8px -8px -8px)';
+         const tl = gsap.timeline({ paused: true, repeat: -1 });
+         tl.to([note, link, stamp], { autoAlpha: 0, duration: FAST, ease: 'power2.in' }, REST)
+           .set(marks, { autoAlpha: 0 }, REST + FAST)
+@@ -721,12 +726,15 @@
+           .to(load, { autoAlpha: 0, duration: FAST }, sent + FAST + SLOW);
+         const placed = sent + FAST * 2 + MED;
+         tl.fromTo(result, { autoAlpha: 0, y: 10 }, { autoAlpha: 1, y: 0, duration: SLOW, ease: 'power2.out', immediateRender: false }, placed)
+-          // the note returns and its connector draws from it up to the title, then it is signed
+-          .fromTo(note, { autoAlpha: 0, y: 8 }, { autoAlpha: 1, y: 0, duration: MED, ease: 'power2.out', immediateRender: false }, placed + SLOW)
+-          .fromTo(link, { autoAlpha: 1, clipPath: undrawn }, { autoAlpha: 1, clipPath: drawn, duration: SLOW, ease: 'power2.out', immediateRender: false }, placed + SLOW)
+-          .fromTo(marks, { autoAlpha: 0, y: 6 }, { autoAlpha: 1, y: 0, duration: MED, ease: 'power2.out', immediateRender: false }, placed + SLOW + MED);
+-        press(tl, stamp, placed + SLOW * 2 + MED);
+-        hold(tl, placed + SLOW * 2 + MED * 2.8);
++          // the note returns, then its connector rises from it and reaches across to the title; then it is signed
++          .fromTo(note, { autoAlpha: 0, y: 8 }, { autoAlpha: 1, y: 0, duration: MED, ease: 'power2.out', immediateRender: false }, placed + SLOW);
++        const reach = placed + SLOW + MED * 0.6;
++        const reached = reach + 0.55 + 0.8;
++        tl.fromTo(link, { autoAlpha: 1, clipPath: hidden }, { autoAlpha: 1, clipPath: risen, duration: 0.55, ease: 'sine.inOut', immediateRender: false }, reach)
++          .to(link, { clipPath: drawn, duration: 0.8, ease: 'power3.out' }, reach + 0.55)
++          .fromTo(marks, { autoAlpha: 0, y: 6 }, { autoAlpha: 1, y: 0, duration: MED, ease: 'power2.out', immediateRender: false }, reached - 0.1);
++        press(tl, stamp, reached + MED * 0.6);
++        hold(tl, reached + MED * 0.6 + 0.5);
+         return tl;
+       },
+       // the consult is traced back to the ad that brought it: the record clears and a new consult is placed, the wire
+```
+
+</details>
+
+### 10. Google and Meta ads: a shorter panel
+
+**What and why.** Chris: the ads graphic was "too tall" (the panel was 724px at 1440, beside 525px for the SEO panel). It is now 586px at 1440. Nothing was removed; the copy is just tighter.
+- **Ad copy:** both ads clamp their copy to two lines, as Google and Meta do with their own "See more".
+- **Sitelinks:** the Google ad's two sitelinks sit on one line.
+- **Meta creative:** its minimum height drops from 140px to 96px.
+- **Consult record:** on a wide panel, "Consult booked", "[Name] Adult braces" and "[Time]" share one line, and the source box and sign-off are a little tighter.
+
+Phones and narrow panels (the stacked layout) are unchanged.
+
+**Check:** at 1440 the ads panel is about 586px tall. The wire still runs from the record up to the Google ad (or the Meta ad mid-loop).
+
+**Files and lines** (after this change):
+
+- `site/assets/site.css`: lines 1955–1996, 2003–2011, 2013–2018
+
+<details>
+<summary>Exact diff for change 10</summary>
+
+```diff
+diff --git a/site/assets/site.css b/site/assets/site.css
+index cd2da1c..bfec570 100644
+--- a/site/assets/site.css
++++ b/site/assets/site.css
+@@ -1955,31 +1955,42 @@ h1 em, h2 em, h3 em, .tagline em, .signed-change em { color: var(--accent-italic
+ .ads-call { display: inline-flex; align-items: center; gap: var(--space-1); margin-left: auto; padding: var(--space-1) var(--space-3); border: var(--border-w) solid var(--border-input); border-radius: var(--radius-pill); color: var(--forest); font-size: var(--text-caption); font-weight: 600; line-height: 1.4; }
+ .ads-call .icon { width: 14px; height: 14px; }
+ .ads-google-title { font-size: var(--text-body-m); font-weight: 500; line-height: 1.35; color: var(--forest); }
++/* Google's and Meta's own "See more" clamps: two lines of copy on every ad */
+ .ads-google-text { color: var(--text-muted); }
++.ads-google-text, .ads-meta-text { display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 2; overflow: hidden; }
+ /* the search it answers, and its sitelinks (desktop only: phones show the ad alone) */
+ .ads-query { display: flex; align-items: center; gap: var(--space-2); margin-bottom: var(--space-1); padding: var(--space-2) var(--space-3); border: var(--border-w) solid var(--border-input); border-radius: var(--radius-pill); font-weight: 500; }
+ .ads-query .icon { width: 16px; height: 16px; color: var(--text-muted); }
+-.ads-sitelinks { display: grid; margin-top: var(--space-1); }
+-.ads-sitelinks li { padding-block: var(--space-2); border-top: var(--border-w) solid var(--border-quiet); font-weight: 500; color: var(--forest); }
++.ads-sitelinks { display: flex; flex-wrap: wrap; gap: var(--space-1) var(--space-4); }
++.ads-sitelinks li { font-weight: 500; color: var(--forest); }
+ .ads-meta { grid-template-rows: auto auto minmax(0, 1fr) auto; align-content: stretch; }
+-.ads-meta-art { display: grid; align-content: end; align-self: stretch; min-height: 140px; margin-inline: calc(-1 * var(--space-4)); padding: var(--space-4); background: var(--surface-strong); color: var(--text-on-strong); font-family: var(--font-display); font-size: var(--text-h3); line-height: 1.1; text-wrap: balance; }
++.ads-meta-art { display: grid; align-content: end; align-self: stretch; min-height: 96px; margin-inline: calc(-1 * var(--space-4)); padding: var(--space-4); background: var(--surface-strong); color: var(--text-on-strong); font-family: var(--font-display); font-size: var(--text-h3); line-height: 1.1; text-wrap: balance; }
+ .ads-meta-foot { display: flex; align-items: center; justify-content: space-between; gap: var(--space-2); margin: calc(-1 * var(--space-3)) calc(-1 * var(--space-4)) calc(-1 * var(--space-4)); padding: var(--space-3) var(--space-4); border-radius: 0 0 var(--radius-card) var(--radius-card); background: var(--surface-panel); }
+ .ads-meta-headline { font-weight: 600; }
+ .ads-meta-button { flex: none; padding: var(--space-1) var(--space-3); border-radius: var(--radius-input); background: var(--surface-page); font-size: var(--text-caption); font-weight: 600; line-height: 1.6; }
+ /* the consult record: booked, who and for what, and where it came from */
+-.ads-consult { position: relative; grid-column: 1 / -1; justify-self: end; display: grid; gap: var(--space-3); width: calc(100% - 128px); margin-top: var(--ads-band); padding: var(--space-4) var(--space-5); border: var(--border-w) solid var(--border-quiet); border-radius: var(--radius-card); background: var(--surface-page); box-shadow: var(--shadow-2); font-size: var(--text-body-s); line-height: 1.5; }
++.ads-consult { position: relative; grid-column: 1 / -1; justify-self: end; display: grid; gap: var(--space-2); width: calc(100% - 128px); margin-top: var(--ads-band); padding: var(--space-3) var(--space-5) var(--space-4); border: var(--border-w) solid var(--border-quiet); border-radius: var(--radius-card); background: var(--surface-page); box-shadow: var(--shadow-2); font-size: var(--text-body-s); line-height: 1.5; }
+ .ads-consult-head { display: flex; align-items: center; gap: var(--space-2); font-weight: 600; }
+ .ads-consult-head .lead-dot { flex: none; }
+ .ads-consult-time { margin-left: auto; font-size: var(--text-label); color: var(--text-muted); font-variant-numeric: tabular-nums; }
+ .ads-consult-who { display: flex; flex-wrap: wrap; align-items: baseline; gap: 0 var(--space-3); color: var(--text-muted); }
+ .ads-consult-name { font-family: var(--font-display); font-size: var(--text-h3); line-height: 1.2; color: var(--text-body); }
+ /* label sage on sage mist, 5.1:1 */
+-.ads-consult-source { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: var(--space-1) var(--space-4); padding: var(--space-3) var(--space-4); border-radius: var(--radius-input); background: var(--surface-panel); }
++.ads-consult-source { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 0 var(--space-4); padding: var(--space-2) var(--space-4); border-radius: var(--radius-input); background: var(--surface-panel); }
+ .ads-consult-source dt { font-size: var(--text-label); font-weight: 600; line-height: 1.6; color: var(--text-muted); }
+ .ads-consult-source dd { display: grid; font-weight: 600; }
+ .ads-consult-source dd > span { grid-area: 1 / 1; }
+ .ads-consult-source [data-src="meta"] { visibility: hidden; opacity: 0; }
+-.ads-signoff { padding-right: 0; }
++.ads-signoff { padding-top: var(--space-3); padding-right: 0; }
++/* on a wide panel the record's first line carries all three facts: booked, who and what for, and when */
++@container ads-panel (min-width: 520px) {
++  .ads-ad { gap: var(--space-2); }
++  .ads-consult { grid-template-columns: auto minmax(0, 1fr); column-gap: var(--space-4); }
++  .ads-consult-head, .ads-consult-who { grid-row: 1; align-self: center; }
++  .ads-consult-who { grid-column: 2; padding-right: 56px; }
++  .ads-consult-time { position: absolute; top: var(--space-4); right: var(--space-5); }
++  .ads-consult-source, .ads-signoff { grid-column: 1 / -1; }
++}
+ /* the wire: 2px forest segments under each ad, meeting above the record's centre. The record's centre sits 72px past
+    the Google slot's right edge (it starts 128px in), which is 56px into the Meta slot. */
+ .ads-wire { position: absolute; top: 100%; left: 0; right: 0; height: calc(var(--ads-band) / 2 + var(--space-2)); pointer-events: none; }
+@@ -1992,10 +2003,9 @@ h1 em, h2 em, h3 em, .tagline em, .signed-change em { color: var(--accent-italic
+ .ads-wire--land { top: auto; bottom: 100%; height: calc(var(--ads-band) / 2 + var(--space-2) + 2px); }
+ .ads-wire--land i:nth-child(2), .ads-wire--pass { display: none; }
+ /* Narrow panels (phones, and 1025-1150px): the two ads stacked and compact (no platform labels: each reads as its
+-   platform; the Meta post as a card with its creative a small square beside the post text, Google's and Meta's own
+-   "See more" clamps on the copy), then the record. The wire runs in a 20px lane down the left: out of the record's
+-   head, up past the Meta ad, into the head of the ad it came from. The record's sign-off sits right (no disc), clear
+-   of the stamp on the bottom-left. */
++   platform; the Meta post as a card with its creative a small square beside the post text), then the record. The
++   wire runs in a 20px lane down the left: out of the record's head, up past the Meta ad, into the head of the ad it
++   came from. The record's sign-off sits right (no disc), clear of the stamp on the bottom-left. */
+ @container ads-panel (max-width: 519px) {
+   .ads { --ads-hook: 26px; grid-template-columns: minmax(0, 1fr); gap: var(--space-2); padding-left: var(--space-5); }
+   .ads-slot { gap: 0; }
+@@ -2003,7 +2013,6 @@ h1 em, h2 em, h3 em, .tagline em, .signed-change em { color: var(--accent-italic
+   .ads-ad { gap: var(--space-2); padding: var(--space-3); }
+   .ads-mark { width: 28px; height: 28px; }
+   .ads-query, .ads-sitelinks { display: none; }
+-  .ads-google-text, .ads-meta-text { display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 2; overflow: hidden; }
+   .ads-meta { grid-template-columns: 96px minmax(0, 1fr); grid-template-rows: auto auto 1fr; align-content: start; gap: var(--space-1) var(--space-3); }
+   .ads-meta .ads-site { grid-column: 2; }
+   .ads-meta .ads-mark { display: none; }
+```
+
+</details>
+
+### 11. What happens after you say yes: four composed scenes
+
+**What and why.** Chris: "The first conversation graphic sucks, it's not really representative of anything. In fact, all the graphics in this section 1-4 are pretty bad/minimal/incomplete. Could all be more higher-end and visually engaging." Each flat cream sheet is now a composed scene: two to four product surfaces overlapping on the folder's field panel, with depth from your shadow scale, and one authored beat each. Everything else about the folder stays as it was:
+- your heading, intro, step titles and lines;
+- the rail and the phone selector;
+- auto-advance with its progress line, and stopping on interaction;
+- pause, reduced motion and no-JS `<details>`;
+- no layout shift between stages.
+
+Each scene has a caption and Sample chip row, like the service samples.
+
+**1. A first conversation** (Sales)
+- **Surfaces:**
+  - A video call, "First conversation", with a live dot and an illustrative 24:18.
+  - Two tiles: Sales on forest with the founder disc and a speaking ring, and "[Your practice]" with a 1.5px practice icon.
+  - A live caption strip and the call controls.
+  - Behind it, the invitation: "Accepted", "[Date] · [Time] · Video call".
+  - In front, Sales' call notes with your three topics: Your practice, Your patients, What you've already tried. It's prepared by *Sales*, with no stamp.
+- **Beat:** Sales asks three questions as word-by-word captions, and each topic ticks as its question ends.
+
+**2. Your website, built from your practice** (Web and SEO)
+- **Surfaces:**
+  - A browser at `[yourpractice].com/adult-braces` with a believable practice page: its navigation, "Adult braces in [your city]", "Request a consultation", "What to expect at your first visit" and "Questions adults ask".
+  - The same page on a phone, with a sticky "Book a consult" bar.
+  - A Google Business Profile-style card: a geometric map, "Orthodontist in [your city]", "Open · Closes [Time]", Directions / Call / Website, and an "Hours updated" chip. It's signed by *Web and SEO* and stamped.
+- **Beat:** the page scrolls under its fixed navigation, the phone settles, and "Updating hours" ticks over to "Hours updated".
+
+**3. Your ads go live** (Paid media)
+- **Surfaces:**
+  - A generic ads-manager panel, with no Google or Meta marks or colours: Campaigns, a [Your practice] account pill, and rows for "Adult braces · Search" and "Adult braces · Meta" with switches, status and [Budget]/day.
+  - Call tracking and Conversion tracking, both "Set up".
+  - An "Ad accounts in your practice's name / Owner: [Your practice]" badge with a 1.5px key.
+  - Small previews of the two ads from the ads sample above.
+  - It's signed by *Paid media* and stamped.
+- **Beat:** the switches turn on, the status moves Draft, then In review, then Live, and tracking reads Set up.
+
+**4. Your first monthly report** (Paid media and Web and SEO)
+- **Surfaces:**
+  - An email notification, "Your [Month] report is ready", from Rose Practice Solutions with the mark tile.
+  - The report "[Month] report · [Your practice]" in your step's three parts:
+    - **What we did:** two signed, stamped changes.
+    - **What it brought in:** `[n]` New leads · `[n]` Reached · `[n]` Consults booked, with no chart.
+    - **What we're changing next:** "A clear aligners page, with its own ads."
+  - On desktop, one booked consult card beside it, traced to the Google Search ad.
+- **Beat:** the notification lands, the report opens, and the changes are stamped in turn.
+
+**Layout**
+- **Wide (1280px desktops and up):** each scene has a 768×420 canvas with every surface.
+- **Narrow (1025 to 1279px desktops, tablets, phones):** one main surface with a smaller one over its edge, up to 520px wide:
+  - the call plus its notes;
+  - the phone page plus the profile;
+  - the ads account plus the ownership badge;
+  - the report plus the email.
+- **Phones:** the Sample chip moves beside the stage title.
+
+**Height:** the section is 993px at 1440 (987 before) and 1,045px at 390 (992 before).
+
+**Retired:** the old sheet classes (`.folder-doc*`, `.folder-notes`, `.folder-page*`, `.folder-checks`, `.folder-work`, and the rest), with no dead selectors left. `#demo-after-yes` on /components shows the new scenes.
+
+**Check:** watch each stage at 1440 and at 390. Click a stage (it stops there), pause (it holds), and check that switching stages never moves the page.
+
+**Files and lines** (after this change):
+
+- `site/assets/site.css`: lines 2042–2074, 2094–2374, 2379–2384, 2389–2400
+- `site/assets/site.js`: lines 862–887, 954–1163, 1180–1187, 1201–1211
+- `site/components.html`: lines 834–1037
+- `site/index.html`: lines 552–567, 572–770
+
+<details>
+<summary>Exact diff for change 11</summary>
+
+```diff
+diff --git a/site/assets/site.css b/site/assets/site.css
+index bfec570..995321e 100644
+--- a/site/assets/site.css
++++ b/site/assets/site.css
+@@ -2042,24 +2042,33 @@ h1 em, h2 em, h3 em, .tagline em, .signed-change em { color: var(--accent-italic
+ }
+ 
+ /* ---------- the practice folder (homepage "What happens after you say yes") ---------- */
+-/* The four stages after a practice says yes, each with the piece of work it hands over, filed in one folder: Sales'
+-   practice notes, the adult braces page (signed by Web and SEO), the launch checklist (signed by Paid media) and the
+-   monthly report's work and next steps (two signed rows). Illustrative work: a Sample chip on every sheet, brackets
+-   for the practice.
++/* The four stages after a practice says yes, each with a scene of the work it hands over: the first call with Sales
++   (the call, its invitation behind, Sales' notes in front), the adult braces page and the Google Business Profile Web
++   and SEO set up (the page in a browser and on a phone, the profile), the ads account Paid media switches on (the
++   campaigns, the accounts in your name, the two ads) and the first monthly report (the email it arrives in, and the
++   report). Illustrative work: a Sample chip on every scene, brackets for the practice, the dates and the numbers.
+    Markup (static, no JavaScript): .folder[data-folder] (a field panel) > details.folder-stage[name] ×4, the first open,
+    each summary.folder-summary (span.folder-num + .folder-head (h3.folder-title + span.folder-line)) + .folder-panel
+-   > article.folder-doc (.folder-doc-head (practice + Sample chip) + .folder-doc-body + the sign-off + img.folder-stamp).
++   > figure.folder-scene[role=img] (.folder-scene-top (caption + Sample chip) + .folder-canvas > two to four
++   .folder-surface, cream product surfaces on the field, the one at the back on --shadow-2, those in front on --shadow-3).
+    site.js ("the practice folder") then adds .is-folder and rebuilds it as .folder-rail[role=tablist] of
+    button.folder-tab (number, title and line on desktop, number and short title from data-short below 1025px, and a
+    span.folder-progress) beside .folder-sheet, which holds every .folder-panel[role=tabpanel] in one grid cell: the
+    sheet keeps the tallest stage's height, so changing stage never moves the page. Below 1025px each panel opens with
+    its stage's title and line (.folder-panel-head, moved there from the summary; read-only on desktop).
++   Each scene is a container (folder-scene). From 768px wide (desktops from 1280px) its surfaces are composed on a
++   768 by 420 canvas, overlapping; narrower (smaller desktops, tablets, phones) each scene keeps one main surface and
++   one smaller one over its edge, in the flow, and the rest stay out (the invitation, the browser, the two ads, the consult).
+    Motion (site.js): while the folder is on screen it moves from stage to stage on its own, 1 to 4 and round again;
+-   each sheet plays its one beat (the focus underlined; the page placed; the checklist ticked; each signed row lit,
+-   then the stamp pressed) and rests, and the active stage's progress line fills until the next. A click, tap or key
+-   on a stage stops that for the visit. Paused animations: the current stage, finished. Reduced motion: stage 1,
+-   finished, stages change at once. Static state (no JavaScript, reduced motion, paused): every sheet finished. */
+-.folder { display: grid; grid-template-columns: minmax(0, 1fr); padding: var(--space-8); border-radius: var(--radius-panel); background: var(--surface-alt); }
++   each scene places its surfaces and plays its one beat (the call runs through Sales' three topics, each ticked as
++   its caption ends; the page scrolls, the phone settles, the profile's hours are updated; the two campaigns are
++   switched on and go from draft to in review to live, tracking is set up; the email lands, the report opens and each
++   signed row is stamped), then the sign-off and the stamp, and rests while the active stage's progress line fills.
++   A click, tap or key on a stage stops that for the visit. Paused animations: the current stage, finished. Reduced
++   motion: stage 1, finished, stages change at once. Static state (no JavaScript, reduced motion, paused): every scene
++   finished. */
++/* full width wherever it sits: its scenes are size containers, so they lend it no width of their own */
++.folder { display: grid; grid-template-columns: minmax(0, 1fr); width: 100%; padding: var(--space-8); border-radius: var(--radius-panel); background: var(--surface-alt); }
+ /* a stage, as a disclosure (no JavaScript) */
+ .folder-stage + .folder-stage { border-top: var(--border-w) solid var(--border-quiet); }
+ .folder-summary { position: relative; display: grid; grid-template-columns: 36px minmax(0, 1fr); gap: var(--space-4); padding: var(--space-5) var(--space-10) var(--space-5) 0; cursor: pointer; list-style: none; }
+@@ -2085,57 +2094,281 @@ h1 em, h2 em, h3 em, .tagline em, .signed-change em { color: var(--accent-italic
+ .folder-tab-short { display: none; font-size: var(--text-body-s); font-weight: 600; line-height: 1.35; }
+ /* the time to the next stage: a forest line along the active stage's foot, filled by site.js while the folder moves on its own */
+ .folder-progress { position: absolute; left: var(--space-4); right: var(--space-4); bottom: 0; height: 2px; border-radius: var(--radius-pill); background: var(--forest); transform: scaleX(0); transform-origin: left center; visibility: hidden; }
+-.folder-sheet { display: grid; grid-template-columns: minmax(0, 1fr); min-height: 430px; }
++.folder-sheet { display: grid; grid-template-columns: minmax(0, 1fr); }
+ .folder-sheet > .folder-panel { grid-area: 1 / 1; padding: 0; }
+ .folder-sheet > .folder-panel:not(.is-current, .is-leaving) { visibility: hidden; }
+-/* while the stage changes, the outgoing sheet sits on top as its work fades, then drops away (site.js) */
++/* while the stage changes, the outgoing scene sits on top as its surfaces fade, then drops away (site.js) */
+ .folder-sheet > .folder-panel.is-leaving { z-index: 1; }
+ .folder-panel-head { display: grid; gap: var(--space-1); }
+ .is-folder .folder-panel-head { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+ 
+-/* the sheet: one piece of work on cream paper, its foot kept clear for the stamp */
+-.folder-doc { position: relative; display: grid; grid-template-rows: auto 1fr auto; gap: var(--space-5); padding: var(--space-6); border-radius: var(--radius-card); background: var(--surface-page); box-shadow: var(--shadow-2); font-size: var(--text-body-s); line-height: 1.5; }
+-.folder-doc-head { display: flex; align-items: flex-start; justify-content: space-between; gap: var(--space-4); padding-bottom: var(--space-4); border-bottom: var(--border-w) solid var(--border-quiet); }
+-.folder-doc-name { display: grid; gap: var(--space-1); }
+-.folder-doc-practice { font-size: var(--text-label); font-weight: 600; line-height: 1.4; color: var(--text-muted); }
+-.folder-doc-title { font-family: var(--font-display); font-size: var(--text-h2); line-height: 1.1; }
+-.folder-doc-body { display: grid; align-content: start; gap: var(--space-4); }
+-/* the sign-off: what was done, then "Signed by" and the role in deep rose (.signature, 8.43:1) */
+-.folder-sign { display: grid; gap: var(--space-1); padding-top: var(--space-4); border-top: var(--border-w) solid var(--border-quiet); font-size: var(--text-label); font-weight: 600; line-height: 1.4; }
+-/* the signature line keeps clear of the stamp */
+-.folder-sign > p:last-child { padding-right: 72px; }
+-.folder-sign .signed-change, .folder-sign-note { font-size: var(--text-body-s); font-weight: 400; }
+-.folder-sign .signature { display: inline; margin-left: var(--space-1); font-size: 1.6em; line-height: 1; }
+-.folder-stamp { position: absolute; right: var(--space-4); bottom: var(--space-4); width: 48px; height: 48px; }
+-.folder-stamp--large { right: var(--space-3); bottom: var(--space-3); width: 64px; height: 64px; }
+-
+-/* 1. practice notes: what Sales asks, and the focus it leads to, underlined */
+-.folder-notes > div { display: grid; grid-template-columns: 120px minmax(0, 1fr); gap: var(--space-4); padding-block: var(--space-3); }
+-.folder-notes > div + div, .folder-checks li + li { border-top: var(--border-w) solid var(--border-quiet); }
+-.folder-notes dt { font-size: var(--text-label); font-weight: 600; line-height: 1.6; color: var(--text-muted); }
+-.folder-notes dd { font-size: var(--text-body-m); line-height: 1.4; }
+-.folder-notes .is-key dd { font-weight: 600; color: var(--forest); }
+-.folder-focus { position: relative; display: inline-block; padding-bottom: 3px; }
+-.folder-underline { position: absolute; left: 0; right: 0; bottom: 0; height: 2px; border-radius: var(--radius-pill); background: var(--forest); transform-origin: left center; }
+-/* 2. the adult braces page, as a small page in its window */
+-.folder-page { overflow: hidden; border: var(--border-w) solid var(--border-quiet); border-radius: var(--radius-input); background: var(--surface-page); box-shadow: var(--shadow-1); }
+-.folder-page-bar { display: flex; gap: var(--space-2); padding: var(--space-3) var(--space-4); background: var(--surface-panel); }
+-.folder-page-bar i { width: 8px; height: 8px; border-radius: 50%; background: var(--fill-quiet); }
+-.folder-page-body { display: grid; justify-items: start; gap: var(--space-3); padding: var(--space-5); }
+-.folder-page-title { font-family: var(--font-display); font-size: var(--text-h2); line-height: 1.1; color: var(--forest); }
+-.folder-page-button { padding: var(--space-2) var(--space-4); border-radius: var(--radius-pill); background: var(--forest); color: var(--cream); font-size: var(--text-label); font-weight: 600; }
+-/* 3. the launch checklist: three rows, each ticked */
+-.folder-checks li { display: grid; grid-template-columns: 20px minmax(0, 1fr); align-items: center; gap: var(--space-3); padding-block: var(--space-3); font-size: var(--text-body-m); line-height: 1.4; }
+-.folder-checks .icon { color: var(--forest); }
+-/* 4. the monthly report's work and next steps: two signed rows, then what comes next */
+-.folder-work li { display: grid; grid-template-columns: 32px minmax(0, 1fr); align-items: start; gap: var(--space-3); padding: var(--space-3); border-radius: var(--radius-input); }
+-.folder-work li + li { margin-top: var(--space-1); }
+-.folder-disc.founder-art { position: static; width: 32px; height: 32px; transform: rotate(-90deg); }
+-.folder-who { display: block; font-size: var(--text-label); font-weight: 600; line-height: 1.4; }
+-.folder-work .signed-change { font-size: var(--text-body-m); line-height: 1.4; }
+-.folder-next { border: var(--border-w) solid var(--border-quiet); }
+-.folder-next .icon { justify-self: center; margin-top: 6px; color: var(--forest); }
+-.folder-disclosure { padding: var(--space-4) 88px 0 0; border-top: var(--border-w) solid var(--border-quiet); font-size: var(--text-caption); line-height: 1.4; color: var(--text-muted); }
++/* the scene: its caption and Sample chip (forest on field 7.4:1), then the canvas of surfaces. Text on the surfaces:
++   ink on cream 13.78:1, label sage on cream 5.88:1, forest on sage mist 7.55:1, cream on forest 8.7:1. Under 768px the
++   scene is kept to 520px, centred. */
++.folder-scene { container: folder-scene / inline-size; display: grid; align-content: start; gap: var(--space-3); min-width: 0; margin: 0; }
++.folder-scene-top { display: flex; align-items: center; justify-content: space-between; gap: var(--space-3); }
++.folder-scene-top, .folder-canvas { width: 100%; max-width: 520px; margin-inline: auto; }
++.folder-scene-caption { font-size: var(--text-caption); font-weight: 500; line-height: 1.4; color: var(--forest); }
++.folder-canvas { position: relative; display: grid; grid-template-columns: minmax(0, 1fr); align-items: start; font-size: var(--text-body-s); line-height: 1.5; color: var(--text-body); }
++.folder-surface { position: relative; min-width: 0; border: var(--border-w) solid var(--border-quiet); border-radius: var(--radius-card); background: var(--surface-page); box-shadow: var(--shadow-2); }
++.folder-surface--front { z-index: 2; box-shadow: var(--shadow-3); }
++.folder-canvas .icon { width: 16px; height: 16px; }
++.folder-canvas .signoff { padding-top: var(--space-3); }
++.folder-canvas .signoff .signature { white-space: nowrap; }
++/* the stamp, overprinted on a surface's corner, clear of its text: bottom right, or top right over the profile's map */
++.folder-stamp { position: absolute; right: -12px; bottom: -12px; z-index: 3; width: 64px; height: 64px; }
++.folder-stamp--top { top: -12px; bottom: auto; }
++/* a part with its states stacked in one cell, the finished one showing (site.js swaps them) */
++.folder-caption-lines, .folder-update-text, .folder-status-text { display: grid; }
++.folder-caption-lines > span, .folder-update-text > span, .folder-status-text > span { grid-area: 1 / 1; }
++.folder-caption-lines > span:not(:last-child), .folder-update-text > span:first-child, .folder-status-text > span:not([data-state="live"]) { visibility: hidden; }
++
++/* 1. the first call: the invitation (wide only), the call, and Sales' notes over its corner */
++.folder-invite { display: none; gap: var(--space-2); padding: var(--space-4) var(--space-5); }
++.folder-invite-head { display: flex; align-items: center; gap: var(--space-2); font-size: var(--text-caption); font-weight: 600; line-height: 1.4; color: var(--text-muted); }
++.folder-invite-head .icon, .folder-invite-meta .icon { color: var(--forest); }
++.folder-invite-head .chip { margin-left: auto; }
++.folder-invite-title { font-size: var(--text-body-m); font-weight: 600; line-height: 1.35; }
++.folder-invite-meta { display: flex; align-items: center; gap: var(--space-2); font-size: var(--text-label); line-height: 1.5; color: var(--text-muted); }
++.folder-call { display: grid; overflow: hidden; }
++.folder-call-bar { display: grid; grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr); align-items: center; gap: var(--space-3); padding: var(--space-3) var(--space-4); border-bottom: var(--border-w) solid var(--border-quiet); background: var(--surface-panel); }
++.folder-call-name { font-size: var(--text-label); font-weight: 600; line-height: 1.4; white-space: nowrap; }
++.folder-call-time { justify-self: end; display: inline-flex; align-items: center; gap: var(--space-2); font-size: var(--text-caption); font-weight: 600; line-height: 1.4; color: var(--forest); font-variant-numeric: tabular-nums; }
++.folder-call-tiles { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--space-2); padding: var(--space-3) var(--space-3) 0; }
++/* a participant: Sales on forest with the founder disc (ink and forest, as in the team band) and a ring while speaking */
++.folder-tile { position: relative; display: grid; place-items: center; height: 96px; border-radius: var(--radius-input); background: var(--surface-panel); }
++.folder-tile--sales { background: var(--surface-strong); color: var(--text-on-strong); }
++.folder-tile-face { position: relative; display: grid; place-items: center; width: 44px; height: 44px; margin-bottom: var(--space-4); }
++.folder-tile-disc.founder-art { position: static; width: 100%; height: 100%; transform: rotate(-90deg); }
++.folder-ring { position: absolute; inset: -6px; border: var(--border-w-strong) solid var(--outline-on-strong); border-radius: 50%; }
++.folder-tile-face--practice { border: var(--border-w) solid var(--border-input); border-radius: 50%; background: var(--surface-page); color: var(--forest); }
++.folder-canvas .folder-tile-face--practice .icon { width: 22px; height: 22px; }
++.folder-tile-name { position: absolute; left: var(--space-3); bottom: var(--space-2); display: inline-flex; align-items: center; gap: var(--space-1); max-width: calc(100% - var(--space-6)); font-size: var(--text-caption); font-weight: 600; line-height: 1.4; white-space: nowrap; }
++.folder-canvas .folder-tile-name .icon { width: 14px; height: 14px; }
++/* the live caption: one line, Sales' three questions stacked in it (site.js plays them in turn) */
++.folder-caption { display: flex; align-items: flex-start; gap: var(--space-2); margin: var(--space-2) var(--space-3) var(--space-3); padding: var(--space-2) var(--space-3); border-radius: var(--radius-input); background: var(--surface-panel); line-height: 1.45; }
++.folder-caption .icon { margin-top: 2px; color: var(--forest); }
++.folder-caption-who { flex: none; font-weight: 600; }
++.folder-caption-lines { min-width: 0; }
++.folder-call-controls { display: none; align-items: center; justify-content: center; gap: var(--space-2); padding: 0 var(--space-3) var(--space-3); }
++.folder-control { display: grid; place-items: center; width: 34px; height: 34px; border: var(--border-w) solid var(--border-quiet); border-radius: 50%; color: var(--forest); }
++.folder-control.is-on { border-color: var(--forest); background: var(--surface-strong); color: var(--text-on-strong); }
++.folder-control-leave { margin-left: var(--space-2); padding: 6px var(--space-3); border: var(--border-w) solid var(--border-input); border-radius: var(--radius-pill); font-size: var(--text-caption); font-weight: 600; line-height: 1.4; }
++.folder-notes { justify-self: end; display: grid; gap: var(--space-2); width: min(300px, 88%); margin-top: -12px; padding: var(--space-3) var(--space-4) var(--space-4); }
++.folder-notes-head { display: flex; align-items: center; gap: var(--space-2); padding-bottom: var(--space-2); border-bottom: var(--border-w) solid var(--border-quiet); font-weight: 600; line-height: 1.4; }
++.folder-notes-head .icon { color: var(--forest); }
++.folder-notes-meta { margin-left: auto; font-size: var(--text-caption); font-weight: 500; color: var(--text-muted); }
++.folder-topics { display: grid; gap: var(--space-2); }
++.folder-topics li { display: grid; grid-template-columns: 20px minmax(0, 1fr); gap: var(--space-3); }
++.folder-canvas .folder-topics .icon { width: 20px; height: 20px; color: var(--forest); }
++.folder-topic-name { display: block; font-weight: 600; line-height: 20px; }
++.folder-topic-line { display: none; font-size: var(--text-label); line-height: 1.45; color: var(--text-muted); }
++
++/* 2. the site: the adult braces page in a browser (wide only), the same page on a phone, the Google Business Profile.
++   Under 768px the phone and the profile share one cell, the profile over the phone's edge (a narrower canvas, so they
++   meet on wider screens too) */
++.folder-scene--site .folder-canvas { max-width: 430px; }
++.folder-browser { display: none; overflow: hidden; }
++.folder-browser-bar { display: flex; align-items: center; gap: var(--space-3); padding: var(--space-3) var(--space-4); border-bottom: var(--border-w) solid var(--border-quiet); background: var(--surface-panel); }
++.folder-browser-url { display: inline-flex; flex: 1; align-items: center; gap: var(--space-1); min-width: 0; padding: 2px var(--space-3); border-radius: var(--radius-pill); background: var(--surface-page); font-size: var(--text-caption); font-weight: 500; line-height: 1.6; color: var(--text-muted); }
++.folder-canvas .folder-browser-url .icon { width: 12px; height: 12px; }
++/* the page scrolls under its nav (site.js moves .folder-site) */
++.folder-browser-view { height: 318px; overflow: hidden; }
++.folder-browser-view > .folder-site-nav { position: relative; z-index: 1; background: var(--surface-page); }
++.folder-site { display: grid; }
++.folder-site-nav { display: flex; align-items: center; gap: var(--space-4); padding: var(--space-3) var(--space-5); border-bottom: var(--border-w) solid var(--border-quiet); }
++.folder-site-brand { font-family: var(--font-display); font-size: 18px; line-height: 1.1; white-space: nowrap; }
++.folder-site-links { display: flex; gap: var(--space-4); margin-left: auto; font-size: var(--text-caption); font-weight: 500; line-height: 1.4; color: var(--text-muted); }
++.folder-site-book { padding: var(--space-1) var(--space-3); border-radius: var(--radius-pill); background: var(--surface-strong); color: var(--text-on-strong); font-size: var(--text-caption); font-weight: 600; line-height: 1.5; }
++.folder-site-hero { display: grid; justify-items: start; gap: var(--space-3); max-width: 340px; padding: var(--space-6) var(--space-5) var(--space-5); }
++.folder-site-title { font-family: var(--font-display); font-size: 34px; line-height: 1.05; color: var(--forest); text-wrap: balance; }
++.folder-site-line { color: var(--text-muted); text-wrap: pretty; }
++.folder-site-actions { display: flex; align-items: center; gap: var(--space-4); margin-top: var(--space-1); }
++.folder-site-button { padding: var(--space-2) var(--space-4); border-radius: var(--radius-pill); background: var(--surface-strong); color: var(--text-on-strong); font-size: var(--text-label); font-weight: 600; line-height: 1.4; text-align: center; white-space: nowrap; }
++.folder-site-call { display: inline-flex; align-items: center; gap: var(--space-1); font-size: var(--text-label); font-weight: 600; line-height: 1.4; color: var(--forest); }
++.folder-site-part { display: grid; gap: var(--space-3); max-width: 320px; margin-inline: var(--space-5); padding-block: var(--space-5); border-top: var(--border-w) solid var(--border-quiet); }
++.folder-site-h { font-family: var(--font-display); font-size: 20px; line-height: 1.15; }
++.folder-site-steps { display: grid; gap: var(--space-2); }
++.folder-site-steps li { display: flex; align-items: flex-start; gap: var(--space-3); font-size: var(--text-label); line-height: 1.4; }
++.folder-site-steps span { display: grid; flex: none; place-items: center; width: 20px; height: 20px; border-radius: 50%; background: var(--surface-panel); color: var(--forest); font-family: var(--font-display); font-size: 14px; line-height: 1; }
++.folder-site-faq li { padding-block: var(--space-2); border-bottom: var(--border-w) solid var(--border-quiet); font-size: var(--text-label); font-weight: 600; line-height: 1.4; }
++/* the phone: an ink frame round a cream screen; the page runs on under its sticky booking bar */
++.folder-phone { position: relative; z-index: 1; grid-area: 1 / 1; justify-self: start; align-self: start; width: 50%; max-width: 212px; aspect-ratio: 1 / 2; padding: 6px; border-radius: var(--radius-panel); background: var(--ink); box-shadow: var(--shadow-3); }
++.folder-phone-screen { position: relative; display: grid; align-content: start; height: 100%; overflow: hidden; padding-top: var(--space-5); border-radius: var(--radius-card); background: var(--surface-page); }
++.folder-phone-notch { position: absolute; top: 7px; left: 50%; width: 40px; height: 10px; margin-left: -20px; border-radius: var(--radius-pill); background: var(--ink); }
++.folder-phone .folder-site-nav { justify-content: space-between; gap: var(--space-2); padding: var(--space-2) var(--space-3); }
++.folder-phone .folder-site-brand { font-size: 15px; }
++.folder-phone .folder-site-hero { gap: var(--space-2); padding: var(--space-4) var(--space-3) var(--space-3); }
++.folder-phone .folder-site-title { font-size: 22px; }
++.folder-phone .folder-site-part { gap: var(--space-2); margin-inline: var(--space-3); padding-block: var(--space-3); }
++.folder-phone .folder-site-h { font-size: 17px; }
++.folder-phone .folder-site-steps li { gap: var(--space-2); font-size: var(--text-body-s); }
++.folder-phone .folder-site-steps span { width: 18px; height: 18px; margin-top: 1px; font-size: 12px; }
++.folder-phone-bar { position: absolute; left: 0; right: 0; bottom: 0; display: flex; gap: var(--space-2); padding: var(--space-2) var(--space-2) var(--space-3); border-top: var(--border-w) solid var(--border-quiet); background: var(--surface-page); }
++.folder-phone-bar .folder-site-button { flex: 1; padding: var(--space-2); font-size: var(--text-caption); }
++.folder-phone-call { display: none; flex: none; place-items: center; width: 32px; border: var(--border-w) solid var(--border-input); border-radius: 50%; color: var(--forest); }
++.folder-canvas .folder-phone-call .icon { width: 14px; height: 14px; }
++.folder-profile { z-index: 2; grid-area: 1 / 1; justify-self: end; align-self: end; display: grid; width: 56%; max-width: 248px; }
++.folder-map { display: block; width: 100%; height: 56px; border-radius: var(--radius-card) var(--radius-card) 0 0; }
++.folder-map rect { fill: var(--surface-panel); }
++.folder-map-road { fill: none; stroke: var(--surface-page); stroke-width: 7; stroke-linecap: round; }
++.folder-map-road--minor { stroke-width: 3.5; }
++.folder-map-pin { fill: var(--forest); }
++.folder-map-dot { fill: var(--surface-page); }
++.folder-profile-body { display: grid; gap: 2px; padding: var(--space-3) var(--space-4) var(--space-4); }
++.folder-profile-name { font-size: var(--text-body-m); font-weight: 600; line-height: 1.35; }
++.folder-profile-kind, .folder-profile-open { font-size: var(--text-label); line-height: 1.45; color: var(--text-muted); }
++.folder-profile-open span { font-weight: 600; color: var(--forest); }
++.folder-profile-actions { display: flex; justify-content: space-between; gap: var(--space-2); margin-top: var(--space-3); }
++.folder-profile-actions li { display: grid; justify-items: center; gap: var(--space-1); font-size: var(--text-caption); font-weight: 600; line-height: 1.4; color: var(--forest); }
++.folder-profile-actions li > span { display: grid; place-items: center; width: 34px; height: 34px; border: var(--border-w) solid var(--border-input); border-radius: 50%; }
++/* the profile update: done, a forest chip (cream on forest 8.7:1); before, outlined, "Updating hours" */
++.folder-update { justify-self: start; display: inline-flex; align-items: center; gap: var(--space-1); margin-top: var(--space-3); padding: var(--space-1) var(--space-3) var(--space-1) var(--space-2); border: var(--border-w) solid var(--forest); border-radius: var(--radius-pill); background: var(--surface-strong); color: var(--text-on-strong); font-size: var(--text-caption); font-weight: 600; line-height: 1.4; }
++.folder-canvas .folder-update .icon { width: 14px; height: 14px; }
++.folder-profile .signoff { flex-wrap: nowrap; gap: var(--space-2) var(--space-3); margin-top: var(--space-3); padding-right: 0; }
++.folder-profile .signoff-who { min-width: 0; }
++
++/* 3. the ads account: the campaigns, the accounts in your name over its corner, the two ads beside it (wide only) */
++.folder-ads { grid-row: 2; display: grid; }
++.folder-ads-head { display: flex; align-items: center; gap: var(--space-3); padding: var(--space-4) var(--space-4) var(--space-3); }
++.folder-ads-title { font-size: var(--text-body-m); font-weight: 600; line-height: 1.35; }
++.folder-ads-account { display: inline-flex; align-items: center; gap: var(--space-1); min-width: 0; padding: 2px var(--space-3) 2px var(--space-2); border: var(--border-w) solid var(--border-quiet); border-radius: var(--radius-pill); font-size: var(--text-caption); font-weight: 600; line-height: 1.6; color: var(--text-muted); white-space: nowrap; }
++.folder-canvas .folder-ads-account .icon { width: 14px; height: 14px; color: var(--forest); }
++.folder-ads-cols, .folder-ads-rows li { display: grid; grid-template-columns: 32px minmax(0, 1fr) auto; align-items: center; gap: var(--space-3); padding: var(--space-3) var(--space-4); }
++.folder-ads-cols { display: none; padding-block: var(--space-2); border-block: var(--border-w) solid var(--border-quiet); background: var(--surface-panel); font-size: var(--text-caption); font-weight: 600; line-height: 1.4; color: var(--text-muted); }
++.folder-ads-rows { border-top: var(--border-w) solid var(--border-quiet); }
++.folder-ads-rows li + li { border-top: var(--border-w) solid var(--border-quiet); }
++.folder-ads-name { display: grid; font-weight: 600; line-height: 1.4; }
++.folder-ads-name span { font-size: var(--text-caption); font-weight: 500; color: var(--text-muted); }
++.folder-ads-budget { display: none; font-size: var(--text-label); color: var(--text-muted); font-variant-numeric: tabular-nums; }
++/* the switch: on, a forest track with the cream knob at the right; off (before the beat), sage with the knob left */
++.folder-switch { position: relative; width: 32px; height: 18px; border-radius: var(--radius-pill); background: var(--surface-strong); }
++.folder-switch > span { position: absolute; top: 2px; left: 2px; width: 14px; height: 14px; border-radius: 50%; background: var(--surface-page); box-shadow: var(--shadow-1); transform: translateX(14px); }
++/* the status: a dot and the word; live is forest (7.55:1 on cream), in review and draft label sage */
++.folder-status { display: inline-flex; align-items: center; gap: var(--space-2); font-size: var(--text-label); font-weight: 600; line-height: 1.4; color: var(--forest); white-space: nowrap; }
++.folder-status-dot { flex: none; width: 8px; height: 8px; border: var(--border-w) solid var(--forest); border-radius: 50%; background: var(--forest); }
++.folder-track { display: grid; gap: var(--space-2); margin: var(--space-1) var(--space-4) 0; padding: var(--space-3) var(--space-4); border-radius: var(--radius-input); background: var(--surface-panel); }
++.folder-track li { display: flex; align-items: center; gap: var(--space-2); font-size: var(--text-label); line-height: 1.4; }
++.folder-track li > .icon { color: var(--forest); }
++.folder-track-state { display: inline-flex; align-items: center; gap: 2px; margin-left: auto; font-weight: 600; color: var(--forest); }
++.folder-ads > .signoff { margin: var(--space-3) var(--space-4) var(--space-4); }
++.folder-owner { grid-row: 1; justify-self: end; display: flex; align-items: center; gap: var(--space-3); max-width: 92%; margin-bottom: -18px; padding: var(--space-3) var(--space-4) var(--space-3) var(--space-3); }
++.folder-owner-key { display: grid; flex: none; place-items: center; width: 32px; height: 32px; border-radius: 50%; background: var(--surface-strong); color: var(--text-on-strong); }
++.folder-owner-text { display: grid; font-size: var(--text-label); font-weight: 600; line-height: 1.4; }
++.folder-owner-text span { font-size: var(--text-caption); font-weight: 500; color: var(--text-muted); }
++.folder-preview { display: none; gap: var(--space-1); padding: var(--space-3) var(--space-4); font-size: var(--text-caption); line-height: 1.5; }
++.folder-preview-who { display: flex; align-items: center; gap: var(--space-2); color: var(--text-muted); }
++.folder-preview-who > span:first-child { font-weight: 600; color: var(--text-body); }
++.folder-preview-title { font-size: var(--text-body-s); font-weight: 600; line-height: 1.35; color: var(--forest); }
++.folder-preview-text { color: var(--text-muted); }
++.folder-preview--feed { overflow: hidden; gap: 0; padding: 0; }
++.folder-preview--feed .folder-preview-who { padding: var(--space-3); }
++.folder-preview-mark { flex: none; width: 24px; height: 24px; border-radius: 50%; background: var(--surface-strong); }
++.folder-preview-name { display: grid; font-weight: 600; line-height: 1.3; color: var(--text-body); }
++.folder-preview-name span { font-weight: 500; color: var(--text-muted); }
++.folder-preview-art { display: grid; align-content: end; min-height: 84px; padding: var(--space-3); background: var(--surface-strong); color: var(--text-on-strong); font-family: var(--font-display); font-size: 17px; line-height: 1.1; text-wrap: balance; }
++.folder-preview-foot { display: flex; align-items: center; justify-content: space-between; gap: var(--space-2); padding: var(--space-2) var(--space-3); background: var(--surface-panel); font-weight: 600; }
++.folder-preview-button { padding: 2px var(--space-2); border-radius: var(--radius-input); background: var(--surface-page); }
++
++/* 4. the report: the email it arrives in over its top corner; the report's three parts, its two changes each signed
++   and stamped; beside it (wide only) one of the consults it counts */
++.folder-report { grid-row: 2; display: grid; gap: var(--space-3); padding: var(--space-6) var(--space-4) var(--space-4); }
++.folder-report-head { display: flex; flex-wrap: wrap; align-items: baseline; gap: 0 var(--space-2); padding-bottom: var(--space-3); border-bottom: var(--border-w) solid var(--border-quiet); }
++.folder-report-title { font-family: var(--font-display); font-size: 26px; line-height: 1.1; }
++.folder-report-for { font-size: var(--text-label); line-height: 1.4; color: var(--text-muted); }
++.folder-report-part { display: grid; align-content: start; gap: var(--space-1); }
++.folder-report-h { font-size: var(--text-caption); font-weight: 600; line-height: 1.4; color: var(--text-muted); }
++.folder-report-work { display: grid; gap: var(--space-1); }
++.folder-report-work li { display: grid; grid-template-columns: minmax(0, 1fr) 36px; align-items: center; gap: var(--space-3); padding: 6px var(--space-2) 6px var(--space-3); border-radius: var(--radius-input); background: var(--surface-panel); }
++.folder-report-work .signoff-disc.founder-art { display: none; width: 28px; height: 28px; }
++.folder-report-change { display: grid; }
++.folder-report-who { font-size: var(--text-caption); font-weight: 600; line-height: 1.4; color: var(--text-muted); }
++.folder-report-change .signed-change { line-height: 1.4; }
++.folder-row-stamp { width: 36px; height: 36px; }
++.folder-report-stats { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--space-2); }
++.folder-report-stats li { display: grid; align-content: start; gap: 2px; padding: 6px var(--space-3); border: var(--border-w) solid var(--border-quiet); border-radius: var(--radius-input); font-size: var(--text-caption); font-weight: 500; line-height: 1.35; }
++.folder-report-stats span { font-family: var(--font-display); font-size: 24px; line-height: 1.1; color: var(--forest); }
++.folder-report-next { display: flex; align-items: flex-start; gap: var(--space-2); }
++.folder-canvas .folder-report-next .icon { flex: none; width: 18px; height: 18px; margin-top: 1px; color: var(--forest); }
++.folder-mail { z-index: 3; grid-row: 1; justify-self: end; display: grid; gap: var(--space-2); width: min(300px, 90%); margin-bottom: -16px; padding: var(--space-3) var(--space-4); }
++.folder-mail-head { display: none; align-items: center; gap: var(--space-2); font-size: var(--text-caption); font-weight: 600; line-height: 1.4; color: var(--text-muted); }
++.folder-canvas .folder-mail-head .icon { width: 14px; height: 14px; color: var(--forest); }
++.folder-mail-head span { margin-left: auto; font-weight: 500; }
++.folder-mail-body { display: grid; grid-template-columns: 28px minmax(0, 1fr); align-items: center; gap: var(--space-3); }
++.folder-mail-body img { width: 28px; height: 28px; }
++.folder-mail-body p { display: grid; }
++.folder-mail-from { font-size: var(--text-caption); font-weight: 600; line-height: 1.4; color: var(--text-muted); }
++.folder-mail-subject { font-weight: 600; line-height: 1.4; }
++.folder-mail-preview { display: none; font-size: var(--text-label); line-height: 1.45; color: var(--text-muted); }
++.folder-consult { display: none; gap: var(--space-2); padding: var(--space-4); }
++.folder-consult-head { display: flex; align-items: center; gap: var(--space-2); font-weight: 600; line-height: 1.4; }
++.folder-consult-head span:last-child { margin-left: auto; font-size: var(--text-caption); color: var(--text-muted); }
++.folder-consult-who { display: flex; align-items: baseline; gap: var(--space-2); color: var(--text-muted); }
++.folder-consult-who span { font-family: var(--font-display); font-size: 24px; line-height: 1.1; color: var(--text-body); }
++.folder-consult-source { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 2px var(--space-3); padding: var(--space-2) var(--space-3); border-radius: var(--radius-input); background: var(--surface-panel); font-size: var(--text-caption); line-height: 1.5; }
++.folder-consult-source dt { color: var(--text-muted); }
++.folder-consult-source dd { font-weight: 600; }
++
++/* the composed scenes, from 768px wide: every surface placed on a 768 by 420 canvas (centred if there is more room) */
++@container folder-scene (min-width: 768px) {
++  .folder-scene-top { max-width: none; }
++  .folder-canvas, .folder-scene--site .folder-canvas { display: block; max-width: 768px; height: 420px; }
++  .folder-canvas > * { position: absolute; margin: 0; }
++  /* 1: the invitation at the back, top right; the call over its edge; the notes in front, bottom right */
++  .folder-invite { display: grid; top: 0; right: 0; width: 276px; padding-left: var(--space-8); }
++  .folder-call { top: 32px; left: 0; z-index: 1; width: 512px; box-shadow: var(--shadow-3); }
++  .folder-tile { height: 168px; }
++  .folder-tile-face { width: 68px; height: 68px; margin-bottom: 0; }
++  .folder-canvas .folder-tile-face--practice .icon { width: 28px; height: 28px; }
++  .folder-caption { margin-right: 60px; }
++  .folder-call-controls { display: flex; padding-right: 60px; }
++  .folder-notes { right: 0; bottom: 0; width: 300px; gap: var(--space-3); padding: var(--space-4) var(--space-5); }
++  .folder-notes-head { padding-bottom: var(--space-3); }
++  .folder-topics { gap: var(--space-3); }
++  .folder-topic-line { display: block; }
++  /* 2: the browser at the back; the profile over its right edge; the phone in front, over the browser's corner */
++  .folder-browser { display: block; top: 0; left: 0; width: 524px; }
++  .folder-phone { z-index: 3; top: 100px; left: 334px; width: 172px; max-width: none; height: 320px; aspect-ratio: auto; }
++  .folder-phone .folder-site-title { font-size: 21px; }
++  .folder-phone .folder-site-line, .folder-phone .folder-site-steps li { font-size: var(--text-caption); }
++  .folder-profile { top: 24px; right: 0; width: 256px; max-width: none; }
++  .folder-map { height: 72px; }
++  /* 3: the account at the back; the accounts in your name over its corner; the search ad and the feed ad beside it */
++  .folder-ads { top: 22px; left: 0; width: 532px; }
++  .folder-ads-head { padding-inline: var(--space-5); }
++  .folder-ads-cols { display: grid; }
++  .folder-ads-cols, .folder-ads-rows li { grid-template-columns: 36px minmax(0, 1fr) 96px 92px; padding-inline: var(--space-5) var(--space-6); }
++  .folder-ads-rows { border-top: 0; }
++  .folder-ads-budget { display: block; }
++  .folder-track { margin-inline: var(--space-5); }
++  .folder-ads > .signoff { margin: var(--space-4) var(--space-5); }
++  .folder-owner { top: 0; right: 0; width: 256px; max-width: none; }
++  .folder-preview { display: grid; }
++  .folder-preview--search { top: 92px; right: 28px; width: 228px; }
++  .folder-preview--feed { right: 0; bottom: 4px; width: 204px; }
++  /* 4: the report at the back; the email over its top right; the consult it counts over its lower right */
++  .folder-report { top: 12px; left: 0; width: 512px; gap: var(--space-3); padding: var(--space-5) var(--space-6); }
++  .folder-report-head { padding-bottom: var(--space-3); }
++  .folder-report-title { font-size: 30px; }
++  .folder-report-part { gap: var(--space-2); }
++  .folder-report-h { font-size: var(--text-label); }
++  .folder-report-work li { grid-template-columns: 28px minmax(0, 1fr) 36px; padding-block: var(--space-2); }
++  .folder-report-work .signoff-disc.founder-art { display: block; }
++  .folder-report-stats li { padding: var(--space-2) var(--space-3); font-size: var(--text-label); }
++  .folder-report-stats span { font-size: 28px; }
++  .folder-mail { top: 0; right: 0; width: 296px; gap: var(--space-3); padding: var(--space-3) var(--space-4) var(--space-4); }
++  .folder-mail-head { display: flex; }
++  .folder-mail-body { grid-template-columns: 32px minmax(0, 1fr); align-items: start; }
++  .folder-mail-body img { width: 32px; height: 32px; }
++  .folder-mail-preview { display: block; }
++  .folder-consult { display: grid; right: 0; bottom: 20px; width: 272px; }
++  .folder-phone-call { display: grid; }
++}
++/* the narrowest phones: the profile keeps two of its three actions */
++@container folder-scene (max-width: 310px) {
++  .folder-profile-actions li:nth-child(3) { display: none; }
++  .folder-profile-actions { justify-content: flex-start; gap: var(--space-5); }
++}
+ 
+ /* under 1025px: a row of four steps (two by two on phones) over the sheet; each sheet opens with its stage's title */
+ @media (max-width: 1024px) {
+@@ -2146,7 +2379,6 @@ h1 em, h2 em, h3 em, .tagline em, .signed-change em { color: var(--accent-italic
+   .folder-tab-text { display: none; }
+   .folder-tab-short { display: block; }
+   .folder-progress { left: var(--space-3); right: var(--space-3); }
+-  .folder-sheet { min-height: 0; }
+   .folder-sheet > .folder-panel { grid-template-rows: auto minmax(0, 1fr); gap: var(--space-3); }
+   .is-folder .folder-panel-head { position: static; width: auto; height: auto; overflow: visible; clip-path: none; white-space: normal; padding-inline: var(--space-1); }
+ }
+@@ -2157,22 +2389,12 @@ h1 em, h2 em, h3 em, .tagline em, .signed-change em { color: var(--accent-italic
+   .folder-panel { padding-left: 0; }
+   .folder-summary { gap: var(--space-3); padding-block: var(--space-4); }
+   .folder-tab { padding-inline: var(--space-2); }
+-  .folder-doc { gap: var(--space-3); padding: var(--space-4); }
+-  .folder-doc-head { padding-bottom: var(--space-3); }
+-  .folder-doc-title { font-size: 24px; }
+-  .folder-notes > div { grid-template-columns: minmax(0, 1fr); gap: 0; padding-block: var(--space-2); }
+-  .folder-notes dd, .folder-checks li, .folder-work .signed-change { font-size: var(--text-body-s); }
+-  .folder-checks li { padding-block: var(--space-2); }
+-  .folder-page-body { gap: var(--space-2); padding: var(--space-3) var(--space-4) var(--space-4); }
+-  .folder-page-title { font-size: 22px; }
+-  .folder-page-bar { display: none; }
+-  .folder-work li { padding: var(--space-1) var(--space-2); }
+-  .folder-work li + li { margin-top: 0; }
+-  .folder-stamp { right: var(--space-3); bottom: var(--space-3); }
+-  .folder-sign > p { padding-right: 64px; }
+-  .folder-stamp--large { width: 56px; height: 56px; }
+-  .folder-disclosure { padding: var(--space-2) 72px 0 0; }
+   .folder + .cta-line { margin-top: var(--space-8); }
++  /* the scene's Sample chip moves up beside the stage's title; its caption goes (the title says what it is) */
++  .folder-sheet > .folder-panel { position: relative; gap: var(--space-2); }
++  .is-folder .folder-scene-top { position: absolute; top: 0; right: var(--space-1); width: auto; }
++  .is-folder .folder-scene-caption { display: none; }
++  .is-folder .folder-panel-head .folder-title { padding-right: 76px; }
+ }
+ 
+ @media (max-width: 1024px) {
+diff --git a/site/assets/site.js b/site/assets/site.js
+index 0503967..a5ff59e 100644
+--- a/site/assets/site.js
++++ b/site/assets/site.js
+@@ -862,16 +862,26 @@
+   // stage's title and line move from its summary to the top of its panel (shown below 1025px, kept for screen readers
+   // above). Tabs: click or tap, Left/Right/Up/Down, Home and End; the selected tab is the one tab stop.
+   // Motion, only with GSAP, while at least 35% of the folder is on screen and the tab is visible: the folder moves
+-  // from stage to stage on its own, 1 to 4 and round again. The incoming sheet's work fades in (150ms out, 250ms in;
+-  // the sheet's head and Sample chip stay put) and plays its one beat: the focus is underlined (Sales' notes), the
+-  // page is placed (Web and SEO), the checklist is ticked row by row (Paid media), each signed row of the report is
+-  // lit in turn; then the sign-off returns and the stamp is pressed (the same press as the signed samples). It rests
+-  // (--hold-lower-third) while the active stage's progress line fills, then the next stage. The first stage, on first
+-  // view, holds finished for --rest-bloom before its beat replays. Off screen or in a hidden tab it holds where it is.
+-  // A click, tap or key on a stage (or keyboard focus arriving on one) stops the moving on for the rest of the visit:
+-  // the chosen stage plays its beat once and rests. Paused animations stop on the current stage, finished; a later
+-  // play starts that stage again. Under reduced motion nothing is built: stage 1, finished, and stages change at once.
+-  // The static markup is every stage's finished state, so stopping only ever clears what the timeline set.
++  // from stage to stage on its own, 1 to 4 and round again. The outgoing scene fades (150ms), the incoming one's caption
++  // fades in (250ms; the Sample chip stays put), and its surfaces are placed (500ms, power3.out, a little apart) and it
++  // plays its one beat:
++  //   1, the call: the call runs (its clock time-lapses to the end), Sales asks the three questions in turn as live
++  //      captions (word by word, the speaking ring breathing), and each topic in Sales' notes is ticked as its question
++  //      ends; then "Prepared by Sales".
++  //   2, the site: the page scrolls down to its first-visit section and back up, the phone settles over the browser's
++  //      corner, then the profile's "Updating hours" becomes "Hours updated" (ticked); signed, stamped.
++  //   3, the ads: each campaign is switched on and goes from draft to in review to live, then call and conversion
++  //      tracking is set up, line by line; signed, stamped.
++  //   4, the report: the email lands, the report opens (unfolding from the top), each signed change appears and is
++  //      stamped in turn, then what it brought in (and, wide, the consult it counts) and what's next.
++  // On phones (and anywhere the scene is under 768px wide) the surfaces that stay out (the invitation, the browser,
++  // the two ads, the consult) are simply not seen. It rests (--hold-lower-third) while the active stage's progress
++  // line fills, then the next stage. The first stage, on first view, holds finished for --rest-bloom before its beat
++  // replays. Off screen or in a hidden tab it holds where it is. A click, tap or key on a stage (or keyboard focus
++  // arriving on one) stops the moving on for the rest of the visit: the chosen stage plays its beat once and rests.
++  // Paused animations stop on the current stage, finished; a later play starts that stage again. Under reduced motion
++  // nothing is built: stage 1, finished, and stages change at once. The static markup is every stage's finished
++  // state, so stopping only ever clears what the timeline set (and puts the call's clock back).
+   const folder = document.querySelector('[data-folder]');
+   if (folder && folder.querySelector('details.folder-stage')) {
+     const gsap = window.gsap;
+@@ -944,82 +954,210 @@
+         .to(stamp, { scale: 1, duration: MED * 0.8, ease: 'power2.out' }, at + MED);
+       return at + MED * 1.8;
+     };
+-    // each stage's beat: what it hides before the beat (from, set at once or faded out over FAST) and the beat itself,
+-    // which ends on the static markup's finished state and returns its end time
++    const PLACE = 0.5;
++    // a surface placed: in from a short way off (16px down unless told otherwise), power3.out
++    const place = (tl, el, at, off) => { tl.fromTo(el, { autoAlpha: 0, x: 0, y: 16, ...off }, { autoAlpha: 1, x: 0, y: 0, duration: PLACE, ease: 'power3.out', immediateRender: false }, at); };
++    // a tick drawn on
++    const tick = (tl, path, at) => { const len = path.getTotalLength(); tl.fromTo(path, { strokeDasharray: len, strokeDashoffset: len }, { strokeDashoffset: 0, duration: MED, ease: 'power2.out', immediateRender: false }, at); };
++    const undrawn = (paths) => [paths, { strokeDasharray: (i, p) => p.getTotalLength(), strokeDashoffset: (i, p) => p.getTotalLength() }];
++    // a caption's words, each in its own span (the text stays the same)
++    const words = (el) => {
++      const list = el.textContent.trim().split(/\s+/);
++      el.textContent = '';
++      return list.map((word, i) => { const s = document.createElement('span'); s.textContent = word; el.append(s, i < list.length - 1 ? ' ' : ''); return s; });
++    };
++    const INK = token('--text-body');
++    const MUTED = token('--text-muted');
++    const FOREST = token('--forest');
++    const SAGE = token('--fill-quiet');
++    const CREAM = token('--surface-page');
++    const INPUT = token('--border-input');
++    // each scene's beat: what it hides or resets before the beat (from: set at once, or faded over FAST on first view),
++    // the beat itself, which ends on the static markup's finished state and returns its end time, and anything a stop
++    // has to put back that is not a style (reset)
+     const BEATS = panels.map((panel) => {
+       const q = (sel) => [...panel.querySelectorAll(sel)];
+-      const sign = q('.folder-sign');
++      const part = (name) => panel.querySelector('[data-part="' + name + '"]');
++      const sign = part('sign');
+       const stamp = panel.querySelector('.folder-stamp');
+-      const signIn = (tl, at) => { if (sign.length) tl.fromTo(sign, { autoAlpha: 0, y: 8 }, { autoAlpha: 1, y: 0, duration: MED, ease: 'power2.out', immediateRender: false }, at); return at + MED; };
+-      const kind = panel.querySelector('.folder-doc').dataset.stage;
+-      if (kind === 'notes') {
+-        const line = panel.querySelector('[data-part="focus"]');
++      const signIn = (tl, at) => { if (sign) tl.fromTo(sign, { autoAlpha: 0, y: 8 }, { autoAlpha: 1, y: 0, duration: MED, ease: 'power2.out', immediateRender: false }, at); return at + MED; };
++      const kind = panel.querySelector('.folder-scene').dataset.stage;
++      if (kind === 'call') {
++        const invite = part('invite');
++        const call = part('call');
++        const notes = part('notes');
++        const caps = q('[data-part="cap"]');
++        const said = caps.map(words);
++        const topics = q('[data-part="topic"]');
++        const ticks = topics.map((t) => t.querySelector('path'));
++        const names = topics.map((t) => t.querySelector('.folder-topic-name'));
++        const ring = part('ring');
++        const clock = part('clock');
++        const told = clock.textContent;
++        const length = told.split(':').reduce((m, s) => m * 60 + Number(s), 0);
++        const show = (s) => { s = Math.round(s); clock.textContent = String(Math.floor(s / 60)).padStart(2, '0') + ':' + String(s % 60).padStart(2, '0'); };
++        const STEP = 1.35; // one question: its words, then its topic ticked
+         return {
+-          from: [[line, { scaleX: 0 }], [sign, { autoAlpha: 0 }]],
+-          play: (tl, at) => { tl.fromTo(line, { scaleX: 0 }, { scaleX: 1, duration: MED, ease: 'power2.out', immediateRender: false }, at); return signIn(tl, at + MED + FAST); },
++          from: [[[invite, call, notes, sign, ...caps], { autoAlpha: 0 }], undrawn(ticks), [names, { color: MUTED }]],
++          reset: () => { clock.textContent = told; },
++          play: (tl, at) => {
++            place(tl, invite, at, { y: -12 });
++            place(tl, call, at + 0.1);
++            place(tl, notes, at + 0.25, { x: 16, y: 0 });
++            const talk = at + PLACE + 0.2;
++            const time = { s: 0 };
++            tl.fromTo(time, { s: 0 }, { s: length, duration: STEP * caps.length, ease: 'power1.inOut', immediateRender: false, onUpdate: () => show(time.s) }, talk);
++            caps.forEach((cap, i) => {
++              const at2 = talk + i * STEP;
++              if (i) tl.to(caps[i - 1], { autoAlpha: 0, duration: FAST, ease: 'power2.in' }, at2 - FAST);
++              tl.set(cap, { autoAlpha: 1 }, at2)
++                .fromTo(said[i], { autoAlpha: 0 }, { autoAlpha: 1, duration: FAST, stagger: 0.06, ease: 'none', immediateRender: false }, at2)
++                .fromTo(ring, { scale: 1, autoAlpha: 1 }, { scale: 1.12, autoAlpha: 0.35, duration: 0.4, ease: 'sine.inOut', yoyo: true, repeat: 1, immediateRender: false }, at2);
++              const covered = at2 + said[i].length * 0.06 + FAST;
++              tick(tl, ticks[i], covered);
++              tl.fromTo(names[i], { color: MUTED }, { color: INK, duration: MED, ease: 'power2.out', immediateRender: false }, covered);
++            });
++            return signIn(tl, talk + caps.length * STEP);
++          },
+         };
+       }
+-      if (kind === 'page') {
+-        const page = panel.querySelector('[data-part="page"]');
++      if (kind === 'site') {
++        const browser = part('browser');
++        const phone = part('phone');
++        const profile = part('profile');
++        const scroll = part('scroll');
++        const update = part('update');
++        const todo = part('update-todo');
++        const done = todo.nextElementSibling;
++        const mark = update.querySelector('path');
+         return {
+-          from: [[page, { autoAlpha: 0, y: 8 }], [sign, { autoAlpha: 0 }], [stamp, { autoAlpha: 0 }]],
++          from: [[[browser, phone, profile, sign, stamp, done], { autoAlpha: 0 }], [todo, { autoAlpha: 1 }], [update, { backgroundColor: CREAM, borderColor: INPUT, color: MUTED }], undrawn([mark])],
+           play: (tl, at) => {
+-            tl.fromTo(page, { autoAlpha: 0, y: 8 }, { autoAlpha: 1, y: 0, duration: SLOW, ease: 'power2.out', immediateRender: false }, at);
+-            return press(tl, stamp, signIn(tl, at + SLOW + FAST));
++            let t = at;
++            if (browser.offsetWidth) {
++              // desktop: the browser and the profile, the page scrolled down and back while the phone settles on
++              place(tl, browser, t);
++              place(tl, profile, t + 0.15, { x: 16, y: 0 });
++              tl.fromTo(scroll, { y: 0 }, { y: -170, duration: 1.1, ease: 'power2.inOut', immediateRender: false }, t + 0.7)
++                .to(scroll, { y: 0, duration: 0.8, ease: 'power2.inOut' }, t + 2.3);
++              place(tl, phone, t + 1.2, { y: 40 });
++              t += 3.2;
++            } else {
++              place(tl, phone, t, { y: 24 });
++              place(tl, profile, t + 0.2, { x: 16, y: 0 });
++              t += PLACE + 0.6;
++            }
++            tl.fromTo(update, { backgroundColor: CREAM, borderColor: INPUT, color: MUTED }, { backgroundColor: FOREST, borderColor: FOREST, color: CREAM, duration: MED, ease: 'power2.out', immediateRender: false }, t)
++              .to(todo, { autoAlpha: 0, duration: FAST, ease: 'power2.in' }, t)
++              .fromTo(done, { autoAlpha: 0 }, { autoAlpha: 1, duration: MED, ease: 'power2.out', immediateRender: false }, t + FAST);
++            tick(tl, mark, t + FAST);
++            return press(tl, stamp, signIn(tl, t + MED + SLOW));
+           },
+         };
+       }
+-      if (kind === 'launch') {
+-        const ticks = q('[data-part="check"] path');
+-        const rows = q('[data-part="check"] > span:not(.sr-only)');
+-        const lengths = ticks.map((t) => t.getTotalLength());
++      if (kind === 'ads') {
++        const manager = part('manager');
++        const owner = part('owner');
++        const previews = q('[data-part="preview"]');
++        const switches = q('[data-part="switch"]');
++        const knobs = switches.map((s) => s.querySelector('span'));
++        const statuses = q('[data-part="status"]');
++        const dots = statuses.map((s) => s.querySelector('.folder-status-dot'));
++        const state = (k) => statuses.map((s) => s.querySelector('[data-state="' + k + '"]'));
++        const drafts = state('draft');
++        const reviews = state('review');
++        const lives = state('live');
++        const tracked = q('[data-part="track"] .folder-track-state');
++        const marks = tracked.map((s) => s.querySelector('path'));
++        const SWITCH = 1.1; // one campaign: switched on, in review, live
+         return {
+-          from: [[ticks, { strokeDasharray: (i) => lengths[i], strokeDashoffset: (i) => lengths[i] }], [rows, { color: token('--text-muted') }], [sign, { autoAlpha: 0 }], [stamp, { autoAlpha: 0 }]],
++          from: [[[manager, owner, ...previews, sign, stamp, ...tracked, ...reviews, ...lives], { autoAlpha: 0 }], [drafts, { autoAlpha: 1 }], [switches, { backgroundColor: SAGE }], [knobs, { x: 0 }], [dots, { backgroundColor: clear(FOREST), borderColor: MUTED }], [statuses, { color: MUTED }], undrawn(marks)],
+           play: (tl, at) => {
+-            ticks.forEach((tick, i) => {
+-              const t = at + i * (MED + FAST);
+-              tl.fromTo(tick, { strokeDasharray: lengths[i], strokeDashoffset: lengths[i] }, { strokeDashoffset: 0, duration: MED, ease: 'power2.out', immediateRender: false }, t)
+-                .fromTo(rows[i], { color: token('--text-muted') }, { color: token('--text-body'), duration: MED, ease: 'power2.out', immediateRender: false }, t);
++            place(tl, manager, at);
++            previews.forEach((p, i) => place(tl, p, at + 0.2 + i * 0.12, { x: 20, y: 0 }));
++            place(tl, owner, at + 0.45, { y: -10 });
++            const on = at + PLACE + 0.45;
++            statuses.forEach((status, i) => {
++              const c = on + i * SWITCH;
++              const live = c + 0.8;
++              tl.fromTo(switches[i], { backgroundColor: SAGE }, { backgroundColor: FOREST, duration: MED, ease: 'power2.out', immediateRender: false }, c)
++                .fromTo(knobs[i], { x: 0 }, { x: 14, duration: MED, ease: 'power2.out', immediateRender: false }, c)
++                .to(drafts[i], { autoAlpha: 0, duration: FAST, ease: 'power2.in' }, c + FAST)
++                .fromTo(reviews[i], { autoAlpha: 0 }, { autoAlpha: 1, duration: MED, ease: 'power2.out', immediateRender: false }, c + 2 * FAST)
++                .fromTo(dots[i], { backgroundColor: clear(FOREST), borderColor: MUTED }, { backgroundColor: SAGE, borderColor: SAGE, duration: MED, ease: 'power2.out', immediateRender: false }, c + 2 * FAST)
++                .to(reviews[i], { autoAlpha: 0, duration: FAST, ease: 'power2.in' }, live)
++                .fromTo(lives[i], { autoAlpha: 0 }, { autoAlpha: 1, duration: MED, ease: 'power2.out', immediateRender: false }, live + FAST)
++                .fromTo(dots[i], { backgroundColor: SAGE, borderColor: SAGE }, { backgroundColor: FOREST, borderColor: FOREST, duration: MED, ease: 'power2.out', immediateRender: false }, live + FAST)
++                .fromTo(status, { color: MUTED }, { color: FOREST, duration: MED, ease: 'power2.out', immediateRender: false }, live + FAST);
+             });
+-            return press(tl, stamp, signIn(tl, at + ticks.length * (MED + FAST)));
++            const track = on + statuses.length * SWITCH + 0.1;
++            tracked.forEach((s, i) => {
++              const t = track + i * 0.3;
++              tl.fromTo(s, { autoAlpha: 0, x: -4 }, { autoAlpha: 1, x: 0, duration: MED, ease: 'power2.out', immediateRender: false }, t);
++              tick(tl, marks[i], t + FAST);
++            });
++            return press(tl, stamp, signIn(tl, track + tracked.length * 0.3 + FAST));
+           },
+         };
+       }
+-      // the report: each signed row lit in turn (sage mist, forest on sage mist 7.55:1), then the stamp
+-      const rowEls = q('[data-part="row"]');
+-      const lit = token('--surface-panel');
++      // the report: the email lands, the report unfolds from its top, each change appears and is stamped, then what it
++      // brought in (and, wide, one of the consults it counts slides in beside it) and what's next
++      const mail = part('mail');
++      const report = part('report');
++      const consult = part('consult');
++      const rows = q('[data-part="row"]');
++      const rowStamps = rows.map((r) => r.querySelector('.folder-row-stamp'));
++      const stats = [...part('stats').children];
++      const next = part('next');
+       return {
+-        from: [[stamp, { autoAlpha: 0 }]],
++        from: [[[mail, report, consult, ...rows, ...rowStamps, ...stats, next], { autoAlpha: 0 }]],
+         play: (tl, at) => {
+-          tl.fromTo(rowEls[0], { backgroundColor: clear(lit) }, { backgroundColor: lit, duration: SLOW, ease: 'power2.out', immediateRender: false }, at)
+-            .to(rowEls[0], { backgroundColor: clear(lit), duration: SLOW, ease: 'power2.out' }, at + SLOW + REST)
+-            .fromTo(rowEls[1], { backgroundColor: clear(lit) }, { backgroundColor: lit, duration: SLOW, ease: 'power2.out', immediateRender: false }, at + SLOW + REST)
+-            .to(rowEls[1], { backgroundColor: clear(lit), duration: SLOW, ease: 'power2.out' }, at + 2 * SLOW + 2 * REST);
+-          return press(tl, stamp, at + 2 * SLOW + 2 * REST);
++          tl.fromTo(mail, { autoAlpha: 0, y: -20 }, { autoAlpha: 1, y: 0, duration: PLACE, ease: 'power3.out', immediateRender: false }, at);
++          const open = at + PLACE + 0.3;
++          tl.fromTo(report, { autoAlpha: 0, y: 16, clipPath: 'inset(0% 0% 100% 0% round 16px)' }, { autoAlpha: 1, y: 0, clipPath: 'inset(0% 0% 0% 0% round 16px)', duration: 0.6, ease: 'power3.out', immediateRender: false }, open)
++            .set(report, { clearProps: 'clipPath' }, open + 0.6);
++          let t = open + 0.6;
++          rows.forEach((row, i) => {
++            tl.fromTo(row, { autoAlpha: 0, y: 8 }, { autoAlpha: 1, y: 0, duration: MED, ease: 'power2.out', immediateRender: false }, t);
++            t = press(tl, rowStamps[i], t + MED + FAST) + 0.2;
++          });
++          stats.forEach((s, i) => tl.fromTo(s, { autoAlpha: 0, y: 8 }, { autoAlpha: 1, y: 0, duration: MED, ease: 'power2.out', immediateRender: false }, t + i * 0.12));
++          place(tl, consult, t + 0.2, { x: 20, y: 0 });
++          t += stats.length * 0.12 + MED + 0.2;
++          tl.fromTo(next, { autoAlpha: 0, x: -6 }, { autoAlpha: 1, x: 0, duration: MED, ease: 'power2.out', immediateRender: false }, t);
++          return t + MED;
+         },
+       };
+     });
+-    // what fades when the stage changes: the outgoing sheet's work, and the incoming one's (its sign-off and stamp wait
+-    // for the beat); the sheet itself, its practice line and its Sample chip stay put
+-    const OUTGOING = '.folder-panel-head, .folder-doc-title, .folder-doc-body, .folder-sign, .folder-disclosure, .folder-stamp';
+-    const INCOMING = '.folder-panel-head, .folder-doc-title, .folder-doc-body, .folder-disclosure';
++    // what fades when the stage changes: the outgoing scene's surfaces, and the incoming one's caption and title (its
++    // surfaces wait for the beat); the Sample chip stays put. Everything a timeline may touch, per panel, so a stop can
++    // clear it all: every element outside the icons, and of the icons only the ticks' dashes (a full clear on an SVG
++    // element would also rewrite its transform).
++    const OUTGOING = '.folder-panel-head, .folder-scene-caption, .folder-canvas';
++    const INCOMING = '.folder-panel-head, .folder-scene-caption';
+     const moves = (panel, sel) => [...panel.querySelectorAll(sel)];
+-    const moved = panels.map((panel) => moves(panel, OUTGOING + ', [data-part]'));
++    const touched = panels.map((panel) => moves(panel, '*:not(svg *)'));
++    const ticked = panels.map((panel) => moves(panel, '[data-part="topic"] path, [data-part="update"] path, .folder-track-state path'));
++    const clean = (i) => {
++      gsap.set(touched[i], { clearProps: 'all' });
++      if (ticked[i].length) gsap.set(ticked[i], { clearProps: 'strokeDasharray,strokeDashoffset' });
++      if (BEATS[i].reset) BEATS[i].reset();
++    };
+ 
+     let auto = true;
+     let live = false;
+     let fresh = true;
+     let run = null;
+     let swap = null;
+-    // back to the markup: every sheet finished, no progress showing
++    // back to the markup: every scene finished, no progress showing
+     const settle = () => {
+       if (run) run.kill();
+       if (swap) swap.kill();
+       run = null;
+       swap = null;
+       if (!gsap) return;
+-      panels.forEach((panel) => panel.classList.remove('is-leaving'));
+-      gsap.set([...panels, ...moved.flat(), ...bars, ...panels.flatMap((p) => moves(p, '[data-part="check"] path, [data-part="check"] > span'))], { clearProps: 'all' });
++      panels.forEach((panel, i) => { panel.classList.remove('is-leaving'); clean(i); });
++      gsap.set([...panels, ...bars], { clearProps: 'all' });
+     };
+     // one visit to the current stage: (on first view, hold it finished, then fade out what the beat brings back) the
+     // beat; then, while it moves on its own, the rest with the progress line filling, and the next stage
+@@ -1042,8 +1180,8 @@
+       run = tl;
+       tl.play();
+     };
+-    // change stage: the outgoing sheet's work fades over FAST, the incoming one's (in its pre-beat state) over MED;
+-    // without motion, at once
++    // change stage: the outgoing scene fades over FAST, the incoming one's caption and title over MED while its beat
++    // places its surfaces; without motion, at once
+     const go = (next, chosen) => {
+       next = (next + panels.length) % panels.length;
+       const from = index;
+@@ -1063,11 +1201,11 @@
+         mark();
+         const leaving = panels[from];
+         const coming = panels[next];
+-        // the outgoing sheet stays on top while its work fades, then drops away to the incoming one
++        // the outgoing scene stays on top while it fades, then drops away to the incoming one
+         leaving.classList.add('is-leaving');
+-        gsap.set(moved[next], { clearProps: 'all' });
++        clean(next);
+         BEATS[next].from.forEach(([targets, vars]) => gsap.set(targets, vars));
+-        const left = () => { leaving.classList.remove('is-leaving'); gsap.set(moved[from], { clearProps: 'all' }); };
++        const left = () => { leaving.classList.remove('is-leaving'); clean(from); };
+         swap = gsap.timeline({ onComplete: () => { swap = null; } })
+           .to(moves(leaving, OUTGOING), { autoAlpha: 0, duration: FAST, ease: 'power2.in' }, 0)
+           .fromTo(moves(coming, INCOMING), { autoAlpha: 0, y: 8 }, { autoAlpha: 1, y: 0, duration: MED, ease: 'power2.out' }, FAST)
+diff --git a/site/components.html b/site/components.html
+index 914db27..e993c25 100644
+--- a/site/components.html
++++ b/site/components.html
+@@ -834,76 +834,204 @@
+         </div>
+ 
+         <div class="ref-item ref-item--wide">
+-          <p class="ref-name" id="demo-after-yes">.folder, the practice folder (the homepage's "What happens after you say yes"): a field panel holding four stages, each one of the onboarding steps on /services#after-yes (its title and line, as written there) with the piece of work it hands over on a cream sheet (article.folder-doc: the practice in brackets, the sheet's name, the Sample chip, the work, the sign-off). 1, Sales' practice notes: two questions and the example focus, underlined, "Prepared by Sales", no stamp. 2, the adult braces page: a small page (title, line, its button), the signed change, "Signed by Web and SEO" and a 48px stamp. 3, the launch checklist: three ticked rows, "Ad accounts in your practice's name.", "Signed by Paid media" and a 48px stamp. 4, the monthly report's work and next steps: two signed rows (the founder disc, the role, the change with its italic words), the next step, the disclosure "Work excerpt only. Sample results are not shown." and a 64px stamp in the clear corner. In the markup each stage is details[name] (the first open; summary.folder-summary + .folder-panel), so without JavaScript each opens in place. site.js ("the practice folder") rebuilds it as a tablist of stages (.folder-rail &gt; button.folder-tab, the number in a disc filled forest when selected) beside one .folder-sheet holding every panel in one grid cell, so the sheet keeps the tallest stage's height and changing stage moves nothing. From 1025px: the rail on the left (number, title, line). Under it: four steps in a row (two by two under 641px) by number and data-short, and each sheet opens with its stage's title and line. While on screen it moves from stage 1 to 4 and round again: each sheet plays one beat (the focus underlined, the page placed, the boxes ticked, each signed row lit, then the stamp pressed), rests 4s, and a forest line along the active stage fills until the next. A click, tap or key on a stage stops that for the visit. Paused: the current stage, finished. Reduced motion: stage 1, finished, changes at once. Brackets only; no dates, no results.</p>
++          <p class="ref-name" id="demo-after-yes">.folder, the practice folder (the homepage's "What happens after you say yes"): a field panel holding four stages, each one of the onboarding steps on /services#after-yes (its title and line, as written there) with a composed scene of the work it hands over (figure.folder-scene[role=img]: a caption and the Sample chip over .folder-canvas, two to four cream .folder-surface layered with depth, the back one on --shadow-2, the ones in front on --shadow-3). 1, the first call: the video call (First conversation, its clock, Sales on forest with the founder disc and a speaking ring, [Your practice], the live caption, the controls), the invitation behind it ([Date] · [Time] · Video call, Accepted) and Sales' call notes in front, three topics ticked, "Prepared by Sales". 2, the site: the adult braces page in a browser (its nav, "Adult braces in [your city]", Request a consultation, what to expect at your first visit), the same page on a phone (an ink frame, a sticky booking bar) and the Google Business Profile (a map, Open, Directions, Call, Website, "Hours updated"), "Signed by Web and SEO", the stamp on the profile's top corner. 3, the ads account: two campaigns (switch, name, Draft / In review / Live with a forest dot, [Budget]/day), call and conversion tracking set up, "Signed by Paid media" and the stamp; over its corner "Ad accounts in your practice's name" (a key icon); beside it the search ad and the feed ad. 4, the report: the email it arrives in ("Your [Month] report is ready", from Rose), the [Month] report for [Your practice] (what we did: two signed changes, each stamped; what it brought in: [n] new leads, [n] reached, [n] consults booked; what we're changing next) and one consult it counts ([Name], Google Search ad). From 768px wide (a container query on the scene; desktops from 1280px) the surfaces are composed on a 768 by 420 canvas; narrower, each scene keeps one main surface and one over its edge, and the invitation, the browser, the two ads and the consult stay out. In the markup each stage is details[name] (the first open), so without JavaScript each opens in place. site.js ("the practice folder") rebuilds it as a tablist of stages beside one .folder-sheet holding every panel in one grid cell, so the sheet keeps the tallest stage's height and changing stage moves nothing; under 1025px four steps in a row (two by two under 641px, the Sample chip beside the stage's title). While on screen it moves from stage 1 to 4 and round again: each scene places its surfaces and plays one beat (the call's three questions captioned and ticked; the page scrolled and the phone settled, the hours updated; the campaigns switched on, draft to live, tracking set up; the email landing, the report opening, each change stamped), then signed and stamped, rests 4s, and a forest line along the active stage fills until the next. A click, tap or key on a stage stops that for the visit. Paused: the current stage, finished. Reduced motion: stage 1, finished, changes at once. Brackets only; no real dates, names or results.</p>
+           <div class="folder" data-folder data-anim="none">
+             <details class="folder-stage" name="demo-folder-stage" data-short="Conversation" open>
+               <summary class="folder-summary"><span class="folder-num" aria-hidden="true">01</span><span class="folder-head"><h3 class="folder-title">A first conversation.</h3><span class="folder-line">About your practice, your patients and what you've already tried.</span></span></summary>
+               <div class="folder-panel">
+-                <article class="folder-doc" data-stage="notes" aria-label="Sample: practice notes, prepared by Sales">
+-                  <div class="folder-doc-head"><div class="folder-doc-name"><span class="folder-doc-practice">[Your practice]</span><p class="folder-doc-title">Practice notes</p></div><span class="chip chip--sample">Sample</span></div>
+-                  <div class="folder-doc-body">
+-                    <dl class="folder-notes">
+-                      <div><dt>We ask</dt><dd>Which patients are you hoping to reach?</dd></div>
+-                      <div><dt>We ask</dt><dd>What have you already tried?</dd></div>
+-                      <div class="is-key"><dt>Example focus</dt><dd><span class="folder-focus">Adult braces enquiries<span class="folder-underline" data-part="focus" aria-hidden="true"></span></span></dd></div>
+-                    </dl>
++                <figure class="folder-scene folder-scene--call" data-stage="call" role="img" aria-label="Sample: the first conversation. A video call between Sales and [Your practice] with live captions; behind it the invitation, First conversation, [Date], [Time], video call; in front, Sales' call notes with each topic ticked as it is covered: your practice, your patients, and what you've already tried. Prepared by Sales.">
++                  <div class="folder-scene-top"><span class="folder-scene-caption">Illustrative first call</span><span class="chip chip--sample">Sample</span></div>
++                  <div class="folder-canvas">
++                    <div class="folder-surface folder-invite" data-part="invite">
++                      <p class="folder-invite-head"><svg class="icon" viewBox="0 0 20 20" focusable="false"><rect x="3" y="4.25" width="14" height="12.75" rx="2.5"/><path d="M3 8.25h14M7 2.75v3M13 2.75v3"/></svg>Invitation<span class="chip">Accepted</span></p>
++                      <p class="folder-invite-title">First conversation</p>
++                      <p class="folder-invite-meta"><svg class="icon" viewBox="0 0 20 20" focusable="false"><rect x="2.75" y="5.25" width="10.5" height="9.5" rx="2.5"/><path d="m13.25 9 4-2.5v7l-4-2.5"/></svg>[Date] · [Time] · Video call</p>
++                    </div>
++                    <div class="folder-surface folder-call" data-part="call">
++                      <div class="folder-call-bar"><span class="bar-dots"><i></i><i></i><i></i></span><span class="folder-call-name">First conversation</span><span class="folder-call-time"><span class="lead-dot"></span><span data-part="clock">24:18</span></span></div>
++                      <div class="folder-call-tiles">
++                        <div class="folder-tile folder-tile--sales on-strong">
++                          <span class="folder-tile-face"><span class="folder-ring" data-part="ring"></span><svg class="folder-tile-disc founder-art" viewBox="-1 -1 2 2" focusable="false"><circle r="1"/><path d="M0.2621 -0.8819A0.92 0.92 0 1 0 0.2621 0.8819A0.8832 0.8832 0 1 1 0.2621 -0.8819Z"/></svg></span>
++                          <span class="folder-tile-name"><svg class="icon" viewBox="0 0 20 20" focusable="false"><rect x="7.25" y="2.75" width="5.5" height="9" rx="2.75"/><path d="M4.75 9.5a5.25 5.25 0 0 0 10.5 0M10 14.75v2.5"/></svg>Sales</span>
++                        </div>
++                        <div class="folder-tile">
++                          <span class="folder-tile-face folder-tile-face--practice"><svg class="icon" viewBox="0 0 20 20" focusable="false"><path d="M3.75 17V6.75L10 3.25l6.25 3.5V17M2.75 17h14.5M8 17v-3.75h4V17M10 6.75v3.5M8.25 8.5h3.5"/></svg></span>
++                          <span class="folder-tile-name"><svg class="icon" viewBox="0 0 20 20" focusable="false"><rect x="7.25" y="2.75" width="5.5" height="9" rx="2.75"/><path d="M4.75 9.5a5.25 5.25 0 0 0 10.5 0M10 14.75v2.5"/></svg>[Your practice]</span>
++                        </div>
++                      </div>
++                      <p class="folder-caption"><svg class="icon" viewBox="0 0 20 20" focusable="false"><rect x="2.75" y="4.25" width="14.5" height="11.5" rx="2.5"/><path d="M8.75 8.6a2 2 0 1 0 0 2.8M14.25 8.6a2 2 0 1 0 0 2.8"/></svg><span class="folder-caption-who">Sales</span><span class="folder-caption-lines"><span data-part="cap">First, tell me about the practice and your team.</span><span data-part="cap">Which patients would you like to see more of?</span><span data-part="cap">And what have you already tried? Ads, an agency, anything.</span></span></p>
++                      <div class="folder-call-controls">
++                        <span class="folder-control"><svg class="icon" viewBox="0 0 20 20" focusable="false"><rect x="7.25" y="2.75" width="5.5" height="9" rx="2.75"/><path d="M4.75 9.5a5.25 5.25 0 0 0 10.5 0M10 14.75v2.5"/></svg></span>
++                        <span class="folder-control"><svg class="icon" viewBox="0 0 20 20" focusable="false"><rect x="2.75" y="5.25" width="10.5" height="9.5" rx="2.5"/><path d="m13.25 9 4-2.5v7l-4-2.5"/></svg></span>
++                        <span class="folder-control is-on"><svg class="icon" viewBox="0 0 20 20" focusable="false"><rect x="2.75" y="4.25" width="14.5" height="11.5" rx="2.5"/><path d="M8.75 8.6a2 2 0 1 0 0 2.8M14.25 8.6a2 2 0 1 0 0 2.8"/></svg></span>
++                        <span class="folder-control"><svg class="icon" viewBox="0 0 20 20" focusable="false"><rect x="2.75" y="3.75" width="14.5" height="10" rx="2"/><path d="M7 17h6M10 13.75V17"/></svg></span>
++                        <span class="folder-control-leave">Leave</span>
++                      </div>
++                    </div>
++                    <div class="folder-surface folder-surface--front folder-notes" data-part="notes">
++                      <p class="folder-notes-head"><svg class="icon" viewBox="0 0 20 20" focusable="false"><path d="M5.75 2.75h6l3.5 3.5v11h-9.5z"/><path d="M11.75 2.75v3.5h3.5M8.25 10.25h4.5M8.25 13.25h4.5"/></svg>Call notes<span class="folder-notes-meta">First conversation</span></p>
++                      <ul class="folder-topics">
++                        <li data-part="topic"><svg class="icon" viewBox="0 0 20 20" focusable="false"><rect x="2.75" y="2.75" width="14.5" height="14.5" rx="4"/><path d="m6.5 10.2 2.4 2.4 4.6-5"/></svg><span><span class="folder-topic-name">Your practice</span><span class="folder-topic-line">Locations, your team, how patients book</span></span></li>
++                        <li data-part="topic"><svg class="icon" viewBox="0 0 20 20" focusable="false"><rect x="2.75" y="2.75" width="14.5" height="14.5" rx="4"/><path d="m6.5 10.2 2.4 2.4 4.6-5"/></svg><span><span class="folder-topic-name">Your patients</span><span class="folder-topic-line">Who you'd like to see more of</span></span></li>
++                        <li data-part="topic"><svg class="icon" viewBox="0 0 20 20" focusable="false"><rect x="2.75" y="2.75" width="14.5" height="14.5" rx="4"/><path d="m6.5 10.2 2.4 2.4 4.6-5"/></svg><span><span class="folder-topic-name">What you've already tried</span><span class="folder-topic-line">Ads, agencies, what worked and what didn't</span></span></li>
++                      </ul>
++                      <div class="signoff" data-part="sign"><svg class="signoff-disc founder-art" viewBox="-1 -1 2 2" focusable="false"><circle r="1"/><path d="M0.2621 -0.8819A0.92 0.92 0 1 0 0.2621 0.8819A0.8832 0.8832 0 1 1 0.2621 -0.8819Z"/></svg><span class="signoff-who">Prepared by <em class="signature">Sales</em></span></div>
++                    </div>
+                   </div>
+-                  <div class="folder-sign" data-part="sign"><p>Prepared by <em class="signature">Sales</em></p></div>
+-                </article>
++                </figure>
+               </div>
+             </details>
+             <details class="folder-stage" name="demo-folder-stage" data-short="Website">
+               <summary class="folder-summary"><span class="folder-num" aria-hidden="true">02</span><span class="folder-head"><h3 class="folder-title">Your website, built from your practice.</h3><span class="folder-line">Not a template. We also set up local SEO and keep your Google Business Profile current.</span></span></summary>
+               <div class="folder-panel">
+-                <article class="folder-doc" data-stage="page" aria-label="Sample: the adult braces page, signed by Web and SEO">
+-                  <div class="folder-doc-head"><div class="folder-doc-name"><span class="folder-doc-practice">[Your practice]</span><p class="folder-doc-title">Adult braces page</p></div><span class="chip chip--sample">Sample</span></div>
+-                  <div class="folder-doc-body">
+-                    <div class="folder-page" data-part="page">
+-                      <div class="folder-page-bar" aria-hidden="true"><i></i><i></i><i></i></div>
+-                      <div class="folder-page-body">
+-                        <p class="folder-page-title">Adult braces in [your city]</p>
+-                        <p>What to expect at your first visit, treatment questions, and how to request a consultation.</p>
+-                        <span class="folder-page-button">Request a consultation</span>
++                <figure class="folder-scene folder-scene--site" data-stage="site" role="img" aria-label="Sample: your website, built from your practice. The adult braces page for [Your practice] in a browser: Adult braces in [your city], Request a consultation, and what to expect at your first visit; the same page on a phone; and the practice's Google Business Profile, open, with Directions, Call and Website, its hours just updated. Signed by Web and SEO.">
++                  <div class="folder-scene-top"><span class="folder-scene-caption">Illustrative page and profile</span><span class="chip chip--sample">Sample</span></div>
++                  <div class="folder-canvas">
++                    <div class="folder-surface folder-browser" data-part="browser">
++                      <div class="folder-browser-bar"><span class="bar-dots"><i></i><i></i><i></i></span><span class="folder-browser-url"><svg class="icon" viewBox="0 0 20 20" focusable="false"><rect x="4.75" y="9" width="10.5" height="8" rx="2"/><path d="M7 9V6.75a3 3 0 0 1 6 0V9"/></svg>[yourpractice].com/adult-braces</span></div>
++                      <div class="folder-browser-view">
++                        <div class="folder-site-nav"><span class="folder-site-brand">[Your practice]</span><span class="folder-site-links"><span>Treatments</span><span>Your first visit</span><span>About</span></span><span class="folder-site-book">Book a consult</span></div>
++                        <div class="folder-site" data-part="scroll">
++                          <div class="folder-site-hero">
++                            <p class="folder-site-title">Adult braces in [your city]</p>
++                            <p class="folder-site-line">Braces and clear aligners for adults, planned around your work and your week.</p>
++                            <p class="folder-site-actions"><span class="folder-site-button">Request a consultation</span><span class="folder-site-call"><svg class="icon" viewBox="0 0 24 24" focusable="false"><path d="M6.5 4h3l1.5 4-2 1.5a11 11 0 0 0 5.5 5.5l1.5-2 4 1.5v3a2 2 0 0 1-2 2A15.5 15.5 0 0 1 4.5 6a2 2 0 0 1 2-2z"/></svg>Call us</span></p>
++                          </div>
++                          <div class="folder-site-part">
++                            <p class="folder-site-h">What to expect at your first visit</p>
++                            <ol class="folder-site-steps"><li><span>1</span>A look at your teeth and bite</li><li><span>2</span>Braces or clear aligners, explained</li><li><span>3</span>Your plan, timing and cost</li></ol>
++                          </div>
++                          <div class="folder-site-part">
++                            <p class="folder-site-h">Questions adults ask</p>
++                            <ul class="folder-site-faq"><li>Will people notice my braces?</li><li>How long does treatment take?</li></ul>
++                          </div>
++                        </div>
+                       </div>
+                     </div>
++                    <div class="folder-phone" data-part="phone">
++                      <div class="folder-phone-screen">
++                        <span class="folder-phone-notch"></span>
++                        <div class="folder-site-nav"><span class="folder-site-brand">[Your practice]</span><svg class="icon" viewBox="0 0 20 20" focusable="false"><path d="M3.5 6h13M3.5 10h13M3.5 14h13"/></svg></div>
++                        <div class="folder-site-hero">
++                          <p class="folder-site-title">Adult braces in [your city]</p>
++                          <p class="folder-site-line">Planned around your work and your week.</p>
++                        </div>
++                        <div class="folder-site-part">
++                          <p class="folder-site-h">Your first visit</p>
++                          <ol class="folder-site-steps"><li><span>1</span>A look at your teeth and bite</li><li><span>2</span>Braces or aligners, explained</li><li><span>3</span>Your plan, timing and cost</li></ol>
++                        </div>
++                        <p class="folder-phone-bar"><span class="folder-site-button">Book a consult</span><span class="folder-phone-call"><svg class="icon" viewBox="0 0 24 24" focusable="false"><path d="M6.5 4h3l1.5 4-2 1.5a11 11 0 0 0 5.5 5.5l1.5-2 4 1.5v3a2 2 0 0 1-2 2A15.5 15.5 0 0 1 4.5 6a2 2 0 0 1 2-2z"/></svg></span></p>
++                      </div>
++                    </div>
++                    <div class="folder-surface folder-surface--front folder-profile" data-part="profile">
++                      <svg class="folder-map" viewBox="0 0 264 76" preserveAspectRatio="xMidYMid slice" focusable="false"><rect width="264" height="76"/><path class="folder-map-road folder-map-road--minor" d="M-4 16 L270 28 M34 -4 L48 80 M190 -4 L176 80"/><path class="folder-map-road" d="M-4 54 C60 44 130 62 270 42 M98 -4 L116 80"/><path class="folder-map-pin" d="M146 40c-7-9-10-14-10-18a10 10 0 0 1 20 0c0 4-3 9-10 18z"/><circle class="folder-map-dot" cx="146" cy="22" r="3.5"/></svg>
++                      <div class="folder-profile-body">
++                        <p class="folder-profile-name">[Your practice]</p>
++                        <p class="folder-profile-kind">Orthodontist in [your city]</p>
++                        <p class="folder-profile-open"><span>Open</span> · Closes [Time]</p>
++                        <ul class="folder-profile-actions">
++                          <li><span><svg class="icon" viewBox="0 0 20 20" focusable="false"><path d="M10 2.75 17.25 10 10 17.25 2.75 10z"/><path d="M8 11.75v-2.5h4M10.75 7.75l1.5 1.5-1.5 1.5"/></svg></span>Directions</li>
++                          <li><span><svg class="icon" viewBox="0 0 24 24" focusable="false"><path d="M6.5 4h3l1.5 4-2 1.5a11 11 0 0 0 5.5 5.5l1.5-2 4 1.5v3a2 2 0 0 1-2 2A15.5 15.5 0 0 1 4.5 6a2 2 0 0 1 2-2z"/></svg></span>Call</li>
++                          <li><span><svg class="icon" viewBox="0 0 20 20" focusable="false"><circle cx="10" cy="10" r="7"/><path d="M3 10h14M10 3c-3.5 4-3.5 10 0 14M10 3c3.5 4 3.5 10 0 14"/></svg></span>Website</li>
++                        </ul>
++                        <p class="folder-update" data-part="update"><svg class="icon" viewBox="0 0 20 20" focusable="false"><path d="m5.75 10.25 2.75 2.75 5.75-6"/></svg><span class="folder-update-text"><span data-part="update-todo">Updating hours</span><span>Hours updated</span></span></p>
++                        <div class="signoff" data-part="sign"><svg class="signoff-disc founder-art" viewBox="-1 -1 2 2" focusable="false"><circle r="1"/><path d="M0.2621 -0.8819A0.92 0.92 0 1 0 0.2621 0.8819A0.8832 0.8832 0 1 1 0.2621 -0.8819Z"/></svg><span class="signoff-who">Signed by <em class="signature">Web and SEO</em></span></div>
++                      </div>
++                      <img class="stamp folder-stamp folder-stamp--top" src="/assets/img/stamp-signed.svg" alt="" width="64" height="64">
++                    </div>
+                   </div>
+-                  <div class="folder-sign" data-part="sign"><p class="signed-change">Built the page around adult patients' <em>questions</em>.</p><p>Signed by <em class="signature">Web and SEO</em></p></div>
+-                  <img class="stamp folder-stamp" src="/assets/img/stamp-signed.svg" alt="" width="48" height="48">
+-                </article>
++                </figure>
+               </div>
+             </details>
+             <details class="folder-stage" name="demo-folder-stage" data-short="Ads go live">
+               <summary class="folder-summary"><span class="folder-num" aria-hidden="true">03</span><span class="folder-head"><h3 class="folder-title">Your ads go live.</h3><span class="folder-line">Google and Meta ads, run from ad accounts in your name.</span></span></summary>
+               <div class="folder-panel">
+-                <article class="folder-doc" data-stage="launch" aria-label="Sample: the launch checklist, signed by Paid media">
+-                  <div class="folder-doc-head"><div class="folder-doc-name"><span class="folder-doc-practice">[Your practice]</span><p class="folder-doc-title">Launch checklist</p></div><span class="chip chip--sample">Sample</span></div>
+-                  <div class="folder-doc-body">
+-                    <ul class="folder-checks">
+-                      <li data-part="check"><svg class="icon" viewBox="0 0 20 20" aria-hidden="true" focusable="false"><rect x="2.75" y="2.75" width="14.5" height="14.5" rx="4"/><path d="m6.5 10.2 2.4 2.4 4.6-5"/></svg><span>Google ad linked to the adult braces page</span><span class="sr-only">, done</span></li>
+-                      <li data-part="check"><svg class="icon" viewBox="0 0 20 20" aria-hidden="true" focusable="false"><rect x="2.75" y="2.75" width="14.5" height="14.5" rx="4"/><path d="m6.5 10.2 2.4 2.4 4.6-5"/></svg><span>Meta ad linked to the adult braces page</span><span class="sr-only">, done</span></li>
+-                      <li data-part="check"><svg class="icon" viewBox="0 0 20 20" aria-hidden="true" focusable="false"><rect x="2.75" y="2.75" width="14.5" height="14.5" rx="4"/><path d="m6.5 10.2 2.4 2.4 4.6-5"/></svg><span>Call and conversion tracking set up</span><span class="sr-only">, done</span></li>
+-                    </ul>
++                <figure class="folder-scene folder-scene--ads" data-stage="ads" role="img" aria-label="Sample: your ads go live. The ads account for [Your practice], in your practice's name: two campaigns, Adult braces on Search and Adult braces on Meta, each switched on and moved from draft to in review to live; call and conversion tracking set up; beside it, the search ad and the feed ad. Signed by Paid media.">
++                  <div class="folder-scene-top"><span class="folder-scene-caption">Illustrative ads account</span><span class="chip chip--sample">Sample</span></div>
++                  <div class="folder-canvas">
++                    <div class="folder-surface folder-ads" data-part="manager">
++                      <div class="folder-ads-head"><p class="folder-ads-title">Campaigns</p><span class="folder-ads-account"><svg class="icon" viewBox="0 0 20 20" focusable="false"><path d="M3.75 17V6.75L10 3.25l6.25 3.5V17M2.75 17h14.5M8 17v-3.75h4V17M10 6.75v3.5M8.25 8.5h3.5"/></svg>[Your practice]</span></div>
++                      <div class="folder-ads-cols"><span>On</span><span>Campaign</span><span>Status</span><span>Budget</span></div>
++                      <ul class="folder-ads-rows">
++                        <li data-part="campaign">
++                          <span class="folder-switch" data-part="switch"><span></span></span>
++                          <span class="folder-ads-name">Adult braces · Search<span>Search ads, to the adult braces page</span></span>
++                          <span class="folder-status" data-part="status"><span class="folder-status-dot"></span><span class="folder-status-text"><span data-state="draft">Draft</span><span data-state="review">In review</span><span data-state="live">Live</span></span></span>
++                          <span class="folder-ads-budget">[Budget]/day</span>
++                        </li>
++                        <li data-part="campaign">
++                          <span class="folder-switch" data-part="switch"><span></span></span>
++                          <span class="folder-ads-name">Adult braces · Meta<span>Feed ads, to the adult braces page</span></span>
++                          <span class="folder-status" data-part="status"><span class="folder-status-dot"></span><span class="folder-status-text"><span data-state="draft">Draft</span><span data-state="review">In review</span><span data-state="live">Live</span></span></span>
++                          <span class="folder-ads-budget">[Budget]/day</span>
++                        </li>
++                      </ul>
++                      <ul class="folder-track">
++                        <li data-part="track"><svg class="icon" viewBox="0 0 24 24" focusable="false"><path d="M6.5 4h3l1.5 4-2 1.5a11 11 0 0 0 5.5 5.5l1.5-2 4 1.5v3a2 2 0 0 1-2 2A15.5 15.5 0 0 1 4.5 6a2 2 0 0 1 2-2z"/></svg>Call tracking<span class="folder-track-state"><svg class="icon" viewBox="0 0 20 20" focusable="false"><path d="m5.75 10.25 2.75 2.75 5.75-6"/></svg>Set up</span></li>
++                        <li data-part="track"><svg class="icon" viewBox="0 0 20 20" focusable="false"><circle cx="10" cy="10" r="7.25"/><circle cx="10" cy="10" r="3.25"/></svg>Conversion tracking<span class="folder-track-state"><svg class="icon" viewBox="0 0 20 20" focusable="false"><path d="m5.75 10.25 2.75 2.75 5.75-6"/></svg>Set up</span></li>
++                      </ul>
++                      <div class="signoff" data-part="sign"><svg class="signoff-disc founder-art" viewBox="-1 -1 2 2" focusable="false"><circle r="1"/><path d="M0.2621 -0.8819A0.92 0.92 0 1 0 0.2621 0.8819A0.8832 0.8832 0 1 1 0.2621 -0.8819Z"/></svg><span class="signoff-who">Signed by <em class="signature">Paid media</em></span></div>
++                      <img class="stamp folder-stamp" src="/assets/img/stamp-signed.svg" alt="" width="64" height="64">
++                    </div>
++                    <div class="folder-surface folder-surface--front folder-owner" data-part="owner">
++                      <span class="folder-owner-key"><svg class="icon" viewBox="0 0 20 20" focusable="false"><circle cx="6.75" cy="13.25" r="3.5"/><path d="m9.25 10.75 7-7M14 6l2 2M12 8l1.5 1.5"/></svg></span>
++                      <span class="folder-owner-text">Ad accounts in your practice's name<span>Owner: [Your practice]</span></span>
++                    </div>
++                    <div class="folder-surface folder-preview folder-preview--search" data-part="preview">
++                      <p class="folder-preview-who"><span>Sponsored</span>[Your practice]</p>
++                      <p class="folder-preview-title">Adult braces | Request a consult</p>
++                      <p class="folder-preview-text">Braces as an adult? See what treatment involves, then ask our team about a consultation.</p>
++                    </div>
++                    <div class="folder-surface folder-surface--front folder-preview folder-preview--feed" data-part="preview">
++                      <p class="folder-preview-who"><span class="folder-preview-mark"></span><span class="folder-preview-name">[Your practice]<span>Sponsored</span></span></p>
++                      <p class="folder-preview-art">Your questions about adult braces, answered.</p>
++                      <p class="folder-preview-foot"><span>Adult braces</span><span class="folder-preview-button">Learn more</span></p>
++                    </div>
+                   </div>
+-                  <div class="folder-sign" data-part="sign"><p class="folder-sign-note">Ad accounts in your practice's name.</p><p>Signed by <em class="signature">Paid media</em></p></div>
+-                  <img class="stamp folder-stamp" src="/assets/img/stamp-signed.svg" alt="" width="48" height="48">
+-                </article>
++                </figure>
+               </div>
+             </details>
+             <details class="folder-stage" name="demo-folder-stage" data-short="Report">
+               <summary class="folder-summary"><span class="folder-num" aria-hidden="true">04</span><span class="folder-head"><h3 class="folder-title">Your first monthly report.</h3><span class="folder-line">What we did, what it brought in, and what we're changing next.</span></span></summary>
+               <div class="folder-panel">
+-                <article class="folder-doc" data-stage="report" aria-label="Sample: the monthly report's work and next steps, signed by Web and SEO and by Paid media">
+-                  <div class="folder-doc-head"><div class="folder-doc-name"><span class="folder-doc-practice">[Your practice]</span><p class="folder-doc-title">Work and next steps</p></div><span class="chip chip--sample">Sample</span></div>
+-                  <div class="folder-doc-body">
+-                    <ul class="folder-work">
+-                      <li class="signed-change" data-part="row"><svg class="folder-disc founder-art" viewBox="-1 -1 2 2" aria-hidden="true" focusable="false"><circle r="1"/><path d="M0.2621 -0.8819A0.92 0.92 0 1 0 0.2621 0.8819A0.8832 0.8832 0 1 1 0.2621 -0.8819Z"/></svg><div><span class="folder-who">Web and SEO</span><p class="signed-change">Published the <em>adult braces</em> page.</p></div></li>
+-                      <li class="signed-change" data-part="row"><svg class="folder-disc founder-art" viewBox="-1 -1 2 2" aria-hidden="true" focusable="false"><circle r="1"/><path d="M0.2621 -0.8819A0.92 0.92 0 1 0 0.2621 0.8819A0.8832 0.8832 0 1 1 0.2621 -0.8819Z"/></svg><div><span class="folder-who">Paid media</span><p class="signed-change">Matched the ads to the <em>adult braces</em> page.</p></div></li>
+-                      <li class="folder-next"><svg class="icon" viewBox="0 0 20 20" aria-hidden="true" focusable="false"><circle cx="10" cy="10" r="8.25"/><path d="M6 10h7.5M10.5 7l3 3-3 3"/></svg><div><span class="folder-who">Next</span><p>Review enquiries and booked consults with your team.</p></div></li>
+-                    </ul>
++                <figure class="folder-scene folder-scene--report" data-stage="report" role="img" aria-label="Sample: your first monthly report. An email from Rose Practice Solutions: your [Month] report is ready. The [Month] report for [Your practice]: what we did, the adult braces page published, signed by Web and SEO, and the ads matched to it, signed by Paid media, each stamped; what it brought in, [n] new leads, [n] reached and [n] consults booked; and what we're changing next. Beside it, one of the consults booked: [Name], adult braces, from the Google Search ad.">
++                  <div class="folder-scene-top"><span class="folder-scene-caption">Illustrative monthly report</span><span class="chip chip--sample">Sample</span></div>
++                  <div class="folder-canvas">
++                    <div class="folder-surface folder-report" data-part="report">
++                      <div class="folder-report-head">
++                        <p class="folder-report-title">[Month] report</p>
++                        <p class="folder-report-for">[Your practice]</p>
++                      </div>
++                      <div class="folder-report-part">
++                        <p class="folder-report-h">What we did</p>
++                        <ul class="folder-report-work">
++                          <li class="signed-change" data-part="row"><svg class="signoff-disc founder-art" viewBox="-1 -1 2 2" focusable="false"><circle r="1"/><path d="M0.2621 -0.8819A0.92 0.92 0 1 0 0.2621 0.8819A0.8832 0.8832 0 1 1 0.2621 -0.8819Z"/></svg><span class="folder-report-change"><span class="folder-report-who">Web and SEO</span><span class="signed-change">Published the <em>adult braces</em> page.</span></span><img class="stamp folder-row-stamp" src="/assets/img/stamp-signed.svg" alt="" width="40" height="40"></li>
++                          <li class="signed-change" data-part="row"><svg class="signoff-disc founder-art" viewBox="-1 -1 2 2" focusable="false"><circle r="1"/><path d="M0.2621 -0.8819A0.92 0.92 0 1 0 0.2621 0.8819A0.8832 0.8832 0 1 1 0.2621 -0.8819Z"/></svg><span class="folder-report-change"><span class="folder-report-who">Paid media</span><span class="signed-change">Matched the ads to the <em>new</em> page.</span></span><img class="stamp folder-row-stamp" src="/assets/img/stamp-signed.svg" alt="" width="40" height="40"></li>
++                        </ul>
++                      </div>
++                      <div class="folder-report-part">
++                        <p class="folder-report-h">What it brought in</p>
++                        <ul class="folder-report-stats" data-part="stats"><li><span>[n]</span>New leads</li><li><span>[n]</span>Reached</li><li><span>[n]</span>Consults booked</li></ul>
++                      </div>
++                      <div class="folder-report-part">
++                        <p class="folder-report-h">What we're changing next</p>
++                        <p class="folder-report-next" data-part="next"><svg class="icon" viewBox="0 0 20 20" focusable="false"><circle cx="10" cy="10" r="8.25"/><path d="M6 10h7.5M10.5 7l3 3-3 3"/></svg>A clear aligners page, with its own ads.</p>
++                      </div>
++                    </div>
++                    <div class="folder-surface folder-surface--front folder-mail" data-part="mail">
++                      <p class="folder-mail-head"><svg class="icon" viewBox="0 0 20 20" focusable="false"><rect x="2.75" y="4.25" width="14.5" height="11.5" rx="2.5"/><path d="m3.5 5.5 6.5 5 6.5-5"/></svg>Inbox<span>[Time]</span></p>
++                      <div class="folder-mail-body">
++                        <img src="/assets/logo/rose-mark-tile-light.svg" alt="" width="32" height="32">
++                        <p><span class="folder-mail-from">Rose Practice Solutions</span><span class="folder-mail-subject">Your [Month] report is ready</span><span class="folder-mail-preview">What we did, what it brought in, and what we're changing next.</span></p>
++                      </div>
++                    </div>
++                    <div class="folder-surface folder-surface--front folder-consult" data-part="consult">
++                      <p class="folder-consult-head"><span class="lead-dot"></span>Consult booked<span>[Time]</span></p>
++                      <p class="folder-consult-who"><span>[Name]</span>Adult braces</p>
++                      <dl class="folder-consult-source"><dt>Source</dt><dd>Google Search ad</dd><dt>Campaign</dt><dd>Adult braces · Search</dd></dl>
++                    </div>
+                   </div>
+-                  <p class="folder-disclosure">Work excerpt only. Sample results are not shown.</p>
+-                  <img class="stamp folder-stamp folder-stamp--large" src="/assets/img/stamp-signed.svg" alt="" width="64" height="64">
+-                </article>
++                </figure>
+               </div>
+             </details>
+           </div>
+diff --git a/site/index.html b/site/index.html
+index 97570bc..c804bae 100644
+--- a/site/index.html
++++ b/site/index.html
+@@ -552,14 +552,16 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+   </section>
+ 
+   <!-- 4. What happens after you say yes: the practice folder (site.css and site.js "the practice folder"). Four stages,
+-       each one of the onboarding steps (worded as in /services#after-yes and /pricing), and in each the piece of work
+-       that stage hands over: Sales' practice notes, the adult braces page Web and SEO built, Paid media's launch
+-       checklist, and the first monthly report's work and next steps. In the markup each stage is a native disclosure
+-       (details[name] > summary + .folder-panel), the first one open, so without JavaScript every stage opens in place.
+-       site.js turns them into a stage rail (desktop) or a four-step selector (phones) beside one sheet that holds the
+-       chosen stage's work, and moves through the stages on its own while the folder is on screen. Illustrative work,
+-       not a client portal: brackets stand in for the practice, no dates, no results. The full list, with the
+-       agreement and the terms, is on /services#after-yes. -->
++       each one of the onboarding steps (worded as in /services#after-yes and /pricing), and in each a composed scene of
++       the work that stage hands over, two or three product surfaces layered with depth: the first call with Sales (the
++       call, its invite and Sales' notes), the site and profile Web and SEO set up (the page in a browser and on a phone,
++       the Google Business Profile), the ads account Paid media switches on (the campaigns, the ads, the accounts in your
++       name) and the first monthly report (the email it arrives in, and the report). In the markup each stage is a
++       native disclosure (details[name] > summary + .folder-panel), the first one open, so without JavaScript every
++       stage opens in place. site.js turns them into a stage rail (desktop) or a four-step selector (phones) beside one
++       sheet that holds the chosen stage's scene, and moves through the stages on its own while the folder is on screen.
++       Illustrative work, not a client portal: brackets stand in for the practice, the dates and the numbers. The full
++       list, with the agreement and the terms, is on /services#after-yes. -->
+   <section class="section" id="after-yes" aria-labelledby="after-yes-title">
+     <div class="wrap">
+       <div class="head-row reveal">
+@@ -570,71 +572,199 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+         <details class="folder-stage" name="after-yes-stage" data-short="Conversation" open>
+           <summary class="folder-summary"><span class="folder-num" aria-hidden="true">01</span><span class="folder-head"><h3 class="folder-title">A first conversation.</h3><span class="folder-line">About your practice, your patients and what you've already tried.</span></span></summary>
+           <div class="folder-panel">
+-            <article class="folder-doc" data-stage="notes" aria-label="Sample: practice notes, prepared by Sales">
+-              <div class="folder-doc-head"><div class="folder-doc-name"><span class="folder-doc-practice">[Your practice]</span><p class="folder-doc-title">Practice notes</p></div><span class="chip chip--sample">Sample</span></div>
+-              <div class="folder-doc-body">
+-                <dl class="folder-notes">
+-                  <div><dt>We ask</dt><dd>Which patients are you hoping to reach?</dd></div>
+-                  <div><dt>We ask</dt><dd>What have you already tried?</dd></div>
+-                  <div class="is-key"><dt>Example focus</dt><dd><span class="folder-focus">Adult braces enquiries<span class="folder-underline" data-part="focus" aria-hidden="true"></span></span></dd></div>
+-                </dl>
++            <figure class="folder-scene folder-scene--call" data-stage="call" role="img" aria-label="Sample: the first conversation. A video call between Sales and [Your practice] with live captions; behind it the invitation, First conversation, [Date], [Time], video call; in front, Sales' call notes with each topic ticked as it is covered: your practice, your patients, and what you've already tried. Prepared by Sales.">
++              <div class="folder-scene-top"><span class="folder-scene-caption">Illustrative first call</span><span class="chip chip--sample">Sample</span></div>
++              <div class="folder-canvas">
++                <div class="folder-surface folder-invite" data-part="invite">
++                  <p class="folder-invite-head"><svg class="icon" viewBox="0 0 20 20" focusable="false"><rect x="3" y="4.25" width="14" height="12.75" rx="2.5"/><path d="M3 8.25h14M7 2.75v3M13 2.75v3"/></svg>Invitation<span class="chip">Accepted</span></p>
++                  <p class="folder-invite-title">First conversation</p>
++                  <p class="folder-invite-meta"><svg class="icon" viewBox="0 0 20 20" focusable="false"><rect x="2.75" y="5.25" width="10.5" height="9.5" rx="2.5"/><path d="m13.25 9 4-2.5v7l-4-2.5"/></svg>[Date] · [Time] · Video call</p>
++                </div>
++                <div class="folder-surface folder-call" data-part="call">
++                  <div class="folder-call-bar"><span class="bar-dots"><i></i><i></i><i></i></span><span class="folder-call-name">First conversation</span><span class="folder-call-time"><span class="lead-dot"></span><span data-part="clock">24:18</span></span></div>
++                  <div class="folder-call-tiles">
++                    <div class="folder-tile folder-tile--sales on-strong">
++                      <span class="folder-tile-face"><span class="folder-ring" data-part="ring"></span><svg class="folder-tile-disc founder-art" viewBox="-1 -1 2 2" focusable="false"><circle r="1"/><path d="M0.2621 -0.8819A0.92 0.92 0 1 0 0.2621 0.8819A0.8832 0.8832 0 1 1 0.2621 -0.8819Z"/></svg></span>
++                      <span class="folder-tile-name"><svg class="icon" viewBox="0 0 20 20" focusable="false"><rect x="7.25" y="2.75" width="5.5" height="9" rx="2.75"/><path d="M4.75 9.5a5.25 5.25 0 0 0 10.5 0M10 14.75v2.5"/></svg>Sales</span>
++                    </div>
++                    <div class="folder-tile">
++                      <span class="folder-tile-face folder-tile-face--practice"><svg class="icon" viewBox="0 0 20 20" focusable="false"><path d="M3.75 17V6.75L10 3.25l6.25 3.5V17M2.75 17h14.5M8 17v-3.75h4V17M10 6.75v3.5M8.25 8.5h3.5"/></svg></span>
++                      <span class="folder-tile-name"><svg class="icon" viewBox="0 0 20 20" focusable="false"><rect x="7.25" y="2.75" width="5.5" height="9" rx="2.75"/><path d="M4.75 9.5a5.25 5.25 0 0 0 10.5 0M10 14.75v2.5"/></svg>[Your practice]</span>
++                    </div>
++                  </div>
++                  <p class="folder-caption"><svg class="icon" viewBox="0 0 20 20" focusable="false"><rect x="2.75" y="4.25" width="14.5" height="11.5" rx="2.5"/><path d="M8.75 8.6a2 2 0 1 0 0 2.8M14.25 8.6a2 2 0 1 0 0 2.8"/></svg><span class="folder-caption-who">Sales</span><span class="folder-caption-lines"><span data-part="cap">First, tell me about the practice and your team.</span><span data-part="cap">Which patients would you like to see more of?</span><span data-part="cap">And what have you already tried? Ads, an agency, anything.</span></span></p>
++                  <div class="folder-call-controls">
++                    <span class="folder-control"><svg class="icon" viewBox="0 0 20 20" focusable="false"><rect x="7.25" y="2.75" width="5.5" height="9" rx="2.75"/><path d="M4.75 9.5a5.25 5.25 0 0 0 10.5 0M10 14.75v2.5"/></svg></span>
++                    <span class="folder-control"><svg class="icon" viewBox="0 0 20 20" focusable="false"><rect x="2.75" y="5.25" width="10.5" height="9.5" rx="2.5"/><path d="m13.25 9 4-2.5v7l-4-2.5"/></svg></span>
++                    <span class="folder-control is-on"><svg class="icon" viewBox="0 0 20 20" focusable="false"><rect x="2.75" y="4.25" width="14.5" height="11.5" rx="2.5"/><path d="M8.75 8.6a2 2 0 1 0 0 2.8M14.25 8.6a2 2 0 1 0 0 2.8"/></svg></span>
++                    <span class="folder-control"><svg class="icon" viewBox="0 0 20 20" focusable="false"><rect x="2.75" y="3.75" width="14.5" height="10" rx="2"/><path d="M7 17h6M10 13.75V17"/></svg></span>
++                    <span class="folder-control-leave">Leave</span>
++                  </div>
++                </div>
++                <div class="folder-surface folder-surface--front folder-notes" data-part="notes">
++                  <p class="folder-notes-head"><svg class="icon" viewBox="0 0 20 20" focusable="false"><path d="M5.75 2.75h6l3.5 3.5v11h-9.5z"/><path d="M11.75 2.75v3.5h3.5M8.25 10.25h4.5M8.25 13.25h4.5"/></svg>Call notes<span class="folder-notes-meta">First conversation</span></p>
++                  <ul class="folder-topics">
++                    <li data-part="topic"><svg class="icon" viewBox="0 0 20 20" focusable="false"><rect x="2.75" y="2.75" width="14.5" height="14.5" rx="4"/><path d="m6.5 10.2 2.4 2.4 4.6-5"/></svg><span><span class="folder-topic-name">Your practice</span><span class="folder-topic-line">Locations, your team, how patients book</span></span></li>
++                    <li data-part="topic"><svg class="icon" viewBox="0 0 20 20" focusable="false"><rect x="2.75" y="2.75" width="14.5" height="14.5" rx="4"/><path d="m6.5 10.2 2.4 2.4 4.6-5"/></svg><span><span class="folder-topic-name">Your patients</span><span class="folder-topic-line">Who you'd like to see more of</span></span></li>
++                    <li data-part="topic"><svg class="icon" viewBox="0 0 20 20" focusable="false"><rect x="2.75" y="2.75" width="14.5" height="14.5" rx="4"/><path d="m6.5 10.2 2.4 2.4 4.6-5"/></svg><span><span class="folder-topic-name">What you've already tried</span><span class="folder-topic-line">Ads, agencies, what worked and what didn't</span></span></li>
++                  </ul>
++                  <div class="signoff" data-part="sign"><svg class="signoff-disc founder-art" viewBox="-1 -1 2 2" focusable="false"><circle r="1"/><path d="M0.2621 -0.8819A0.92 0.92 0 1 0 0.2621 0.8819A0.8832 0.8832 0 1 1 0.2621 -0.8819Z"/></svg><span class="signoff-who">Prepared by <em class="signature">Sales</em></span></div>
++                </div>
+               </div>
+-              <div class="folder-sign" data-part="sign"><p>Prepared by <em class="signature">Sales</em></p></div>
+-            </article>
++            </figure>
+           </div>
+         </details>
+         <details class="folder-stage" name="after-yes-stage" data-short="Website">
+           <summary class="folder-summary"><span class="folder-num" aria-hidden="true">02</span><span class="folder-head"><h3 class="folder-title">Your website, built from your practice.</h3><span class="folder-line">Not a template. We also set up local SEO and keep your Google Business Profile current.</span></span></summary>
+           <div class="folder-panel">
+-            <article class="folder-doc" data-stage="page" aria-label="Sample: the adult braces page, signed by Web and SEO">
+-              <div class="folder-doc-head"><div class="folder-doc-name"><span class="folder-doc-practice">[Your practice]</span><p class="folder-doc-title">Adult braces page</p></div><span class="chip chip--sample">Sample</span></div>
+-              <div class="folder-doc-body">
+-                <div class="folder-page" data-part="page">
+-                  <div class="folder-page-bar" aria-hidden="true"><i></i><i></i><i></i></div>
+-                  <div class="folder-page-body">
+-                    <p class="folder-page-title">Adult braces in [your city]</p>
+-                    <p>What to expect at your first visit, treatment questions, and how to request a consultation.</p>
+-                    <span class="folder-page-button">Request a consultation</span>
++            <figure class="folder-scene folder-scene--site" data-stage="site" role="img" aria-label="Sample: your website, built from your practice. The adult braces page for [Your practice] in a browser: Adult braces in [your city], Request a consultation, and what to expect at your first visit; the same page on a phone; and the practice's Google Business Profile, open, with Directions, Call and Website, its hours just updated. Signed by Web and SEO.">
++              <div class="folder-scene-top"><span class="folder-scene-caption">Illustrative page and profile</span><span class="chip chip--sample">Sample</span></div>
++              <div class="folder-canvas">
++                <div class="folder-surface folder-browser" data-part="browser">
++                  <div class="folder-browser-bar"><span class="bar-dots"><i></i><i></i><i></i></span><span class="folder-browser-url"><svg class="icon" viewBox="0 0 20 20" focusable="false"><rect x="4.75" y="9" width="10.5" height="8" rx="2"/><path d="M7 9V6.75a3 3 0 0 1 6 0V9"/></svg>[yourpractice].com/adult-braces</span></div>
++                  <div class="folder-browser-view">
++                    <div class="folder-site-nav"><span class="folder-site-brand">[Your practice]</span><span class="folder-site-links"><span>Treatments</span><span>Your first visit</span><span>About</span></span><span class="folder-site-book">Book a consult</span></div>
++                    <div class="folder-site" data-part="scroll">
++                      <div class="folder-site-hero">
++                        <p class="folder-site-title">Adult braces in [your city]</p>
++                        <p class="folder-site-line">Braces and clear aligners for adults, planned around your work and your week.</p>
++                        <p class="folder-site-actions"><span class="folder-site-button">Request a consultation</span><span class="folder-site-call"><svg class="icon" viewBox="0 0 24 24" focusable="false"><path d="M6.5 4h3l1.5 4-2 1.5a11 11 0 0 0 5.5 5.5l1.5-2 4 1.5v3a2 2 0 0 1-2 2A15.5 15.5 0 0 1 4.5 6a2 2 0 0 1 2-2z"/></svg>Call us</span></p>
++                      </div>
++                      <div class="folder-site-part">
++                        <p class="folder-site-h">What to expect at your first visit</p>
++                        <ol class="folder-site-steps"><li><span>1</span>A look at your teeth and bite</li><li><span>2</span>Braces or clear aligners, explained</li><li><span>3</span>Your plan, timing and cost</li></ol>
++                      </div>
++                      <div class="folder-site-part">
++                        <p class="folder-site-h">Questions adults ask</p>
++                        <ul class="folder-site-faq"><li>Will people notice my braces?</li><li>How long does treatment take?</li></ul>
++                      </div>
++                    </div>
+                   </div>
+                 </div>
++                <div class="folder-phone" data-part="phone">
++                  <div class="folder-phone-screen">
++                    <span class="folder-phone-notch"></span>
++                    <div class="folder-site-nav"><span class="folder-site-brand">[Your practice]</span><svg class="icon" viewBox="0 0 20 20" focusable="false"><path d="M3.5 6h13M3.5 10h13M3.5 14h13"/></svg></div>
++                    <div class="folder-site-hero">
++                      <p class="folder-site-title">Adult braces in [your city]</p>
++                      <p class="folder-site-line">Planned around your work and your week.</p>
++                    </div>
++                    <div class="folder-site-part">
++                      <p class="folder-site-h">Your first visit</p>
++                      <ol class="folder-site-steps"><li><span>1</span>A look at your teeth and bite</li><li><span>2</span>Braces or aligners, explained</li><li><span>3</span>Your plan, timing and cost</li></ol>
++                    </div>
++                    <p class="folder-phone-bar"><span class="folder-site-button">Book a consult</span><span class="folder-phone-call"><svg class="icon" viewBox="0 0 24 24" focusable="false"><path d="M6.5 4h3l1.5 4-2 1.5a11 11 0 0 0 5.5 5.5l1.5-2 4 1.5v3a2 2 0 0 1-2 2A15.5 15.5 0 0 1 4.5 6a2 2 0 0 1 2-2z"/></svg></span></p>
++                  </div>
++                </div>
++                <div class="folder-surface folder-surface--front folder-profile" data-part="profile">
++                  <svg class="folder-map" viewBox="0 0 264 76" preserveAspectRatio="xMidYMid slice" focusable="false"><rect width="264" height="76"/><path class="folder-map-road folder-map-road--minor" d="M-4 16 L270 28 M34 -4 L48 80 M190 -4 L176 80"/><path class="folder-map-road" d="M-4 54 C60 44 130 62 270 42 M98 -4 L116 80"/><path class="folder-map-pin" d="M146 40c-7-9-10-14-10-18a10 10 0 0 1 20 0c0 4-3 9-10 18z"/><circle class="folder-map-dot" cx="146" cy="22" r="3.5"/></svg>
++                  <div class="folder-profile-body">
++                    <p class="folder-profile-name">[Your practice]</p>
++                    <p class="folder-profile-kind">Orthodontist in [your city]</p>
++                    <p class="folder-profile-open"><span>Open</span> · Closes [Time]</p>
++                    <ul class="folder-profile-actions">
++                      <li><span><svg class="icon" viewBox="0 0 20 20" focusable="false"><path d="M10 2.75 17.25 10 10 17.25 2.75 10z"/><path d="M8 11.75v-2.5h4M10.75 7.75l1.5 1.5-1.5 1.5"/></svg></span>Directions</li>
++                      <li><span><svg class="icon" viewBox="0 0 24 24" focusable="false"><path d="M6.5 4h3l1.5 4-2 1.5a11 11 0 0 0 5.5 5.5l1.5-2 4 1.5v3a2 2 0 0 1-2 2A15.5 15.5 0 0 1 4.5 6a2 2 0 0 1 2-2z"/></svg></span>Call</li>
++                      <li><span><svg class="icon" viewBox="0 0 20 20" focusable="false"><circle cx="10" cy="10" r="7"/><path d="M3 10h14M10 3c-3.5 4-3.5 10 0 14M10 3c3.5 4 3.5 10 0 14"/></svg></span>Website</li>
++                    </ul>
++                    <p class="folder-update" data-part="update"><svg class="icon" viewBox="0 0 20 20" focusable="false"><path d="m5.75 10.25 2.75 2.75 5.75-6"/></svg><span class="folder-update-text"><span data-part="update-todo">Updating hours</span><span>Hours updated</span></span></p>
++                    <div class="signoff" data-part="sign"><svg class="signoff-disc founder-art" viewBox="-1 -1 2 2" focusable="false"><circle r="1"/><path d="M0.2621 -0.8819A0.92 0.92 0 1 0 0.2621 0.8819A0.8832 0.8832 0 1 1 0.2621 -0.8819Z"/></svg><span class="signoff-who">Signed by <em class="signature">Web and SEO</em></span></div>
++                  </div>
++                  <img class="stamp folder-stamp folder-stamp--top" src="/assets/img/stamp-signed.svg" alt="" width="64" height="64">
++                </div>
+               </div>
+-              <div class="folder-sign" data-part="sign"><p class="signed-change">Built the page around adult patients' <em>questions</em>.</p><p>Signed by <em class="signature">Web and SEO</em></p></div>
+-              <img class="stamp folder-stamp" src="/assets/img/stamp-signed.svg" alt="" width="48" height="48">
+-            </article>
++            </figure>
+           </div>
+         </details>
+         <details class="folder-stage" name="after-yes-stage" data-short="Ads go live">
+           <summary class="folder-summary"><span class="folder-num" aria-hidden="true">03</span><span class="folder-head"><h3 class="folder-title">Your ads go live.</h3><span class="folder-line">Google and Meta ads, run from ad accounts in your name.</span></span></summary>
+           <div class="folder-panel">
+-            <article class="folder-doc" data-stage="launch" aria-label="Sample: the launch checklist, signed by Paid media">
+-              <div class="folder-doc-head"><div class="folder-doc-name"><span class="folder-doc-practice">[Your practice]</span><p class="folder-doc-title">Launch checklist</p></div><span class="chip chip--sample">Sample</span></div>
+-              <div class="folder-doc-body">
+-                <ul class="folder-checks">
+-                  <li data-part="check"><svg class="icon" viewBox="0 0 20 20" aria-hidden="true" focusable="false"><rect x="2.75" y="2.75" width="14.5" height="14.5" rx="4"/><path d="m6.5 10.2 2.4 2.4 4.6-5"/></svg><span>Google ad linked to the adult braces page</span><span class="sr-only">, done</span></li>
+-                  <li data-part="check"><svg class="icon" viewBox="0 0 20 20" aria-hidden="true" focusable="false"><rect x="2.75" y="2.75" width="14.5" height="14.5" rx="4"/><path d="m6.5 10.2 2.4 2.4 4.6-5"/></svg><span>Meta ad linked to the adult braces page</span><span class="sr-only">, done</span></li>
+-                  <li data-part="check"><svg class="icon" viewBox="0 0 20 20" aria-hidden="true" focusable="false"><rect x="2.75" y="2.75" width="14.5" height="14.5" rx="4"/><path d="m6.5 10.2 2.4 2.4 4.6-5"/></svg><span>Call and conversion tracking set up</span><span class="sr-only">, done</span></li>
+-                </ul>
++            <figure class="folder-scene folder-scene--ads" data-stage="ads" role="img" aria-label="Sample: your ads go live. The ads account for [Your practice], in your practice's name: two campaigns, Adult braces on Search and Adult braces on Meta, each switched on and moved from draft to in review to live; call and conversion tracking set up; beside it, the search ad and the feed ad. Signed by Paid media.">
++              <div class="folder-scene-top"><span class="folder-scene-caption">Illustrative ads account</span><span class="chip chip--sample">Sample</span></div>
++              <div class="folder-canvas">
++                <div class="folder-surface folder-ads" data-part="manager">
++                  <div class="folder-ads-head"><p class="folder-ads-title">Campaigns</p><span class="folder-ads-account"><svg class="icon" viewBox="0 0 20 20" focusable="false"><path d="M3.75 17V6.75L10 3.25l6.25 3.5V17M2.75 17h14.5M8 17v-3.75h4V17M10 6.75v3.5M8.25 8.5h3.5"/></svg>[Your practice]</span></div>
++                  <div class="folder-ads-cols"><span>On</span><span>Campaign</span><span>Status</span><span>Budget</span></div>
++                  <ul class="folder-ads-rows">
++                    <li data-part="campaign">
++                      <span class="folder-switch" data-part="switch"><span></span></span>
++                      <span class="folder-ads-name">Adult braces · Search<span>Search ads, to the adult braces page</span></span>
++                      <span class="folder-status" data-part="status"><span class="folder-status-dot"></span><span class="folder-status-text"><span data-state="draft">Draft</span><span data-state="review">In review</span><span data-state="live">Live</span></span></span>
++                      <span class="folder-ads-budget">[Budget]/day</span>
++                    </li>
++                    <li data-part="campaign">
++                      <span class="folder-switch" data-part="switch"><span></span></span>
++                      <span class="folder-ads-name">Adult braces · Meta<span>Feed ads, to the adult braces page</span></span>
++                      <span class="folder-status" data-part="status"><span class="folder-status-dot"></span><span class="folder-status-text"><span data-state="draft">Draft</span><span data-state="review">In review</span><span data-state="live">Live</span></span></span>
++                      <span class="folder-ads-budget">[Budget]/day</span>
++                    </li>
++                  </ul>
++                  <ul class="folder-track">
++                    <li data-part="track"><svg class="icon" viewBox="0 0 24 24" focusable="false"><path d="M6.5 4h3l1.5 4-2 1.5a11 11 0 0 0 5.5 5.5l1.5-2 4 1.5v3a2 2 0 0 1-2 2A15.5 15.5 0 0 1 4.5 6a2 2 0 0 1 2-2z"/></svg>Call tracking<span class="folder-track-state"><svg class="icon" viewBox="0 0 20 20" focusable="false"><path d="m5.75 10.25 2.75 2.75 5.75-6"/></svg>Set up</span></li>
++                    <li data-part="track"><svg class="icon" viewBox="0 0 20 20" focusable="false"><circle cx="10" cy="10" r="7.25"/><circle cx="10" cy="10" r="3.25"/></svg>Conversion tracking<span class="folder-track-state"><svg class="icon" viewBox="0 0 20 20" focusable="false"><path d="m5.75 10.25 2.75 2.75 5.75-6"/></svg>Set up</span></li>
++                  </ul>
++                  <div class="signoff" data-part="sign"><svg class="signoff-disc founder-art" viewBox="-1 -1 2 2" focusable="false"><circle r="1"/><path d="M0.2621 -0.8819A0.92 0.92 0 1 0 0.2621 0.8819A0.8832 0.8832 0 1 1 0.2621 -0.8819Z"/></svg><span class="signoff-who">Signed by <em class="signature">Paid media</em></span></div>
++                  <img class="stamp folder-stamp" src="/assets/img/stamp-signed.svg" alt="" width="64" height="64">
++                </div>
++                <div class="folder-surface folder-surface--front folder-owner" data-part="owner">
++                  <span class="folder-owner-key"><svg class="icon" viewBox="0 0 20 20" focusable="false"><circle cx="6.75" cy="13.25" r="3.5"/><path d="m9.25 10.75 7-7M14 6l2 2M12 8l1.5 1.5"/></svg></span>
++                  <span class="folder-owner-text">Ad accounts in your practice's name<span>Owner: [Your practice]</span></span>
++                </div>
++                <div class="folder-surface folder-preview folder-preview--search" data-part="preview">
++                  <p class="folder-preview-who"><span>Sponsored</span>[Your practice]</p>
++                  <p class="folder-preview-title">Adult braces | Request a consult</p>
++                  <p class="folder-preview-text">Braces as an adult? See what treatment involves, then ask our team about a consultation.</p>
++                </div>
++                <div class="folder-surface folder-surface--front folder-preview folder-preview--feed" data-part="preview">
++                  <p class="folder-preview-who"><span class="folder-preview-mark"></span><span class="folder-preview-name">[Your practice]<span>Sponsored</span></span></p>
++                  <p class="folder-preview-art">Your questions about adult braces, answered.</p>
++                  <p class="folder-preview-foot"><span>Adult braces</span><span class="folder-preview-button">Learn more</span></p>
++                </div>
+               </div>
+-              <div class="folder-sign" data-part="sign"><p class="folder-sign-note">Ad accounts in your practice's name.</p><p>Signed by <em class="signature">Paid media</em></p></div>
+-              <img class="stamp folder-stamp" src="/assets/img/stamp-signed.svg" alt="" width="48" height="48">
+-            </article>
++            </figure>
+           </div>
+         </details>
+         <details class="folder-stage" name="after-yes-stage" data-short="Report">
+           <summary class="folder-summary"><span class="folder-num" aria-hidden="true">04</span><span class="folder-head"><h3 class="folder-title">Your first monthly report.</h3><span class="folder-line">What we did, what it brought in, and what we're changing next.</span></span></summary>
+           <div class="folder-panel">
+-            <article class="folder-doc" data-stage="report" aria-label="Sample: the monthly report's work and next steps, signed by Web and SEO and by Paid media">
+-              <div class="folder-doc-head"><div class="folder-doc-name"><span class="folder-doc-practice">[Your practice]</span><p class="folder-doc-title">Work and next steps</p></div><span class="chip chip--sample">Sample</span></div>
+-              <div class="folder-doc-body">
+-                <ul class="folder-work">
+-                  <li class="signed-change" data-part="row"><svg class="folder-disc founder-art" viewBox="-1 -1 2 2" aria-hidden="true" focusable="false"><circle r="1"/><path d="M0.2621 -0.8819A0.92 0.92 0 1 0 0.2621 0.8819A0.8832 0.8832 0 1 1 0.2621 -0.8819Z"/></svg><div><span class="folder-who">Web and SEO</span><p class="signed-change">Published the <em>adult braces</em> page.</p></div></li>
+-                  <li class="signed-change" data-part="row"><svg class="folder-disc founder-art" viewBox="-1 -1 2 2" aria-hidden="true" focusable="false"><circle r="1"/><path d="M0.2621 -0.8819A0.92 0.92 0 1 0 0.2621 0.8819A0.8832 0.8832 0 1 1 0.2621 -0.8819Z"/></svg><div><span class="folder-who">Paid media</span><p class="signed-change">Matched the ads to the <em>adult braces</em> page.</p></div></li>
+-                  <li class="folder-next"><svg class="icon" viewBox="0 0 20 20" aria-hidden="true" focusable="false"><circle cx="10" cy="10" r="8.25"/><path d="M6 10h7.5M10.5 7l3 3-3 3"/></svg><div><span class="folder-who">Next</span><p>Review enquiries and booked consults with your team.</p></div></li>
+-                </ul>
++            <figure class="folder-scene folder-scene--report" data-stage="report" role="img" aria-label="Sample: your first monthly report. An email from Rose Practice Solutions: your [Month] report is ready. The [Month] report for [Your practice]: what we did, the adult braces page published, signed by Web and SEO, and the ads matched to it, signed by Paid media, each stamped; what it brought in, [n] new leads, [n] reached and [n] consults booked; and what we're changing next. Beside it, one of the consults booked: [Name], adult braces, from the Google Search ad.">
++              <div class="folder-scene-top"><span class="folder-scene-caption">Illustrative monthly report</span><span class="chip chip--sample">Sample</span></div>
++              <div class="folder-canvas">
++                <div class="folder-surface folder-report" data-part="report">
++                  <div class="folder-report-head">
++                    <p class="folder-report-title">[Month] report</p>
++                    <p class="folder-report-for">[Your practice]</p>
++                  </div>
++                  <div class="folder-report-part">
++                    <p class="folder-report-h">What we did</p>
++                    <ul class="folder-report-work">
++                      <li class="signed-change" data-part="row"><svg class="signoff-disc founder-art" viewBox="-1 -1 2 2" focusable="false"><circle r="1"/><path d="M0.2621 -0.8819A0.92 0.92 0 1 0 0.2621 0.8819A0.8832 0.8832 0 1 1 0.2621 -0.8819Z"/></svg><span class="folder-report-change"><span class="folder-report-who">Web and SEO</span><span class="signed-change">Published the <em>adult braces</em> page.</span></span><img class="stamp folder-row-stamp" src="/assets/img/stamp-signed.svg" alt="" width="40" height="40"></li>
++                      <li class="signed-change" data-part="row"><svg class="signoff-disc founder-art" viewBox="-1 -1 2 2" focusable="false"><circle r="1"/><path d="M0.2621 -0.8819A0.92 0.92 0 1 0 0.2621 0.8819A0.8832 0.8832 0 1 1 0.2621 -0.8819Z"/></svg><span class="folder-report-change"><span class="folder-report-who">Paid media</span><span class="signed-change">Matched the ads to the <em>new</em> page.</span></span><img class="stamp folder-row-stamp" src="/assets/img/stamp-signed.svg" alt="" width="40" height="40"></li>
++                    </ul>
++                  </div>
++                  <div class="folder-report-part">
++                    <p class="folder-report-h">What it brought in</p>
++                    <ul class="folder-report-stats" data-part="stats"><li><span>[n]</span>New leads</li><li><span>[n]</span>Reached</li><li><span>[n]</span>Consults booked</li></ul>
++                  </div>
++                  <div class="folder-report-part">
++                    <p class="folder-report-h">What we're changing next</p>
++                    <p class="folder-report-next" data-part="next"><svg class="icon" viewBox="0 0 20 20" focusable="false"><circle cx="10" cy="10" r="8.25"/><path d="M6 10h7.5M10.5 7l3 3-3 3"/></svg>A clear aligners page, with its own ads.</p>
++                  </div>
++                </div>
++                <div class="folder-surface folder-surface--front folder-mail" data-part="mail">
++                  <p class="folder-mail-head"><svg class="icon" viewBox="0 0 20 20" focusable="false"><rect x="2.75" y="4.25" width="14.5" height="11.5" rx="2.5"/><path d="m3.5 5.5 6.5 5 6.5-5"/></svg>Inbox<span>[Time]</span></p>
++                  <div class="folder-mail-body">
++                    <img src="/assets/logo/rose-mark-tile-light.svg" alt="" width="32" height="32">
++                    <p><span class="folder-mail-from">Rose Practice Solutions</span><span class="folder-mail-subject">Your [Month] report is ready</span><span class="folder-mail-preview">What we did, what it brought in, and what we're changing next.</span></p>
++                  </div>
++                </div>
++                <div class="folder-surface folder-surface--front folder-consult" data-part="consult">
++                  <p class="folder-consult-head"><span class="lead-dot"></span>Consult booked<span>[Time]</span></p>
++                  <p class="folder-consult-who"><span>[Name]</span>Adult braces</p>
++                  <dl class="folder-consult-source"><dt>Source</dt><dd>Google Search ad</dd><dt>Campaign</dt><dd>Adult braces · Search</dd></dl>
++                </div>
+               </div>
+-              <p class="folder-disclosure">Work excerpt only. Sample results are not shown.</p>
+-              <img class="stamp folder-stamp folder-stamp--large" src="/assets/img/stamp-signed.svg" alt="" width="64" height="64">
+-            </article>
++            </figure>
+           </div>
+         </details>
+       </div>
+```
+
+</details>
+
+### 12. Footer: a product-style footer with the name large, cropped and faded
+
+**What and why.** Chris: the footer "could also be higher-end, maybe more SaaS-generic, like how brands nowadays have the name really large and cut off and fading into the background". This applies to **every page**, because the footer is shared. Every page's footer markup is replaced with the same new markup, and each file keeps its own line endings. Six pages (dental-marketing, orthodontic-marketing, pricing, services, services/add-ons and services/patient-follow-up) use Windows (CRLF) line endings. The diff below keeps them, so apply this change with `git apply` rather than by copy and paste.
+
+**Layout** (still your forest panel, with 28px top corners and cream text)
+- **Brand, on the left:**
+  - The logo tile is now the home link, "Rose Practice Solutions, home".
+  - Under it: "*Tended,* not templated." at Display M, the about line, and "Write to us" with the email address.
+- **Three link columns, on the right**, in `nav aria-label="Footer"`. Each has a small label (13px/600, sage mist) over 44px links:
+  - **What we do:** Services, Add-ons and projects, Pricing.
+  - **Who we work with:** Orthodontic marketing, Dental marketing.
+  - **Company:** About, Get in touch, Send us a message.
+- **Legal row:** © 2026 Rose Practice Solutions, the four legal links and Pause animations, all unchanged.
+
+**The name, large.** Your own wordmark file (`rose-wordmark-white.svg`) runs the full width of the footer.
+- It's cream at 7% opacity, so it reads as a lighter tone of the forest. The colour is flat, with no gradient and no mask.
+- The footer's bottom edge crops it, so about 80% of the word shows and the strap never does.
+- On desktop it sits partly under the brand block and the legal row. On phones it sits under the legal links.
+- It's decorative (`alt=""`, `aria-hidden`).
+- Text over it still passes AA: cream 7.17:1, sage mist 6.22:1.
+- It rises the last 12% into place once, as it scrolls into view. Without JavaScript or under reduced motion it's simply there.
+- I used the wordmark rather than the bloom: your motif rule keeps the bloom to the hero and the footer flat.
+
+**Layout by size**
+- **1025px and up:** brand beside the columns.
+- **769 to 1024:** brand on top, columns below.
+- **768 and under:** the tile sits beside the tagline.
+- **600 and under:** the columns go two across.
+
+**Height:** 847px at 1440 (464 before, most of the extra is the cropped name) and 763px at 390 (784 before).
+
+**CSS and JS**
+- The footer block in site.css is rewritten.
+- The `:where(...)` link selectors now name `.foot-nav a` instead of `.foot-links a`.
+- `.foot-links` and `.foot-wordmark` are retired.
+- site.js gains three lines for the rise.
+
+**Check:** on the homepage, /about and /pricing at 1440 and 390, every link works and Pause animations toggles. The homepage's questions band still fills the footer's top corners.
+
+**Files and lines** (after this change):
+
+- `site/404.html`: lines 96–134, 141–147
+- `site/about.html`: lines 331–369, 376–382
+- `site/accessibility.html`: lines 175–213, 220–226
+- `site/ai-policy.html`: lines 180–218, 225–231
+- `site/assets/site.css`: lines 542–548, 554–560, 3339–3387, 3389–3440, 3474–3479
+- `site/assets/site.js`: lines 282–288, 550–559
+- `site/components.html`: lines 1486–1524, 1531–1537
+- `site/contact.html`: lines 315–353, 360–366
+- `site/dental-marketing.html`: lines 618–656, 663–669
+- `site/index.html`: lines 927–965, 972–978
+- `site/orthodontic-marketing.html`: lines 541–579, 586–592
+- `site/pricing.html`: lines 485–523, 530–536
+- `site/privacy.html`: lines 187–225, 232–238
+- `site/services.html`: lines 523–561, 568–574
+- `site/services/add-ons.html`: lines 453–491, 498–504
+- `site/services/paid-ads.html`: lines 442–480, 487–493
+- `site/services/patient-follow-up.html`: lines 490–528, 535–541
+- `site/services/websites-and-seo.html`: lines 434–472, 479–485
+- `site/terms.html`: lines 186–224, 231–237
+
+<details>
+<summary>Exact diff for change 12</summary>
+
+```diff
+diff --git a/site/404.html b/site/404.html
+index 15209f7..0705c41 100644
+--- a/site/404.html
++++ b/site/404.html
+@@ -96,24 +96,39 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+   <div class="wrap">
+     <div class="foot-grid">
+       <div class="foot-brand">
+-        <a href="/" aria-label="Rose Practice Solutions, home"><img class="foot-wordmark" src="/assets/logo/rose-wordmark-white.svg" alt="Rose Practice Solutions" width="200" height="125" loading="lazy" decoding="async"></a>
++        <a class="foot-home" href="/" aria-label="Rose Practice Solutions, home"><img src="/assets/logo/rose-mark-tile-light.svg" alt="" width="44" height="44" loading="lazy" decoding="async"></a>
+         <p class="tagline"><em>Tended,</em> not templated.</p>
+         <p class="foot-about">Rose Practice Solutions is a fully remote orthodontic and dental marketing company in the United States.</p>
++        <div class="foot-contact">
++          <p class="foot-label">Write to us</p>
++          <a href="mailto:hello@rosepracticesolutions.com">hello@rosepracticesolutions.com</a>
++        </div>
+       </div>
+-      <ul class="foot-links">
+-        <li><a href="/services">Services</a></li>
+-        <li><a href="/services/add-ons">Add-ons and projects</a></li>
+-        <li><a href="/orthodontic-marketing">Orthodontic marketing</a></li>
+-        <li><a href="/dental-marketing">Dental marketing</a></li>
+-        <li><a href="/pricing">Pricing</a></li>
+-        <li><a href="/about">About</a></li>
+-        <li><a href="/contact">Get in touch</a></li>
+-      </ul>
+-      <div class="foot-contact">
+-        <p class="body-s">Write to us</p>
+-        <a href="/contact#book">Send us a message</a>
+-        <a href="mailto:hello@rosepracticesolutions.com">hello@rosepracticesolutions.com</a>
+-      </div>
++      <nav class="foot-nav" aria-label="Footer">
++        <div class="foot-col">
++          <h2 class="foot-label" id="foot-what">What we do</h2>
++          <ul aria-labelledby="foot-what">
++            <li><a href="/services">Services</a></li>
++            <li><a href="/services/add-ons">Add-ons and projects</a></li>
++            <li><a href="/pricing">Pricing</a></li>
++          </ul>
++        </div>
++        <div class="foot-col">
++          <h2 class="foot-label" id="foot-who">Who we work with</h2>
++          <ul aria-labelledby="foot-who">
++            <li><a href="/orthodontic-marketing">Orthodontic marketing</a></li>
++            <li><a href="/dental-marketing">Dental marketing</a></li>
++          </ul>
++        </div>
++        <div class="foot-col">
++          <h2 class="foot-label" id="foot-company">Company</h2>
++          <ul aria-labelledby="foot-company">
++            <li><a href="/about">About</a></li>
++            <li><a href="/contact">Get in touch</a></li>
++            <li><a href="/contact#book">Send us a message</a></li>
++          </ul>
++        </div>
++      </nav>
+     </div>
+     <div class="foot-legal">
+       <p class="meta">&copy; 2026 Rose Practice Solutions</p>
+@@ -126,6 +141,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+       </div>
+     </div>
+   </div>
++  <img class="foot-giant" src="/assets/logo/rose-wordmark-white.svg" alt="" aria-hidden="true" width="1595" height="996" loading="lazy" decoding="async">
+ </footer>
+ 
+ <!-- No GSAP on this page: it has no graphics to animate, and site.js runs without it. -->
+diff --git a/site/about.html b/site/about.html
+index 9258435..aefd28e 100644
+--- a/site/about.html
++++ b/site/about.html
+@@ -331,24 +331,39 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+   <div class="wrap">
+     <div class="foot-grid">
+       <div class="foot-brand">
+-        <a href="/" aria-label="Rose Practice Solutions, home"><img class="foot-wordmark" src="/assets/logo/rose-wordmark-white.svg" alt="Rose Practice Solutions" width="200" height="125" loading="lazy" decoding="async"></a>
++        <a class="foot-home" href="/" aria-label="Rose Practice Solutions, home"><img src="/assets/logo/rose-mark-tile-light.svg" alt="" width="44" height="44" loading="lazy" decoding="async"></a>
+         <p class="tagline"><em>Tended,</em> not templated.</p>
+         <p class="foot-about">Rose Practice Solutions is a fully remote orthodontic and dental marketing company in the United States.</p>
++        <div class="foot-contact">
++          <p class="foot-label">Write to us</p>
++          <a href="mailto:hello@rosepracticesolutions.com">hello@rosepracticesolutions.com</a>
++        </div>
+       </div>
+-      <ul class="foot-links">
+-        <li><a href="/services">Services</a></li>
+-        <li><a href="/services/add-ons">Add-ons and projects</a></li>
+-        <li><a href="/orthodontic-marketing">Orthodontic marketing</a></li>
+-        <li><a href="/dental-marketing">Dental marketing</a></li>
+-        <li><a href="/pricing">Pricing</a></li>
+-        <li><a href="/about">About</a></li>
+-        <li><a href="/contact">Get in touch</a></li>
+-      </ul>
+-      <div class="foot-contact">
+-        <p class="body-s">Write to us</p>
+-        <a href="/contact#book">Send us a message</a>
+-        <a href="mailto:hello@rosepracticesolutions.com">hello@rosepracticesolutions.com</a>
+-      </div>
++      <nav class="foot-nav" aria-label="Footer">
++        <div class="foot-col">
++          <h2 class="foot-label" id="foot-what">What we do</h2>
++          <ul aria-labelledby="foot-what">
++            <li><a href="/services">Services</a></li>
++            <li><a href="/services/add-ons">Add-ons and projects</a></li>
++            <li><a href="/pricing">Pricing</a></li>
++          </ul>
++        </div>
++        <div class="foot-col">
++          <h2 class="foot-label" id="foot-who">Who we work with</h2>
++          <ul aria-labelledby="foot-who">
++            <li><a href="/orthodontic-marketing">Orthodontic marketing</a></li>
++            <li><a href="/dental-marketing">Dental marketing</a></li>
++          </ul>
++        </div>
++        <div class="foot-col">
++          <h2 class="foot-label" id="foot-company">Company</h2>
++          <ul aria-labelledby="foot-company">
++            <li><a href="/about">About</a></li>
++            <li><a href="/contact">Get in touch</a></li>
++            <li><a href="/contact#book">Send us a message</a></li>
++          </ul>
++        </div>
++      </nav>
+     </div>
+     <div class="foot-legal">
+       <p class="meta">&copy; 2026 Rose Practice Solutions</p>
+@@ -361,6 +376,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+       </div>
+     </div>
+   </div>
++  <img class="foot-giant" src="/assets/logo/rose-wordmark-white.svg" alt="" aria-hidden="true" width="1595" height="996" loading="lazy" decoding="async">
+ </footer>
+ 
+ <script src="/assets/vendor/gsap.min.js" defer></script>
+diff --git a/site/accessibility.html b/site/accessibility.html
+index b069d60..fecd76a 100644
+--- a/site/accessibility.html
++++ b/site/accessibility.html
+@@ -175,24 +175,39 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+   <div class="wrap">
+     <div class="foot-grid">
+       <div class="foot-brand">
+-        <a href="/" aria-label="Rose Practice Solutions, home"><img class="foot-wordmark" src="/assets/logo/rose-wordmark-white.svg" alt="Rose Practice Solutions" width="200" height="125" loading="lazy" decoding="async"></a>
++        <a class="foot-home" href="/" aria-label="Rose Practice Solutions, home"><img src="/assets/logo/rose-mark-tile-light.svg" alt="" width="44" height="44" loading="lazy" decoding="async"></a>
+         <p class="tagline"><em>Tended,</em> not templated.</p>
+         <p class="foot-about">Rose Practice Solutions is a fully remote orthodontic and dental marketing company in the United States.</p>
++        <div class="foot-contact">
++          <p class="foot-label">Write to us</p>
++          <a href="mailto:hello@rosepracticesolutions.com">hello@rosepracticesolutions.com</a>
++        </div>
+       </div>
+-      <ul class="foot-links">
+-        <li><a href="/services">Services</a></li>
+-        <li><a href="/services/add-ons">Add-ons and projects</a></li>
+-        <li><a href="/orthodontic-marketing">Orthodontic marketing</a></li>
+-        <li><a href="/dental-marketing">Dental marketing</a></li>
+-        <li><a href="/pricing">Pricing</a></li>
+-        <li><a href="/about">About</a></li>
+-        <li><a href="/contact">Get in touch</a></li>
+-      </ul>
+-      <div class="foot-contact">
+-        <p class="body-s">Write to us</p>
+-        <a href="/contact#book">Send us a message</a>
+-        <a href="mailto:hello@rosepracticesolutions.com">hello@rosepracticesolutions.com</a>
+-      </div>
++      <nav class="foot-nav" aria-label="Footer">
++        <div class="foot-col">
++          <h2 class="foot-label" id="foot-what">What we do</h2>
++          <ul aria-labelledby="foot-what">
++            <li><a href="/services">Services</a></li>
++            <li><a href="/services/add-ons">Add-ons and projects</a></li>
++            <li><a href="/pricing">Pricing</a></li>
++          </ul>
++        </div>
++        <div class="foot-col">
++          <h2 class="foot-label" id="foot-who">Who we work with</h2>
++          <ul aria-labelledby="foot-who">
++            <li><a href="/orthodontic-marketing">Orthodontic marketing</a></li>
++            <li><a href="/dental-marketing">Dental marketing</a></li>
++          </ul>
++        </div>
++        <div class="foot-col">
++          <h2 class="foot-label" id="foot-company">Company</h2>
++          <ul aria-labelledby="foot-company">
++            <li><a href="/about">About</a></li>
++            <li><a href="/contact">Get in touch</a></li>
++            <li><a href="/contact#book">Send us a message</a></li>
++          </ul>
++        </div>
++      </nav>
+     </div>
+     <div class="foot-legal">
+       <p class="meta">&copy; 2026 Rose Practice Solutions</p>
+@@ -205,6 +220,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+       </div>
+     </div>
+   </div>
++  <img class="foot-giant" src="/assets/logo/rose-wordmark-white.svg" alt="" aria-hidden="true" width="1595" height="996" loading="lazy" decoding="async">
+ </footer>
+ 
+ <!-- No GSAP on this page: it has no graphics to animate, and site.js runs without it. -->
+diff --git a/site/ai-policy.html b/site/ai-policy.html
+index f7bd329..79622e2 100644
+--- a/site/ai-policy.html
++++ b/site/ai-policy.html
+@@ -180,24 +180,39 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+   <div class="wrap">
+     <div class="foot-grid">
+       <div class="foot-brand">
+-        <a href="/" aria-label="Rose Practice Solutions, home"><img class="foot-wordmark" src="/assets/logo/rose-wordmark-white.svg" alt="Rose Practice Solutions" width="200" height="125" loading="lazy" decoding="async"></a>
++        <a class="foot-home" href="/" aria-label="Rose Practice Solutions, home"><img src="/assets/logo/rose-mark-tile-light.svg" alt="" width="44" height="44" loading="lazy" decoding="async"></a>
+         <p class="tagline"><em>Tended,</em> not templated.</p>
+         <p class="foot-about">Rose Practice Solutions is a fully remote orthodontic and dental marketing company in the United States.</p>
++        <div class="foot-contact">
++          <p class="foot-label">Write to us</p>
++          <a href="mailto:hello@rosepracticesolutions.com">hello@rosepracticesolutions.com</a>
++        </div>
+       </div>
+-      <ul class="foot-links">
+-        <li><a href="/services">Services</a></li>
+-        <li><a href="/services/add-ons">Add-ons and projects</a></li>
+-        <li><a href="/orthodontic-marketing">Orthodontic marketing</a></li>
+-        <li><a href="/dental-marketing">Dental marketing</a></li>
+-        <li><a href="/pricing">Pricing</a></li>
+-        <li><a href="/about">About</a></li>
+-        <li><a href="/contact">Get in touch</a></li>
+-      </ul>
+-      <div class="foot-contact">
+-        <p class="body-s">Write to us</p>
+-        <a href="/contact#book">Send us a message</a>
+-        <a href="mailto:hello@rosepracticesolutions.com">hello@rosepracticesolutions.com</a>
+-      </div>
++      <nav class="foot-nav" aria-label="Footer">
++        <div class="foot-col">
++          <h2 class="foot-label" id="foot-what">What we do</h2>
++          <ul aria-labelledby="foot-what">
++            <li><a href="/services">Services</a></li>
++            <li><a href="/services/add-ons">Add-ons and projects</a></li>
++            <li><a href="/pricing">Pricing</a></li>
++          </ul>
++        </div>
++        <div class="foot-col">
++          <h2 class="foot-label" id="foot-who">Who we work with</h2>
++          <ul aria-labelledby="foot-who">
++            <li><a href="/orthodontic-marketing">Orthodontic marketing</a></li>
++            <li><a href="/dental-marketing">Dental marketing</a></li>
++          </ul>
++        </div>
++        <div class="foot-col">
++          <h2 class="foot-label" id="foot-company">Company</h2>
++          <ul aria-labelledby="foot-company">
++            <li><a href="/about">About</a></li>
++            <li><a href="/contact">Get in touch</a></li>
++            <li><a href="/contact#book">Send us a message</a></li>
++          </ul>
++        </div>
++      </nav>
+     </div>
+     <div class="foot-legal">
+       <p class="meta">&copy; 2026 Rose Practice Solutions</p>
+@@ -210,6 +225,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+       </div>
+     </div>
+   </div>
++  <img class="foot-giant" src="/assets/logo/rose-wordmark-white.svg" alt="" aria-hidden="true" width="1595" height="996" loading="lazy" decoding="async">
+ </footer>
+ 
+ <script src="/assets/vendor/gsap.min.js" defer></script>
+diff --git a/site/assets/site.css b/site/assets/site.css
+index 995321e..c12aa7b 100644
+--- a/site/assets/site.css
++++ b/site/assets/site.css
+@@ -542,7 +542,7 @@ h1 em, h2 em, h3 em, .tagline em, .signed-change em { color: var(--accent-italic
+ .on-strong { --link-line: var(--line-cream); --link-rest-color: var(--outline-on-strong); }
+ .on-strong .on-light { --link-line: var(--line-forest); --link-rest-color: var(--text-muted); }
+ 
+-:where(.inline-link, .faq-a a, .qa-item a, .prose a:not([class]), .hero-note a, .hero-capture-help a, .hero-capture-status a, .foot-links a, .foot-contact a, .foot-legal a, .foot-legal .motion-toggle) {
++:where(.inline-link, .faq-a a, .qa-item a, .prose a:not([class]), .hero-note a, .hero-capture-help a, .hero-capture-status a, .foot-nav a, .foot-contact a, .foot-legal a, .foot-legal .motion-toggle) {
+   text-decoration-line: underline;
+   text-decoration-color: var(--link-rest-color, var(--text-muted));
+   text-decoration-thickness: 1px;
+@@ -554,7 +554,7 @@ h1 em, h2 em, h3 em, .tagline em, .signed-change em { color: var(--accent-italic
+   background-size: 0% 2px;
+   transition: background-size var(--dur-med) var(--ease-standard);
+ }
+-:where(.inline-link, .faq-a a, .qa-item a, .prose a:not([class]), .hero-note a, .hero-capture-help a, .hero-capture-status a, .foot-links a, .foot-contact a, .foot-legal a, .foot-legal .motion-toggle):is(:hover, :focus-visible) {
++:where(.inline-link, .faq-a a, .qa-item a, .prose a:not([class]), .hero-note a, .hero-capture-help a, .hero-capture-status a, .foot-nav a, .foot-contact a, .foot-legal a, .foot-legal .motion-toggle):is(:hover, :focus-visible) {
+   background-size: var(--link-span, 100%) 2px;
+ }
+ 
+@@ -3339,26 +3339,49 @@ main > #questions:last-child { margin-bottom: calc(-1 * var(--radius-panel)); pa
+ }
+ 
+ /* ---------- footer ---------- */
++/* The site footer, the same on every page. A forest panel with 28px top corners; cream text (8.7:1), sage mist for the
++   quiet text and the column labels (7.55:1), focus in cream (from .on-strong).
++   Markup: footer.site-foot.on-strong > .wrap > (.foot-grid > .foot-brand + nav.foot-nav) + .foot-legal, then
++   img.foot-giant.
++   - .foot-brand: a.foot-home (the logo tile, 44px, named "Rose Practice Solutions, home"), the tagline, the line about
++     us, and .foot-contact ("Write to us" over the email address).
++   - nav.foot-nav[aria-label="Footer"]: three .foot-col, each an h2.foot-label (a small label, 13px/600 sage mist, not
++     a headline) over a ul of 44px links labelled by it: What we do, Who we work with, Company.
++   - .foot-legal: the copyright, the legal links and the pause button, in tracked-caps meta over a hairline.
++   - img.foot-giant: the wordmark (rose-wordmark-white.svg) the full width of the footer, in cream at 7% so it reads as
++     a tone of the forest (flat, no gradient). The footer's bottom edge crops it: --giant-show is how much of the word's
++     height shows (80%; the strap under it never does), --giant-tuck how much of it runs up under the content above
++     (30%, 62% on phones, where it sits under the legal links). The wordmark is .6245 of its width tall and the word
++     .481, so both turn into margins in % of the width. Over its tone cream measures 7.17:1 and sage mist 6.22:1.
++     Decorative: alt="" and aria-hidden; the tile is the home link.
++   Motion: site.js ("motion, with GSAP") lifts the wordmark the last 12% into its crop once, as it comes into view.
++   Without JavaScript or under reduced motion it is simply in place; like every one-off entrance, pausing lets it finish. */
+ 
+ .site-foot {
+-  padding-block: var(--space-16) var(--space-8);
++  --giant-show: .8;
++  --giant-tuck: .3;
++  position: relative;
++  isolation: isolate;
++  display: flow-root;
++  overflow: clip;
++  padding-top: var(--space-24);
+   border-radius: 28px 28px 0 0;
+   background: var(--surface-strong);
+   color: var(--text-on-strong);
+ }
+ 
+-.foot-grid { display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr); gap: var(--space-6) var(--space-12); align-items: start; }
+-.foot-brand { grid-row: 1 / span 2; }
+-.foot-links { display: flex; flex-wrap: wrap; gap: 0 var(--space-6); }
+-.foot-brand { display: grid; justify-items: start; align-content: start; gap: var(--space-6); }
+-/* the wordmark with its strap: 200px wide, never smaller */
+-.foot-wordmark { width: 200px; height: auto; }
+-.foot-about { max-width: 26em; font-size: var(--text-body-s); color: var(--sage-mist); }
+-.site-foot .meta { color: var(--sage-mist); }
+-.foot-contact { display: flex; flex-wrap: wrap; align-items: center; gap: 0 var(--space-3); }
++.foot-grid { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: var(--space-12) var(--space-16); align-items: start; }
++.foot-brand { display: grid; justify-items: start; align-content: start; }
++.foot-home { display: block; border-radius: var(--radius-input); }
++.foot-home img { width: 44px; height: 44px; }
++.foot-brand .tagline { margin-top: var(--space-8); font-size: var(--text-display-m); line-height: 1.1; }
++.foot-about { max-width: 26em; margin-top: var(--space-4); font-size: var(--text-body-s); color: var(--sage-mist); }
++.foot-contact { margin-top: var(--space-8); }
++.foot-label { font-family: var(--font-text); font-size: var(--text-label); font-weight: 600; line-height: 1.4; letter-spacing: var(--tracking-label); color: var(--sage-mist); }
++.foot-nav { display: grid; grid-template-columns: repeat(3, auto); justify-content: space-between; gap: var(--space-8); }
++.foot-col ul { margin-top: var(--space-2); }
+ /* footer links take the site's link line in cream, with no rest underline (they read as a menu) */
+-.foot-links a, .foot-contact a { --link-y: var(--link-flex-y); display: inline-flex; align-items: center; min-width: 44px; min-height: 44px; color: var(--text-on-strong); font-size: var(--text-body-s); font-weight: 500; text-decoration: none; overflow-wrap: anywhere; }
+-.foot-contact p { min-height: 44px; display: flex; align-items: center; color: var(--sage-mist); }
++.foot-nav a, .foot-contact a { --link-y: var(--link-flex-y); display: inline-flex; align-items: center; min-width: 44px; min-height: 44px; color: var(--text-on-strong); font-size: var(--text-body-s); font-weight: 500; text-decoration: none; overflow-wrap: anywhere; }
+ 
+ .foot-legal {
+   display: flex;
+@@ -3366,16 +3389,52 @@ main > #questions:last-child { margin-bottom: calc(-1 * var(--radius-panel)); pa
+   align-items: center;
+   justify-content: space-between;
+   gap: var(--space-2) var(--space-6);
+-  margin-top: var(--space-12);
++  margin-top: var(--space-16);
+   padding-top: var(--space-4);
+   border-top: var(--border-w) solid var(--line-on-strong);
+ }
+-
++.site-foot .meta { color: var(--sage-mist); }
+ .foot-legal a { --link-y: var(--link-flex-y); display: inline-flex; align-items: center; min-height: 44px; text-decoration: none; }
+ .foot-legal-links { display: flex; flex-wrap: wrap; gap: var(--space-2) var(--space-6); }
+ /* a button that reads as the meta links beside it: .meta sets the type; this only takes off the button chrome */
+ .foot-legal .motion-toggle { --link-y: var(--link-flex-y); min-height: 44px; padding: 0; border: 0; background-color: transparent; font-family: inherit; color: var(--sage-mist); text-decoration: none; cursor: pointer; }
+ 
++.foot-giant {
++  position: relative;
++  z-index: -1;
++  width: 100%;
++  max-width: none;
++  height: auto;
++  margin-top: calc(-.481 * var(--giant-tuck) * 100%);
++  margin-bottom: calc((.481 * var(--giant-show) - .6245) * 100%);
++  opacity: .07;
++  pointer-events: none;
++  user-select: none;
++}
++
++@media (max-width: 1024px) {
++  .foot-grid { grid-template-columns: minmax(0, 1fr); }
++}
++
++@media (max-width: 768px) {
++  .site-foot { --giant-show: .9; --giant-tuck: .72; padding-top: var(--space-12); }
++  .foot-grid { row-gap: var(--space-10); }
++  .foot-brand { grid-template-columns: auto minmax(0, 1fr); align-items: center; column-gap: var(--space-4); }
++  .foot-brand .tagline { margin-top: 0; font-size: var(--text-h2); }
++  .foot-about, .foot-contact { grid-column: 1 / -1; }
++  .foot-about { margin-top: var(--space-4); }
++  .foot-contact { margin-top: var(--space-5); }
++  .foot-legal { flex-direction: column; align-items: flex-start; margin-top: var(--space-8); }
++  .foot-legal-links { gap: 0 var(--space-6); }
++}
++
++@media (max-width: 600px) {
++  .foot-nav { grid-template-columns: repeat(2, minmax(0, 1fr)); grid-template-areas: "what company" "who ."; justify-content: stretch; gap: var(--space-5) var(--space-4); }
++  .foot-col:nth-child(1) { grid-area: what; }
++  .foot-col:nth-child(2) { grid-area: who; }
++  .foot-col:nth-child(3) { grid-area: company; }
++}
++
+ /* ---------- pause animations ---------- */
+ /* WCAG 2.2.2. The control is a script feature, so it shows only with JavaScript, and not under reduced motion,
+    where nothing loops. Paused, the looping graphics and the call rings show their still, complete state, as
+@@ -3415,12 +3474,6 @@ main > #questions:last-child { margin-bottom: calc(-1 * var(--radius-panel)); pa
+   .js .nav-actions .btn { flex: 1 1 auto; width: auto; }
+ }
+ 
+-@media (max-width: 768px) {
+-  .site-foot { padding-top: var(--space-12); }
+-  .foot-grid { grid-template-columns: minmax(0, 1fr); gap: var(--space-6); }
+-  .foot-brand { grid-row: auto; }
+-}
+-
+ /* ---------- components reference page ---------- */
+ 
+ .ref-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--space-12) var(--gutter); align-items: start; }
+diff --git a/site/assets/site.js b/site/assets/site.js
+index a5ff59e..b28284d 100644
+--- a/site/assets/site.js
++++ b/site/assets/site.js
+@@ -282,6 +282,7 @@
+   //   [data-anim="draw"]           an SVG line draws in
+   //   [data-anim="status"]         a status row steps from new to called to booked
+   //   [data-play]                  a small sample plays its steps once (site.css), starting as it comes into view
++  //   .foot-giant                  the footer's wordmark rises the last 12% into its crop, once, as it comes into view
+   const reduceMotion = matchMedia('(prefers-reduced-motion: reduce)');
+   const gs = window.gsap;
+   const ST = window.ScrollTrigger;
+@@ -549,6 +550,10 @@
+         gs.fromTo(sig, { clipPath: 'inset(-20% 100% -20% 0)' }, { clipPath: 'inset(-20% -5% -20% 0)', duration: REST * 1.4, ease: OUT, scrollTrigger: { trigger: sig, start: 'top 88%', once: true } });
+       });
+ 
++      // the footer's wordmark rises the last stretch into its crop as it comes into view (site.css "footer")
++      const giant = document.querySelector('.foot-giant');
++      if (giant) gs.from(giant, { yPercent: 12, duration: REST * 1.4, ease: 'power3.out', scrollTrigger: { trigger: giant, start: 'top 75%', once: true } });
++
+       // the numeral on a numbered card counts up to its number as the card arrives
+       gs.utils.toArray('.commit-num, .step-num').forEach((num) => {
+         const text = num.textContent.trim();
+diff --git a/site/components.html b/site/components.html
+index e993c25..d44d542 100644
+--- a/site/components.html
++++ b/site/components.html
+@@ -1486,24 +1486,39 @@
+   <div class="wrap">
+     <div class="foot-grid">
+       <div class="foot-brand">
+-        <a href="/" aria-label="Rose Practice Solutions, home"><img class="foot-wordmark" src="/assets/logo/rose-wordmark-white.svg" alt="Rose Practice Solutions" width="200" height="125" loading="lazy" decoding="async"></a>
++        <a class="foot-home" href="/" aria-label="Rose Practice Solutions, home"><img src="/assets/logo/rose-mark-tile-light.svg" alt="" width="44" height="44" loading="lazy" decoding="async"></a>
+         <p class="tagline"><em>Tended,</em> not templated.</p>
+         <p class="foot-about">Rose Practice Solutions is a fully remote orthodontic and dental marketing company in the United States.</p>
++        <div class="foot-contact">
++          <p class="foot-label">Write to us</p>
++          <a href="mailto:hello@rosepracticesolutions.com">hello@rosepracticesolutions.com</a>
++        </div>
+       </div>
+-      <ul class="foot-links">
+-        <li><a href="/services">Services</a></li>
+-        <li><a href="/services/add-ons">Add-ons and projects</a></li>
+-        <li><a href="/orthodontic-marketing">Orthodontic marketing</a></li>
+-        <li><a href="/dental-marketing">Dental marketing</a></li>
+-        <li><a href="/pricing">Pricing</a></li>
+-        <li><a href="/about">About</a></li>
+-        <li><a href="/contact">Get in touch</a></li>
+-      </ul>
+-      <div class="foot-contact">
+-        <p class="body-s">Write to us</p>
+-        <a href="/contact#book">Send us a message</a>
+-        <a href="mailto:hello@rosepracticesolutions.com">hello@rosepracticesolutions.com</a>
+-      </div>
++      <nav class="foot-nav" aria-label="Footer">
++        <div class="foot-col">
++          <h2 class="foot-label" id="foot-what">What we do</h2>
++          <ul aria-labelledby="foot-what">
++            <li><a href="/services">Services</a></li>
++            <li><a href="/services/add-ons">Add-ons and projects</a></li>
++            <li><a href="/pricing">Pricing</a></li>
++          </ul>
++        </div>
++        <div class="foot-col">
++          <h2 class="foot-label" id="foot-who">Who we work with</h2>
++          <ul aria-labelledby="foot-who">
++            <li><a href="/orthodontic-marketing">Orthodontic marketing</a></li>
++            <li><a href="/dental-marketing">Dental marketing</a></li>
++          </ul>
++        </div>
++        <div class="foot-col">
++          <h2 class="foot-label" id="foot-company">Company</h2>
++          <ul aria-labelledby="foot-company">
++            <li><a href="/about">About</a></li>
++            <li><a href="/contact">Get in touch</a></li>
++            <li><a href="/contact#book">Send us a message</a></li>
++          </ul>
++        </div>
++      </nav>
+     </div>
+     <div class="foot-legal">
+       <p class="meta">&copy; 2026 Rose Practice Solutions</p>
+@@ -1516,6 +1531,7 @@
+       </div>
+     </div>
+   </div>
++  <img class="foot-giant" src="/assets/logo/rose-wordmark-white.svg" alt="" aria-hidden="true" width="1595" height="996" loading="lazy" decoding="async">
+ </footer>
+ 
+ <script src="/assets/vendor/gsap.min.js" defer></script>
+diff --git a/site/contact.html b/site/contact.html
+index 6599830..debd451 100644
+--- a/site/contact.html
++++ b/site/contact.html
+@@ -315,24 +315,39 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+   <div class="wrap">
+     <div class="foot-grid">
+       <div class="foot-brand">
+-        <a href="/" aria-label="Rose Practice Solutions, home"><img class="foot-wordmark" src="/assets/logo/rose-wordmark-white.svg" alt="Rose Practice Solutions" width="200" height="125" loading="lazy" decoding="async"></a>
++        <a class="foot-home" href="/" aria-label="Rose Practice Solutions, home"><img src="/assets/logo/rose-mark-tile-light.svg" alt="" width="44" height="44" loading="lazy" decoding="async"></a>
+         <p class="tagline"><em>Tended,</em> not templated.</p>
+         <p class="foot-about">Rose Practice Solutions is a fully remote orthodontic and dental marketing company in the United States.</p>
++        <div class="foot-contact">
++          <p class="foot-label">Write to us</p>
++          <a href="mailto:hello@rosepracticesolutions.com">hello@rosepracticesolutions.com</a>
++        </div>
+       </div>
+-      <ul class="foot-links">
+-        <li><a href="/services">Services</a></li>
+-        <li><a href="/services/add-ons">Add-ons and projects</a></li>
+-        <li><a href="/orthodontic-marketing">Orthodontic marketing</a></li>
+-        <li><a href="/dental-marketing">Dental marketing</a></li>
+-        <li><a href="/pricing">Pricing</a></li>
+-        <li><a href="/about">About</a></li>
+-        <li><a href="/contact">Get in touch</a></li>
+-      </ul>
+-      <div class="foot-contact">
+-        <p class="body-s">Write to us</p>
+-        <a href="/contact#book">Send us a message</a>
+-        <a href="mailto:hello@rosepracticesolutions.com">hello@rosepracticesolutions.com</a>
+-      </div>
++      <nav class="foot-nav" aria-label="Footer">
++        <div class="foot-col">
++          <h2 class="foot-label" id="foot-what">What we do</h2>
++          <ul aria-labelledby="foot-what">
++            <li><a href="/services">Services</a></li>
++            <li><a href="/services/add-ons">Add-ons and projects</a></li>
++            <li><a href="/pricing">Pricing</a></li>
++          </ul>
++        </div>
++        <div class="foot-col">
++          <h2 class="foot-label" id="foot-who">Who we work with</h2>
++          <ul aria-labelledby="foot-who">
++            <li><a href="/orthodontic-marketing">Orthodontic marketing</a></li>
++            <li><a href="/dental-marketing">Dental marketing</a></li>
++          </ul>
++        </div>
++        <div class="foot-col">
++          <h2 class="foot-label" id="foot-company">Company</h2>
++          <ul aria-labelledby="foot-company">
++            <li><a href="/about">About</a></li>
++            <li><a href="/contact">Get in touch</a></li>
++            <li><a href="/contact#book">Send us a message</a></li>
++          </ul>
++        </div>
++      </nav>
+     </div>
+     <div class="foot-legal">
+       <p class="meta">&copy; 2026 Rose Practice Solutions</p>
+@@ -345,6 +360,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+       </div>
+     </div>
+   </div>
++  <img class="foot-giant" src="/assets/logo/rose-wordmark-white.svg" alt="" aria-hidden="true" width="1595" height="996" loading="lazy" decoding="async">
+ </footer>
+ 
+ <script src="/assets/vendor/gsap.min.js" defer></script>
+diff --git a/site/dental-marketing.html b/site/dental-marketing.html
+index dd2ca34..4b59898 100644
+--- a/site/dental-marketing.html
++++ b/site/dental-marketing.html
+@@ -618,24 +618,39 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+   <div class="wrap">
+     <div class="foot-grid">
+       <div class="foot-brand">
+-        <a href="/" aria-label="Rose Practice Solutions, home"><img class="foot-wordmark" src="/assets/logo/rose-wordmark-white.svg" alt="Rose Practice Solutions" width="200" height="125" loading="lazy" decoding="async"></a>
++        <a class="foot-home" href="/" aria-label="Rose Practice Solutions, home"><img src="/assets/logo/rose-mark-tile-light.svg" alt="" width="44" height="44" loading="lazy" decoding="async"></a>
+         <p class="tagline"><em>Tended,</em> not templated.</p>
+         <p class="foot-about">Rose Practice Solutions is a fully remote orthodontic and dental marketing company in the United States.</p>
++        <div class="foot-contact">
++          <p class="foot-label">Write to us</p>
++          <a href="mailto:hello@rosepracticesolutions.com">hello@rosepracticesolutions.com</a>
++        </div>
+       </div>
+-      <ul class="foot-links">
+-        <li><a href="/services">Services</a></li>
+-        <li><a href="/services/add-ons">Add-ons and projects</a></li>
+-        <li><a href="/orthodontic-marketing">Orthodontic marketing</a></li>
+-        <li><a href="/dental-marketing">Dental marketing</a></li>
+-        <li><a href="/pricing">Pricing</a></li>
+-        <li><a href="/about">About</a></li>
+-        <li><a href="/contact">Get in touch</a></li>
+-      </ul>
+-      <div class="foot-contact">
+-        <p class="body-s">Write to us</p>
+-        <a href="/contact#book">Send us a message</a>
+-        <a href="mailto:hello@rosepracticesolutions.com">hello@rosepracticesolutions.com</a>
+-      </div>
++      <nav class="foot-nav" aria-label="Footer">
++        <div class="foot-col">
++          <h2 class="foot-label" id="foot-what">What we do</h2>
++          <ul aria-labelledby="foot-what">
++            <li><a href="/services">Services</a></li>
++            <li><a href="/services/add-ons">Add-ons and projects</a></li>
++            <li><a href="/pricing">Pricing</a></li>
++          </ul>
++        </div>
++        <div class="foot-col">
++          <h2 class="foot-label" id="foot-who">Who we work with</h2>
++          <ul aria-labelledby="foot-who">
++            <li><a href="/orthodontic-marketing">Orthodontic marketing</a></li>
++            <li><a href="/dental-marketing">Dental marketing</a></li>
++          </ul>
++        </div>
++        <div class="foot-col">
++          <h2 class="foot-label" id="foot-company">Company</h2>
++          <ul aria-labelledby="foot-company">
++            <li><a href="/about">About</a></li>
++            <li><a href="/contact">Get in touch</a></li>
++            <li><a href="/contact#book">Send us a message</a></li>
++          </ul>
++        </div>
++      </nav>
+     </div>
+     <div class="foot-legal">
+       <p class="meta">&copy; 2026 Rose Practice Solutions</p>
+@@ -648,6 +663,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+       </div>
+     </div>
+   </div>
++  <img class="foot-giant" src="/assets/logo/rose-wordmark-white.svg" alt="" aria-hidden="true" width="1595" height="996" loading="lazy" decoding="async">
+ </footer>
+ 
+ <script src="/assets/vendor/gsap.min.js" defer></script>
+diff --git a/site/index.html b/site/index.html
+index c804bae..1795554 100644
+--- a/site/index.html
++++ b/site/index.html
+@@ -927,24 +927,39 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+   <div class="wrap">
+     <div class="foot-grid">
+       <div class="foot-brand">
+-        <a href="/" aria-label="Rose Practice Solutions, home"><img class="foot-wordmark" src="/assets/logo/rose-wordmark-white.svg" alt="Rose Practice Solutions" width="200" height="125" loading="lazy" decoding="async"></a>
++        <a class="foot-home" href="/" aria-label="Rose Practice Solutions, home"><img src="/assets/logo/rose-mark-tile-light.svg" alt="" width="44" height="44" loading="lazy" decoding="async"></a>
+         <p class="tagline"><em>Tended,</em> not templated.</p>
+         <p class="foot-about">Rose Practice Solutions is a fully remote orthodontic and dental marketing company in the United States.</p>
++        <div class="foot-contact">
++          <p class="foot-label">Write to us</p>
++          <a href="mailto:hello@rosepracticesolutions.com">hello@rosepracticesolutions.com</a>
++        </div>
+       </div>
+-      <ul class="foot-links">
+-        <li><a href="/services">Services</a></li>
+-        <li><a href="/services/add-ons">Add-ons and projects</a></li>
+-        <li><a href="/orthodontic-marketing">Orthodontic marketing</a></li>
+-        <li><a href="/dental-marketing">Dental marketing</a></li>
+-        <li><a href="/pricing">Pricing</a></li>
+-        <li><a href="/about">About</a></li>
+-        <li><a href="/contact">Get in touch</a></li>
+-      </ul>
+-      <div class="foot-contact">
+-        <p class="body-s">Write to us</p>
+-        <a href="/contact#book">Send us a message</a>
+-        <a href="mailto:hello@rosepracticesolutions.com">hello@rosepracticesolutions.com</a>
+-      </div>
++      <nav class="foot-nav" aria-label="Footer">
++        <div class="foot-col">
++          <h2 class="foot-label" id="foot-what">What we do</h2>
++          <ul aria-labelledby="foot-what">
++            <li><a href="/services">Services</a></li>
++            <li><a href="/services/add-ons">Add-ons and projects</a></li>
++            <li><a href="/pricing">Pricing</a></li>
++          </ul>
++        </div>
++        <div class="foot-col">
++          <h2 class="foot-label" id="foot-who">Who we work with</h2>
++          <ul aria-labelledby="foot-who">
++            <li><a href="/orthodontic-marketing">Orthodontic marketing</a></li>
++            <li><a href="/dental-marketing">Dental marketing</a></li>
++          </ul>
++        </div>
++        <div class="foot-col">
++          <h2 class="foot-label" id="foot-company">Company</h2>
++          <ul aria-labelledby="foot-company">
++            <li><a href="/about">About</a></li>
++            <li><a href="/contact">Get in touch</a></li>
++            <li><a href="/contact#book">Send us a message</a></li>
++          </ul>
++        </div>
++      </nav>
+     </div>
+     <div class="foot-legal">
+       <p class="meta">&copy; 2026 Rose Practice Solutions</p>
+@@ -957,6 +972,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+       </div>
+     </div>
+   </div>
++  <img class="foot-giant" src="/assets/logo/rose-wordmark-white.svg" alt="" aria-hidden="true" width="1595" height="996" loading="lazy" decoding="async">
+ </footer>
+ 
+ <script src="/assets/vendor/gsap.min.js" defer></script>
+diff --git a/site/orthodontic-marketing.html b/site/orthodontic-marketing.html
+index ed4de22..8f4a02f 100644
+--- a/site/orthodontic-marketing.html
++++ b/site/orthodontic-marketing.html
+@@ -541,24 +541,39 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+   <div class="wrap">
+     <div class="foot-grid">
+       <div class="foot-brand">
+-        <a href="/" aria-label="Rose Practice Solutions, home"><img class="foot-wordmark" src="/assets/logo/rose-wordmark-white.svg" alt="Rose Practice Solutions" width="200" height="125" loading="lazy" decoding="async"></a>
++        <a class="foot-home" href="/" aria-label="Rose Practice Solutions, home"><img src="/assets/logo/rose-mark-tile-light.svg" alt="" width="44" height="44" loading="lazy" decoding="async"></a>
+         <p class="tagline"><em>Tended,</em> not templated.</p>
+         <p class="foot-about">Rose Practice Solutions is a fully remote orthodontic and dental marketing company in the United States.</p>
++        <div class="foot-contact">
++          <p class="foot-label">Write to us</p>
++          <a href="mailto:hello@rosepracticesolutions.com">hello@rosepracticesolutions.com</a>
++        </div>
+       </div>
+-      <ul class="foot-links">
+-        <li><a href="/services">Services</a></li>
+-        <li><a href="/services/add-ons">Add-ons and projects</a></li>
+-        <li><a href="/orthodontic-marketing">Orthodontic marketing</a></li>
+-        <li><a href="/dental-marketing">Dental marketing</a></li>
+-        <li><a href="/pricing">Pricing</a></li>
+-        <li><a href="/about">About</a></li>
+-        <li><a href="/contact">Get in touch</a></li>
+-      </ul>
+-      <div class="foot-contact">
+-        <p class="body-s">Write to us</p>
+-        <a href="/contact#book">Send us a message</a>
+-        <a href="mailto:hello@rosepracticesolutions.com">hello@rosepracticesolutions.com</a>
+-      </div>
++      <nav class="foot-nav" aria-label="Footer">
++        <div class="foot-col">
++          <h2 class="foot-label" id="foot-what">What we do</h2>
++          <ul aria-labelledby="foot-what">
++            <li><a href="/services">Services</a></li>
++            <li><a href="/services/add-ons">Add-ons and projects</a></li>
++            <li><a href="/pricing">Pricing</a></li>
++          </ul>
++        </div>
++        <div class="foot-col">
++          <h2 class="foot-label" id="foot-who">Who we work with</h2>
++          <ul aria-labelledby="foot-who">
++            <li><a href="/orthodontic-marketing">Orthodontic marketing</a></li>
++            <li><a href="/dental-marketing">Dental marketing</a></li>
++          </ul>
++        </div>
++        <div class="foot-col">
++          <h2 class="foot-label" id="foot-company">Company</h2>
++          <ul aria-labelledby="foot-company">
++            <li><a href="/about">About</a></li>
++            <li><a href="/contact">Get in touch</a></li>
++            <li><a href="/contact#book">Send us a message</a></li>
++          </ul>
++        </div>
++      </nav>
+     </div>
+     <div class="foot-legal">
+       <p class="meta">&copy; 2026 Rose Practice Solutions</p>
+@@ -571,6 +586,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+       </div>
+     </div>
+   </div>
++  <img class="foot-giant" src="/assets/logo/rose-wordmark-white.svg" alt="" aria-hidden="true" width="1595" height="996" loading="lazy" decoding="async">
+ </footer>
+ 
+ <script src="/assets/vendor/gsap.min.js" defer></script>
+diff --git a/site/pricing.html b/site/pricing.html
+index 73a1562..39a36a5 100644
+--- a/site/pricing.html
++++ b/site/pricing.html
+@@ -485,24 +485,39 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+   <div class="wrap">
+     <div class="foot-grid">
+       <div class="foot-brand">
+-        <a href="/" aria-label="Rose Practice Solutions, home"><img class="foot-wordmark" src="/assets/logo/rose-wordmark-white.svg" alt="Rose Practice Solutions" width="200" height="125" loading="lazy" decoding="async"></a>
++        <a class="foot-home" href="/" aria-label="Rose Practice Solutions, home"><img src="/assets/logo/rose-mark-tile-light.svg" alt="" width="44" height="44" loading="lazy" decoding="async"></a>
+         <p class="tagline"><em>Tended,</em> not templated.</p>
+         <p class="foot-about">Rose Practice Solutions is a fully remote orthodontic and dental marketing company in the United States.</p>
++        <div class="foot-contact">
++          <p class="foot-label">Write to us</p>
++          <a href="mailto:hello@rosepracticesolutions.com">hello@rosepracticesolutions.com</a>
++        </div>
+       </div>
+-      <ul class="foot-links">
+-        <li><a href="/services">Services</a></li>
+-        <li><a href="/services/add-ons">Add-ons and projects</a></li>
+-        <li><a href="/orthodontic-marketing">Orthodontic marketing</a></li>
+-        <li><a href="/dental-marketing">Dental marketing</a></li>
+-        <li><a href="/pricing">Pricing</a></li>
+-        <li><a href="/about">About</a></li>
+-        <li><a href="/contact">Get in touch</a></li>
+-      </ul>
+-      <div class="foot-contact">
+-        <p class="body-s">Write to us</p>
+-        <a href="/contact#book">Send us a message</a>
+-        <a href="mailto:hello@rosepracticesolutions.com">hello@rosepracticesolutions.com</a>
+-      </div>
++      <nav class="foot-nav" aria-label="Footer">
++        <div class="foot-col">
++          <h2 class="foot-label" id="foot-what">What we do</h2>
++          <ul aria-labelledby="foot-what">
++            <li><a href="/services">Services</a></li>
++            <li><a href="/services/add-ons">Add-ons and projects</a></li>
++            <li><a href="/pricing">Pricing</a></li>
++          </ul>
++        </div>
++        <div class="foot-col">
++          <h2 class="foot-label" id="foot-who">Who we work with</h2>
++          <ul aria-labelledby="foot-who">
++            <li><a href="/orthodontic-marketing">Orthodontic marketing</a></li>
++            <li><a href="/dental-marketing">Dental marketing</a></li>
++          </ul>
++        </div>
++        <div class="foot-col">
++          <h2 class="foot-label" id="foot-company">Company</h2>
++          <ul aria-labelledby="foot-company">
++            <li><a href="/about">About</a></li>
++            <li><a href="/contact">Get in touch</a></li>
++            <li><a href="/contact#book">Send us a message</a></li>
++          </ul>
++        </div>
++      </nav>
+     </div>
+     <div class="foot-legal">
+       <p class="meta">&copy; 2026 Rose Practice Solutions</p>
+@@ -515,6 +530,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+       </div>
+     </div>
+   </div>
++  <img class="foot-giant" src="/assets/logo/rose-wordmark-white.svg" alt="" aria-hidden="true" width="1595" height="996" loading="lazy" decoding="async">
+ </footer>
+ 
+ <script src="/assets/vendor/gsap.min.js" defer></script>
+diff --git a/site/privacy.html b/site/privacy.html
+index e42ab10..2e1cc31 100644
+--- a/site/privacy.html
++++ b/site/privacy.html
+@@ -187,24 +187,39 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+   <div class="wrap">
+     <div class="foot-grid">
+       <div class="foot-brand">
+-        <a href="/" aria-label="Rose Practice Solutions, home"><img class="foot-wordmark" src="/assets/logo/rose-wordmark-white.svg" alt="Rose Practice Solutions" width="200" height="125" loading="lazy" decoding="async"></a>
++        <a class="foot-home" href="/" aria-label="Rose Practice Solutions, home"><img src="/assets/logo/rose-mark-tile-light.svg" alt="" width="44" height="44" loading="lazy" decoding="async"></a>
+         <p class="tagline"><em>Tended,</em> not templated.</p>
+         <p class="foot-about">Rose Practice Solutions is a fully remote orthodontic and dental marketing company in the United States.</p>
++        <div class="foot-contact">
++          <p class="foot-label">Write to us</p>
++          <a href="mailto:hello@rosepracticesolutions.com">hello@rosepracticesolutions.com</a>
++        </div>
+       </div>
+-      <ul class="foot-links">
+-        <li><a href="/services">Services</a></li>
+-        <li><a href="/services/add-ons">Add-ons and projects</a></li>
+-        <li><a href="/orthodontic-marketing">Orthodontic marketing</a></li>
+-        <li><a href="/dental-marketing">Dental marketing</a></li>
+-        <li><a href="/pricing">Pricing</a></li>
+-        <li><a href="/about">About</a></li>
+-        <li><a href="/contact">Get in touch</a></li>
+-      </ul>
+-      <div class="foot-contact">
+-        <p class="body-s">Write to us</p>
+-        <a href="/contact#book">Send us a message</a>
+-        <a href="mailto:hello@rosepracticesolutions.com">hello@rosepracticesolutions.com</a>
+-      </div>
++      <nav class="foot-nav" aria-label="Footer">
++        <div class="foot-col">
++          <h2 class="foot-label" id="foot-what">What we do</h2>
++          <ul aria-labelledby="foot-what">
++            <li><a href="/services">Services</a></li>
++            <li><a href="/services/add-ons">Add-ons and projects</a></li>
++            <li><a href="/pricing">Pricing</a></li>
++          </ul>
++        </div>
++        <div class="foot-col">
++          <h2 class="foot-label" id="foot-who">Who we work with</h2>
++          <ul aria-labelledby="foot-who">
++            <li><a href="/orthodontic-marketing">Orthodontic marketing</a></li>
++            <li><a href="/dental-marketing">Dental marketing</a></li>
++          </ul>
++        </div>
++        <div class="foot-col">
++          <h2 class="foot-label" id="foot-company">Company</h2>
++          <ul aria-labelledby="foot-company">
++            <li><a href="/about">About</a></li>
++            <li><a href="/contact">Get in touch</a></li>
++            <li><a href="/contact#book">Send us a message</a></li>
++          </ul>
++        </div>
++      </nav>
+     </div>
+     <div class="foot-legal">
+       <p class="meta">&copy; 2026 Rose Practice Solutions</p>
+@@ -217,6 +232,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+       </div>
+     </div>
+   </div>
++  <img class="foot-giant" src="/assets/logo/rose-wordmark-white.svg" alt="" aria-hidden="true" width="1595" height="996" loading="lazy" decoding="async">
+ </footer>
+ 
+ <!-- No GSAP on this page: it has no graphics to animate, and site.js runs without it. -->
+diff --git a/site/services.html b/site/services.html
+index 2f2d3fd..c0e9ead 100644
+--- a/site/services.html
++++ b/site/services.html
+@@ -523,24 +523,39 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+   <div class="wrap">
+     <div class="foot-grid">
+       <div class="foot-brand">
+-        <a href="/" aria-label="Rose Practice Solutions, home"><img class="foot-wordmark" src="/assets/logo/rose-wordmark-white.svg" alt="Rose Practice Solutions" width="200" height="125" loading="lazy" decoding="async"></a>
++        <a class="foot-home" href="/" aria-label="Rose Practice Solutions, home"><img src="/assets/logo/rose-mark-tile-light.svg" alt="" width="44" height="44" loading="lazy" decoding="async"></a>
+         <p class="tagline"><em>Tended,</em> not templated.</p>
+         <p class="foot-about">Rose Practice Solutions is a fully remote orthodontic and dental marketing company in the United States.</p>
++        <div class="foot-contact">
++          <p class="foot-label">Write to us</p>
++          <a href="mailto:hello@rosepracticesolutions.com">hello@rosepracticesolutions.com</a>
++        </div>
+       </div>
+-      <ul class="foot-links">
+-        <li><a href="/services">Services</a></li>
+-        <li><a href="/services/add-ons">Add-ons and projects</a></li>
+-        <li><a href="/orthodontic-marketing">Orthodontic marketing</a></li>
+-        <li><a href="/dental-marketing">Dental marketing</a></li>
+-        <li><a href="/pricing">Pricing</a></li>
+-        <li><a href="/about">About</a></li>
+-        <li><a href="/contact">Get in touch</a></li>
+-      </ul>
+-      <div class="foot-contact">
+-        <p class="body-s">Write to us</p>
+-        <a href="/contact#book">Send us a message</a>
+-        <a href="mailto:hello@rosepracticesolutions.com">hello@rosepracticesolutions.com</a>
+-      </div>
++      <nav class="foot-nav" aria-label="Footer">
++        <div class="foot-col">
++          <h2 class="foot-label" id="foot-what">What we do</h2>
++          <ul aria-labelledby="foot-what">
++            <li><a href="/services">Services</a></li>
++            <li><a href="/services/add-ons">Add-ons and projects</a></li>
++            <li><a href="/pricing">Pricing</a></li>
++          </ul>
++        </div>
++        <div class="foot-col">
++          <h2 class="foot-label" id="foot-who">Who we work with</h2>
++          <ul aria-labelledby="foot-who">
++            <li><a href="/orthodontic-marketing">Orthodontic marketing</a></li>
++            <li><a href="/dental-marketing">Dental marketing</a></li>
++          </ul>
++        </div>
++        <div class="foot-col">
++          <h2 class="foot-label" id="foot-company">Company</h2>
++          <ul aria-labelledby="foot-company">
++            <li><a href="/about">About</a></li>
++            <li><a href="/contact">Get in touch</a></li>
++            <li><a href="/contact#book">Send us a message</a></li>
++          </ul>
++        </div>
++      </nav>
+     </div>
+     <div class="foot-legal">
+       <p class="meta">&copy; 2026 Rose Practice Solutions</p>
+@@ -553,6 +568,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+       </div>
+     </div>
+   </div>
++  <img class="foot-giant" src="/assets/logo/rose-wordmark-white.svg" alt="" aria-hidden="true" width="1595" height="996" loading="lazy" decoding="async">
+ </footer>
+ 
+ <script src="/assets/vendor/gsap.min.js" defer></script>
+diff --git a/site/services/add-ons.html b/site/services/add-ons.html
+index 9f89767..c55d58d 100644
+--- a/site/services/add-ons.html
++++ b/site/services/add-ons.html
+@@ -453,24 +453,39 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+   <div class="wrap">
+     <div class="foot-grid">
+       <div class="foot-brand">
+-        <a href="/" aria-label="Rose Practice Solutions, home"><img class="foot-wordmark" src="/assets/logo/rose-wordmark-white.svg" alt="Rose Practice Solutions" width="200" height="125" loading="lazy" decoding="async"></a>
++        <a class="foot-home" href="/" aria-label="Rose Practice Solutions, home"><img src="/assets/logo/rose-mark-tile-light.svg" alt="" width="44" height="44" loading="lazy" decoding="async"></a>
+         <p class="tagline"><em>Tended,</em> not templated.</p>
+         <p class="foot-about">Rose Practice Solutions is a fully remote orthodontic and dental marketing company in the United States.</p>
++        <div class="foot-contact">
++          <p class="foot-label">Write to us</p>
++          <a href="mailto:hello@rosepracticesolutions.com">hello@rosepracticesolutions.com</a>
++        </div>
+       </div>
+-      <ul class="foot-links">
+-        <li><a href="/services">Services</a></li>
+-        <li><a href="/services/add-ons">Add-ons and projects</a></li>
+-        <li><a href="/orthodontic-marketing">Orthodontic marketing</a></li>
+-        <li><a href="/dental-marketing">Dental marketing</a></li>
+-        <li><a href="/pricing">Pricing</a></li>
+-        <li><a href="/about">About</a></li>
+-        <li><a href="/contact">Get in touch</a></li>
+-      </ul>
+-      <div class="foot-contact">
+-        <p class="body-s">Write to us</p>
+-        <a href="/contact#book">Send us a message</a>
+-        <a href="mailto:hello@rosepracticesolutions.com">hello@rosepracticesolutions.com</a>
+-      </div>
++      <nav class="foot-nav" aria-label="Footer">
++        <div class="foot-col">
++          <h2 class="foot-label" id="foot-what">What we do</h2>
++          <ul aria-labelledby="foot-what">
++            <li><a href="/services">Services</a></li>
++            <li><a href="/services/add-ons">Add-ons and projects</a></li>
++            <li><a href="/pricing">Pricing</a></li>
++          </ul>
++        </div>
++        <div class="foot-col">
++          <h2 class="foot-label" id="foot-who">Who we work with</h2>
++          <ul aria-labelledby="foot-who">
++            <li><a href="/orthodontic-marketing">Orthodontic marketing</a></li>
++            <li><a href="/dental-marketing">Dental marketing</a></li>
++          </ul>
++        </div>
++        <div class="foot-col">
++          <h2 class="foot-label" id="foot-company">Company</h2>
++          <ul aria-labelledby="foot-company">
++            <li><a href="/about">About</a></li>
++            <li><a href="/contact">Get in touch</a></li>
++            <li><a href="/contact#book">Send us a message</a></li>
++          </ul>
++        </div>
++      </nav>
+     </div>
+     <div class="foot-legal">
+       <p class="meta">&copy; 2026 Rose Practice Solutions</p>
+@@ -483,6 +498,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+       </div>
+     </div>
+   </div>
++  <img class="foot-giant" src="/assets/logo/rose-wordmark-white.svg" alt="" aria-hidden="true" width="1595" height="996" loading="lazy" decoding="async">
+ </footer>
+ 
+ <script src="/assets/vendor/gsap.min.js" defer></script>
+diff --git a/site/services/paid-ads.html b/site/services/paid-ads.html
+index 68a37e3..10c22bd 100644
+--- a/site/services/paid-ads.html
++++ b/site/services/paid-ads.html
+@@ -442,24 +442,39 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+   <div class="wrap">
+     <div class="foot-grid">
+       <div class="foot-brand">
+-        <a href="/" aria-label="Rose Practice Solutions, home"><img class="foot-wordmark" src="/assets/logo/rose-wordmark-white.svg" alt="Rose Practice Solutions" width="200" height="125" loading="lazy" decoding="async"></a>
++        <a class="foot-home" href="/" aria-label="Rose Practice Solutions, home"><img src="/assets/logo/rose-mark-tile-light.svg" alt="" width="44" height="44" loading="lazy" decoding="async"></a>
+         <p class="tagline"><em>Tended,</em> not templated.</p>
+         <p class="foot-about">Rose Practice Solutions is a fully remote orthodontic and dental marketing company in the United States.</p>
++        <div class="foot-contact">
++          <p class="foot-label">Write to us</p>
++          <a href="mailto:hello@rosepracticesolutions.com">hello@rosepracticesolutions.com</a>
++        </div>
+       </div>
+-      <ul class="foot-links">
+-        <li><a href="/services">Services</a></li>
+-        <li><a href="/services/add-ons">Add-ons and projects</a></li>
+-        <li><a href="/orthodontic-marketing">Orthodontic marketing</a></li>
+-        <li><a href="/dental-marketing">Dental marketing</a></li>
+-        <li><a href="/pricing">Pricing</a></li>
+-        <li><a href="/about">About</a></li>
+-        <li><a href="/contact">Get in touch</a></li>
+-      </ul>
+-      <div class="foot-contact">
+-        <p class="body-s">Write to us</p>
+-        <a href="/contact#book">Send us a message</a>
+-        <a href="mailto:hello@rosepracticesolutions.com">hello@rosepracticesolutions.com</a>
+-      </div>
++      <nav class="foot-nav" aria-label="Footer">
++        <div class="foot-col">
++          <h2 class="foot-label" id="foot-what">What we do</h2>
++          <ul aria-labelledby="foot-what">
++            <li><a href="/services">Services</a></li>
++            <li><a href="/services/add-ons">Add-ons and projects</a></li>
++            <li><a href="/pricing">Pricing</a></li>
++          </ul>
++        </div>
++        <div class="foot-col">
++          <h2 class="foot-label" id="foot-who">Who we work with</h2>
++          <ul aria-labelledby="foot-who">
++            <li><a href="/orthodontic-marketing">Orthodontic marketing</a></li>
++            <li><a href="/dental-marketing">Dental marketing</a></li>
++          </ul>
++        </div>
++        <div class="foot-col">
++          <h2 class="foot-label" id="foot-company">Company</h2>
++          <ul aria-labelledby="foot-company">
++            <li><a href="/about">About</a></li>
++            <li><a href="/contact">Get in touch</a></li>
++            <li><a href="/contact#book">Send us a message</a></li>
++          </ul>
++        </div>
++      </nav>
+     </div>
+     <div class="foot-legal">
+       <p class="meta">&copy; 2026 Rose Practice Solutions</p>
+@@ -472,6 +487,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+       </div>
+     </div>
+   </div>
++  <img class="foot-giant" src="/assets/logo/rose-wordmark-white.svg" alt="" aria-hidden="true" width="1595" height="996" loading="lazy" decoding="async">
+ </footer>
+ 
+ <script src="/assets/vendor/gsap.min.js" defer></script>
+diff --git a/site/services/patient-follow-up.html b/site/services/patient-follow-up.html
+index fb27086..f783a3b 100644
+--- a/site/services/patient-follow-up.html
++++ b/site/services/patient-follow-up.html
+@@ -490,24 +490,39 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+   <div class="wrap">
+     <div class="foot-grid">
+       <div class="foot-brand">
+-        <a href="/" aria-label="Rose Practice Solutions, home"><img class="foot-wordmark" src="/assets/logo/rose-wordmark-white.svg" alt="Rose Practice Solutions" width="200" height="125" loading="lazy" decoding="async"></a>
++        <a class="foot-home" href="/" aria-label="Rose Practice Solutions, home"><img src="/assets/logo/rose-mark-tile-light.svg" alt="" width="44" height="44" loading="lazy" decoding="async"></a>
+         <p class="tagline"><em>Tended,</em> not templated.</p>
+         <p class="foot-about">Rose Practice Solutions is a fully remote orthodontic and dental marketing company in the United States.</p>
++        <div class="foot-contact">
++          <p class="foot-label">Write to us</p>
++          <a href="mailto:hello@rosepracticesolutions.com">hello@rosepracticesolutions.com</a>
++        </div>
+       </div>
+-      <ul class="foot-links">
+-        <li><a href="/services">Services</a></li>
+-        <li><a href="/services/add-ons">Add-ons and projects</a></li>
+-        <li><a href="/orthodontic-marketing">Orthodontic marketing</a></li>
+-        <li><a href="/dental-marketing">Dental marketing</a></li>
+-        <li><a href="/pricing">Pricing</a></li>
+-        <li><a href="/about">About</a></li>
+-        <li><a href="/contact">Get in touch</a></li>
+-      </ul>
+-      <div class="foot-contact">
+-        <p class="body-s">Write to us</p>
+-        <a href="/contact#book">Send us a message</a>
+-        <a href="mailto:hello@rosepracticesolutions.com">hello@rosepracticesolutions.com</a>
+-      </div>
++      <nav class="foot-nav" aria-label="Footer">
++        <div class="foot-col">
++          <h2 class="foot-label" id="foot-what">What we do</h2>
++          <ul aria-labelledby="foot-what">
++            <li><a href="/services">Services</a></li>
++            <li><a href="/services/add-ons">Add-ons and projects</a></li>
++            <li><a href="/pricing">Pricing</a></li>
++          </ul>
++        </div>
++        <div class="foot-col">
++          <h2 class="foot-label" id="foot-who">Who we work with</h2>
++          <ul aria-labelledby="foot-who">
++            <li><a href="/orthodontic-marketing">Orthodontic marketing</a></li>
++            <li><a href="/dental-marketing">Dental marketing</a></li>
++          </ul>
++        </div>
++        <div class="foot-col">
++          <h2 class="foot-label" id="foot-company">Company</h2>
++          <ul aria-labelledby="foot-company">
++            <li><a href="/about">About</a></li>
++            <li><a href="/contact">Get in touch</a></li>
++            <li><a href="/contact#book">Send us a message</a></li>
++          </ul>
++        </div>
++      </nav>
+     </div>
+     <div class="foot-legal">
+       <p class="meta">&copy; 2026 Rose Practice Solutions</p>
+@@ -520,6 +535,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+       </div>
+     </div>
+   </div>
++  <img class="foot-giant" src="/assets/logo/rose-wordmark-white.svg" alt="" aria-hidden="true" width="1595" height="996" loading="lazy" decoding="async">
+ </footer>
+ 
+ <script src="/assets/vendor/gsap.min.js" defer></script>
+diff --git a/site/services/websites-and-seo.html b/site/services/websites-and-seo.html
+index 73ce81a..50e18b3 100644
+--- a/site/services/websites-and-seo.html
++++ b/site/services/websites-and-seo.html
+@@ -434,24 +434,39 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+   <div class="wrap">
+     <div class="foot-grid">
+       <div class="foot-brand">
+-        <a href="/" aria-label="Rose Practice Solutions, home"><img class="foot-wordmark" src="/assets/logo/rose-wordmark-white.svg" alt="Rose Practice Solutions" width="200" height="125" loading="lazy" decoding="async"></a>
++        <a class="foot-home" href="/" aria-label="Rose Practice Solutions, home"><img src="/assets/logo/rose-mark-tile-light.svg" alt="" width="44" height="44" loading="lazy" decoding="async"></a>
+         <p class="tagline"><em>Tended,</em> not templated.</p>
+         <p class="foot-about">Rose Practice Solutions is a fully remote orthodontic and dental marketing company in the United States.</p>
++        <div class="foot-contact">
++          <p class="foot-label">Write to us</p>
++          <a href="mailto:hello@rosepracticesolutions.com">hello@rosepracticesolutions.com</a>
++        </div>
+       </div>
+-      <ul class="foot-links">
+-        <li><a href="/services">Services</a></li>
+-        <li><a href="/services/add-ons">Add-ons and projects</a></li>
+-        <li><a href="/orthodontic-marketing">Orthodontic marketing</a></li>
+-        <li><a href="/dental-marketing">Dental marketing</a></li>
+-        <li><a href="/pricing">Pricing</a></li>
+-        <li><a href="/about">About</a></li>
+-        <li><a href="/contact">Get in touch</a></li>
+-      </ul>
+-      <div class="foot-contact">
+-        <p class="body-s">Write to us</p>
+-        <a href="/contact#book">Send us a message</a>
+-        <a href="mailto:hello@rosepracticesolutions.com">hello@rosepracticesolutions.com</a>
+-      </div>
++      <nav class="foot-nav" aria-label="Footer">
++        <div class="foot-col">
++          <h2 class="foot-label" id="foot-what">What we do</h2>
++          <ul aria-labelledby="foot-what">
++            <li><a href="/services">Services</a></li>
++            <li><a href="/services/add-ons">Add-ons and projects</a></li>
++            <li><a href="/pricing">Pricing</a></li>
++          </ul>
++        </div>
++        <div class="foot-col">
++          <h2 class="foot-label" id="foot-who">Who we work with</h2>
++          <ul aria-labelledby="foot-who">
++            <li><a href="/orthodontic-marketing">Orthodontic marketing</a></li>
++            <li><a href="/dental-marketing">Dental marketing</a></li>
++          </ul>
++        </div>
++        <div class="foot-col">
++          <h2 class="foot-label" id="foot-company">Company</h2>
++          <ul aria-labelledby="foot-company">
++            <li><a href="/about">About</a></li>
++            <li><a href="/contact">Get in touch</a></li>
++            <li><a href="/contact#book">Send us a message</a></li>
++          </ul>
++        </div>
++      </nav>
+     </div>
+     <div class="foot-legal">
+       <p class="meta">&copy; 2026 Rose Practice Solutions</p>
+@@ -464,6 +479,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+       </div>
+     </div>
+   </div>
++  <img class="foot-giant" src="/assets/logo/rose-wordmark-white.svg" alt="" aria-hidden="true" width="1595" height="996" loading="lazy" decoding="async">
+ </footer>
+ 
+ <script src="/assets/vendor/gsap.min.js" defer></script>
+diff --git a/site/terms.html b/site/terms.html
+index 24eb16c..0c3341d 100644
+--- a/site/terms.html
++++ b/site/terms.html
+@@ -186,24 +186,39 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+   <div class="wrap">
+     <div class="foot-grid">
+       <div class="foot-brand">
+-        <a href="/" aria-label="Rose Practice Solutions, home"><img class="foot-wordmark" src="/assets/logo/rose-wordmark-white.svg" alt="Rose Practice Solutions" width="200" height="125" loading="lazy" decoding="async"></a>
++        <a class="foot-home" href="/" aria-label="Rose Practice Solutions, home"><img src="/assets/logo/rose-mark-tile-light.svg" alt="" width="44" height="44" loading="lazy" decoding="async"></a>
+         <p class="tagline"><em>Tended,</em> not templated.</p>
+         <p class="foot-about">Rose Practice Solutions is a fully remote orthodontic and dental marketing company in the United States.</p>
++        <div class="foot-contact">
++          <p class="foot-label">Write to us</p>
++          <a href="mailto:hello@rosepracticesolutions.com">hello@rosepracticesolutions.com</a>
++        </div>
+       </div>
+-      <ul class="foot-links">
+-        <li><a href="/services">Services</a></li>
+-        <li><a href="/services/add-ons">Add-ons and projects</a></li>
+-        <li><a href="/orthodontic-marketing">Orthodontic marketing</a></li>
+-        <li><a href="/dental-marketing">Dental marketing</a></li>
+-        <li><a href="/pricing">Pricing</a></li>
+-        <li><a href="/about">About</a></li>
+-        <li><a href="/contact">Get in touch</a></li>
+-      </ul>
+-      <div class="foot-contact">
+-        <p class="body-s">Write to us</p>
+-        <a href="/contact#book">Send us a message</a>
+-        <a href="mailto:hello@rosepracticesolutions.com">hello@rosepracticesolutions.com</a>
+-      </div>
++      <nav class="foot-nav" aria-label="Footer">
++        <div class="foot-col">
++          <h2 class="foot-label" id="foot-what">What we do</h2>
++          <ul aria-labelledby="foot-what">
++            <li><a href="/services">Services</a></li>
++            <li><a href="/services/add-ons">Add-ons and projects</a></li>
++            <li><a href="/pricing">Pricing</a></li>
++          </ul>
++        </div>
++        <div class="foot-col">
++          <h2 class="foot-label" id="foot-who">Who we work with</h2>
++          <ul aria-labelledby="foot-who">
++            <li><a href="/orthodontic-marketing">Orthodontic marketing</a></li>
++            <li><a href="/dental-marketing">Dental marketing</a></li>
++          </ul>
++        </div>
++        <div class="foot-col">
++          <h2 class="foot-label" id="foot-company">Company</h2>
++          <ul aria-labelledby="foot-company">
++            <li><a href="/about">About</a></li>
++            <li><a href="/contact">Get in touch</a></li>
++            <li><a href="/contact#book">Send us a message</a></li>
++          </ul>
++        </div>
++      </nav>
+     </div>
+     <div class="foot-legal">
+       <p class="meta">&copy; 2026 Rose Practice Solutions</p>
+@@ -216,6 +231,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+       </div>
+     </div>
+   </div>
++  <img class="foot-giant" src="/assets/logo/rose-wordmark-white.svg" alt="" aria-hidden="true" width="1595" height="996" loading="lazy" decoding="async">
+ </footer>
+ 
+ <!-- No GSAP on this page: it has no graphics to animate, and site.js runs without it. -->
+```
+
+</details>
+
 ## Not changed
 
-- **The team band** ("A small team that knows its clients…" and the ring of five founders) is unchanged this round.
-- **The hero letter's delivery animation, the proof strip's wording, the closing panel and every other page** are unchanged.
+- **The team band** ("A small team that knows its clients…" and the ring of five founders).
+- **The hero letter's delivery animation, the proof strip's wording and the closing panel.**
+- **Every other page's content.** Only the footer changes there.
 
 ## Small things to know
 
-- **The Google and Meta row at 390px is 863px tall,** a little over the 820px it was aimed at. The Sample row at the top of the panel costs about 34px; it's kept so both service panels match.
+- **The Google and Meta row at 390px is 859px tall,** a little over the 820px it was aimed at. The Sample row at the top of the panel costs about 34px; it's kept so both service panels match.
 - **At 360px the 80px panel stamp just touches the corner of the SEO note.** There's no text under it.
 - **The chat widget's bubble sits over the right edge of some samples on phones.** That's the LeadConnector widget, which was already on the page.
+- **The practice folder on narrower desktops:** from 1025 to 1279px it shows the compact two-surface scenes centred beside the rail. The full scenes need a 768px canvas.
+- **The phone folder is 1,045px at 390.** The report stage sets that height, so longer copy there would make the section taller.
 - **The practice folder repeats the stamp-press helper** (`press()`) from "signed samples". It has the same values, because the original lives inside that block's scope. If you'd like one copy, move `press` and `hold` above both sections.
-- **Section heights on desktop:**
-  - the practice folder is 987px (the old section was 936px);
-  - the ads panel is 724px (the ledger was 502px);
-  - the page at 1440 is 7,807px (it was 7,748px).
+- **The footer's text Pause animations button doesn't set `aria-pressed`;** only the header's icon button does. That was already the case and is unchanged.
+- **The footer's home link is now the logo tile** rather than the white wordmark lockup, because the giant wordmark carries the name. If you want the lockup back, swap the image inside `a.foot-home`.
 
 ## How it was checked
 
 - **All 17 pages load locally** with no failed requests and no script errors, with motion on and with reduced motion.
-- **Every page other than the homepage and /components matches the live site pixel for pixel.** The only other differences were a 12px screenshot-timing offset of the sticky header, which also appeared between two shots of the same page.
 - **Behaviour at 1440 and 390:**
-  - the SEO query types with the caret moving along with it;
+  - the SEO query types with the caret moving along with it, and the callout's arm takes 1.35s to reach the result;
   - the ads trace alternates between Meta and Google;
   - the deck's names, rails, Previous and Next, keys and swipe all work;
-  - the folder moves 1, 2, 3 on its own and holds when paused;
-  - Pause animations stops every sample on its finished state;
+  - the folder advances on its own and holds when paused or clicked;
+  - every footer link resolves;
   - no console errors.
-- **Without JavaScript** every section is complete and readable: the deck becomes a list of six cards, and the folder becomes four disclosures with step 1 open.
+- **Without JavaScript** every section is complete and readable.
 - **No sideways overflow** at 360, 390, 430 or 768px.
 - **Your design checker** (`rose-design-check.mjs`) gives the same 3 blocks and 2 warnings as the live site.
