@@ -755,6 +755,34 @@ h1 em, h2 em, h3 em, .tagline em, .signed-change em { color: var(--accent-italic
   .js:not(.motion-paused) [data-hero-intro]:not(.is-introduced)::after { transform-origin: 60% 0; animation: hero-edge calc(var(--dur-slow) * 2) var(--ease-standard) calc(var(--rest-bloom) * 1.5) backwards; }
 }
 
+/* The homepage hero's layout ([data-hero-intro], homepage only). The headline holds three lines at every width: its size
+   follows the copy column (container query units on .hero-copy), so the longest of the three lines, "practice, made by
+   people", always fits: 84px at most (a step under Display XL's 96px), about 41px on a 390px phone, 37px at 360.
+   From 1025px the copy takes a little more of the row (1.25fr to .75fr, so the letter keeps 420px or more) and the letter
+   is centred on the copy instead of resting on the figure's floor. Stacked (1024px and under), the window's empty strip
+   above the letter is cut to half the window's radius, so the letter overlaps more of the bloom and arrives sooner.
+   At every width the disc edge and its sage crescent rise off the four claims: the hero's foot gets shorter and the
+   proof strip's top deeper by the same amount (30px on desktop, 16px stacked), so the claims stay where they were. */
+[data-hero-intro] .hero-copy { container-type: inline-size; }
+[data-hero-intro] .hero h1 { font-size: clamp(36px, 11.6cqi, 84px); }
+@media (min-width: 1025px) {
+  [data-hero-intro] .hero-panel { grid-template-columns: minmax(0, 1.25fr) minmax(0, .75fr); }
+  .arc--below[data-hero-intro] .hero-panel { padding-bottom: calc(clamp(56px, 7vw, 104px) + 3vw - 30px); }
+  [data-hero-intro] .hero-figure--window { align-content: center; }
+  [data-hero-intro] + .proof { padding-top: calc(var(--space-10) + 30px); }
+}
+@media (max-width: 1024px) {
+  [data-hero-intro] .hero-figure--window { padding-top: calc(var(--win-r) * .5); }
+  .arc--below[data-hero-intro] .hero-panel { padding-bottom: calc(clamp(56px, 7vw, 104px) + 3vw - 16px); }
+  [data-hero-intro] + .proof { padding-top: calc(var(--space-10) + 16px); }
+}
+@media (max-width: 768px) {
+  .arc--below[data-hero-intro] .hero-panel { padding-bottom: calc(var(--space-12) + 6vw - 16px); }
+}
+@media (max-width: 560px) {
+  [data-hero-intro] + .proof { padding-top: calc(var(--space-6) + 16px); }
+}
+
 /* A page hero without a product view: one column of copy. */
 .hero-panel--plain { grid-template-columns: minmax(0, 1fr); }
 .hero-panel--plain .hero-copy h1 { max-width: 16em; }
