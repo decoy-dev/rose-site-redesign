@@ -523,7 +523,7 @@ h1 em, h2 em, h3 em, .tagline em, .signed-change em { color: var(--accent-italic
 
 /* ---------- text links ---------- */
 /* One treatment for every link that sits in a sentence: .inline-link, links in running text (FAQ answers, Q&A, prose,
-   notes on the hero), the links in the who-we-work-with statement, and the footer. A link that stands on its own is
+   notes on the hero), and the footer. A link that stands on its own is
    a .btn.btn--secondary (see buttons), never a bare text link. At rest a link in running text keeps a 1px underline
    in label sage (cream at 60% on forest), so it never relies on colour alone (WCAG 1.4.1); the footer links have none.
    On hover and keyboard focus a 2px line in forest (cream on forest) draws in from the left over the rest underline
@@ -542,7 +542,7 @@ h1 em, h2 em, h3 em, .tagline em, .signed-change em { color: var(--accent-italic
 .on-strong { --link-line: var(--line-cream); --link-rest-color: var(--outline-on-strong); }
 .on-strong .on-light { --link-line: var(--line-forest); --link-rest-color: var(--text-muted); }
 
-:where(.inline-link, .faq-a a, .qa-item a, .prose a:not([class]), .who-statement a, .hero-note a, .hero-capture-help a, .hero-capture-status a, .foot-links a, .foot-contact a, .foot-legal a, .foot-legal .motion-toggle) {
+:where(.inline-link, .faq-a a, .qa-item a, .prose a:not([class]), .hero-note a, .hero-capture-help a, .hero-capture-status a, .foot-links a, .foot-contact a, .foot-legal a, .foot-legal .motion-toggle) {
   text-decoration-line: underline;
   text-decoration-color: var(--link-rest-color, var(--text-muted));
   text-decoration-thickness: 1px;
@@ -554,7 +554,7 @@ h1 em, h2 em, h3 em, .tagline em, .signed-change em { color: var(--accent-italic
   background-size: 0% 2px;
   transition: background-size var(--dur-med) var(--ease-standard);
 }
-:where(.inline-link, .faq-a a, .qa-item a, .prose a:not([class]), .who-statement a, .hero-note a, .hero-capture-help a, .hero-capture-status a, .foot-links a, .foot-contact a, .foot-legal a, .foot-legal .motion-toggle):is(:hover, :focus-visible) {
+:where(.inline-link, .faq-a a, .qa-item a, .prose a:not([class]), .hero-note a, .hero-capture-help a, .hero-capture-status a, .foot-links a, .foot-contact a, .foot-legal a, .foot-legal .motion-toggle):is(:hover, :focus-visible) {
   background-size: var(--link-span, 100%) 2px;
 }
 
@@ -1602,14 +1602,6 @@ h1 em, h2 em, h3 em, .tagline em, .signed-change em { color: var(--accent-italic
 .soon-list > li { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-2) var(--space-4); padding-block: var(--space-4); border-bottom: var(--border-w) solid var(--border-quiet); }
 .soon-name { font-family: var(--font-display); font-size: var(--text-h3); line-height: 1.2; }
 .soon-ask { margin-top: var(--space-4); }
-
-/* who we work with: one serif statement at the foot of How we help, with room of its own. The two kinds of practice are
-   links (the orthodontic one is the statement's one italic phrase; the dental one stays upright) with the site's link
-   line. Markup: .who-statement > h3.who-statement-text (a > em, a) + p */
-.who-statement { display: grid; justify-items: start; gap: var(--space-5); padding-top: var(--section-gap); }
-.who-statement-text { max-width: 21em; font-family: var(--font-display); font-size: var(--text-display-m); font-weight: 400; line-height: 1.15; text-wrap: balance; }
-.who-statement-text a { --link-offset: .14em; --link-y: calc(100% - .17em + 1.5px); color: inherit; }
-.who-statement p { max-width: 34em; font-size: var(--text-body-l); color: var(--text-muted); }
 
 @media (max-width: 1024px) {
   .run-row { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
@@ -2799,7 +2791,7 @@ main > #questions:last-child { margin-bottom: calc(-1 * var(--radius-panel)); pa
 .ref-item { display: grid; gap: var(--space-4); justify-items: start; min-width: 0; }
 .ref-item--wide { grid-column: 1 / -1; }
 .ref-item > * { min-width: 0; }
-.ref-item > .band, .ref-item > .beat, .ref-item > .run-list, .ref-item > .qa, .ref-item > .commit-list, .ref-item > .ref-stage, .ref-item > .people, .ref-item > .commit-panel, .ref-item > .commit-grid, .ref-item > .team-ring, .ref-item > .beat-screen, .ref-item > .faq, .ref-item > .who-statement { justify-self: stretch; }
+.ref-item > .band, .ref-item > .beat, .ref-item > .run-list, .ref-item > .qa, .ref-item > .commit-list, .ref-item > .ref-stage, .ref-item > .people, .ref-item > .commit-panel, .ref-item > .commit-grid, .ref-item > .team-ring, .ref-item > .beat-screen, .ref-item > .faq { justify-self: stretch; }
 .ref-stage > * { justify-self: stretch; }
 .ref-stage > .cta-line { justify-self: stretch; margin-top: 0; }
 .ref-item > .person { width: 100%; max-width: 280px; }
